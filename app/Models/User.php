@@ -13,13 +13,17 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'tbl_admin';
+
+    public function getAuthIdentifierName()
+    {
+        return 'email_id';
+    }
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'admin_name',
         'email_id',
         'password',
     ];

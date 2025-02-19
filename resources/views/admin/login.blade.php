@@ -31,7 +31,7 @@
                 <form action="{{ route('admin.processLogin') }}" method="POST">
                     @csrf
                 <div class="icon-input-control">
-                    <input class="form-control" type="email_id" placeholder="User id" name="email_id" required>
+                    <input class="form-control" type="text" placeholder="User id" name="email_id" required>
                     <span class="icon-input-right">
                         <i class="bi bi-person" ></i>
                     </span>
@@ -52,7 +52,7 @@
                 <div class="form-btns">
                     <button class="login-btn" type="submit">Login</button>
                     <!-- <a href="index.php" class="login-btn">Login</a> -->
-                    <a href="{{ route('admin.forgotPassword') }}" class="forgot-link">Forgot Password?</a>
+                    <a href="{{ route('admin.forgot-password') }}" class="forgot-link">Forgot Password?</a>
                 </div>
             </form>
             </div>

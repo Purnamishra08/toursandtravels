@@ -19,10 +19,14 @@ class LoginController extends Controller
             'email_id' => 'required|email',
             'password' => 'required|min:6',
         ]);
-       
-        $credentials = $request->only('email_id', 'password');
+
+        $credentials = [
+            'email_id' => $request->email_id, // Use 'email_id' as the key
+            'password' => $request->password,
+        ];
+
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/dashboard'); // Redirect to dashboard after login
+            return redirect()->intended('/dashboard');
         }else{
             return back()->withErrors(['email_id' => 'Invalid credentials.']);
         }
@@ -34,15 +38,11 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/login');
+        return redirect('/admin');
     }
 
      public function forgotPassword()
     {
         return view('admin.forgotpassword');
-    }
-     public function dashboard()
-    {
-        return view('admin.dashboard');
     }
 }

@@ -89,7 +89,7 @@
                 <li>
                     <hr class="dropdown-divider" />
                 </li>
-                <li><a class="dropdown-item d-flex align-items-center manadatory" href="#!"><i
+                <li><a class="dropdown-item d-flex align-items-center manadatory" href="{{route('admin.logout') }}"><i
                             class="bi bi-box-arrow-left me-2 round-bg"></i> Logout</a></li>
             </ul>
         </li>
