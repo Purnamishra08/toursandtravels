@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}"> 
     <link href="{{ asset('assets/css/login.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-</head>
+    </head>
 
 <body>
     <main> 
@@ -20,25 +19,17 @@
                     <img src="{{ asset('assets/img/duplicate-logo.png') }}" alt="logo" >
                 </h1>
                 <h2 class="login-title">Admin Login</h2>
-                 <!-- Display errors if there are any -->
-                    @if ($errors->any())
-                        <div style="color: red;">
-                            @foreach ($errors->all() as $error)
-                                <p>{{ $error }}</p>
-                            @endforeach
-                        </div>
-                    @endif
-                <form action="{{ route('admin.processLogin') }}" method="POST">
-                    @csrf
                 <div class="icon-input-control">
-                    <input class="form-control" type="email_id" placeholder="User id" name="email_id" required>
+                    <input class="form-control" type="text" placeholder="User id">
                     <span class="icon-input-right">
-                        <i class="bi bi-person" ></i>
+                        <i class="bi bi-person"></i>
                     </span>
                 </div>
                 <div class="icon-input-control">
-                    <input  type="password" id="password" class="form-control" name="password" required>                    
-                        <i class="toggle-password bi bi-eye-slash icon-input-right"></i>                    
+                    <input class="form-control" type="text" placeholder="Email id">
+                    <span class="icon-input-right">
+                        <i class="bi bi-envelope"></i>
+                    </span>
                 </div>
                 <div class="captcha-inputs">
                     <input class="form-control" type="text" placeholder="Enter Captcha">
@@ -50,33 +41,14 @@
                     </div>
                 </div>
                 <div class="form-btns">
-                    <button class="login-btn" type="submit">Login</button>
-                    <!-- <a href="index.php" class="login-btn">Login</a> -->
-                    <a href="{{ route('admin.forgotPassword') }}" class="forgot-link">Forgot Password?</a>
+                    <a href="login.html" class="login-btn">Submit</a>
+                    <a href="{{ route('admin.login') }}" class="forgot-link">Back to Login</a>
                 </div>
-            </form>
             </div>
             <footer>Copyright &copy; 2025 Tours and Travel, All Right Reserved</footer>
         </div>
     </main>
 
-<script type="text/javascript"> 
-        $(".toggle-password").click(function() {
-        $(this).toggleClass("bi-eye bi-eye-slash");
-         input = $(this).parent().find("input");
-        if (input.attr("type") == "password") {
-        input.attr("type", "text");
-    } else {
-        input.attr("type", "password");
-    }
-});
-
-
-
-</script>
-
 </body>
-
-
 
 </html>

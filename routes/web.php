@@ -13,10 +13,13 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/admin', [LoginController::class, 'index'])->name('admin.login');
 Route::post('/admin', [LoginController::class, 'login'])->name('admin.processLogin');
+Route::get('/forgot-password', [LoginController::class, 'forgotPassword'])->name('admin.forgotPassword');
 Route::match(['get', 'post'], '/logout', [LoginController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     });
 });
+
+Route::get('/dashboard', [LoginController::class, 'dashboard'])->name('admin.dashboard');
 

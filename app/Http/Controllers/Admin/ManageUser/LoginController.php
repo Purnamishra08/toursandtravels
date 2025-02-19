@@ -36,4 +36,13 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
+
+     public function forgotPassword()
+    {
+        return view('admin.forgotpassword');
+    }
+     public function dashboard()
+    {
+        return view('admin.dashboard');
+    }
 }
