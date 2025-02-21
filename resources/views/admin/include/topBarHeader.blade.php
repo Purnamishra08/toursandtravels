@@ -79,7 +79,7 @@
             <ul class="dropdown-menu dropdown-menu-end animated-box" aria-labelledby="navbarDropdown">
                 <li class="mb-3">
                     <div class="notification__header">
-                        <h5>Welcome, Jyotiranjan Das</h5>
+                        <h5>Welcome, {{ session('user')->admin_name }}</h5>
                     </div>
                 </li>
                 <li class="mb-2"><a class="dropdown-item d-flex align-items-center" href="#!"><i

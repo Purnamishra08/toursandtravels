@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\ManageUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -26,6 +27,7 @@ class LoginController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
+            session(['user' => Auth::user()]);
             return redirect()->intended('/dashboard');
         }else{
             return back()->withErrors(['email_id' => 'Invalid credentials.']);
