@@ -79,14 +79,14 @@
             <ul class="dropdown-menu dropdown-menu-end animated-box" aria-labelledby="navbarDropdown">
                 <li class="mb-3">
                     <div class="notification__header">
-                        <h5>Welcome, {{ session('user')->admin_name }}</h5>
+                    <h5>Welcome, {{ session('user')->admin_name ?? 'Guest' }}</h5>
                     </div>
                 </li>
-                <li class="mb-2"><a class="dropdown-item d-flex align-items-center" href="#!"><i
+                <li class="mb-2"><a class="dropdown-item d-flex align-items-center" href="{{ route('admin.change-password') }}"><i
                             class="bi bi-key me-2 round-bg"></i> Change Password </a></li>
-                <li class="mb-2"><a class="dropdown-item d-flex align-items-center" href="#!"><i
+                <!-- <li class="mb-2"><a class="dropdown-item d-flex align-items-center" href="#!"><i
                             class="bi bi-pencil me-2 round-bg"></i>Edit Profile </a></li>
-                <li>
+                <li> -->
                     <hr class="dropdown-divider" />
                 </li>
                 <li><a class="dropdown-item d-flex align-items-center manadatory" href="{{route('admin.logout') }}"><i

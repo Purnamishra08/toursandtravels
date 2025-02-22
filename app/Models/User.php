@@ -12,7 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'tbl_admin';
+    protected $table = 'tbl_admin'; // Your table name
+    protected $primaryKey = 'adminid'; // Set primary key to 'adminid'
+    public $timestamps = true; // If your table has created_at and updated_at fields
 
     public function getAuthIdentifierName()
     {
@@ -24,6 +26,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'admin_name',
+        'admin_type',
+        'contact_no',
         'email_id',
         'password',
     ];

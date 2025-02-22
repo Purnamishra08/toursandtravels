@@ -7,7 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tours And Travel</title>
+        <title>Tours And Travels</title>
+        <link rel="icon" type="image/png" href="assets/img/duplicare-logo-dashbord.png">
         <!-- <script src="https://code.highcharts.com/highcharts.js"></script>
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="assets/css/datatable-css.css" rel="stylesheet" />
@@ -23,5 +24,6 @@
         <link href="{{asset('assets/css/font-awesome.min.css')}}" rel="stylesheet" />
         <link href="{{asset('assets/css/colors.min.css')}}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 
