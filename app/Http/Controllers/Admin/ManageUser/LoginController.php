@@ -29,8 +29,15 @@ class LoginController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
-            session(['user' => Auth::user()]);
-            return redirect()->intended('/dashboard');
+            $user = Auth::user();
+            
+            if ($user->bit_Deleted_Flag == 0 && $user->status == 1) {
+                session(['user' => Auth::user()]);
+                return redirect()->intended('/dashboard');
+            }
+            Auth::logout();
+            return back()->withErrors(['error' => 'Your account is inactive or deleted.']);
+            
         }else{
             return back()->withErrors(['email_id' => 'Invalid credentials.']);
         }

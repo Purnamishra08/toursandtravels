@@ -66,6 +66,36 @@
                     </nav>
                 </div>
 
+                <a class="nav-link dropdown {{ request()->routeIs('admin.manageVehicletype') || request()->routeIs('admin.manageVehicleprice*') ? '' : 'collapsed' }}"
+                    href="#" data-bs-toggle="collapse" data-bs-target="#locations"
+                    aria-expanded="{{ request()->routeIs('admin.manageVehicletype') || request()->routeIs('admin.manageVehicleprice*') ? 'true' : 'false' }}"
+                    aria-controls="locations">
+                    <div class="sb-nav-link-icon"><i class="fa fa-globe"></i></div>
+                    Location
+                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                </a>
+
+                <div class="collapse {{ request()->routeIs('admin.state') || request()->routeIs('admin.state*') ? 'show' : '' }}"
+                    id="locations" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link {{ request()->routeIs('admin.state') ? 'active' : '' }}"
+                            href="{{ route('admin.state') }}">
+                            <i class="fa fa-flag mt-1 me-2"></i> State
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('') ? 'active' : '' }}"
+                            href="">
+                            <i class="fa fa-map-marker mt-1 me-2"></i> Destination Type
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('') ? 'active' : '' }}"
+                            href="">
+                            <i class="fa fa-map-marker mt-1 me-2"></i> Destinations
+                        </a>
+                        <a class="nav-link {{ request()->routeIs('') ? 'active' : '' }}"
+                            href="">
+                            <i class="fa fa fa-bookmark mt-1 me-2"></i> Places
+                        </a>
+                    </nav>
+                </div>
 
                 <!-- <a class="nav-link" href="tourist-registration.php"> 
                     <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>

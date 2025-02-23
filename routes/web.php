@@ -3,6 +3,7 @@ use App\Http\Controllers\Admin\ManageUser\LoginController;
 use App\Http\Controllers\Admin\ManageUser\ManageUserController;
 use App\Http\Controllers\Admin\manageVehicles\VehicleTypeController;
 use App\Http\Controllers\Admin\manageVehicles\VehiclePriceController;
+use App\Http\Controllers\Admin\manageLocation\StateController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -72,3 +73,10 @@ Route::match(['get', 'post'], '/addVehiclePrice', [VehiclePriceController::class
 Route::match(['get', 'post'], '/editVehiclePrice/{id}', [VehiclePriceController::class, 'editVehiclePrice'])->name('admin.managevehicles.editVehiclePrice');
 Route::post('/deleteVehiclePrice/{id}', [VehiclePriceController::class, 'deleteVehiclePrice'])->name('admin.managevehicles.deleteVehiclePrice');
 // Manage Vehicles
+
+
+//manage location
+Route::get('/state', [StateController::class, 'index'])->name('admin.state');
+Route::match(['get', 'post'], '/addState', [StateController::class, 'addState'])->name('admin.state.addState');
+Route::post('/deleteState/{id}', [StateController::class, 'deleteState'])->name('admin.state.deleteState');
+

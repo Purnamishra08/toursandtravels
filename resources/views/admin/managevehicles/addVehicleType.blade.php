@@ -84,7 +84,7 @@
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
 
-    <<script>
+    <script>
         function validator(){
         if(!blankCheck('vehiclename','Vehicle Name cannot be Blank'))
         return false;
@@ -93,9 +93,9 @@
         if(!onlyNumeric('vehiclecapacity'))
         return false;
         }
-        </script>
+    </script>
 
-        <script src="{{ asset('assets/js/validation.js') }}"></script>
+    <script src="{{ asset('assets/js/validation.js') }}"></script>
 
 </body>
 
