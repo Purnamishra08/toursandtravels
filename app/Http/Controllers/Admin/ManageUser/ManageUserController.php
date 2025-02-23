@@ -127,7 +127,7 @@ class ManageUserController extends Controller
             ];
 
             if ($validator->fails()) {
-                return back()->withErrors($validator)->withInput();
+                return redirect()->back()->withErrors($validator)->withInput();
             }
 
             try {
@@ -139,9 +139,9 @@ class ManageUserController extends Controller
                     'password'      => Hash::make($request->input('password')),
                 ]);
     
-                return back()->with('success', 'User created successfully!');
+                return redirect()->back()->with('success', 'User created successfully!');
             } catch (Exception $e) {
-                return back()->withErrors(['error' => 'Something went wrong! Unable to create user.'])->withInput();
+                return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to create user.'])->withInput();
             }
         }else{
             return view('admin.addUser');
@@ -152,7 +152,7 @@ class ManageUserController extends Controller
     public function editUser(Request $request, $id){
         $user = User::findOrFail($id);
         if (!$user) {
-            return back()->withErrors(['error' => 'User not found!']);
+            return redirect()->back()->withErrors(['error' => 'User not found!']);
         }else{
             if($request->isMethod('post')) {
                 $validator = Validator::make($request->all(), [
@@ -177,7 +177,7 @@ class ManageUserController extends Controller
                 $user->email_id = $request->input('email');
 
                 $user->save();
-                return back()->with('success', 'User updated successfully!');
+                return redirect()->back()->with('success', 'User updated successfully!');
             }else{
                 return view('admin.editUser', ['user' => $user]);
             }
