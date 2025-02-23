@@ -58,6 +58,7 @@ Route::get('/manageUser', [ManageUserController::class, 'index'])->name('admin.m
 Route::match(['get', 'post'], '/addUser', [ManageUserController::class, 'addUser'])->name('admin.manageUser.addUser');
 Route::match(['get', 'post'], '/editUser/{id}', [ManageUserController::class, 'editUser'])->name('admin.manageUser.editUser');
 Route::get('viewpop/{id}', [ManageUserController::class, 'viewPop'])->name('admin.viewpop');
+Route::post('/deleteUser/{id}', [ManageUserController::class, 'deleteUser'])->name('admin.manageUser.deleteUser');
 // Manage User
 
 

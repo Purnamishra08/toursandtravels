@@ -17,6 +17,7 @@ class ManageUserController extends Controller
         $data = DB::table('tbl_admin')->where('bit_Deleted_Flag', 0)->paginate(10);
         return view('admin.manageUser', ['users' => $data]);
     }
+
     public function viewPop($id)
     {
         $user = DB::table('tbl_admin')->where('adminid', $id)->first();
@@ -106,6 +107,7 @@ class ManageUserController extends Controller
 
         return response()->json(['html' => $html]);
     }
+
     public function addUser(Request $request){
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
@@ -146,6 +148,7 @@ class ManageUserController extends Controller
         }
         
     }
+
     public function editUser(Request $request, $id){
         $user = User::findOrFail($id);
         if (!$user) {
@@ -181,6 +184,29 @@ class ManageUserController extends Controller
         }
         
        
+    }
+
+    public function deleteUser(Request $request,$id){
+        // Retrieve vehicle type by ID
+        $data = DB::table('tbl_admin')->where('adminid', $id)->first();
+
+        if (!$data) {
+            return back()->withErrors(['error' => 'User not found!']);
+        }
+
+        try {
+            // Soft delete: Update the bit_Deleted_Flag
+            DB::table('tbl_admin')->where('adminid', $id)->update([
+                'bit_Deleted_Flag' => 1
+            ]);
+
+            return redirect()->back()->with('success', 'User deleted successfully!');
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error deleting User: ' . $e->getMessage());
+
+            return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to delete user.']);
+        }
     }
     
 
