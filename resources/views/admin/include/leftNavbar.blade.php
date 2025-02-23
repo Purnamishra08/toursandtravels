@@ -14,18 +14,53 @@
                         Manage User
                     </a>
                 @endif
-                <!-- <a class="nav-link dropdown collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#ServiceConfiguration" aria-expanded="false" aria-controls="collapseLayouts">
-                    <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>
-                    Service Configuration
-                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
-                </a>
-                <div class="collapse" id="ServiceConfiguration" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                    <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="basic-configuration.php">Basic Configuration</a> 
-                        <a class="nav-link" href="add-holiday.php">Service Schedule</a> 
-                        <a class="nav-link" href="service-price.php">Service Price</a>  
-                    </nav>
-                </div>                     -->
+                <a class="nav-link dropdown {{ request()->routeIs('admin.manageVehicletype') || request()->routeIs('admin.manageVehicleprice*') ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse" 
+                    data-bs-target="#manageVehicles" aria-expanded="{{ request()->routeIs('admin.manageVehicletype') || request()->routeIs('admin.manageVehicleprice*') ? 'true' : 'false' }}" 
+                    aria-controls="manageVehicles">
+                        <div class="sb-nav-link-icon"><i class="fa fa-truck"></i></div>
+                        Manage Vehicles
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+
+                    <div class="collapse {{ request()->routeIs('admin.manageVehicletype') || request()->routeIs('admin.vehicle-price*') ? 'show' : '' }}" 
+                        id="manageVehicles" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link {{ request()->routeIs('admin.manageVehicletype') ? 'active' : '' }}" 
+                            href="{{ route('admin.manageVehicletype') }}">
+                                <i class="fa fa-car mt-1 me-2"></i> Vehicle Type
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.manageVehicleprice*') ? 'active' : '' }}" 
+                            href="{{ route('admin.manageVehicleprice') }}">
+                                <i class="fa fa-money mt-1 me-2"></i> Vehicle Price
+                            </a>
+                        </nav>
+                    </div>
+                <!-- <a class="nav-link dropdown {{ request()->routeIs('admin.manageVehicletype') || request()->routeIs('admin.manageVehicleprice*') ? '' : 'collapsed' }}" href="#" data-bs-toggle="collapse" 
+                    data-bs-target="#manageHotels" aria-expanded="{{ request()->routeIs('admin.manageVehicletype') || request()->routeIs('admin.manageVehicleprice*') ? 'true' : 'false' }}" 
+                    aria-controls="manageHotels">
+                        <div class="sb-nav-link-icon"><i class="fa fa-hotel"></i></div>
+                        Manage Hotels
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+
+                    <div class="collapse {{ request()->routeIs('admin.manageVehicletype') || request()->routeIs('admin.vehicle-price*') ? 'show' : '' }}" 
+                        id="manageHotels" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link {{ request()->routeIs('admin.manageVehicletype') ? 'active' : '' }}" 
+                            href="{{ route('admin.manageVehicletype') }}">
+                                <i class="fa fa-hotel mt-1 me-2"></i> Hotel Type
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.manageVehicleprice*') ? 'active' : '' }}" 
+                            href="">
+                                <i class="fa fa-sun-o mt-1 me-2"></i> Season Type
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.manageVehicleprice*') ? 'active' : '' }}" 
+                            href="">
+                                <i class="fa fa-hotel mt-1 me-2"></i> Hotel
+                            </a>
+                        </nav>
+                    </div> -->
+                   
                
                 <!-- <a class="nav-link" href="tourist-registration.php"> 
                     <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>

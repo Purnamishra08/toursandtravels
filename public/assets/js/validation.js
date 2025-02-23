@@ -132,3 +132,47 @@ function validateFormEditUser() {
     return true; // Allow form submission
 }
 
+//============ Function to check field having no value ===============
+function blankCheck(controlId, msg)
+{
+    
+    if ($('#' + controlId).val() == '')
+    {
+        Swal.fire({
+            icon: "error",
+            title: "Validation Error",
+            text: msg,
+            confirmButtonColor: "#d33",
+        });
+        
+        $('#' + controlId).focus();
+        return false;
+    }
+    return true;
+}
+
+//============ Function to check field value is only numeric ===============
+function onlyNumeric(controlId)
+{
+    var numPattern = new RegExp(/^\d+$/);
+    var txtVal = $('#' + controlId).val();
+    
+    if (txtVal != '')
+    {
+        if (numPattern.test(txtVal) == true)
+            return true;
+        else
+        {
+            Swal.fire({
+                icon: "error",
+                title: "Validation Error",
+                text: "Enter only numeric values",
+                confirmButtonColor: "#d33",
+            });
+            $('#' + controlId).focus();
+            return false;
+        }
+    }
+    else
+        return true;
+}
