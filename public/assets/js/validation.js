@@ -140,7 +140,6 @@ function blankCheck(controlId, msg)
     {
         Swal.fire({
             icon: "error",
-            title: "Validation Error",
             text: msg,
             confirmButtonColor: "#d33",
         });
@@ -165,7 +164,6 @@ function onlyNumeric(controlId)
         {
             Swal.fire({
                 icon: "error",
-                title: "Validation Error",
                 text: "Enter only numeric values",
                 confirmButtonColor: "#d33",
             });
@@ -175,4 +173,50 @@ function onlyNumeric(controlId)
     }
     else
         return true;
+}
+
+
+//============ Function to check dropdown is selected  ===============
+function selectDropdown(controlId, msg)
+{
+    var ddlVal = $('#' + controlId).val();
+    if (ddlVal == '0' || ddlVal == '' || ddlVal == null)
+    {
+        Swal.fire({
+            icon: "error",
+            text: msg,
+            confirmButtonColor: "#d33",
+        });
+        $('#' + controlId).focus();
+        return false;
+    }
+    return true;
+}
+
+
+//============ Function to check field value is decimal ===============
+function checkDecimal(controlId)
+{
+    var data = $('#' + controlId).val();
+
+    if(data != ' ')
+    {
+        var reg = new RegExp(/^[0-9]+(\.[0-9]{1,2})?$/);
+        if (reg.test(data) == true)
+            return true;
+        else
+        {
+            if(data != ''){
+                Swal.fire({
+                    icon: "error",
+                    text: "Enter only decimal values having 2 digit after decimal",
+                    confirmButtonColor: "#d33",
+                });
+                $('#' + controlId).focus();
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
 }
