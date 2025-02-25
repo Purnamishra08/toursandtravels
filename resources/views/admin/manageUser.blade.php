@@ -91,19 +91,24 @@
                                                                             @endif
                                                                         </td>
                                                                         <td>
-                                                                            <a href="{{ route('admin.manageUser.editUser', ['id' => $user->adminid]) }}" class="btn btn-success btn-sm" title="Edit">
-                                                                                <i class="fa fa-pencil"></i>
-                                                                            </a>
-                                                                            <a href="javascript:void(0);" class="btn btn-primary btn-sm view" title="View" onclick = "loadUserDetails({{ $user->adminid }})">
-                                                                                <i class="fa fa-eye"></i>
-                                                                            </a>
-
-                                                                            @if ($user->adminid != 1)
-                                                                                <a onclick="return confirm('Are you sure you want to delete this user?')" href="{{ url('admin/users/delete', $user->adminid) }}" class="btn btn-danger btn-sm" title="Delete">
-                                                                                    <i class="fa fa-trash-o"></i>
+                                                                            <div class="d-flex gap-2">
+                                                                                <a href="{{ route('admin.manageUser.editUser', ['id' => $user->adminid]) }}" class="btn btn-success btn-sm" title="Edit">
+                                                                                    <i class="fa fa-pencil"></i>
                                                                                 </a>
-                                                                            @endif
+                                                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm view" title="View" onclick="loadUserDetails({{ $user->adminid }})">
+                                                                                    <i class="fa fa-eye"></i>
+                                                                                </a>
+                                                                                @if(session('user')->admin_type == 1 && $user->adminid != 1)
+                                                                                    <form action="{{ route('admin.manageUser.deleteUser', ['id' => $user->adminid]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?')" class="d-inline-block">
+                                                                                        @csrf
+                                                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                                                                            <i class="fa fa-trash-o"></i>
+                                                                                        </button>
+                                                                                    </form>
+                                                                                @endif
+                                                                            </div>
                                                                         </td>
+
                                                                     </tr>
                                                                 @empty
                                                                     <tr>

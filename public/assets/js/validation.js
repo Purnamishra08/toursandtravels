@@ -220,3 +220,14 @@ function checkDecimal(controlId)
         }
     }
 }
+
+function maxLength(controlId, ctrlLen, fieldName)
+{
+    if ($('#' + controlId).val().length > ctrlLen && $('#' + controlId).val().length > 0)
+    {
+        viewAlert(fieldName + ' should not more than ' + ctrlLen + ' charater !!!', controlId);
+        $('#' + controlId).focus();
+        return false;
+    }
+    return true;
+}

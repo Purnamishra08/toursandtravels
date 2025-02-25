@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\manageVehicles\VehiclePriceController;
 use App\Http\Controllers\Admin\manageHotels\HotelTypeController;
 use App\Http\Controllers\Admin\manageHotels\SeasonTypeController;
 use App\Http\Controllers\Admin\manageHotels\HotelController;
+use App\Http\Controllers\Admin\manageLocation\StateController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,7 @@ Route::get('/manageUser', [ManageUserController::class, 'index'])->name('admin.m
 Route::match(['get', 'post'], '/addUser', [ManageUserController::class, 'addUser'])->name('admin.manageUser.addUser');
 Route::match(['get', 'post'], '/editUser/{id}', [ManageUserController::class, 'editUser'])->name('admin.manageUser.editUser');
 Route::get('viewpop/{id}', [ManageUserController::class, 'viewPop'])->name('admin.viewpop');
+Route::post('/deleteUser/{id}', [ManageUserController::class, 'deleteUser'])->name('admin.manageUser.deleteUser');
 // Manage User
 
 
@@ -91,3 +93,10 @@ Route::post('/deleteHotelType/{id}', [HotelTypeController::class, 'deleteHotelTy
 //Hotel
 
 // Manage Hotels
+
+
+//Manage location
+Route::get('/state', [StateController::class, 'index'])->name('admin.state');
+Route::match(['get', 'post'], '/addState', [StateController::class, 'addState'])->name('admin.state.addState');
+Route::post('/deleteState/{id}', [StateController::class, 'deleteState'])->name('admin.state.deleteState');
+//Manage location
