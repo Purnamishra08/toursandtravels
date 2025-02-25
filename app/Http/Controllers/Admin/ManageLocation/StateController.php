@@ -16,7 +16,8 @@ class StateController extends Controller
     public function addState(Request $request){
         // dd($request->all());
        // Validation Rules
-       $validator = Validator::make($request->all(), [
+       if ($request->isMethod('post')) {
+        $validator = Validator::make($request->all(), [
             'state_name'          => 'required|string|max:255|unique:tbl_state,state_name',
             // 'state_url'           => 'required|url|max:255',
             'bannerimg'           => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -69,6 +70,12 @@ class StateController extends Controller
             Log::error('Error adding state: ' . $e->getMessage());
             return redirect()->back()->with('error', 'An error occurred while adding the state. Please try again.');
         }
+
+
+       }else{
+            return view('admin.managelocation.addstate');
+        }
+       
     }
 
     public function deleteState(Request $request,$id){

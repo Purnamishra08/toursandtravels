@@ -1983,9 +1983,7 @@ progress {
 .table > thead, .dataTable-table > thead {
   vertical-align: bottom;
 }
-.table > :not(:first-child), .dataTable-table > :not(:first-child) {
-  border-top: 2px solid currentColor;
-}
+
 
 .caption-top {
   caption-side: top;

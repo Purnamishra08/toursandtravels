@@ -401,7 +401,7 @@ a {
     }
 
     .tab-menu__item:hover {
-        color: #e85122;
+        color: #004256;
     }
 
     .tab-menu__item.active {
@@ -451,7 +451,7 @@ label {
 
 
 
-/*Sabyasachi 02.11.2022 Start*/
+
 .input-group .input-group-addon{
     position: absolute;
     right: 13px;
@@ -474,9 +474,11 @@ label {
     }
     
     .table thead th {
-        background: #e9ecef;
+        background:#b3d9e4;
         padding: 0.4rem 0.5rem;
         vertical-align: text-bottom;
+        font-size: .9rem;
+        color: #000;
     }
     
     .actionBox {
@@ -489,4 +491,3 @@ label {
 
 
 
- /*Sabyasachi 02.11.2022 End*/
