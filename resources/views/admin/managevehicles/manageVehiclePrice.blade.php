@@ -52,7 +52,7 @@
                                         <div class="panel panel-bd lobidrag">
                                             <!-- <div class="panel-heading">
                                                 <div class="btn-group" id="buttonexport">
-                                                    <a href="{{ route('admin.managevehicles.addVehiclePrice') }}">
+                                                    <a href="{{ route('admin.manageVehicleprice.addVehiclePrice') }}">
                                                         <h4><i class="fa fa-plus-circle"></i> Add Vehicle Price</h4>
                                                     </a>
                                                 </div>
@@ -101,13 +101,13 @@
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ route('admin.managevehicles.editVehiclePrice', ['id' => $vehiclePrice->priceid]) }}"
+                                                                    <a href="{{ route('admin.manageVehicleprice.editVehiclePrice', ['id' => $vehiclePrice->priceid]) }}"
                                                                         class="btn btn-success btn-sm" title="Edit">
                                                                         <i class="fa fa-pencil"></i>
                                                                     </a>
                                                                     @if(session('user')->admin_type == 1)
                                                                     <form
-                                                                        action="{{ route('admin.managevehicles.deleteVehiclePrice', ['id' => $vehiclePrice->priceid]) }}"
+                                                                        action="{{ route('admin.manageVehicleprice.deleteVehiclePrice', ['id' => $vehiclePrice->priceid]) }}"
                                                                         method="POST"
                                                                         onsubmit="return confirm('Are you sure you want to delete this vehicle?')">
                                                                         @csrf

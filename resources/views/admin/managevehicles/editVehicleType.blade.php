@@ -36,7 +36,7 @@
                                             </div>
                                             <div class="panel-body">
                                                 <form
-                                                    action="{{ route('admin.managevehicles.editVehicleType',['id' => $vehicletype->vehicleid]) }}"
+                                                    action="{{ route('admin.manageVehicletype.editVehicleType',['id' => $vehicletype->vehicleid]) }}"
                                                     method="POST" id="userform" name="userform" class="add-user"
                                                     onsubmit="return validator()">
                                                     @csrf

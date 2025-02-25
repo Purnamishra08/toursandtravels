@@ -35,7 +35,7 @@
                                                 </div>
                                             </div>
                                             <div class="panel-body">
-                                                <form action="{{ route('admin.managevehicles.editVehiclePrice',['id' => $vehiclePrice->priceid]) }}"
+                                                <form action="{{ route('admin.manageVehicleprice.editVehiclePrice',['id' => $vehiclePrice->priceid]) }}"
                                                     method="POST" id="userform" name="userform" class="add-user"
                                                     onsubmit="return validator()">
                                                     @csrf
