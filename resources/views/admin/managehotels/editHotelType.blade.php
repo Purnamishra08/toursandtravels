@@ -35,7 +35,8 @@
                                                 </div>
                                             </div>
                                             <div class="panel-body">
-                                                <form action="{{ route('admin.manageVehicletype.addVehicleType') }}"
+                                                <form
+                                                    action="{{ route('admin.managevehicles.editVehicleType',['id' => $vehicletype->vehicleid]) }}"
                                                     method="POST" id="userform" name="userform" class="add-user"
                                                     onsubmit="return validator()">
                                                     @csrf
@@ -45,7 +46,8 @@
                                                                 <label>Vehicle Name</label>
                                                                 <input type="text" class="form-control"
                                                                     placeholder="Enter Vehicle Name" name="vehiclename"
-                                                                    id="vehiclename">
+                                                                    id="vehiclename"
+                                                                    value="{{$vehicletype->vehicle_name}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -53,13 +55,15 @@
                                                                 <label>Vehicle Capacity</label>
                                                                 <input type="text" class="form-control"
                                                                     placeholder="Enter Vehicle Capacity"
-                                                                    name="vehiclecapacity" id="vehiclecapacity">
+                                                                    name="vehiclecapacity" id="vehiclecapacity"
+                                                                    value="{{$vehicletype->capacity}}">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="reset-button">
-                                                            <button type="submit" class="btn btn-primary">Save</button>
+                                                            <button type="submit"
+                                                                class="btn btn-primary">Update</button>
                                                             <button type="reset" class="btn blackbtn">Reset</button>
                                                         </div>
                                                     </div>

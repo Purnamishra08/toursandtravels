@@ -20,7 +20,7 @@
                     <div class="inner-layout">
                         <div class="container-fluid px-4 pt-3">
                             <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item active">Manage Vehicles</li>
+                                <li class="breadcrumb-item active">Manage Hotels</li>
                             </ol>
                             @include('Admin.include.sweetaleart')
                             <section class="content">
@@ -32,8 +32,8 @@
                                         <div class="panel panel-bd lobidrag">
                                             <div class="panel-heading">
                                                 <div class="btn-group" id="buttonexport">
-                                                    <a href="{{ route('admin.manageVehicletype.addVehicleType') }}">
-                                                        <h4><i class="fa fa-plus-circle"></i> Add Vehicle Type</h4>
+                                                    <a href="{{ route('admin.manageHoteltype.addHotelType') }}">
+                                                        <h4><i class="fa fa-plus-circle"></i> Add Hotel Type</h4>
                                                     </a>
                                                 </div>
                                             </div>
@@ -44,23 +44,21 @@
                                                         <thead>
                                                             <tr class="info">
                                                                 <th width="6%">Sl #</th>
-                                                                <th width="13%">Vehicle Name</th>
-                                                                <th width="9%">Capacity</th>
+                                                                <th width="13%">Hotel Type</th>
                                                                 <th width="7%">Status</th>
                                                                 <th width="12%">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @forelse ($vehicletypes as $key => $vehicletype)
+                                                            @forelse ($hoteltypes as $key => $hoteltype)
                                                             <tr>
-                                                                <td>{{ ($vehicletypes->currentPage() - 1) *
-                                                                    $vehicletypes->perPage() + $loop->iteration }}</td>
-                                                                <td>{{ $vehicletype->vehicle_name }}</td>
-                                                                <td>{{ $vehicletype->capacity }} Members</td>
+                                                                <td>{{ ($hoteltypes->currentPage() - 1) *
+                                                                    $hoteltypes->perPage() + $loop->iteration }}</td>
+                                                                <td>{{ $hoteltype->hotel_type_name }}</td>
                                                                 <td>
-                                                                    @if ($vehicletype->status == 1)
+                                                                    @if ($hoteltype->status == 1)
                                                                     <span class="status"
-                                                                        data-id="status-{{ $vehicletype->vehicleid }}">
+                                                                        data-id="status-{{ $vehicletype->hotel_type_id }}">
                                                                         <a href="javascript:void(0)"
                                                                             title="Active. Click to deactivate.">
                                                                             <span
@@ -79,13 +77,13 @@
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ route('admin.manageVehicletype.editVehicleType', ['id' => $vehicletype->vehicleid]) }}"
+                                                                    <a href="{{ route('admin.managevehicles.editVehicleType', ['id' => $vehicletype->hotel_type_id]) }}"
                                                                         class="btn btn-success btn-sm" title="Edit">
                                                                         <i class="fa fa-pencil"></i>
                                                                     </a>
                                                                     @if(session('user')->admin_type == 1)
                                                                     <form
-                                                                        action="{{ route('admin.manageVehicletype.deleteVehicleType', ['id' => $vehicletype->vehicleid]) }}"
+                                                                        action="{{ route('admin.managevehicles.deleteVehicleType', ['id' => $vehicletype->vehicleid]) }}"
                                                                         method="POST"
                                                                         onsubmit="return confirm('Are you sure you want to delete this vehicle?')">
                                                                         @csrf
@@ -110,11 +108,11 @@
                                                     <div
                                                         class="pagination-wrapper d-flex justify-content-between align-items-center">
                                                         <p class="mb-0">
-                                                            Showing {{ $vehicletypes->firstItem() }} to {{
-                                                            $vehicletypes->lastItem() }} of {{ $vehicletypes->total() }}
+                                                            Showing {{ $hoteltypes->firstItem() }} to {{
+                                                            $hoteltypes->lastItem() }} of {{ $hoteltypes->total() }}
                                                             entries
                                                         </p>
-                                                        {{ $vehicletypes->links('pagination::bootstrap-4') }}
+                                                        {{ $hoteltypes->links('pagination::bootstrap-4') }}
                                                     </div>
 
                                                 </div>

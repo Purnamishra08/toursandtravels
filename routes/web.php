@@ -3,6 +3,9 @@ use App\Http\Controllers\Admin\ManageUser\LoginController;
 use App\Http\Controllers\Admin\ManageUser\ManageUserController;
 use App\Http\Controllers\Admin\manageVehicles\VehicleTypeController;
 use App\Http\Controllers\Admin\manageVehicles\VehiclePriceController;
+use App\Http\Controllers\Admin\manageHotels\HotelTypeController;
+use App\Http\Controllers\Admin\manageHotels\SeasonTypeController;
+use App\Http\Controllers\Admin\manageHotels\HotelController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -62,12 +65,29 @@ Route::get('viewpop/{id}', [ManageUserController::class, 'viewPop'])->name('admi
 
 
 // Manage Vehicles
+// Vehicle Type
 Route::get('/vehicle-type', [VehicleTypeController::class, 'index'])->name('admin.manageVehicletype');
-Route::match(['get', 'post'], '/addVehicleType', [VehicleTypeController::class, 'addVehicleType'])->name('admin.managevehicles.addVehicleType');
-Route::match(['get', 'post'], '/editVehicleType/{id}', [VehicleTypeController::class, 'editVehicleType'])->name('admin.managevehicles.editVehicleType');
-Route::post('/deleteVehicleType/{id}', [VehicleTypeController::class, 'deleteVehicleType'])->name('admin.managevehicles.deleteVehicleType');
+Route::match(['get', 'post'], '/addVehicleType', [VehicleTypeController::class, 'addVehicleType'])->name('admin.manageVehicletype.addVehicleType');
+Route::match(['get', 'post'], '/editVehicleType/{id}', [VehicleTypeController::class, 'editVehicleType'])->name('admin.manageVehicletype.editVehicleType');
+Route::post('/deleteVehicleType/{id}', [VehicleTypeController::class, 'deleteVehicleType'])->name('admin.manageVehicletype.deleteVehicleType');
+
+// Vehicle Price
 Route::get('/vehicle-price', [VehiclePriceController::class, 'index'])->name('admin.manageVehicleprice');
-Route::match(['get', 'post'], '/addVehiclePrice', [VehiclePriceController::class, 'addVehiclePrice'])->name('admin.managevehicles.addVehiclePrice');
-Route::match(['get', 'post'], '/editVehiclePrice/{id}', [VehiclePriceController::class, 'editVehiclePrice'])->name('admin.managevehicles.editVehiclePrice');
-Route::post('/deleteVehiclePrice/{id}', [VehiclePriceController::class, 'deleteVehiclePrice'])->name('admin.managevehicles.deleteVehiclePrice');
+Route::match(['get', 'post'], '/addVehiclePrice', [VehiclePriceController::class, 'addVehiclePrice'])->name('admin.manageVehicleprice.addVehiclePrice');
+Route::match(['get', 'post'], '/editVehiclePrice/{id}', [VehiclePriceController::class, 'editVehiclePrice'])->name('admin.manageVehicleprice.editVehiclePrice');
+Route::post('/deleteVehiclePrice/{id}', [VehiclePriceController::class, 'deleteVehiclePrice'])->name('admin.manageVehicleprice.deleteVehiclePrice');
+
 // Manage Vehicles
+
+// Manage Hotels
+// Hotel Type
+Route::get('/hotel-type', [HotelTypeController::class, 'index'])->name('admin.manageHoteltype');
+Route::match(['get', 'post'], '/addHotelType', [HotelTypeController::class, 'addHotelType'])->name('admin.manageHoteltype.addHotelType');
+Route::match(['get', 'post'], '/editHotelType/{id}', [HotelTypeController::class, 'editHotelType'])->name('admin.manageHoteltype.editHotelType');
+Route::post('/deleteHotelType/{id}', [HotelTypeController::class, 'deleteHotelType'])->name('admin.manageHoteltype.deleteHotelType');
+
+// Season Type
+
+//Hotel
+
+// Manage Hotels
