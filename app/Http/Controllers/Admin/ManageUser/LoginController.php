@@ -24,7 +24,7 @@ class LoginController extends Controller
         ]);
 
         $credentials = [
-            'email_id' => $request->email_id, // Use 'email_id' as the key
+            'email_id' => $request->email_id,
             'password' => $request->password,
         ];
 

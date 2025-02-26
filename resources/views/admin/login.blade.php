@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="icon" type="image/png" href="assets/img/duplicate-logo-dashbord.png">
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -21,34 +22,27 @@
                     <img src="{{ asset('assets/img/duplicate-logo.png') }}" alt="logo" >
                 </h1>
                 <h2 class="login-title">Admin Login</h2>
-                 <!-- Display errors if there are any -->
-                    @if ($errors->any())
-                        <div style="color: red;">
-                            @foreach ($errors->all() as $error)
-                                <p>{{ $error }}</p>
-                            @endforeach
-                        </div>
-                    @endif
-                <form action="{{ route('admin.processLogin') }}" method="POST">
+                @include('Admin.include.sweetaleart')
+                <form action="{{ route('admin.processLogin') }}" method="POST" onsubmit="return validator()">
                     @csrf
                 <div class="icon-input-control">
-                    <input class="form-control" type="text" placeholder="User id" name="email_id" required>
+                    <input class="form-control" type="text" placeholder="User id" name="email_id" id="email_id">
                     <span class="icon-input-right">
                         <i class="bi bi-person" ></i>
                     </span>
                 </div>
                 <div class="icon-input-control">
-                    <input  type="password" id="password" class="form-control" name="password" required>                    
+                    <input  type="password" id="password" class="form-control" name="password" id="password">                    
                         <i class="toggle-password bi bi-eye-slash icon-input-right"></i>                    
                 </div>
                 <div class="captcha-inputs">
-                    <input class="form-control" type="text" placeholder="Enter Captcha">
-                    <div class="icon-input-control">
-                        <input class="form-control captcha-control" type="text" value="123sd4" disabled>
-                        <span class="icon-input-right">
-                            <i class="fa fa-refresh"></i>
-                        </span>
-                    </div>
+                        <input class="form-control" type="text" id="captcha-input" placeholder="Enter Captcha">
+                        <div class="icon-input-control">
+                            <input class="form-control captcha-control" type="text" id="captcha-text" disabled>
+                            <span class="icon-input-right" onclick="generateCaptcha()">
+                                <i class="fa fa-refresh"></i>
+                            </span>
+                        </div>
                 </div>
                 <div class="form-btns">
                     <button class="login-btn" type="submit">Login</button>
@@ -60,20 +54,69 @@
             <footer>Copyright &copy; 2025 Tours and Travel, All Right Reserved</footer>
         </div>
     </main>
-
+<script src="{{ asset('assets/js/validation.js') }}"></script>
 <script type="text/javascript"> 
-        $(".toggle-password").click(function() {
+    function validator(){
+        if(!blankCheck('email_id','Email Id cannot be blank'))
+            return false;
+        if(!blankCheck('password','Password cannot be blank'))
+            return false;
+        let inputCaptcha = document.getElementById("captcha-input").value.trim();
+        let generatedCaptcha = document.getElementById("captcha-text").value.trim();
+        if (inputCaptcha === "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please fill Captcha and try again.',
+                });
+            generateCaptcha();
+            return false;
+        }
+        if(inputCaptcha !== generatedCaptcha){
+            Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Incorrect Captcha! Please try again.',
+                });
+            generateCaptcha();
+            return false;
+        }
+    }
+    $(document).ready(function() {
+        generateCaptcha();
+    });
+    $(".toggle-password").click(function() {
         $(this).toggleClass("bi-eye bi-eye-slash");
          input = $(this).parent().find("input");
         if (input.attr("type") == "password") {
-        input.attr("type", "text");
-    } else {
-        input.attr("type", "password");
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
+        }
+    });
+    function generateCaptcha() {
+        let chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let captcha = "";
+        for (let i = 0; i < 6; i++) {
+            captcha += chars[Math.floor(Math.random() * chars.length)];
+        }
+        document.getElementById("captcha-text").value = captcha;
     }
-});
 
-
-
+    function validateCaptcha() {
+        let inputCaptcha = document.getElementById("captcha-input").value.trim();
+        let generatedCaptcha = document.getElementById("captcha-text").value.trim();
+        if (inputCaptcha === "" || inputCaptcha !== generatedCaptcha) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Incorrect Captcha! Please try again.',
+                });
+            generateCaptcha();
+            return false;
+        }
+        return true;
+    }
 </script>
 
 </body>
