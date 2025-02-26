@@ -152,14 +152,23 @@
                                 </section>
                             </div>
                         </div>
-                    </main>
-                    <div id="myModal" class="modal fade" role="dialog">
+                    </main> 
+                    <div id="userModal" class="modal fade" role="dialog">
                         <div class="modal-dialog modal-lg">
-                            <!-- Modal content-->
-                            <div class="modal-content"> </div>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="userModalLabel">User Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div id="dynamicModalContainer" class="modal-body"></div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                     <!-- Footer Start-->  
                     @include('Admin.include.footer')
                     <!-- Footer End-->  
@@ -173,26 +182,34 @@
         <script src="{{ asset('assets/js/validation.js') }}"></script>
         <script>
            function loadUserDetails(userId) {
-                $('#myModal .modal-content').html('<div style="text-align:center;margin-top:150px;margin-bottom:100px;color:#377b9e;"><i class="fa fa-spinner fa-spin fa-3x"></i> <span>Processing...</span></div>');
+                $('#userModal .modal-body').html('<div style="text-align:center;margin-top:150px;margin-bottom:100px;color:#377b9e;"><i class="fa fa-spinner fa-spin fa-3x"></i> <span>Processing...</span></div>');
 
                 $.ajax({
-                    url: "",
-                    type: "GET",
+                    url: "{{ url('/manageUser/viewpop') }}",
+                    type: "POST",
+                    data: { reqId: userId },
+                    dataType: "json",
                     cache: false,
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Adding CSRF Token
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
                     },
-                    success: function (modal_content) {
-                        $('#myModal .modal-content').html(modal_content);
-                        $('#myModal').modal('show');
+                    success: function (response) {
+                        if (response.error) {
+                            alert("Error: " + response.error);
+                        } else {
+                            $("#dynamicModalContainer").html(response.html); // Inject only the dynamic content
+                            $("#userModal").modal("show"); // Show the modal
+                        }
                     },
                     error: function (xhr, status, error) {
-                        alert("Status: " + status + "\nError: " + error);
-                        $('#errMessage').html('<div class="errormsg"><i class="fa fa-times"></i> Your query could not be executed. Please try again.</div>');
+                        console.error("AJAX Error:", xhr.responseText);
+                        alert("Status: " + status + "\nError: " + xhr.responseText);
                     }
                 });
-
             }
+            $(document).on('click', '[data-dismiss="modal"]', function () {
+                $('#userModal').modal('hide');
+            });
         </script>
         
 

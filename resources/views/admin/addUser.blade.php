@@ -22,12 +22,13 @@
                                     <li class="breadcrumb-item active">Add User</li>
                                 </ol> -->
                                 <nav class="tab-menu">
-        							<a href="{{ route('admin.manageUser.addUser') }}" class="tab-menu__item  active">
-        								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
-        									<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
-        								  </svg>
-        								Add
-        							</a>
+                                    <a href="{{ isset($user) ? route('admin.manageUser.editUser', ['id' => $user->adminid]) : route('admin.manageUser.addUser') }}" 
+                                    class="tab-menu__item active">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                                        </svg>
+                                        {{ isset($user) ? 'Edit' : 'Add' }}
+                                    </a>
         							<a href="{{ route('admin.manageUser') }}" class="tab-menu__item ">
         								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
         									<path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"></path>
@@ -54,56 +55,76 @@
                                                     </div>
                                                 </div> -->
                                                 <div class="panel-body">
-                                                    <form action="{{ route('admin.manageUser.addUser') }}" method="POST" id="userform" name="userform" class="add-user"  onsubmit="return validateFormAddUser()">
+                                                    <form action="{{ isset($user) ? route('admin.manageUser.editUser', ['id' => $user->adminid]) : route('admin.manageUser.addUser') }}" method="POST" id="userform" name="userform" class="add-user" onsubmit="return {{ isset($user) ? 'validateFormEditUser()' : 'validateFormAddUser()' }}">
                                                         @csrf
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Name</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter name" name="uname" id="uname">
+                                                                    <input type="text" class="form-control" placeholder="Enter name" name="uname" id="uname" 
+                                                                        value="{{ isset($user) ? $user->admin_name : '' }}">
                                                                 </div>
                                                             </div>
+
                                                             <div class="col-md-6">
                                                                 <label class="d-block">User Type</label>
-                                                                
+                                                                @if(isset($user) && $user->admin_type == 1)
                                                                     <div class="form-check form-check-inline">
-                                                                        <input class="form-check-input" type="radio" name="utype" id="utype1" value="2"> 
-                                                                        <label class="form-check-label" for="utype1">Admin</label>
+                                                                        <input class="form-check-input" type="radio" name="utype" id="utype1" value="1" 
+                                                                            {{ isset($user) && $user->admin_type == 1 ? 'checked' : '' }}>
+                                                                        <label class="form-check-label" for="utype1">Super Admin</label>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input class="form-check-input" type="radio" name="utype" id="utype2" value="2" 
+                                                                            {{ isset($user) && $user->admin_type == 2 ? 'checked' : '' }}>
+                                                                        <label class="form-check-label" for="utype2">Admin</label>
                                                                     </div>
                                                                     <div class="form-check form-check-inline">
-                                                                        <input   class="form-check-input"type="radio" name="utype" id="utype2" value="3"> 
+                                                                        <input class="form-check-input" type="radio" name="utype" id="utype2" value="3" 
+                                                                            {{ isset($user) && $user->admin_type == 3 ? 'checked' : '' }}>
                                                                         <label class="form-check-label" for="utype2">User</label>
                                                                     </div>
-                                                              
+                                                                @endif
                                                             </div>
+
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Contact No.</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter Contact no" name="contact" id="contact">
+                                                                    <input type="text" class="form-control" placeholder="Enter Contact no" name="contact" id="contact" 
+                                                                        value="{{ isset($user) ? $user->contact_no : '' }}">
                                                                 </div>
                                                             </div>
+
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Email</label>
-                                                                    <input type="email" class="form-control" placeholder="Enter Email Id" name="email" id="email">
+                                                                    <input type="email" class="form-control" placeholder="Enter Email Id" name="email" id="email" 
+                                                                        value="{{ isset($user) ? $user->email_id : '' }}">
                                                                 </div>
                                                             </div>
+
+                                                            @if(!isset($user))
+                                                            <!-- Show Password Fields Only in Add Mode -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Password</label>
                                                                     <input type="password" class="form-control" placeholder="Enter Password" name="password" id="password">
                                                                 </div>
                                                             </div>
+
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
                                                                     <label>Confirm Password</label>
                                                                     <input type="password" class="form-control" placeholder="Enter Confirm Password" name="cpassword" id="cpassword">
                                                                 </div>
                                                             </div>
+                                                            @endif
                                                         </div>
+
                                                         <div class="col-md-6">
                                                             <div class="reset-button">
-                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                                <button type="submit" class="btn btn-primary">{{ isset($user) ? 'Update' : 'Save' }}</button>
                                                                 <button type="reset" class="btn btn-danger">Reset</button>
                                                             </div>
                                                         </div>

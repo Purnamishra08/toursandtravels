@@ -56,6 +56,7 @@
                                                                 <tr class="bg-info text-white">
                                                                     <th>Sl #</th>
                                                                     <th>State Name</th>
+                                                                    <th>Banner Image</th>
                                                                     <th>Show on Menu</th>
                                                                     <th>Status</th>
                                                                     <th>Action</th>
@@ -67,6 +68,15 @@
                                                                     <td>{{ ($states->currentPage() - 1) *
                                                                     $states->perPage() + $loop->iteration }}</td>
                                                                     <td>{{ $state->state_name }}</td>
+                                                                    <td>
+                                                                        <div class="mt-2">
+                                                                            <img id="bannerPreview" 
+                                                                                src="{{ isset($state->bannerimg) ? asset('storage/banner_images/'.$state->bannerimg) : '' }}" 
+                                                                                alt="Banner Preview" 
+                                                                                class="img-fluid rounded border" 
+                                                                                style="width: 150px; height: 80px; object-fit: cover;">
+                                                                        </div>
+                                                                    </td>
                                                                     <td>
                                                                         @if($state->showmenu)
                                                                             <span class="btn btn-success btn-sm"><i class="fa fa-check"></i></span>
@@ -90,7 +100,7 @@
                                                                     @endif
                                                                     </td>
                                                                     <td>
-                                                                        <a href="{{ route('admin.state', $state->state_id) }}" class="btn btn-primary btn-sm" title="Edit">
+                                                                        <a href="{{ route('admin.state.editState', $state->state_id) }}" class="btn btn-primary btn-sm" title="Edit">
                                                                             <i class="fa fa-pencil"></i>
                                                                         </a>
                                                                         <form action="{{ route('admin.state.deleteState', $state->state_id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this state?')">

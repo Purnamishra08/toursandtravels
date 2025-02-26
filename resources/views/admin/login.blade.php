@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}"> 
     <link href="{{ asset('assets/css/login.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" href="assets/img/duplicate-logo-dashbord.png">
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 </head>
 

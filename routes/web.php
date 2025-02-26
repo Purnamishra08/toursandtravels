@@ -61,7 +61,10 @@ Route::middleware('auth')->group(function () {
 Route::get('/manageUser', [ManageUserController::class, 'index'])->name('admin.manageUser');
 Route::match(['get', 'post'], '/addUser', [ManageUserController::class, 'addUser'])->name('admin.manageUser.addUser');
 Route::match(['get', 'post'], '/editUser/{id}', [ManageUserController::class, 'editUser'])->name('admin.manageUser.editUser');
-Route::get('viewpop/{id}', [ManageUserController::class, 'viewPop'])->name('admin.viewpop');
+Route::post('/manageUser/viewpop', [ManageUserController::class, 'viewPop'])
+    ->name('admin.manageUser.viewPop');
+
+
 Route::post('/deleteUser/{id}', [ManageUserController::class, 'deleteUser'])->name('admin.manageUser.deleteUser');
 // Manage User
 
@@ -98,5 +101,6 @@ Route::post('/deleteHotelType/{id}', [HotelTypeController::class, 'deleteHotelTy
 //Manage location
 Route::get('/state', [StateController::class, 'index'])->name('admin.state');
 Route::match(['get', 'post'], '/addState', [StateController::class, 'addState'])->name('admin.state.addState');
+Route::match(['get', 'post'], '/editState/{id}', [StateController::class, 'editState'])->name('admin.state.editState');
 Route::post('/deleteState/{id}', [StateController::class, 'deleteState'])->name('admin.state.deleteState');
 //Manage location
