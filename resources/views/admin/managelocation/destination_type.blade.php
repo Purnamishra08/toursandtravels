@@ -20,7 +20,7 @@
                     <div class="inner-layout">
                         <div class="container-fluid px-4 pt-3">
                         <nav class="tab-menu">
-        							<a href="{{ route('admin.state.addState') }}"class="tab-menu__item  ">
+        							<a href="{{ route('admin.destinationtype.adddestinationtype') }}"class="tab-menu__item  ">
         								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
         									<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
         								  </svg>
@@ -55,55 +55,37 @@
                                                             <thead class="thead-dark">
                                                                 <tr class="bg-info text-white">
                                                                     <th>Sl #</th>
-                                                                    <th>State Name</th>
-                                                                    <th>Banner Image</th>
-                                                                    <th>Show on Menu</th>
+                                                                    <th>Destination Type</th>
                                                                     <th>Status</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @forelse($states as $index => $state)
+                                                                @forelse($destination_type as $index => $destination_types)
                                                                 <tr>
-                                                                    <td>{{ ($states->currentPage() - 1) *
-                                                                    $states->perPage() + $loop->iteration }}</td>
-                                                                    <td>{{ $state->state_name }}</td>
+                                                                    <td>{{ ($destination_type->currentPage() - 1) *
+                                                                    $destination_type->perPage() + $loop->iteration }}</td>
+                                                                    <td>{{ $destination_types->destination_type_name }}</td>
                                                                     <td>
-                                                                        <div class="mt-2">
-                                                                            <img id="bannerPreview" 
-                                                                                src="{{ isset($state->bannerimg) ? asset('storage/banner_images/'.$state->bannerimg) : '' }}" 
-                                                                                alt="Banner Preview" 
-                                                                                class="img-fluid rounded border" 
-                                                                                style="width: 150px; height: 80px; object-fit: cover;">
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        @if($state->showmenu)
-                                                                            <span class="btn btn-success btn-sm"><i class="fa fa-check"></i></span>
+                                                                        @if($destination_types->status == 1)
+                                                                            <span style="color: green; font-weight: bold; position: relative; padding-left: 20px;">
+                                                                                <span style="width: 10px; height: 10px; background: green; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+                                                                                box-shadow: 0 0 8px rgba(0, 255, 0, 0.8);"></span>
+                                                                                Active
+                                                                            </span>
                                                                         @else
-                                                                            <span class="btn btn-danger btn-sm"><i class="fa fa-times"></i></span>
+                                                                            <span style="color: red; font-weight: bold; position: relative; padding-left: 20px;">
+                                                                                <span style="width: 10px; height: 10px; background: red; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+                                                                                box-shadow: 0 0 8px rgba(255, 0, 0, 0.8);"></span>
+                                                                                Inactive
+                                                                            </span>
                                                                         @endif
                                                                     </td>
                                                                     <td>
-                                                                    @if($state->status == 1)
-                                                                        <span style="color: green; font-weight: bold; position: relative; padding-left: 20px;">
-                                                                            <span style="width: 10px; height: 10px; background: green; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-                                                                            box-shadow: 0 0 8px rgba(0, 255, 0, 0.8);"></span>
-                                                                            Active
-                                                                        </span>
-                                                                    @else
-                                                                        <span style="color: red; font-weight: bold; position: relative; padding-left: 20px;">
-                                                                            <span style="width: 10px; height: 10px; background: red; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-                                                                            box-shadow: 0 0 8px rgba(255, 0, 0, 0.8);"></span>
-                                                                            Inactive
-                                                                        </span>
-                                                                    @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="{{ route('admin.state.editState', $state->state_id) }}" class="btn btn-primary btn-sm" title="Edit">
+                                                                        <a href="{{ route('admin.destinationtype.editdestinationtype', $destination_types->destination_type_id) }}" class="btn btn-primary btn-sm" title="Edit">
                                                                             <i class="fa fa-pencil"></i>
                                                                         </a>
-                                                                        <form action="{{ route('admin.state.deleteState', $state->state_id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this state?')">
+                                                                        <form action="{{ route('admin.destinationtype.deletedestinationtype',  $destination_types->destination_type_id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this destination type?')">
                                                                             @csrf
                                                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete">
                                                                                 <i class="fa fa-trash-o"></i>
@@ -121,9 +103,9 @@
                                                         {{-- Pagination Links --}}
                                                         <div class="pagination-wrapper d-flex justify-content-between align-items-center">
                                                             <p class="mb-0">
-                                                                Showing {{ $states->firstItem() }} to {{ $states->lastItem() }} of {{ $states->total() }} entries
+                                                                Showing {{ $destination_type->firstItem() }} to {{ $destination_type->lastItem() }} of {{ $destination_type->total() }} entries
                                                             </p>
-                                                            {{ $states->links('pagination::bootstrap-4') }}
+                                                            {{ $destination_type->links('pagination::bootstrap-4') }}
                                                         </div>
                                                     </div>
                                                 </div>
