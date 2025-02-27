@@ -21,87 +21,92 @@ class HotelTypeController extends Controller
         if ($request->isMethod('post')) {
             // Validate the request
             $request->validate([
-                'vehiclename' => 'required|string|max:255',
-                'vehiclecapacity' => 'required|integer|min:1'
+                'hotelType' => 'required|string|max:255',
             ]);
 
             try {
                 // Insert data into the database
-                DB::table('tbl_vehicletypes')->insert([
-                    'vehicle_name' => $request->input('vehiclename'),
-                    'capacity' => $request->input('vehiclecapacity'),
-                    'status'=>1
+                DB::table('tbl_hotel_type')->insert([
+                    'hotel_type_name' => $request->input('hotelType'),
+                    'status'=>1,
+                    'created_date' => now(),
+                    'created_by' => isset(session('user')->adminid) ? session('user')->adminid : 0 ,
+                    'updated_date' => now(),
+                    'updated_by' => isset(session('user')->adminid) ? session('user')->adminid : 0,
                 ]);
 
-                return back()->with('success', 'Vehicle Type Added successfully!');
+                return back()->with('success', 'Hotel Type Added successfully!');
             } catch (\Exception $e) {
                 // Log the error
-                \Log::error('Error adding vehicle type: ' . $e->getMessage());
+                \Log::error('Error adding hotel type: ' . $e->getMessage());
 
-                return back()->withErrors(['error' => 'Something went wrong! Unable to add vehicle type.'])->withInput();
+                return back()->withErrors(['error' => 'Something went wrong! Unable to add hotel type.'])->withInput();
             }
         }
 
-        return view('admin.managevehicles.addVehicleType');
+        return view('admin.managehotels.addHotelType');
     }
 
-    public function editVehicleType(Request $request, $id)
+    public function editHotelType(Request $request, $id)
     {
         // Retrieve vehicle type by ID
-        $data = DB::table('tbl_vehicletypes')->where('vehicleid', $id)->first();
+        $data = DB::table('tbl_hotel_type')->where('hotel_type_id', $id)->first();
 
         if (!$data) {
-            return back()->withErrors(['error' => 'Vehicle Type not found!']);
+            return back()->withErrors(['error' => 'Hotel Type not found!']);
         }
 
         if ($request->isMethod('post')) {
             // Validate the request
             $request->validate([
-                'vehiclename' => 'required|string|max:255',
-                'vehiclecapacity' => 'required|integer|min:1'
+                'hotelType' => 'required|string|max:255',
             ]);
 
             try {
                 // Update the record in the database
-                DB::table('tbl_vehicletypes')->where('vehicleid', $id)->update([
-                    'vehicle_name' => $request->input('vehiclename'),
-                    'capacity' => $request->input('vehiclecapacity'),
+                DB::table('tbl_hotel_type')->where('hotel_type_id', $id)->update([
+                    'hotel_type_name' => $request->input('hotelType'),
+                    'status'=>1,
+                    'updated_date' => now(),
+                    'updated_by' => isset(session('user')->adminid) ? session('user')->adminid : 0,
                 ]);
 
-                return back()->with('success', 'Vehicle Type updated successfully!');
+                return back()->with('success', 'Hotel Type updated successfully!');
             } catch (Exception $e) {
                 // Log the error
-                Log::error('Error updating vehicle type: ' . $e->getMessage());
+                Log::error('Error updating Hotel type: ' . $e->getMessage());
 
-                return back()->withErrors(['error' => 'Something went wrong! Unable to update vehicle type.'])->withInput();
+                return back()->withErrors(['error' => 'Something went wrong! Unable to update hotel type.'])->withInput();
             }
         }
 
         // Show edit form with existing data
-        return view('admin.managevehicles.editVehicleType', ['vehicletype' => $data]);
+        return view('admin.managehotels.editHotelType', ['hoteltype' => $data]);
     }
 
-    public function deleteVehicleType(Request $request, $id)
+    public function deleteHotelType(Request $request, $id)
     {
         // Retrieve vehicle type by ID
-        $data = DB::table('tbl_vehicletypes')->where('vehicleid', $id)->first();
+        $data = DB::table('tbl_hotel_type')->where('hotel_type_id', $id)->first();
 
         if (!$data) {
-            return back()->withErrors(['error' => 'Vehicle Type not found!']);
+            return back()->withErrors(['error' => 'Hotel Type not found!']);
         }
 
         try {
             // Soft delete: Update the bit_Deleted_Flag
-            DB::table('tbl_vehicletypes')->where('vehicleid', $id)->update([
-                'bit_Deleted_Flag' => 1
+            DB::table('tbl_hotel_type')->where('hotel_type_id', $id)->update([
+                'bit_Deleted_Flag' => 1,
+                'updated_date' => now(),
+                'updated_by' => isset(session('user')->adminid) ? session('user')->adminid : 0,
             ]);
 
-            return redirect()->back()->with('success', 'Vehicle deleted successfully!');
+            return redirect()->back()->with('success', 'Hotel Type deleted successfully!');
         } catch (\Exception $e) {
             // Log the error
-            Log::error('Error deleting vehicle: ' . $e->getMessage());
+            Log::error('Error deleting Hotel Type: ' . $e->getMessage());
 
-            return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to delete vehicle.']);
+            return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to delete Hotel Type.']);
         }
     }
 }
