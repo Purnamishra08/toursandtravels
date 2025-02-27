@@ -86,9 +86,9 @@
                                                 </div>
 
                                                 <div class="col-md-6 form-group">
-                                                    <label>Banner Image</label>
-                                                    <input type="file" name="bannerimg" id="bannerimg" class="form-control-file">
-                                                    <small class="text-muted">Image size should be 1920px X 488px</small>
+                                                    <label class="d-block">Banner Image</label>
+                                                    <input type="file" class="form-control" name="bannerimg" id="bannerimg" class="form-control-file">
+                                                    <small class=" d-block text-danger">Image size should be 1920px X 488px</small>
                                                 </div>
 
                                                 <div class="col-md-6 form-group">
@@ -111,14 +111,15 @@
                                                     <textarea class="form-control" placeholder="Meta Description..." name="state_meta_description" id="state_meta_description"></textarea>
                                                 </div>
 
-                                                <div class="col-md-6 form-group form-check">
+                                                <div class="col-md-6 form-group form-check mt-3">
+                                                    
                                                     <input type="checkbox" class="form-check-input" name="showmenu" id="showmenu" value="1">
                                                     <label class="form-check-label" for="showmenu"><strong>Show this state on menu</strong></label>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <button type="submit" class="btn btn-primary">Save</button>
-                                                    <button type="reset" class="btn btn-secondary">Reset</button>
+                                                    <button type="reset" class="btn btn-danger">Reset</button>
                                                 </div>
                                                 </div>
                                             </form>
