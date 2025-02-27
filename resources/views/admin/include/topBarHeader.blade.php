@@ -4,7 +4,32 @@
         <i class="bi bi-grid-fill"></i>
     </button>
     <!-- Navbar Search-->
-    <h4 class="mb-0">Dashboard</h4>
+   <h4 class="mb-0 d-flex align-items-center">
+    @php
+        // Define route mappings
+        $routes = [
+            'admin.manageUser'        => ['Manage User', '', 'fa-user', ''],
+            'admin.manageVehicletype' => ['Manage Vehicles', 'Vehicle Type', 'fa-truck', 'fa-car'],
+            'admin.manageVehicleprice' => ['Manage Vehicles', 'Vehicle Price', 'fa-truck', 'fa-money'],
+            'admin.manageHoteltype'   => ['Manage Hotels', 'Hotel Type','fa-building','fa-hotel'],
+            'admin.state'             => ['Location', 'State', 'fa-globe', 'fa-flag'],
+            'admin.destinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
+        ];
+
+        $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '', 'fa-line-chart', ''];
+    @endphp
+
+    <div class="d-flex align-items-center">
+        <i class="fa {{ $route[2] }} me-2"></i> <strong>{{ $route[0] }}</strong>
+    </div>
+
+    @if($route[1]) 
+        <span class="mx-2">/</span>
+        <div class="d-flex align-items-center">
+            <i class="fa {{ $route[3] }} me-2"></i> <span>{{ $route[1] }}</span>
+        </div>
+    @endif
+</h4>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0 align-items-center">
         <li class="nav-item dropdown">

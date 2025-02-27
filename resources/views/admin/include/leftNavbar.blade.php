@@ -6,14 +6,14 @@
             <div class="nav">
                 <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
                     href="{{ route('admin.dashboard') }}">
-                    <div class="sb-nav-link-icon"><i class="bi bi-speedometer"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa fa-line-chart"></i></div>
                     Dashboard
                 </a>
 
                 @if(session()->has('user') && session('user')->admin_type == 1)
                 <a class="nav-link {{ request()->routeIs('admin.manageUser*') ? 'active' : '' }}"
                     href="{{ route('admin.manageUser') }}">
-                    <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa fa-user"></i></div>
                     Manage User
                 </a>
                 @endif
@@ -47,19 +47,19 @@
                 </div>
 
                 
-                <a class="nav-link dropdown {{ request()->routeIs('admin.manageHoteltype') ? '' : 'collapsed' }}"
+                <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageHoteltype']) ? '' : 'collapsed' }}"
                     href="#" data-bs-toggle="collapse" data-bs-target="#manageHotels"
-                    aria-expanded="{{ request()->routeIs('admin.manageHoteltype*')  ? 'true' : 'false' }}"
+                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageHoteltype']) ? 'true' : 'false' }}"
                     aria-controls="manageHotels">
-                    <div class="sb-nav-link-icon"><i class="fa fa-hotel"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa fa-building"></i></div>
                     Manage Hotels
                     <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
                 </a>
 
-                <div class="collapse {{ request()->routeIs('admin.manageHoteltype') ? 'show' : '' }}"
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageHoteltype']) ? 'show' : '' }}"
                     id="manageHotels" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link {{ request()->routeIs('admin.manageHoteltype') ? 'active' : '' }}"
+                        <a class="nav-link {{ Str::startsWith($currentRoute, 'admin.manageHoteltype') ? 'active' : '' }}"
                             href="{{ route('admin.manageHoteltype') }}">
                             <i class="fa fa-hotel mt-1 me-2"></i> Hotel Type
                         </a>
