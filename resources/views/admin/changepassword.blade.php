@@ -1,6 +1,7 @@
     <!-- Metaheader Section-->
     @include('Admin.include.metaheader')
     <!-- Metaheader Section End -->
+    <link href="{{asset('assets/css/change-password.css')}}" rel="stylesheet" />
     <body>
         <div id="layoutSidenav"> 
             <!-- Left Navbar Start-->              
@@ -18,14 +19,17 @@
                     <main>
                         <div class="inner-layout">
                             <div class="container-fluid px-4 pt-3">
-                                <ol class="breadcrumb mb-4">
+                                <!-- <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item active">Change Password</li>
-                                </ol>
+                                </ol> -->
                                 @include('Admin.include.sweetaleart')
-                                <div class="row justify-content-center">
+                                <div class="row align-items-center mt-md-4">
                                     <div class="col-md-6">
-                                        <div class="card shadow-lg p-4">
-                                            <h4 class="text-center mb-4">Change Password</h4>
+                                        <img class="change-password-img" src="{{ asset('assets/img/change-password.png') }}" alt="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="login-container">
+                                            <h4 class="login-title">Change Password</h4>
                                             <form id="changePasswordForm" method="POST" action="{{ route('admin.change-password') }}" onsubmit="return validateForm()">
                                                 @csrf
 
@@ -52,7 +56,7 @@
 
                                                 <!-- Submit Button -->
                                                 <div class="d-grid">
-                                                    <button type="submit" class="btn btn-primary">Update Password</button>
+                                                    <button type="submit" class=" login-btn">Update Password</button>
                                                 </div>
                                             </form>
                                         </div>
