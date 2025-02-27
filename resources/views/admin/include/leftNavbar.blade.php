@@ -6,14 +6,14 @@
             <div class="nav">
                 <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
                     href="{{ route('admin.dashboard') }}">
-                    <div class="sb-nav-link-icon"><i class="bi bi-speedometer"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa fa-line-chart"></i></div>
                     Dashboard
                 </a>
 
                 @if(session()->has('user') && session('user')->admin_type == 1)
                 <a class="nav-link {{ request()->routeIs('admin.manageUser*') ? 'active' : '' }}"
                     href="{{ route('admin.manageUser') }}">
-                    <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa fa-user"></i></div>
                     Manage User
                 </a>
                 @endif
@@ -51,7 +51,7 @@
                     href="#" data-bs-toggle="collapse" data-bs-target="#manageHotels"
                     aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageHoteltype']) ? 'true' : 'false' }}"
                     aria-controls="manageHotels">
-                    <div class="sb-nav-link-icon"><i class="fa fa-hotel"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fa fa-building"></i></div>
                     Manage Hotels
                     <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
                 </a>
