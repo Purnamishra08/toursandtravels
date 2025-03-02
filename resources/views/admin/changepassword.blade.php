@@ -2,10 +2,11 @@
     @include('Admin.include.metaheader')
     <!-- Metaheader Section End -->
     <link href="{{asset('assets/css/change-password.css')}}" rel="stylesheet" />
+
     <body>
-        <div id="layoutSidenav"> 
-            <!-- Left Navbar Start-->              
-            @include('Admin.include.leftNavbar')       
+        <div id="layoutSidenav">
+            <!-- Left Navbar Start-->
+            @include('Admin.include.leftNavbar')
             <!-- Left Navbar End-->
 
             <div id="layoutSidenav_content">
@@ -34,16 +35,23 @@
                                                 @csrf
 
                                                 <!-- Old Password -->
-                                                <div class="mb-3">
+                                                <div class="mb-3 ">
                                                     <label for="old_password" class="form-label">Old Password</label>
-                                                    <input type="password" class="form-control" id="old_password" name="old_password">
+                                                    <div class="icon-input-control">
+
+                                                        <input type="password" class="form-control password-input" id="old_password" name="old_password">
+                                                        <i class="toggle-password bi bi-eye-slash icon-input-right"></i>
+                                                    </div>
                                                     <div id="old_password_error" class="text-danger mt-1" style="display: none;"></div>
                                                 </div>
 
                                                 <!-- New Password -->
                                                 <div class="mb-3">
                                                     <label for="new_password" class="form-label">New Password</label>
-                                                    <input type="password" class="form-control" id="new_password" name="new_password">
+                                                    <div class="icon-input-control">
+                                                        <input type="password" class="form-control password-input" id="new_password" name="new_password">
+                                                        <i class="toggle-password bi bi-eye-slash icon-input-right"></i>
+                                                    </div>
                                                     <div id="new_password_error" class="text-danger mt-1" style="display: none;"></div>
                                                 </div>
 
@@ -66,18 +74,35 @@
                         </div>
                     </main>
                     <!-- Main Content End -->
-                    
-                    <!-- Footer Start-->  
+
+                    <!-- Footer Start-->
                     @include('Admin.include.footer')
-                    <!-- Footer End-->  
+                    <!-- Footer End-->
                 </div>
             </div>
         </div>
-        <!-- FooterJs Start-->  
+        <!-- FooterJs Start-->
         @include('Admin.include.footerJs')
-        <!-- FooterJs End--> 
-        
-        <script src="{{ asset('assets/js/validation.js') }}"></script>
+        <!-- FooterJs End-->
+
+        <script>
+            document.querySelectorAll('.toggle-password').forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const inputField = this.closest('.icon-input-control').querySelector('.password-input'); // Get the correct input field
+
+                    if (inputField.type === 'password') {
+                        inputField.type = 'text';
+                        this.classList.replace('bi-eye-slash', 'bi-eye'); // Change icon to "eye"
+                    } else {
+                        inputField.type = 'password';
+                        this.classList.replace('bi-eye', 'bi-eye-slash'); // Change icon to "eye-slash"
+                    }
+                });
+            });
+        </script>
+
+        </script>
 
     </body>
-</html>
+
+    </html>
