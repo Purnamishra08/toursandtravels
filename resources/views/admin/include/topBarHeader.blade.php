@@ -17,6 +17,8 @@
             'admin.manageSeasontype'   => ['Manage Hotels', 'Season Type','fa-building','fa-sun-o'],
             'admin.state'             => ['Location', 'State', 'fa-globe', 'fa-flag'],
             'admin.destinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
+            'admin.destinationtype.adddestinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
+            'admin.destinationtype.editdestinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '', 'fa-line-chart', ''];

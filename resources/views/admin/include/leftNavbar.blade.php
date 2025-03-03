@@ -94,7 +94,7 @@
                             href="{{ route('admin.state') }}">
                             <i class="fa fa-flag mt-1 me-2"></i> State
                         </a> -->
-                        <a class="nav-link {{ request()->routeIs('admin.destinationtype') ? 'active' : '' }}"
+                        <a class="nav-link {{ request()->routeIs('admin.destinationtype') || request()->routeIs('admin.destinationtype*') ? 'active' : '' }}"
                             href="{{ route('admin.destinationtype') }}">
                             <i class="fa fa-map-marker mt-1 me-2"></i> Destination Type
                         </a>
