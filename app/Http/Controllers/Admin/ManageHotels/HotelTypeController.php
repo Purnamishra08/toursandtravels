@@ -119,7 +119,7 @@ class HotelTypeController extends Controller
         }
 
         try {
-            // Soft delete: Update the status
+            //  Update the status
             if($status==1){
                 DB::table('tbl_hotel_type')->where('hotel_type_id', $id)->update([
                 'status' => 2
