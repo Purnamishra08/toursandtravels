@@ -64,6 +64,7 @@ Route::match(['get', 'post'], '/addUser', [ManageUserController::class, 'addUser
 Route::match(['get', 'post'], '/editUser/{id}', [ManageUserController::class, 'editUser'])->name('admin.manageUser.editUser');
 Route::post('/manageUser/viewpop', [ManageUserController::class, 'viewPop'])
     ->name('admin.manageUser.viewPop');
+Route::post('/activeUser/{id}', [ManageUserController::class, 'activeUser'])->name('admin.manageUser.activeUser');
 
 
 Route::post('/deleteUser/{id}', [ManageUserController::class, 'deleteUser'])->name('admin.manageUser.deleteUser');
@@ -116,4 +117,5 @@ Route::get('/destination_type', [DestinationTypeController::class, 'index'])->na
 Route::match(['get', 'post'], '/adddestination_type', [DestinationTypeController::class, 'adddestination_type'])->name('admin.destinationtype.adddestinationtype');
 Route::match(['get', 'post'], '/editdestination_type/{id}', [DestinationTypeController::class, 'editdestination_type'])->name('admin.destinationtype.editdestinationtype');
 Route::post('/deletedestination_type/{id}', [DestinationTypeController::class, 'deletedestination_type'])->name('admin.destinationtype.deletedestinationtype');
+Route::post('/activeDestinationType/{id}', [DestinationTypeController::class, 'activeDestinationType'])->name('admin.destinationtype.activeDestinationType');
 //Manage location

@@ -68,17 +68,23 @@
                                                                     <td>{{ $destination_types->destination_type_name }}</td>
                                                                     <td>
                                                                         @if($destination_types->status == 1)
-                                                                            <span style="color: green; font-weight: bold; position: relative; padding-left: 20px;">
-                                                                                <span style="width: 10px; height: 10px; background: green; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-                                                                                box-shadow: 0 0 8px rgba(0, 255, 0, 0.8);"></span>
-                                                                                Active
-                                                                            </span>
+                                                                            <form action="{{ route('admin.destinationtype.activeDestinationType', ['id' => $destination_types->destination_type_id]) }}" method="POST"
+                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
+                                                                                    @csrf
+                                                                                    <button type="submit" class="btn btn-outline-success"
+                                                                                        title="Active. Click to deactivate.">
+                                                                                        <span class="label-custom label label-success">Active</span>
+                                                                                    </button>
+                                                                            </form>
                                                                         @else
-                                                                            <span style="color: red; font-weight: bold; position: relative; padding-left: 20px;">
-                                                                                <span style="width: 10px; height: 10px; background: red; border-radius: 50%; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-                                                                                box-shadow: 0 0 8px rgba(255, 0, 0, 0.8);"></span>
-                                                                                Inactive
-                                                                            </span>
+                                                                            <form action="{{ route('admin.destinationtype.activeDestinationType', ['id' => $destination_types->destination_type_id]) }}" method="POST"
+                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
+                                                                                @csrf
+                                                                                <button type="submit" class="btn btn-outline-dark"
+                                                                                    title="Active. Click to deactivate.">
+                                                                                    <span class="label-custom label label-danger">Inactive</span>
+                                                                                </button>
+                                                                            </form>
                                                                         @endif
                                                                     </td>
                                                                     <td>

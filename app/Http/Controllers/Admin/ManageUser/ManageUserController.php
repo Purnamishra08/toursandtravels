@@ -160,6 +160,34 @@ class ManageUserController extends Controller
         }
     }
     
+    public function activeUser(Request $request,$id){
+        // Retrieve vehicle type by ID
+        $data = DB::table('tbl_admin')->select('status')->where('adminid', $id)->first();
+        $status=$data->status;
+        if (!$data) {
+            return back()->withErrors(['error' => 'User not found!']);
+        }
+
+        try {
+            // Soft delete: Update the status
+            if($status==1){
+                DB::table('tbl_admin')->where('adminid', $id)->update([
+                'status' => 2
+                ]);
+                return redirect()->back()->with('success', 'User Inactive successfully!');
+            }else{
+                DB::table('tbl_admin')->where('adminid', $id)->update([
+                'status' => 1
+                ]);
+                return redirect()->back()->with('success', 'User Active successfully!');
+            }            
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error Active/Inactive user: ' . $e->getMessage());
+
+            return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to Active/Inactive user.']);
+        }
+    }
 
 
 }

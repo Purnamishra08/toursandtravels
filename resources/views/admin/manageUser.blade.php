@@ -44,9 +44,9 @@
                                 @include('Admin.include.sweetaleart')
                                 <section class="content">
                                     <div class="row">
-                                        @if (session('success'))
+                                        <!-- @if (session('success'))
                                             <div class="alert alert-success">{{ session('success') }}</div>
-                                        @endif
+                                        @endif -->
                                         <div class="col-sm-12">
                                             <div class="panel panel-bd lobidrag">
                                                 <!-- <div class="panel-heading">
@@ -93,18 +93,25 @@
                                                                         </td>
                                                                         <td>
                                                                             @if ($user->adminid != 1)
+                                                                            
                                                                                 @if ($user->status == 1)
-                                                                                    <span class="status" data-id="status-{{ $user->adminid }}">
-                                                                                        <a href="javascript:void(0)" title="Active. Click to deactivate.">
+                                                                                    <form action="{{ route('admin.manageUser.activeUser', ['id' => $user->adminid]) }}" method="POST"
+                                                                                    onsubmit="return confirm('Are you sure you want to change the status?')">
+                                                                                        @csrf
+                                                                                        <button type="submit" class="btn btn-outline-success"
+                                                                                            title="Active. Click to deactivate.">
                                                                                             <span class="label-custom label label-success">Active</span>
-                                                                                        </a>
-                                                                                    </span>
+                                                                                        </button>
+                                                                                    </form>
                                                                                 @else
-                                                                                    <span class="status" data-id="status-{{ $user->adminid }}">
-                                                                                        <a href="javascript:void(0)" title="Inactive. Click to activate.">
+                                                                                    <form action="{{ route('admin.manageUser.activeUser', ['id' => $user->adminid]) }}" method="POST"
+                                                                                    onsubmit="return confirm('Are you sure you want to change the status?')">
+                                                                                        @csrf
+                                                                                        <button type="submit" class="btn btn-outline-dark"
+                                                                                            title="Active. Click to deactivate.">
                                                                                             <span class="label-custom label label-danger">Inactive</span>
-                                                                                        </a>
-                                                                                    </span>
+                                                                                        </button>
+                                                                                    </form>
                                                                                 @endif
                                                                             @else
                                                                                 <span class="label-custom label label-success">Active</span>
