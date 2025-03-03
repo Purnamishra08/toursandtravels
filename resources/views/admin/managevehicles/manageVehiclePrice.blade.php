@@ -81,23 +81,27 @@
                                                                 <td>{{ $vehiclePrice->price }}</td>
                                                                 <td>
                                                                     @if ($vehiclePrice->status == 1)
-                                                                    <span class="status"
-                                                                        data-id="status-{{ $vehiclePrice->priceid }}">
-                                                                        <a href="javascript:void(0)"
+                                                                    <form
+                                                                        action="{{ route('admin.manageVehicleprice.activeVehiclePrice', ['id' => $vehiclePrice->priceid]) }}"
+                                                                        method="POST"
+                                                                        onsubmit="return confirm('Are you sure you want to change the status?')">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn btn-outline-success"
                                                                             title="Active. Click to deactivate.">
-                                                                            <span
-                                                                                class="label-custom label label-success">Active</span>
-                                                                        </a>
-                                                                    </span>
+                                                                            <span class="label-custom label label-success">Active</span>
+                                                                        </button>
+                                                                    </form>
                                                                     @else
-                                                                    <span class="status"
-                                                                        data-id="status-{{ $user->adminid }}">
-                                                                        <a href="javascript:void(0)"
+                                                                    <form
+                                                                        action="{{ route('admin.manageVehicleprice.activeVehiclePrice', ['id' => $vehiclePrice->priceid]) }}"
+                                                                        method="POST"
+                                                                        onsubmit="return confirm('Are you sure you want to change the status?')">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn btn-outline-dark"
                                                                             title="Inactive. Click to activate.">
-                                                                            <span
-                                                                                class="label-custom label label-danger">Inactive</span>
-                                                                        </a>
-                                                                    </span>
+                                                                            <span class="label-custom label label-danger">Inactive</span>
+                                                                        </button>
+                                                                    </form>
                                                                     @endif
                                                                 </td>
                                                                 <td>
@@ -166,31 +170,6 @@
     <!-- FooterJs End-->
 
     <script src="{{ asset('assets/js/validation.js') }}"></script>
-    <script>
-        function loadUserDetails(userId) {
-            $('#myModal .modal-content').html('<div style="text-align:center;margin-top:150px;margin-bottom:100px;color:#377b9e;"><i class="fa fa-spinner fa-spin fa-3x"></i> <span>Processing...</span></div>');
-
-            $.ajax({
-                url: "",
-                type: "GET",
-                cache: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Adding CSRF Token
-                },
-                success: function (modal_content) {
-                    $('#myModal .modal-content').html(modal_content);
-                    $('#myModal').modal('show');
-                },
-                error: function (xhr, status, error) {
-                    alert("Status: " + status + "\nError: " + error);
-                    $('#errMessage').html('<div class="errormsg"><i class="fa fa-times"></i> Your query could not be executed. Please try again.</div>');
-                }
-            });
-
-        }
-    </script>
-
-
 </body>
 
 </html>

@@ -8,10 +8,13 @@
     @php
         // Define route mappings
         $routes = [
+            'admin.change-password'   => ['Change Password', '', 'fa-pencil', ''],
             'admin.manageUser'        => ['Manage User', '', 'fa-user', ''],
+            'admin.manageUser.addUser'=> ['Manage User', '', 'fa-user', ''],
             'admin.manageVehicletype' => ['Manage Vehicles', 'Vehicle Type', 'fa-truck', 'fa-car'],
             'admin.manageVehicleprice' => ['Manage Vehicles', 'Vehicle Price', 'fa-truck', 'fa-money'],
             'admin.manageHoteltype'   => ['Manage Hotels', 'Hotel Type','fa-building','fa-hotel'],
+            'admin.manageSeasontype'   => ['Manage Hotels', 'Season Type','fa-building','fa-sun-o'],
             'admin.state'             => ['Location', 'State', 'fa-globe', 'fa-flag'],
             'admin.destinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
         ];

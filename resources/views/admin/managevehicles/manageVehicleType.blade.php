@@ -79,23 +79,27 @@
                                                                 <td>{{ $vehicletype->capacity }} Members</td>
                                                                 <td>
                                                                     @if ($vehicletype->status == 1)
-                                                                    <span class="status"
-                                                                        data-id="status-{{ $vehicletype->vehicleid }}">
-                                                                        <a href="javascript:void(0)"
+                                                                    <form
+                                                                        action="{{ route('admin.manageVehicletype.activeVehicleType', ['id' => $vehicletype->vehicleid]) }}"
+                                                                        method="POST"
+                                                                        onsubmit="return confirm('Are you sure you want to change the status?')">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn btn-outline-success"
                                                                             title="Active. Click to deactivate.">
-                                                                            <span
-                                                                                class="label-custom label label-success">Active</span>
-                                                                        </a>
-                                                                    </span>
+                                                                            <span class="label-custom label label-success">Active</span>
+                                                                        </button>
+                                                                    </form>
                                                                     @else
-                                                                    <span class="status"
-                                                                        data-id="status-{{ $user->adminid }}">
-                                                                        <a href="javascript:void(0)"
+                                                                    <form
+                                                                        action="{{ route('admin.manageVehicletype.activeVehicleType', ['id' => $vehicletype->vehicleid]) }}"
+                                                                        method="POST"
+                                                                        onsubmit="return confirm('Are you sure you want to change the status?')">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn btn-outline-dark"
                                                                             title="Inactive. Click to activate.">
-                                                                            <span
-                                                                                class="label-custom label label-danger">Inactive</span>
-                                                                        </a>
-                                                                    </span>
+                                                                            <span class="label-custom label label-danger">Inactive</span>
+                                                                        </button>
+                                                                    </form>
                                                                     @endif
                                                                 </td>
                                                                 <td>

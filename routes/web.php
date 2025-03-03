@@ -76,12 +76,14 @@ Route::get('/vehicle-type', [VehicleTypeController::class, 'index'])->name('admi
 Route::match(['get', 'post'], '/addVehicleType', [VehicleTypeController::class, 'addVehicleType'])->name('admin.manageVehicletype.addVehicleType');
 Route::match(['get', 'post'], '/editVehicleType/{id}', [VehicleTypeController::class, 'editVehicleType'])->name('admin.manageVehicletype.editVehicleType');
 Route::post('/deleteVehicleType/{id}', [VehicleTypeController::class, 'deleteVehicleType'])->name('admin.manageVehicletype.deleteVehicleType');
+Route::post('/activeVehicleType/{id}', [VehicleTypeController::class, 'activeVehicleType'])->name('admin.manageVehicletype.activeVehicleType');
 
 // Vehicle Price
 Route::get('/vehicle-price', [VehiclePriceController::class, 'index'])->name('admin.manageVehicleprice');
 Route::match(['get', 'post'], '/addVehiclePrice', [VehiclePriceController::class, 'addVehiclePrice'])->name('admin.manageVehicleprice.addVehiclePrice');
 Route::match(['get', 'post'], '/editVehiclePrice/{id}', [VehiclePriceController::class, 'editVehiclePrice'])->name('admin.manageVehicleprice.editVehiclePrice');
 Route::post('/deleteVehiclePrice/{id}', [VehiclePriceController::class, 'deleteVehiclePrice'])->name('admin.manageVehicleprice.deleteVehiclePrice');
+Route::post('/activeVehiclePrice/{id}', [VehiclePriceController::class, 'activeVehiclePrice'])->name('admin.manageVehicleprice.activeVehiclePrice');
 
 // Manage Vehicles
 
@@ -91,10 +93,14 @@ Route::get('/hotel-type', [HotelTypeController::class, 'index'])->name('admin.ma
 Route::match(['get', 'post'], '/addHotelType', [HotelTypeController::class, 'addHotelType'])->name('admin.manageHoteltype.addHotelType');
 Route::match(['get', 'post'], '/editHotelType/{id}', [HotelTypeController::class, 'editHotelType'])->name('admin.manageHoteltype.editHotelType');
 Route::post('/deleteHotelType/{id}', [HotelTypeController::class, 'deleteHotelType'])->name('admin.manageHoteltype.deleteHotelType');
+Route::post('/activeHotelType/{id}', [HotelTypeController::class, 'activeHotelType'])->name('admin.manageHoteltype.activeHotelType');
 
 // Season Type
-
-//Hotel
+Route::get('/season-type', [SeasonTypeController::class, 'index'])->name('admin.manageSeasontype');
+Route::match(['get', 'post'], '/addSeasonType', [SeasonTypeController::class, 'addSeasonType'])->name('admin.manageSeasontype.addSeasonType');
+Route::match(['get', 'post'], '/editSeasonType/{id}', [SeasonTypeController::class, 'editSeasonType'])->name('admin.manageSeasontype.editSeasonType');
+Route::post('/deleteSeasonType/{id}', [SeasonTypeController::class, 'deleteSeasonType'])->name('admin.manageSeasontype.deleteSeasonType');
+Route::post('/activeSeasonType/{id}', [SeasonTypeController::class, 'activeSeasonType'])->name('admin.manageSeasontype.activeSeasonType');
 
 // Manage Hotels
 

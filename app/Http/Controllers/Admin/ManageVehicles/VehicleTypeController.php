@@ -105,4 +105,33 @@ class VehicleTypeController extends Controller
         }
     }
 
+    public function activeVehicleType(Request $request, $id)
+    {
+        // Retrieve vehicle type by ID
+        $data = DB::table('tbl_vehicletypes')->select('status')->where('vehicleid', $id)->first();
+        $status=$data->status;
+        if (!$data) {
+            return back()->withErrors(['error' => 'Vehicle Type not found!']);
+        }
+
+        try {
+            // Soft delete: Update the status
+            if($status==1){
+                DB::table('tbl_vehicletypes')->where('vehicleid', $id)->update([
+                'status' => 2
+                ]);
+                return redirect()->back()->with('success', 'Vehicle type Inactive successfully!');
+            }else{
+                DB::table('tbl_vehicletypes')->where('vehicleid', $id)->update([
+                'status' => 1
+                ]);
+                return redirect()->back()->with('success', 'Vehicle type Active successfully!');
+            }            
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error Active/Inactive vehicle: ' . $e->getMessage());
+
+            return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to Active/Inactive vehicle type.']);
+        }
+    }
 }

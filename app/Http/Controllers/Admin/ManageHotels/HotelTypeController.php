@@ -109,4 +109,33 @@ class HotelTypeController extends Controller
             return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to delete Hotel Type.']);
         }
     }
+    
+    public function activeHotelType(Request $request, $id)
+    {
+        $data = DB::table('tbl_hotel_type')->select('status')->where('hotel_type_id', $id)->first();
+        $status=$data->status;
+        if (!$data) {
+            return back()->withErrors(['error' => 'Hotel type not found!']);
+        }
+
+        try {
+            // Soft delete: Update the status
+            if($status==1){
+                DB::table('tbl_hotel_type')->where('hotel_type_id', $id)->update([
+                'status' => 2
+                ]);
+                return redirect()->back()->with('success', 'Hotel type Inactive successfully!');
+            }else{
+                DB::table('tbl_hotel_type')->where('hotel_type_id', $id)->update([
+                'status' => 1
+                ]);
+                return redirect()->back()->with('success', 'Hotel type Active successfully!');
+            }            
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error Active/Inactive vehicle: ' . $e->getMessage());
+
+            return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to Active/Inactive Hotel type.']);
+        }
+    }
 }
