@@ -115,7 +115,7 @@ class VehicleTypeController extends Controller
         }
 
         try {
-            // Soft delete: Update the status
+            //  Update the status
             if($status==1){
                 DB::table('tbl_vehicletypes')->where('vehicleid', $id)->update([
                 'status' => 2

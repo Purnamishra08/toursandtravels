@@ -119,7 +119,7 @@ class SeasonTypeController extends Controller
         }
 
         try {
-            // Soft delete: Update the status
+            //  Update the status
             if($status==1){
                 DB::table('tbl_season_type')->where('season_type_id', $id)->update([
                 'status' => 2

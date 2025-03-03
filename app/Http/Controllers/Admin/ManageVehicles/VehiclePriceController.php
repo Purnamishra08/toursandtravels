@@ -128,7 +128,7 @@ class VehiclePriceController extends Controller
         }
 
         try {
-            // Soft delete: Update the status
+            //  Update the status
             if($status==1){
                 DB::table('tbl_vehicleprices')->where('priceid', $id)->update([
                 'status' => 2
