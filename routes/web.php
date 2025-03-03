@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\manageHotels\SeasonTypeController;
 use App\Http\Controllers\Admin\manageHotels\HotelController;
 use App\Http\Controllers\Admin\manageLocation\StateController;
 use App\Http\Controllers\Admin\manageLocation\DestinationTypeController;
+use App\Http\Controllers\Admin\manageMenus\CategoryController;
+use App\Http\Controllers\Admin\manageMenus\CategoryTagsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -119,3 +121,19 @@ Route::match(['get', 'post'], '/editdestination_type/{id}', [DestinationTypeCont
 Route::post('/deletedestination_type/{id}', [DestinationTypeController::class, 'deletedestination_type'])->name('admin.destinationtype.deletedestinationtype');
 Route::post('/activeDestinationType/{id}', [DestinationTypeController::class, 'activeDestinationType'])->name('admin.destinationtype.activeDestinationType');
 //Manage location
+
+//Manage Menus
+//Manage category
+Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
+Route::match(['get', 'post'], '/addcategory', [CategoryController::class, 'addcategory'])->name('admin.category.addcategory');
+Route::match(['get', 'post'], '/editcategory/{id}', [CategoryController::class, 'editcategory'])->name('admin.category.editcategory');
+Route::post('/deletecategory/{id}', [CategoryController::class, 'deletecategory'])->name('admin.category.deletecategory');
+Route::post('/activecategory/{id}', [CategoryController::class, 'activecategory'])->name('admin.category.activecategory');
+
+//Manage category tags
+Route::get('/categorytags', [CategoryTagsController::class, 'index'])->name('admin.categorytags');
+Route::match(['get', 'post'], '/addcategorytags', [CategoryTagsController::class, 'addcategorytags'])->name('admin.categorytags.addcategorytags');
+Route::match(['get', 'post'], '/editcategorytags/{id}', [CategoryTagsController::class, 'editcategorytags'])->name('admin.categorytags.editcategorytags');
+Route::post('/deletecategorytags/{id}', [CategoryTagsController::class, 'deletecategorytags'])->name('admin.categorytags.deletecategorytags');
+Route::post('/activecategorytags/{id}', [CategoryTagsController::class, 'activecategorytags'])->name('admin.categorytags.activecategorytags');
+//Manage Menus
