@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index(Request $request){
         $perPage = $request->get('perPage', 10);
-        $menus_type = DB::table('tbl_menucateories as a')
+        $menus_type = DB::table('tbl_menucategories as a')
                       ->select('a.catid', 'm.menu_name','a.cat_name', 'a.status', 'a.bit_Deleted_Flag')
                       ->leftJoin('tbl_menus as m', 'a.menuid', '=', 'm.menuid')
                       ->where('a.bit_Deleted_Flag',0)
@@ -23,7 +23,7 @@ class CategoryController extends Controller
     public function addcategory(Request $request){
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
-                'cat_name'          => 'required|string|max:255|unique:tbl_menucateories,cat_name',
+                'cat_name'          => 'required|string|max:255|unique:tbl_menucategories,cat_name',
             ]);
 
             // If validation fails
@@ -32,7 +32,7 @@ class CategoryController extends Controller
             }
             try {
                 DB::beginTransaction();
-                DB::table('tbl_menucateories')->insert([
+                DB::table('tbl_menucategories')->insert([
                     'menuid'                    => $request->menuid,
                     'cat_name'                  => $request->cat_name,
                     'status'                    => 1,
@@ -58,7 +58,7 @@ class CategoryController extends Controller
     public function editcategory(Request $request, $id)
     {
         // Fetch the destination type
-        $Category = DB::table('tbl_menucateories')
+        $Category = DB::table('tbl_menucategories')
             ->where('bit_Deleted_Flag', 0)
             ->where('catid', $id)
             ->first();
@@ -71,7 +71,7 @@ class CategoryController extends Controller
         if ($request->isMethod('post')) {
             // Validate input
             $validator = Validator::make($request->all(), [
-                'cat_name' => 'required|string|max:255|unique:tbl_menucateories,cat_name,' . $id . ',catid',
+                'cat_name' => 'required|string|max:255|unique:tbl_menucategories,cat_name,' . $id . ',catid',
             ]);
 
             if ($validator->fails()) {
@@ -82,7 +82,7 @@ class CategoryController extends Controller
                 DB::beginTransaction();
 
                 // Update Data
-                DB::table('tbl_menucateories')
+                DB::table('tbl_menucategories')
                     ->where('catid', $id)
                     ->update([
                         'menuid'                    => $request->menuid,
@@ -107,7 +107,7 @@ class CategoryController extends Controller
 
     public function deletecategory(Request $request,$id){
         // Retrieve category type by ID
-        $data = DB::table('tbl_menucateories')->where('catid', $id)->first();
+        $data = DB::table('tbl_menucategories')->where('catid', $id)->first();
 
         if (!$data) {
             return back()->withErrors(['error' => 'Category not found!']);
@@ -115,7 +115,7 @@ class CategoryController extends Controller
 
         try {
             // Soft delete: Update the bit_Deleted_Flag
-            DB::table('tbl_menucateories')->where('catid', $id)->update([
+            DB::table('tbl_menucategories')->where('catid', $id)->update([
                 'bit_Deleted_Flag' => 1
             ]);
 
@@ -130,7 +130,7 @@ class CategoryController extends Controller
 
     public function activecategory(Request $request,$id){
         // Retrieve vehicle type by ID
-        $data = DB::table('tbl_menucateories')->select('status')->where('catid', $id)->first();
+        $data = DB::table('tbl_menucategories')->select('status')->where('catid', $id)->first();
         $status=$data->status;
         if (!$data) {
             return back()->withErrors(['error' => 'Category not found!']);
@@ -139,12 +139,12 @@ class CategoryController extends Controller
         try {
             // Soft delete: Update the status
             if($status==1){
-                DB::table('tbl_menucateories')->where('catid', $id)->update([
+                DB::table('tbl_menucategories')->where('catid', $id)->update([
                 'status' => 2
                 ]);
                 return redirect()->back()->with('success', 'Category inactivated successfully!');
             }else{
-                DB::table('tbl_menucateories')->where('catid', $id)->update([
+                DB::table('tbl_menucategories')->where('catid', $id)->update([
                 'status' => 1
                 ]);
                 return redirect()->back()->with('success', 'Category Activated successfully!');

@@ -121,11 +121,11 @@
                 <div class="collapse {{ Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? 'show' : '' }}"
                     id="menus" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link {{ $currentRoute == 'admin.category' ? 'active' : ''}}"
+                        <a class="nav-link {{ $currentRoute == 'admin.category' || $currentRoute == 'admin.category.addcategory' || $currentRoute == 'admin.category.editcategory'  ? 'active' : ''}}"
                             href="{{ route('admin.category') }}">
                             <i class="fa fa-gg mt-1 me-2"></i> Category
                         </a>
-                         <a class="nav-link {{ $currentRoute == 'admin.categorytags' ? 'active' : '' }}"
+                         <a class="nav-link {{ $currentRoute == 'admin.categorytags' || $currentRoute == 'admin.categorytags.addcategorytags' ||$currentRoute == 'admin.categorytags.editcategorytags' ? 'active' : '' }}"
                             href="{{ route('admin.categorytags') }}">
                             <i class="fa fa-tag mt-1 me-2"></i> Category Tags
                         </a>
