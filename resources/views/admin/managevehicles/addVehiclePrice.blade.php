@@ -73,8 +73,15 @@
                                                                 <label class="control-label">Destination <span class="manadatory">*</span></label>
                                                                 <select class="form-select" id="destinationid" name="destinationid" >
                                                                     <option value="">--Select Destination--</option>
-                                                                    <option value="1">Delhi </option>
-                                                                    <option value="2">Jaipur</option>
+                                                                    @forelse($destinations as $destination)
+                                                                    <option value="{{ $destination->destination_id }}" 
+                                                                    {{ old('destinationid')==$destination->destination_id ? 'selected' : '' }}>
+                                                                        {{ $destination->destination_name }}
+                                                                    </option>
+                                                                    @empty
+                                                                    <option value="" disabled>No destination available
+                                                                    </option>
+                                                                    @endforelse
                                                                 </select>
                                                             </div>
                                                         </div>

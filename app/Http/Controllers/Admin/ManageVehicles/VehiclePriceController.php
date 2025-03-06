@@ -10,8 +10,9 @@ class VehiclePriceController extends Controller
     public function index()
     {
         $data = DB::table('tbl_vehicleprices as a')
-                ->join('tbl_vehicletypes as b', 'a.vehicle_name', '=', 'b.vehicleid') // Join to get vehicle name
-                ->select('b.vehicle_name','a.priceid','a.destination','a.price','a.status') // Select required columns
+                ->leftjoin('tbl_vehicletypes as b', 'a.vehicle_name', '=', 'b.vehicleid') // Join to get vehicle name
+                ->leftjoin('tbl_destination as c', 'c.destination_id', '=', 'a.destination') // Join to get destination name
+                ->select('b.vehicle_name','a.priceid','c.destination_id','c.destination_name','a.price','a.status') // Select required columns
                 ->where('a.bit_Deleted_Flag', 0)
                 ->paginate(10);
         return view('admin.managevehicles.manageVehiclePrice', ['vehiclePrices' => $data]);
@@ -20,6 +21,7 @@ class VehiclePriceController extends Controller
     public function addVehiclePrice(Request $request)
     {
         $vehicleTypes=DB::table('tbl_vehicletypes')->select('vehicleid','vehicle_name')->where('bit_Deleted_Flag', 0)->get();
+        $destination=DB::table('tbl_destination')->select('destination_id','destination_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->get();
         if ($request->isMethod('post')) {
             // Validate the request
             $request->validate([
@@ -46,14 +48,14 @@ class VehiclePriceController extends Controller
             }
         }
 
-        return view('admin.managevehicles.addVehiclePrice',['vehicleTypes'=>$vehicleTypes]);
+        return view('admin.managevehicles.addVehiclePrice',['vehicleTypes'=>$vehicleTypes,'destinations'=>$destination]);
     }
 
     public function editVehiclePrice(Request $request, $id)
     {
         // Retrieve vehicle price by ID
         $data = DB::table('tbl_vehicleprices')->where('priceid', $id)->first();
-
+        $destination=DB::table('tbl_destination')->select('destination_id','destination_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->get();
         if (!$data) {
             return back()->withErrors(['error' => 'Vehicle Price not found!']);
         }
@@ -89,7 +91,8 @@ class VehiclePriceController extends Controller
         // Show edit form with existing data
         return view('admin.managevehicles.editVehiclePrice', [
             'vehiclePrice' => $data, 
-            'vehicleTypes' => $vehicleTypes
+            'vehicleTypes' => $vehicleTypes,
+            'destinations' => $destination
         ]);
     }
 

@@ -47,16 +47,16 @@
                 </div>
 
                 
-                <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype']) ? '' : 'collapsed' }}"
+                <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotel']) ? '' : 'collapsed' }}"
                     href="#" data-bs-toggle="collapse" data-bs-target="#manageHotels"
-                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype']) ? 'true' : 'false' }}"
+                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotel']) ? 'true' : 'false' }}"
                     aria-controls="manageHotels">
                     <div class="sb-nav-link-icon"><i class="fa fa-building"></i></div>
                     Manage Hotels
                     <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
                 </a>
 
-                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype']) ? 'show' : '' }}"
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype', 'admin.manageHotel']) ? 'show' : '' }}"
                     id="manageHotels" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link {{ Str::startsWith($currentRoute, 'admin.manageHoteltype') ? 'active' : '' }}"
@@ -66,6 +66,10 @@
                         <a class="nav-link {{ Str::startsWith($currentRoute, 'admin.manageSeasontype') ? 'active' : '' }}"
                             href="{{ route('admin.manageSeasontype') }}">
                             <i class="fa fa-sun-o mt-1 me-2"></i> Season Type
+                        </a>
+                        <a class="nav-link {{ Str::startsWith($currentRoute, 'admin.manageHotel') ? 'active' : '' }}"
+                            href="{{ route('admin.manageHotel') }}">
+                            <i class="fa fa-hotel mt-1 me-2"></i> Hotel
                         </a>
                         <!-- <a class="nav-link {{ request()->routeIs('admin.manageVehicleprice*') ? 'active' : '' }}"
                             href="">
