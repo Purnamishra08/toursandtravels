@@ -35,15 +35,7 @@
                     <input  type="password" id="password" class="form-control" name="password" id="password">                    
                         <i class="toggle-password bi bi-eye-slash icon-input-right"></i>                    
                 </div>
-                <div class="captcha-inputs">
-                        <input class="form-control" type="text" id="captcha-input" placeholder="Enter Captcha">
-                        <div class="icon-input-control">
-                            <input class="form-control captcha-control" type="text" id="captcha-text" disabled>
-                            <span class="icon-input-right" onclick="generateCaptcha()">
-                                <i class="fa fa-refresh"></i>
-                            </span>
-                        </div>
-                </div>
+                <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_SITE_KEY') }}"></div>
                 <div class="form-btns">
                     <button class="login-btn" type="submit">Login</button>
                     <!-- <a href="index.php" class="login-btn">Login</a> -->
@@ -54,6 +46,7 @@
             <footer>Copyright &copy; 2025 Tours and Travel, All Right Reserved</footer>
         </div>
     </main>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="{{ asset('assets/js/validation.js') }}"></script>
 <script type="text/javascript"> 
     function validator(){

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 
 class LoginController extends Controller
 {
@@ -21,7 +22,21 @@ class LoginController extends Controller
         $request->validate([
             'email_id' => 'required|email',
             'password' => 'required|min:6',
+            'g-recaptcha-response' => 'required'
+        ],[
+            'g-recaptcha-response.required' => 'Please verify that you are not a robot.'
         ]);
+
+        // Verify Google reCAPTCHA
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => env('GOOGLE_RECAPTCHA_SECRET_KEY'),
+            'response' => $request->input('g-recaptcha-response'),
+        ]);
+        $result = json_decode($response->body());
+
+        if (!$result->success) {
+            return back()->withErrors(['g-recaptcha-response' => 'reCAPTCHA verification failed. Please try again.']);
+        }
 
         $credentials = [
             'email_id' => $request->email_id,
