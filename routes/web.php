@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\manageHotels\SeasonTypeController;
 use App\Http\Controllers\Admin\manageHotels\HotelController;
 use App\Http\Controllers\Admin\manageLocation\StateController;
 use App\Http\Controllers\Admin\manageLocation\DestinationTypeController;
+use App\Http\Controllers\Admin\manageLocation\DestinationController;
 use App\Http\Controllers\Admin\manageMenus\CategoryController;
 use App\Http\Controllers\Admin\manageMenus\CategoryTagsController;
 use Illuminate\Support\Facades\Route;
@@ -124,6 +125,10 @@ Route::match(['get', 'post'], '/adddestination_type', [DestinationTypeController
 Route::match(['get', 'post'], '/editdestination_type/{id}', [DestinationTypeController::class, 'editdestination_type'])->name('admin.destinationtype.editdestinationtype');
 Route::post('/deletedestination_type/{id}', [DestinationTypeController::class, 'deletedestination_type'])->name('admin.destinationtype.deletedestinationtype');
 Route::post('/activeDestinationType/{id}', [DestinationTypeController::class, 'activeDestinationType'])->name('admin.destinationtype.activeDestinationType');
+//Destination
+Route::get('/destination', [DestinationController::class, 'index'])->name('admin.destination');
+Route::match(['get', 'post'], '/adddestination', [DestinationController::class, 'adddestination'])->name('admin.destination.adddestination');
+
 //Manage location
 
 //Manage Menus
