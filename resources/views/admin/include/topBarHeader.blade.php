@@ -18,6 +18,14 @@
             'admin.manageHotel'   => ['Manage Hotels', 'Hotel','fa-building','fa-hotel'],
             'admin.state'             => ['Location', 'State', 'fa-globe', 'fa-flag'],
             'admin.destinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
+            'admin.destinationtype.adddestinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
+            'admin.destinationtype.editdestinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
+            'admin.category'   => ['Menus', 'Category', 'fa fa-th-list', 'fa fa-gg'],
+            'admin.category.addcategory'   => ['Menus', 'Category', 'fa fa-th-list', 'fa fa-gg'],
+            'admin.category.editcategory'   => ['Menus', 'Category', 'fa fa-th-list', 'fa fa-gg'],
+            'admin.categorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
+            'admin.categorytags.addcategorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
+            'admin.categorytags.editcategorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '', 'fa-line-chart', ''];

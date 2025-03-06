@@ -47,7 +47,7 @@
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 form-group">
-                                            <label>State Name</label>
+                                            <label>Destination Type</label>
                                             <input type="text" class="form-control" placeholder="Enter destination type" name="destinationtype" id="destinationtype" 
                                                 value="{{ old('destinationtype', $destinationtype->destination_type_name ?? '') }}">
                                         </div>

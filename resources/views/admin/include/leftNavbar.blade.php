@@ -81,24 +81,24 @@
                         </a> -->
                     </nav>
                 </div>
-
-                <a class="nav-link dropdown {{ request()->routeIs('admin.manageVehicletype') || request()->routeIs('admin.manageVehicleprice*') ? '' : 'collapsed' }}"
+               
+                <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.state','admin.destinationtype']) ? '' : 'collapsed' }}"
                     href="#" data-bs-toggle="collapse" data-bs-target="#locations"
-                    aria-expanded="{{ request()->routeIs('admin.manageVehicletype') || request()->routeIs('admin.manageVehicleprice*') ? 'true' : 'false' }}"
+                    aria-expanded="{{  Str::startsWith($currentRoute, ['admin.state','admin.destinationtype']) ? 'true' : 'false' }}"
                     aria-controls="locations">
                     <div class="sb-nav-link-icon"><i class="fa fa-globe"></i></div>
                     Location
                     <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
                 </a>
 
-                <div class="collapse {{ request()->routeIs('admin.state') || request()->routeIs('admin.state*') || request()->routeIs('admin.destinationtype') || request()->routeIs('admin.destinationtype*') ? 'show' : '' }}"
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.state','admin.destinationtype']) ? 'show' : '' }}"
                     id="locations" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link {{ request()->routeIs('admin.state') ? 'active' : '' }}"
+                        <!-- <a class="nav-link {{  Str::startsWith($currentRoute, ['admin.state']) ? 'active' : '' }}"
                             href="{{ route('admin.state') }}">
                             <i class="fa fa-flag mt-1 me-2"></i> State
-                        </a>
-                        <a class="nav-link {{ request()->routeIs('admin.destinationtype') ? 'active' : '' }}"
+                        </a> -->
+                        <a class="nav-link {{  Str::startsWith($currentRoute, ['admin.destinationtype']) ? 'active' : '' }}"
                             href="{{ route('admin.destinationtype') }}">
                             <i class="fa fa-map-marker mt-1 me-2"></i> Destination Type
                         </a>
@@ -109,6 +109,29 @@
                         <a class="nav-link {{ request()->routeIs('') ? 'active' : '' }}"
                             href="">
                             <i class="fa fa fa-bookmark mt-1 me-2"></i> Places
+                        </a>
+                    </nav>
+                </div>
+                
+                <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? '' : 'collapsed' }}"
+                    href="#" data-bs-toggle="collapse" data-bs-target="#menus"
+                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? 'true' : 'false' }}"
+                    aria-controls="menus">
+                    <div class="sb-nav-link-icon"><i class="fa fa-th-list"></i></div>
+                    Menus
+                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                </a>
+
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? 'show' : '' }}"
+                    id="menus" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link {{ $currentRoute == 'admin.category' || $currentRoute == 'admin.category.addcategory' || $currentRoute == 'admin.category.editcategory'  ? 'active' : ''}}"
+                            href="{{ route('admin.category') }}">
+                            <i class="fa fa-gg mt-1 me-2"></i> Category
+                        </a>
+                         <a class="nav-link {{ $currentRoute == 'admin.categorytags' || $currentRoute == 'admin.categorytags.addcategorytags' ||$currentRoute == 'admin.categorytags.editcategorytags' ? 'active' : '' }}"
+                            href="{{ route('admin.categorytags') }}">
+                            <i class="fa fa-tag mt-1 me-2"></i> Category Tags
                         </a>
                     </nav>
                 </div>

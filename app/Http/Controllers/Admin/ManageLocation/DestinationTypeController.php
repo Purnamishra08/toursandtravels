@@ -117,4 +117,33 @@ class DestinationTypeController extends Controller
             return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to delete Destination type.']);
         }
     }
+
+    public function activeDestinationType(Request $request,$id){
+        // Retrieve vehicle type by ID
+        $data = DB::table('tbl_destination_type')->select('status')->where('destination_type_id', $id)->first();
+        $status=$data->status;
+        if (!$data) {
+            return back()->withErrors(['error' => 'Destination type not found!']);
+        }
+
+        try {
+            // Soft delete: Update the status
+            if($status==1){
+                DB::table('tbl_destination_type')->where('destination_type_id', $id)->update([
+                'status' => 2
+                ]);
+                return redirect()->back()->with('success', 'Destination type inactivated successfully!');
+            }else{
+                DB::table('tbl_destination_type')->where('destination_type_id', $id)->update([
+                'status' => 1
+                ]);
+                return redirect()->back()->with('success', 'Destination type Activated successfully!');
+            }            
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error Active/Inactive Destination type: ' . $e->getMessage());
+
+            return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to Active/Inactive Destination type.']);
+        }
+    }
 }

@@ -321,3 +321,18 @@ function onlyNumeric(controlId,msg)
     else
         return true;
 }
+
+function validateFilePresence(controlId, msg) {
+    var fileInput = document.getElementById(controlId);
+    var file = fileInput.files[0];
+
+    if (!file) {
+        Swal.fire({
+            icon: "error",
+            text: msg,
+            confirmButtonColor: "#d33",
+        });
+        return false;
+    }
+    return true;
+}
