@@ -162,3 +162,59 @@ CREATE TABLE `tbl_destination` (
   PRIMARY KEY (`destination_id`)
 );
 #ManageLocation
+
+
+
+#Menus
+CREATE TABLE `tbl_menus` (
+  `menuid` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_name` varchar(200) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`menuid`),
+  KEY `continent_id` (`menu_name`)
+);
+CREATE TABLE `tbl_menutags` (
+  `tagid` int(11) NOT NULL AUTO_INCREMENT,
+  `menuid` int(11) DEFAULT NULL,
+  `cat_id` int(11) DEFAULT NULL,
+  `tag_name` varchar(200) DEFAULT NULL,
+  `about_tag` text DEFAULT NULL,
+  `tag_url` varchar(200) DEFAULT NULL,
+  `menutag_img` varchar(200) DEFAULT NULL,
+  `menutagthumb_img` varchar(200) DEFAULT NULL,
+  `alttag_banner` varchar(64) DEFAULT NULL,
+  `alttag_thumb` varchar(64) DEFAULT NULL,
+  `show_on_home` tinyint(4) DEFAULT NULL COMMENT '1= show',
+  `show_on_footer` tinyint(4) DEFAULT NULL COMMENT '1= show',
+  `meta_title` text DEFAULT NULL,
+  `meta_keywords` text DEFAULT NULL,
+  `meta_description` text DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`tagid`),
+  KEY `continent_id` (`cat_id`),
+  KEY `INX_TBL_MENUTAGS 2024-05-25 11:08` (`tag_url`)
+);
+CREATE TABLE `tbl_menucategories` (
+  `catid` int(11) NOT NULL AUTO_INCREMENT,
+  `menuid` int(11) DEFAULT NULL,
+  `cat_name` varchar(200) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT 0,
+  `updated_by` int(11) DEFAULT 0,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`catid`),
+  KEY `continent_id` (`cat_name`)
+);
+#Menus
+
+
+
