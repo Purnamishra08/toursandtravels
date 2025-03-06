@@ -231,3 +231,93 @@ function maxLength(controlId, ctrlLen, fieldName)
     }
     return true;
 }
+
+/* Start - Add and/or Delete Row in jQuery */
+$(document.body).on('click', '.addrowbtn', function () {
+	var rowindex = $(this).closest("tr")[0].rowIndex;
+	var clone = $("#addRowTable tr:last").clone();
+	var i = $("#addRowTable > tbody > tr").length;
+
+	a = new Array();
+	$('a[name="del[]"]').each(function () {
+		var thisidsplt = this.id.split("_");
+		a.push(thisidsplt[1]);
+	});
+	if (!(i >= 1)) { a.push(-1); }
+	var max_of_array = Math.max.apply(null, a);
+	i = parseInt(max_of_array) + 1;
+
+	clone.find("td").each(function () {
+		$(this).find('input, select, img, a').each(function () {
+			var id = $(this).attr('id') || null;
+			if (id) {
+				var alsplt = id.split("_");
+				var prefix = alsplt[0];
+
+				$(this).attr('id', prefix + '_' + (+i));
+
+				//if((prefix == "taxname") || (prefix == "cdepartment") || (prefix == "cdesignation")) { $(this).val('0'); }
+				//else if(prefix == "taxtype") { }
+				//else { $(this).val(''); }
+				$(this).val('');
+
+				$(this).removeAttr('value');
+				$(this).removeAttr("disabled");
+
+				/* Start-Rename the error elements */
+				clone.find("td").find('label').each(function () {
+					if ($(this).attr('for') === id) {
+						$(this).attr('for', prefix + '_' + (+t));
+						$(this).html("");
+					}
+				});
+				/* End-Rename the error elements */
+			}
+		});
+	});
+	$("#addRowTable tr:eq(" + rowindex + ")").after(clone);
+	//$("#addRowTable").append(clone);
+});
+
+$(document.body).on('click', '.delrowbtn', function () {
+	var getid = $(this).attr('id');
+	var j = $("#addRowTable > tbody > tr").length;
+	if (j <= 1) {
+		alert("There should be at least one row");
+	}
+	else {
+		var cnf = confirm("Are you sure to delete the row ?");
+		if (cnf) {
+			$("#" + getid).closest('tr').remove();
+		}
+	}
+});
+
+
+/* End - Add and/or Delete Row in jQuery */
+
+
+//============ Function to check field value is only numeric with custom message ===============
+function onlyNumeric(controlId,msg)
+{
+    var numPattern = new RegExp(/^\d+$/);
+    var txtVal = $('#' + controlId).val();
+    
+    if (txtVal != '')
+    {
+        if (numPattern.test(txtVal) == true)
+            return true;
+        else
+        {
+            Swal.fire({
+                icon: "error",
+                text: msg,
+                confirmButtonColor: "#d33",
+            });
+            $('#' + controlId).focus();
+            return false;
+        }
+    }
+    else
+        return true;
+}

@@ -33,15 +33,7 @@
         								</svg>
         								View
         							</a>
-        							<!-- table-utilities -->
-        							<div class="table-utilities">
-        								<!-- <strong class="manadatory me-1">*</strong>Indicates Mandatory -->
-        							</div>
-        							<!-- table-utilities end-->
         						</nav>
-                            <!-- <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item active">Manage Vehicles</li>
-                            </ol> -->
                             @include('Admin.include.sweetaleart')
                             <section class="content">
                                 <div class="row">
@@ -77,7 +69,7 @@
                                                                 <td>{{ ($vehiclePrices->currentPage() - 1) *
                                                                     $vehiclePrices->perPage() + $loop->iteration }}</td>
                                                                 <td>{{ $vehiclePrice->vehicle_name }}</td>
-                                                                <td>{{ $vehiclePrice->destination }}</td>
+                                                                <td>{{ $vehiclePrice->destination_name }}</td>
                                                                 <td>{{ $vehiclePrice->price }}</td>
                                                                 <td>
                                                                     @if ($vehiclePrice->status == 1)

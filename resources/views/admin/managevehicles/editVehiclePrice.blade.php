@@ -70,8 +70,13 @@
                                                                 <label class="control-label">Destination <span class="manadatory">*</span></label>
                                                                 <select class="form-select" id="destinationid" name="destinationid">
                                                                     <option value="">--Select Destination--</option>
-                                                                    <option value="1" {{ $vehiclePrice->destination == 1 ? 'selected' : '' }}>Delhi</option>
-                                                                    <option value="2" {{ $vehiclePrice->destination == 2 ? 'selected' : '' }}>Jaipur</option>
+                                                                    @foreach($destinations as $destination)
+                                                                        <option value="{{ $destination->destination_id }}" 
+                                                                            {{ $vehiclePrice->destination == $destination->destination_id ? 'selected' : '' }}>
+                                                                            {{ $destination->destination_name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                    
                                                                 </select>
                                                             </div>
                                                         </div>

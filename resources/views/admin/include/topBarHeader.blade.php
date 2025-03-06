@@ -15,6 +15,7 @@
             'admin.manageVehicleprice' => ['Manage Vehicles', 'Vehicle Price', 'fa-truck', 'fa-money'],
             'admin.manageHoteltype'   => ['Manage Hotels', 'Hotel Type','fa-building','fa-hotel'],
             'admin.manageSeasontype'   => ['Manage Hotels', 'Season Type','fa-building','fa-sun-o'],
+            'admin.manageHotel'   => ['Manage Hotels', 'Hotel','fa-building','fa-hotel'],
             'admin.state'             => ['Location', 'State', 'fa-globe', 'fa-flag'],
             'admin.destinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
         ];
