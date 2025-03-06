@@ -31,15 +31,7 @@
                         <i class="bi bi-envelope"></i>
                     </span>
                 </div>
-                <div class="captcha-inputs">
-                    <input class="form-control" type="text" placeholder="Enter Captcha">
-                    <div class="icon-input-control">
-                        <input class="form-control captcha-control" type="text" value="123sd4" disabled>
-                        <span class="icon-input-right">
-                            <i class="fa fa-refresh"></i>
-                        </span>
-                    </div>
-                </div>
+                <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_SITE_KEY') }}"></div>
                 <div class="form-btns">
                     <a href="login.html" class="login-btn">Submit</a>
                     <a href="{{ route('admin.login') }}" class="forgot-link">Back to Login</a>
@@ -48,7 +40,7 @@
             <footer>Copyright &copy; 2025 Tours and Travel, All Right Reserved</footer>
         </div>
     </main>
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 
 </html>

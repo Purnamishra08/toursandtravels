@@ -54,30 +54,7 @@
             return false;
         if(!blankCheck('password','Password cannot be blank'))
             return false;
-        let inputCaptcha = document.getElementById("captcha-input").value.trim();
-        let generatedCaptcha = document.getElementById("captcha-text").value.trim();
-        if (inputCaptcha === "") {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Please fill Captcha and try again.',
-                });
-            generateCaptcha();
-            return false;
-        }
-        if(inputCaptcha !== generatedCaptcha){
-            Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Incorrect Captcha! Please try again.',
-                });
-            generateCaptcha();
-            return false;
-        }
     }
-    $(document).ready(function() {
-        generateCaptcha();
-    });
     $(".toggle-password").click(function() {
         $(this).toggleClass("bi-eye bi-eye-slash");
          input = $(this).parent().find("input");
@@ -87,29 +64,6 @@
             input.attr("type", "password");
         }
     });
-    function generateCaptcha() {
-        let chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        let captcha = "";
-        for (let i = 0; i < 6; i++) {
-            captcha += chars[Math.floor(Math.random() * chars.length)];
-        }
-        document.getElementById("captcha-text").value = captcha;
-    }
-
-    function validateCaptcha() {
-        let inputCaptcha = document.getElementById("captcha-input").value.trim();
-        let generatedCaptcha = document.getElementById("captcha-text").value.trim();
-        if (inputCaptcha === "" || inputCaptcha !== generatedCaptcha) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Incorrect Captcha! Please try again.',
-                });
-            generateCaptcha();
-            return false;
-        }
-        return true;
-    }
 </script>
 
 </body>

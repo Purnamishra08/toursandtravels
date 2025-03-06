@@ -19,9 +19,9 @@
                         <div class="inner-layout">
                             <div class="container-fluid px-4 pt-3">
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item active">Dashboard</li>
+                                    <li class="breadcrumb-item active">Welcome to Tours and Travels</li>
                                 </ol>
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-xl-3 col-sm-6 col-12 mb-4">
                                         <div class="card">
                                             <div class="card-content">
@@ -130,10 +130,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card mb-4">
+                                </div> -->
+                                <!-- <div class="card mb-4">
                                     <div class="card-header">
-                                        <!-- <i class="fas fa-table me-1"></i> -->
+                                        <i class="fas fa-table me-1"></i>
                                         DataTable Example
                                     </div>
                                     <div class="card-body">
@@ -217,7 +217,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </main>
