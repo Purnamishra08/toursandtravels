@@ -122,9 +122,13 @@
                     <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
                 </a>
 
-                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? 'show' : '' }}"
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags', 'admin.menutag']) ? 'show' : '' }}"
                     id="menus" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link {{ $currentRoute == 'admin.menutag' || $currentRoute == 'admin.category.addmenutag' || $currentRoute == 'admin.category.editmenutag'  ? 'active' : ''}}"
+                            href="{{ route('admin.menutag') }}">
+                            <i class="fa fa-th-list mt-1 me-2"></i> Menu Tags
+                        </a>
                         <a class="nav-link {{ $currentRoute == 'admin.category' || $currentRoute == 'admin.category.addcategory' || $currentRoute == 'admin.category.editcategory'  ? 'active' : ''}}"
                             href="{{ route('admin.category') }}">
                             <i class="fa fa-gg mt-1 me-2"></i> Category

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\manageHotels\HotelController;
 use App\Http\Controllers\Admin\manageLocation\StateController;
 use App\Http\Controllers\Admin\manageLocation\DestinationTypeController;
 use App\Http\Controllers\Admin\manageLocation\DestinationController;
+use App\Http\Controllers\Admin\manageMenus\MenutagController;
 use App\Http\Controllers\Admin\manageMenus\CategoryController;
 use App\Http\Controllers\Admin\manageMenus\CategoryTagsController;
 use Illuminate\Support\Facades\Route;
@@ -127,6 +128,12 @@ Route::middleware('auth')->group(function () {
     //Manage location
 
     //Manage Menus
+    //manage menu tag
+    Route::get('/menutag', [MenutagController::class, 'index'])->name('admin.menutag');
+    Route::match(['get', 'post'], '/addmenutag', [MenutagController::class, 'addmenutag'])->name('admin.category.addmenutag');
+    Route::match(['get', 'post'], '/editmenutag/{id}', [MenutagController::class, 'editmenutag'])->name('admin.category.editmenutag');
+    Route::post('/deletemenutag/{id}', [MenutagController::class, 'deletemenutag'])->name('admin.category.deletemenutag');
+    Route::post('/activemenutag/{id}', [MenutagController::class, 'activemenutag'])->name('admin.category.activemenutag');
     //Manage category
     Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
     Route::match(['get', 'post'], '/addcategory', [CategoryController::class, 'addcategory'])->name('admin.category.addcategory');

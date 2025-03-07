@@ -100,8 +100,15 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Banner Image</label>
-                                                                <input name="destiimg" id="destiimg" type="file">
+                                                                <input name="destiimg" id="destiimg" type="file" onchange="previewImage(event, 'banner_preview')">
                                                                 <span>Image size should be 2000px X 350px</span>
+                                                                <div id="banner_preview" style="margin-top: 10px;">
+                                                                    <img id="bannerPreview" 
+                                                                    src="{{ isset($Categorytags->menutag_img) ? asset('storage/category_tags_images/'.$Categorytags->menutag_img) : '' }}" 
+                                                                    alt="Banner Preview" 
+                                                                    class="img-fluid rounded border" 
+                                                                    style="max-width: 300px; display: {{ isset($Categorytags->menutag_img) ? 'block' : 'none' }};">
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -109,8 +116,15 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Destination Image</label>
-                                                                <input name="destismallimg" id="destismallimg" type="file">
+                                                                <input name="destismallimg" id="destismallimg" type="file" onchange="previewImage(event, 'banner_preview')">
                                                                 <span>Image size should be 300px X 225px</span>
+                                                                <div id="banner_preview" style="margin-top: 10px;">
+                                                                    <img id="bannerPreview" 
+                                                                    src="{{ isset($Categorytags->menutag_img) ? asset('storage/category_tags_images/'.$Categorytags->menutag_img) : '' }}" 
+                                                                    alt="Banner Preview" 
+                                                                    class="img-fluid rounded border" 
+                                                                    style="max-width: 300px; display: {{ isset($Categorytags->menutag_img) ? 'block' : 'none' }};">
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -394,8 +408,8 @@
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-6">
                                                     <div class="reset-button">
-                                                        <button type="submit" class="btn redbtn" name="btnSubmit" id="btnSubmit">Save</button>
-                                                        <button name='reset' type="reset" value='Reset' class="btn blackbtn">Reset</button>
+                                                        <button type="submit" class="btn btn-primary" name="btnSubmit" id="btnSubmit">Save</button>
+                                                        <button name='reset' type="reset" value='Reset' class="btn btn-secondary">Reset</button>
                                                     </div>
                                                 </div>
                                             </xform>
@@ -431,8 +445,8 @@
             };
         });
         
-        $(document.body).on('keyup change', '#tag_name', function() {
-			$("#tag_url").val(name_to_url($(this).val()));
+        $(document.body).on('keyup change', '#destination_name', function() {
+			$("#destination_url").val(name_to_url($(this).val()));
 		});
 		function name_to_url(name) {
 			name = name.toLowerCase(); // lowercase
@@ -450,9 +464,9 @@
             reader.readAsDataURL(event.target.files[0]);
         }
         function validator() {
-            if(!blankCheck('tag_name', 'Tag name cannot be blank'))
+            if(!blankCheck('destination_name', 'Tag name cannot be blank'))
                 return false;
-            if(!blankCheck('tag_url', 'Tag name cannot be blank'))
+            if(!blankCheck('destination_url', 'Tag name cannot be blank'))
                 return false;
             if(!selectDropdown('menuid', 'Menu is required'))
                 return false;
