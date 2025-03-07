@@ -417,7 +417,7 @@
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
     <script src="{{ asset('assets/js/validation.js') }}"></script>
-    <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>   
+    <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
     <!-- JavaScript for Image Preview -->
     <script>
          document.addEventListener("DOMContentLoaded", function () {

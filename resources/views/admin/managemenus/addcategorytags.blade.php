@@ -225,8 +225,18 @@
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
     <script src="{{ asset('assets/js/validation.js') }}"></script>
+    <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
     <!-- JavaScript for Image Preview -->
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            CKEDITOR.replace('about_tag');
+            const originalWarn = console.warn;
+            console.warn = function (message) {
+                if (!message.includes("This CKEditor 4.22.1 (Standard) version is not secure")) {
+                    originalWarn.apply(console, arguments);
+                }
+            };
+        });
         $(document).ready(function() {
             var menuId = '{{isset($Categorytags->menuid) ? $Categorytags->menuid : 0 }}'; // Assuming this is a valid variable with a menuid
             getCategory({ value: menuId });
