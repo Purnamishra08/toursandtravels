@@ -45,15 +45,15 @@
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0 align-items-center">
         <li class="nav-item dropdown">
-            <a class="nav-link user-bell dropdown-toggle d-flex" href="#" id="navbarDropdownMenuLink"
+            <!-- <a class="nav-link user-bell dropdown-toggle d-flex" href="#" id="navbarDropdownMenuLink"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-bell"></i>
                 <div class="notify">
                     <div class="point"><span class="heartbit "></span></div>
                 </div>
-            </a>
+            </a> -->
 
-            <div class="dropdown-menu animated-box notification__list dropdown-menu-end"
+            <!-- <div class="dropdown-menu animated-box notification__list dropdown-menu-end"
                 aria-labelledby="navbarDropdownMenuLink">
                 <div class="notification__header">
                     <h5>Notification</h5><button class="view-all">View All</button>
@@ -105,7 +105,7 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
 
         </li>
 

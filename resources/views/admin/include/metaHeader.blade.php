@@ -26,5 +26,8 @@
         <link href="{{asset('assets/css/colors.min.css')}}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript">
+            var base_url = "<?php echo env('APP_URL'); ?>";
+        </script>
     </head>
 

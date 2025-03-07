@@ -91,7 +91,7 @@
                     <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
                 </a>
 
-                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.state','admin.destinationtype']) ? 'show' : '' }}"
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.state','admin.destinationtype','admin.destination']) ? 'show' : '' }}"
                     id="locations" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <!-- <a class="nav-link {{  Str::startsWith($currentRoute, ['admin.state']) ? 'active' : '' }}"
@@ -102,8 +102,8 @@
                             href="{{ route('admin.destinationtype') }}">
                             <i class="fa fa-map-marker mt-1 me-2"></i> Destination Type
                         </a>
-                        <a class="nav-link {{ request()->routeIs('') ? 'active' : '' }}"
-                            href="">
+                        <a class="nav-link {{  Str::startsWith($currentRoute, ['admin.destination']) ? 'active' : '' }}"
+                            href="{{ route('admin.destination') }}">
                             <i class="fa fa-map-marker mt-1 me-2"></i> Destinations
                         </a>
                         <a class="nav-link {{ request()->routeIs('') ? 'active' : '' }}"
