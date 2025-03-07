@@ -48,7 +48,7 @@ Route::get('/optimize', function() {
         'results' => $output
     ]);
 });
-
+Route::view('/website', 'website.index');
 Route::get('/admin/login', [LoginController::class, 'index'])->name('admin.login');
 Route::post('/admin/login', [LoginController::class, 'login'])->name('admin.processLogin');
 Route::get('/admin/forgot-password', [LoginController::class, 'forgotPassword'])->name('admin.forgot-password');
