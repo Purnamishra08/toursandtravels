@@ -146,7 +146,7 @@ class HotelController extends Controller
         ]);
     }
 
-     public function activeHotel(Request $request, $id)
+    public function activeHotel(Request $request, $id)
     {
         $data = DB::table('tbl_hotel')->select('status')->where('hotel_id', $id)->first();
         $status=$data->status;
@@ -173,6 +173,46 @@ class HotelController extends Controller
 
             return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to Active/Inactive Hotel.']);
         }
+    }
+
+    public function viewHotel(Request $request, $id)
+    {
+        // Fetch hotel details (excluding seasons for now)
+        $data = DB::table('tbl_hotel as a')
+            ->join('tbl_destination as b', 'a.destination_name', '=', 'b.destination_id')
+            ->join('tbl_hotel_type as c', 'a.hotel_type', '=', 'c.hotel_type_id')
+            ->where('a.bit_Deleted_Flag', 0)
+            ->select(
+                'a.hotel_id', 
+                'a.hotel_name', 
+                'a.destination_name as destId', 
+                'a.hotel_type as hotelId', 
+                'a.default_price', 
+                'a.room_type', 
+                'a.trip_advisor_url', 
+                'a.star_rating', 
+                'a.status', 
+                'b.destination_name', 
+                'c.hotel_type_name'
+            )
+            ->first(); // Since you're fetching one hotel
+
+        if ($data) {
+            // Fetch related seasons for this hotel
+            $seasons = DB::table('tbl_season as a')
+                ->join('tbl_season_type as b', 'a.season_type', '=', 'b.season_type_id')
+                ->where('hotel_id', $data->hotel_id)
+                ->select('a.season_id','a.season_type','b.season_type_name','a.sesonstart_month','a.sesonend_month','a.sesonstart_day','a.sesonend_day','a.adult_price','a.couple_price','a.kid_price','a.adult_extra',)
+                ->get();
+
+            // Add seasons as an array to the hotel object
+            $data->seasons = $seasons;
+        }
+
+        // dd($data);
+
+
+    return view('admin.managehotels.viewHotel', ['hotels' => $data]);
     }
 
 

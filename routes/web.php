@@ -106,6 +106,7 @@ Route::post('/activeSeasonType/{id}', [SeasonTypeController::class, 'activeSeaso
 Route::get('/hotel', [HotelController::class, 'index'])->name('admin.manageHotel');
 Route::match(['get', 'post'], '/addHotel', [HotelController::class, 'addHotel'])->name('admin.manageHotel.addHotel');
 Route::match(['get', 'post'], '/editHotel/{id}', [HotelController::class, 'editHotel'])->name('admin.manageHotel.editHotel');
+Route::match(['get', 'post'], '/viewHotel/{id}', [HotelController::class, 'viewHotel'])->name('admin.manageHotel.viewHotel');
 Route::post('/deleteHotel/{id}', [HotelController::class, 'deleteHotel'])->name('admin.manageHotel.deleteHotel');
 Route::post('/activeHotel/{id}', [HotelController::class, 'activeHotel'])->name('admin.manageHotel.activeHotel');
 

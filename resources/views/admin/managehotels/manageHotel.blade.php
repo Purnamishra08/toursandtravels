@@ -121,6 +121,10 @@
                                                                         class="btn btn-success btn-sm" title="Edit">
                                                                         <i class="fa fa-pencil"></i>
                                                                     </a>
+                                                                    <a href="{{ route('admin.manageHotel.viewHotel', ['id' => $hotel->hotel_id]) }}"
+                                                                        class="btn btn-primary btn-sm" title="Edit">
+                                                                        <i class="fa fa-eye"></i>
+                                                                    </a>
                                                                     @if(session('user')->admin_type == 1)
                                                                     <form
                                                                         action="{{ route('admin.manageHotel.deleteHotel', ['id' => $hotel->hotel_id]) }}"
