@@ -1,0 +1,427 @@
+
+@include('website.include.webmeta')
+@include('website.include.webheader')
+
+    <!-- banner-section start -->
+    <div class="banner-section">
+        <div class="banner-content wow animate__fadeInUp  "  data-wow-delay="200ms">
+            <h1>Travel & Adventures</h1>
+            <p>Where Would You Like To Go?</p>
+        </div>
+    </div>
+    <!-- popular tour start -->
+    <section>
+        <div class="container">
+            <div class="section-title-container wow animate__fadeInUp  "  data-wow-delay="200ms">
+                <div>
+                    <p class="section-title-small">Feature tours</p>
+                    <h2 class="section-title">Most Popular Tour</h2>
+                </div>
+                <a href="#" class=" btn btn-outline-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+            </div>
+            <div class="swiper popular-tour-swiper wow animate__fadeInUp  "  data-wow-delay="400ms">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card popular-tour-card">
+                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="./img/single-star.png" alt="Rating" />
+                                    <span class="text-secondary">8.0 Superb</span>
+                                </div>
+                                <h5 class="card-title">Forest Adventure</h5>
+                                <div class="price d-flex align-items-center gap-1">
+                                    <span>$1870 </span> <small>/ Per Person</small>
+                                </div>
+                                <div class="tour-details">
+                                    <small>3 Days</small>
+                                    <small>12+</small>
+                                    <small>Los Angeles</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card popular-tour-card">
+                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="./img/single-star.png" alt="Rating" />
+                                    <span class="text-secondary">8.0 Superb</span>
+                                </div>
+                                <h5 class="card-title">Forest Adventure</h5>
+                                <div class="price d-flex align-items-center gap-1">
+                                    <span>$1870 </span> <small>/ Per Person</small>
+                                </div>
+                                <div class="tour-details">
+                                    <small>3 Days</small>
+                                    <small>12+</small>
+                                    <small>Los Angeles</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card popular-tour-card">
+                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="./img/single-star.png" alt="Rating" />
+                                    <span class="text-secondary">8.0 Superb</span>
+                                </div>
+                                <h5 class="card-title">Forest Adventure</h5>
+                                <div class="price d-flex align-items-center gap-1">
+                                    <span>$1870 </span> <small>/ Per Person</small>
+                                </div>
+                                <div class="tour-details">
+                                    <small>3 Days</small>
+                                    <small>12+</small>
+                                    <small>Los Angeles</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card popular-tour-card">
+                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="./img/single-star.png" alt="Rating" />
+                                    <span class="text-secondary">8.0 Superb</span>
+                                </div>
+                                <h5 class="card-title">Forest Adventure</h5>
+                                <div class="price d-flex align-items-center gap-1">
+                                    <span>$1870 </span> <small>/ Per Person</small>
+                                </div>
+                                <div class="tour-details">
+                                    <small>3 Days</small>
+                                    <small>12+</small>
+                                    <small>Los Angeles</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card popular-tour-card">
+                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="./img/single-star.png" alt="Rating" />
+                                    <span class="text-secondary">8.0 Superb</span>
+                                </div>
+                                <h5 class="card-title">Forest Adventure</h5>
+                                <div class="price d-flex align-items-center gap-1">
+                                    <span>$1870 </span> <small>/ Per Person</small>
+                                </div>
+                                <div class="tour-details">
+                                    <small>3 Days</small>
+                                    <small>12+</small>
+                                    <small>Los Angeles</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card popular-tour-card">
+                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="./img/single-star.png" alt="Rating" />
+                                    <span class="text-secondary">8.0 Superb</span>
+                                </div>
+                                <h5 class="card-title">Forest Adventure</h5>
+                                <div class="price d-flex align-items-center gap-1">
+                                    <span>$1870 </span> <small>/ Per Person</small>
+                                </div>
+                                <div class="tour-details">
+                                    <small>3 Days</small>
+                                    <small>12+</small>
+                                    <small>Los Angeles</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card popular-tour-card">
+                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="./img/single-star.png" alt="Rating" />
+                                    <span class="text-secondary">8.0 Superb</span>
+                                </div>
+                                <h5 class="card-title">Forest Adventure</h5>
+                                <div class="price d-flex align-items-center gap-1">
+                                    <span>$1870 </span> <small>/ Per Person</small>
+                                </div>
+                                <div class="tour-details">
+                                    <small>3 Days</small>
+                                    <small>12+</small>
+                                    <small>Los Angeles</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card popular-tour-card">
+                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                            <div class="card-body">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="./img/single-star.png" alt="Rating" />
+                                    <span class="text-secondary">8.0 Superb</span>
+                                </div>
+                                <h5 class="card-title">Forest Adventure</h5>
+                                <div class="price d-flex align-items-center gap-1">
+                                    <span>$1870 </span> <small>/ Per Person</small>
+                                </div>
+                                <div class="tour-details">
+                                    <small>3 Days</small>
+                                    <small>12+</small>
+                                    <small>Los Angeles</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+    <!-- gallery start -->
+    <section>
+        <div class="container">
+            <div class="section-title-container wow animate__fadeInUp  "  data-wow-delay="200ms">
+                <div>
+                    <p class="section-title-small">Destination lists</p>
+                    <h2 class="section-title section-title-large">
+                        TOP DESTINATION PLACES
+                    </h2>
+                </div>
+             
+            </div>
+            <div class="gallery-container wow animate__fadeInUp  "  data-wow-delay="600ms">
+                <div class="gallery-item">
+                    <img src="./img/destination-1.png.png" alt="Spain" />
+                    <div class="gallery-text">Spain</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./img/destination-2.png.png" alt="Thailand" />
+                    <div class="gallery-text">Thailand</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./img/destination-3.png.png" alt="Africa" />
+                    <div class="gallery-text">Africa</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./img/destination-4.png.png" alt="Australia" />
+                    <div class="gallery-text">Australia</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="./img/destination-5.png.png" alt="Switzerland" />
+                    <div class="gallery-text">Switzerland</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- client review start -->
+    <section>
+        <div class="container">
+            <div class="section-title-container wow animate__fadeInUp  "  data-wow-delay="200ms">
+               <div>
+                <p class="section-title-small">CHECKOUT WHAT OUR CLIENT’S SAY</p>
+                <h2 class="section-title section-title-large">CLIENT REVIEW</h2>
+               </div>
+               <a href="#" class=" btn btn-outline-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+            </div>
+            <div class="swiper client-review-swiper wow animate__fadeInUp  "  data-wow-delay="600ms">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card client-review-card">
+                            <div class="card-body">
+                                <div class="client-details mb-2">
+                                    <div class="client-img-box">
+                                        <img src="./img/client-2.jpg" alt="" />
+                                    </div>
+                                    <div>
+                                        <p class="client-name">Rohan Agarwal</p>
+                                        <div class="rate">
+                                            <input type="radio" id="star5" name="rate" value="5" />
+                                            <label for="star5" title="text">5 stars</label>
+                                            <input type="radio" id="star4" checked name="rate" value="4" />
+                                            <label for="star4" title="text">4 stars</label>
+                                            <input type="radio" id="star3" name="rate" value="3" />
+                                            <label for="star3" title="text">3 stars</label>
+                                            <input type="radio" id="star2" name="rate" value="2" />
+                                            <label for="star2" title="text">2 stars</label>
+                                            <input type="radio" id="star1" name="rate" value="1" />
+                                            <label for="star1" title="text">1 star</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="clent-message">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                    Totam assumenda deleniti nobis error natus maiores, dolores
+                                    voluptates quas ducimus veniam necessitatibus quos ea quam
+                                    velit inventore asperiores aperiam esse, magni voluptatibus
+                                    odit eos libero. Exercitationem pariatur rerum ea libero
+                                    optio.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card client-review-card">
+                            <div class="card-body">
+                                <div class="client-details mb-2">
+                                    <div class="client-img-box">
+                                        <img src="./img/client-2.jpg" alt="" />
+                                    </div>
+                                    <div>
+                                        <p class="client-name">Purna Chandra Mishra</p>
+                                        <div class="rate">
+                                            <input type="radio" id="star5" name="rate" value="5" />
+                                            <label for="star5" title="text">5 stars</label>
+                                            <input type="radio" id="star4" name="rate" value="4" />
+                                            <label for="star4" title="text">4 stars</label>
+                                            <input type="radio" id="star3" name="rate" value="3" />
+                                            <label for="star3" title="text" checked>3 stars</label>
+                                            <input type="radio" id="star2" name="rate" value="2" />
+                                            <label for="star2" title="text">2 stars</label>
+                                            <input type="radio" id="star1" name="rate" value="1" />
+                                            <label for="star1" title="text">1 star</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="clent-message">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                    Totam assumenda deleniti nobis error natus maiores, dolores
+                                    voluptates quas ducimus veniam necessitatibus quos ea quam
+                                    velit inventore asperiores aperiam esse, magni voluptatibus
+                                    odit eos libero. Exercitationem pariatur rerum ea libero
+                                    optio.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card client-review-card">
+                            <div class="card-body">
+                                <div class="client-details mb-2">
+                                    <div class="client-img-box">
+                                        <img src="./img/client-1.webp" alt="" />
+                                    </div>
+                                    <div>
+                                        <p class="client-name">Suman Sharma</p>
+                                        <div class="rate">
+                                            <input type="radio" id="star5" checked name="rate" value="5" />
+                                            <label for="star5" title="text">5 stars</label>
+                                            <input type="radio" id="star4" name="rate" value="4" />
+                                            <label for="star4" title="text">4 stars</label>
+                                            <input type="radio" id="star3" name="rate" value="3" />
+                                            <label for="star3" title="text">3 stars</label>
+                                            <input type="radio" id="star2" name="rate" value="2" />
+                                            <label for="star2" title="text">2 stars</label>
+                                            <input type="radio" id="star1" name="rate" value="1" />
+                                            <label for="star1" title="text">1 star</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="clent-message">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                    Totam assumenda deleniti nobis error natus maiores, dolores
+                                    voluptates quas ducimus veniam necessitatibus quos ea quam
+                                    velit inventore asperiores aperiam esse, magni voluptatibus
+                                    odit eos libero. Exercitationem pariatur rerum ea libero
+                                    optio.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-relative swiper-btn-container">
+                    <div class="swiper-button-prev">
+                        <i class="bi bi-arrow-left-short"></i>
+                    </div>
+                    <div class="swiper-button-next">
+                        <i class="bi bi-arrow-right-short"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="section-title-container wow animate__fadeInUp  "  data-wow-delay="200ms">
+               <div>
+                    <p class="section-title-small">FROM OUR BLOG</p>
+                    <h2 class="section-title section-title-large">OUR RECENT POSTS</h2>
+               </div>
+               <a href="#" class=" btn btn-outline-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+
+            </div>
+            <div class="recent-post-wrapper">
+                <div class="card recent-post-card wow animate__fadeInUp  "  data-wow-delay="200ms">
+                    <img class="card-img-top" src="./img/img17.jpg.png" alt="" />
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Life is a beautiful journey not a destination
+                        </h5>
+                        <ul>
+                            <li>Demoteam</li>
+                            <li class="separator-bar"></li>
+                            <li>August 17, 2021</li>
+                            <li class="separator-bar"></li>
+                            <li>No Comments</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card recent-post-card wow animate__fadeInUp  "  data-wow-delay="400ms">
+                    <img class="card-img-top" src="./img/img17.jpg.png" alt="" />
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Life is a beautiful journey not a destination
+                        </h5>
+                        <ul>
+                            <li>Demoteam</li>
+                            <li class="separator-bar"></li>
+                            <li>August 17, 2021</li>
+                            <li class="separator-bar"></li>
+                            <li>No Comments</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card recent-post-card wow animate__fadeInUp  "  data-wow-delay="600ms">
+                    <img class="card-img-top" src="./img/img17.jpg.png" alt="" />
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Life is a beautiful journey not a destination
+                        </h5>
+                        <ul>
+                            <li>Demoteam</li>
+                            <li class="separator-bar"></li>
+                            <li>August 17, 2021</li>
+                            <li class="separator-bar"></li>
+                            <li>No Comments</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card recent-post-card wow animate__fadeInUp  "  data-wow-delay="800ms">
+                    <img class="card-img-top" src="./img/img17.jpg.png" alt="" />
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Life is a beautiful journey not a destination
+                        </h5>
+                        <ul>
+                            <li>Demoteam</li>
+                            <li class="separator-bar"></li>
+                            <li>August 17, 2021</li>
+                            <li class="separator-bar"></li>
+                            <li>No Comments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    @include('website.include.webfooter')
