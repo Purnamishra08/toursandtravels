@@ -391,7 +391,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="clearfix"></div>
                                                 <div class="col-md-6">
                                                     <div class="reset-button">
@@ -414,7 +413,6 @@
             </div>
         </div>
     </div>
-    
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
