@@ -271,5 +271,18 @@ CREATE TABLE `tbl_menucategories` (
 );
 #Menus
 
+#ManagePackages
+
+CREATE TABLE `tbl_package_duration` (
+  `durationid` int(11) NOT NULL AUTO_INCREMENT,
+  `duration_name` varchar(200) DEFAULT NULL,
+  `no_ofdays` int(11) DEFAULT NULL,
+  `no_ofnights` int(11) DEFAULT NULL,
+  `status` int(1) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`durationid`)
+);
+
+#ManagePackages
 
 
