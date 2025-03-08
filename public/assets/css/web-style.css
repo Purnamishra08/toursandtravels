@@ -3,7 +3,7 @@
     height: 90vh;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url(./img/banner-img.png);
+    background-image: url(../img/web-img/banner-img.png);
     display: flex;
     justify-content: center;
     align-items: center;

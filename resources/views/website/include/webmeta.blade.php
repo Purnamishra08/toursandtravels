@@ -15,6 +15,8 @@
   
     <link rel="stylesheet" href="{{asset('assets/css/web-common.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/web-style.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/css/web-content.css')}}"/>
+
    
     
    
