@@ -161,6 +161,46 @@ CREATE TABLE `tbl_destination` (
   `bit_Deleted_Flag` bit(1) DEFAULT b'0',
   PRIMARY KEY (`destination_id`)
 );
+
+CREATE TABLE `tbl_destination_places` (
+  `dest_placeid` int(11) NOT NULL AUTO_INCREMENT,
+  `type` tinyint(1) DEFAULT NULL COMMENT 'similar=1, near by=2',
+  `destination_id` int(11) DEFAULT NULL,
+  `simdest_id` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`dest_placeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=25140 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `tbl_destination_cats` (
+  `destcat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `destination_id` int(11) DEFAULT NULL,
+  `cat_id` int(200) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`destcat_id`),
+  KEY `continent_id` (`cat_id`),
+  KEY `destination_id` (`destination_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2564 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `tbl_multdest_type` (
+  `multdest_id` int(11) NOT NULL AUTO_INCREMENT,
+  `loc_type` tinyint(11) DEFAULT NULL COMMENT 'destination = 1, place = 2',
+  `loc_id` int(11) DEFAULT NULL,
+  `loc_type_id` int(100) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`multdest_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29594 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+CREATE TABLE `tbl_tags` (
+  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) DEFAULT NULL COMMENT '1= destination_id ,2=place_id, 3=tourpackage_id',
+  `type_id` int(11) DEFAULT NULL,
+  `tagid` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`tag_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24627 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
 #ManageLocation
 
 

@@ -175,7 +175,6 @@ function onlyNumeric(controlId)
         return true;
 }
 
-
 //============ Function to check dropdown is selected  ===============
 function selectDropdown(controlId, msg)
 {
@@ -192,7 +191,6 @@ function selectDropdown(controlId, msg)
     }
     return true;
 }
-
 
 //============ Function to check field value is decimal ===============
 function checkDecimal(controlId)
@@ -295,7 +293,6 @@ $(document.body).on('click', '.delrowbtn', function () {
 
 
 /* End - Add and/or Delete Row in jQuery */
-
 
 //============ Function to check field value is only numeric with custom message ===============
 function onlyNumeric(controlId,msg)

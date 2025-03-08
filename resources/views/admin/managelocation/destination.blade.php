@@ -64,25 +64,26 @@
                                                                     <td>{{ $destinations->destination_name }}</td>
                                                                     <td>
                                                                         <div class="mt-2">
-                                                                            <img id="destinationBannerPreview" 
-                                                                                src="{{ isset($destinations->destiimg) ? asset('storage/banner_images/'.$destinations->destiimg) : '' }}" 
-                                                                                alt="Destination Banner Preview" 
-                                                                                class="img-fluid rounded border" 
+                                                                            <img id="destinationBannerPreview"
+                                                                                src="{{ isset($destinations->destiimg) ? asset('storage/destination_images/'.$destinations->destiimg) : '' }}"
+                                                                                alt="Destination Banner Preview"
+                                                                                class="img-fluid rounded border"
                                                                                 style="width: 150px; height: 80px; object-fit: cover;">
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="mt-2">
                                                                             <img id="destinationImagePreview" 
-                                                                                src="{{ isset($destinations->destiimg_thumb) ? asset('storage/banner_images/'.$destinations->destiimg_thumb) : '' }}" 
-                                                                                alt="Destination Image" 
-                                                                                class="img-fluid rounded border" 
+                                                                                src="{{ isset($destinations->destiimg_thumb) ? asset('storage/destination_images/thumbs/'.$destinations->destiimg_thumb) : '' }}"
+                                                                                alt="Destination Image"
+                                                                                class="img-fluid rounded border"
                                                                                 style="width: 150px; height: 80px; object-fit: cover;">
                                                                         </div>
                                                                     </td>
+                                                                    <td>{{ $destinations->par_value }}</td>
                                                                     <td>
                                                                         @if($destinations->status == 1)
-                                                                            <form action="{{ route('admin.destinationtype.activeDestinationType', ['id' => $destinations->destination_id]) }}" method="POST"
+                                                                            <form action="{{ route('admin.destination.activeDestination', ['id' => $destinations->destination_id]) }}" method="POST"
                                                                                 onsubmit="return confirm('Are you sure you want to change the status?')">
                                                                                     @csrf
                                                                                     <button type="submit" class="btn btn-outline-success"
@@ -91,7 +92,7 @@
                                                                                     </button>
                                                                             </form>
                                                                         @else
-                                                                            <form action="{{ route('admin.destinationtype.activeDestinationType', ['id' => $destinations->destination_id]) }}" method="POST"
+                                                                            <form action="{{ route('admin.destination.activeDestination', ['id' => $destinations->destination_id]) }}" method="POST"
                                                                                 onsubmit="return confirm('Are you sure you want to change the status?')">
                                                                                 @csrf
                                                                                 <button type="submit" class="btn btn-outline-dark"
@@ -102,10 +103,10 @@
                                                                         @endif
                                                                     </td>
                                                                     <td>
-                                                                        <a href="{{ route('admin.destinationtype.editdestinationtype', $destinations->destination_id) }}" class="btn btn-primary btn-sm" title="Edit">
+                                                                        <a href="{{ route('admin.destination.editdestination', $destinations->destination_id) }}" class="btn btn-primary btn-sm" title="Edit">
                                                                             <i class="fa fa-pencil"></i>
                                                                         </a>
-                                                                        <form action="{{ route('admin.destinationtype.deletedestinationtype',  $destinations->destination_id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this destination type?')">
+                                                                        <form action="{{ route('admin.destination.deletedestination',  $destinations->destination_id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this destination type?')">
                                                                             @csrf
                                                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete">
                                                                                 <i class="fa fa-trash-o"></i>
