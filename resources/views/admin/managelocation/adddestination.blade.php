@@ -519,7 +519,8 @@
             if (!blankCheck('alttag_banner', 'Banner Alt Tag cannot be blank')) return false;
             if (!blankCheck('alttag_thumb', 'Alt Tag For Getaways Image cannot be blank')) return false;
             if (!blankCheck('about_tag', 'About Tag cannot be blank')) return false;
-
+            if (!blankCheck('pick_drop_price', 'Pick up drop price cannot be blank')) return false;
+            if (!blankCheck('accomodation_price', 'Accomodation price cannot be blank')) return false;
             if (!onlyNumeric('pick_drop_price', 'Pick up drop price must be a numeric value.')) return false;
             if (!onlyNumeric('accomodation_price', 'Accomodation price must be a numeric value.')) return false;
 

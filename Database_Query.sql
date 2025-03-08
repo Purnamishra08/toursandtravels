@@ -200,6 +200,21 @@ CREATE TABLE `tbl_tags` (
   PRIMARY KEY (`tag_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24627 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+CREATE TABLE `tbl_parameters` (
+  `parid` int(11) NOT NULL AUTO_INCREMENT,
+  `parameter` varchar(150) DEFAULT NULL,
+  `par_value` text DEFAULT NULL,
+  `param_type` varchar(100) DEFAULT NULL,
+  `input_type` tinyint(4) NOT NULL COMMENT 'text box=1, text area= 2, file= 3, editor=4',
+  `status` tinyint(1) DEFAULT 1,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`parid`),
+  KEY `INX_TBL_PARAMETERS 2024-05-25 21:26` (`parid`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 #ManageLocation
 
