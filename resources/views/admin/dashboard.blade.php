@@ -19,7 +19,7 @@
                         <div class="inner-layout">
                             <div class="container-fluid px-4 pt-3">
                                 <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item active">Welcome to Tours and Travels</li>
+                                    <li class="breadcrumb-item active">Welcome to My Holiday Happiness</li>
                                 </ol>
                                 <!-- <div class="row">
                                     <div class="col-xl-3 col-sm-6 col-12 mb-4">

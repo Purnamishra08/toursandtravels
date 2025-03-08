@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tour And Travel Admin Login</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/fav-icon.png') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}"> 
     <link href="{{ asset('assets/css/login.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link rel="icon" type="image/png" href="assets/img/logo-dashbord.png">
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
