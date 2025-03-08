@@ -37,7 +37,7 @@
                     <a href="{{ route('admin.login') }}" class="forgot-link">Back to Login</a>
                 </div>
             </div>
-            <footer>Copyright &copy; 2025 Tours and Travel, All Right Reserved</footer>
+            <footer>Copyright &copy; 2025 My Holiday Happiness, All Right Reserved</footer>
         </div>
     </main>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
