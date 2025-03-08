@@ -521,24 +521,18 @@
             if (!blankCheck('about_tag', 'About Tag cannot be blank')) return false;
             if (!blankCheck('pick_drop_price', 'Pick up drop price cannot be blank')) return false;
             if (!blankCheck('accomodation_price', 'Accomodation price cannot be blank')) return false;
-            if (!onlyNumeric('pick_drop_price', 'Pick up drop price must be a numeric value.')) return false;
-            if (!onlyNumeric('accomodation_price', 'Accomodation price must be a numeric value.')) return false;
-
-            if (!blankCheck('meta_title', 'Meta Title cannot be blank')) return false;
-            if (!blankCheck('meta_keywords', 'Meta Keywords cannot be blank')) return false;
-            if (!blankCheck('meta_description', 'Meta Description cannot be blank')) return false;
-
-            // Validate dropdowns
-            // if (!selectDropdown('menuid', 'Menu is required')) return false;
-            // if (!selectDropdown('catId', 'Category is required')) return false;
+            if (!blankCheck('latitude', 'Latitude cannot be blank')) return false;
+            if (!blankCheck('longitude', 'Longitude cannot be blank')) return false;
 
             // Validate file inputs
             if (!validateFilePresence('menutag_img', 'Banner image is required.')) return false;
             if (!validateFilePresence('menutagthumb_img', 'Getaways/Tour Image is required.')) return false;
 
             // Validate numeric fields
-           
+            if (!onlyNumeric('pick_drop_price', 'Pick up drop price must be a numeric value.')) return false;
+            if (!onlyNumeric('accomodation_price', 'Accomodation price must be a numeric value.')) return false;
             // If all validations pass
+            
             return true;
         }
     </script>

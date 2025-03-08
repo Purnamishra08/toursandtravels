@@ -16,7 +16,7 @@
         <div>
             <div class="login-container">
                 <h1 class="logo">
-                    <img src="{{ asset('assets/img/duplicate-logo.png') }}" alt="logo" >
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="logo" >
                 </h1>
                 <h2 class="login-title">Admin Login</h2>
                 <div class="icon-input-control">

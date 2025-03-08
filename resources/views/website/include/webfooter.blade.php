@@ -4,7 +4,7 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <h1 class="mb-3">
-                            <a href="#"><img src="./img//duplicare-logo-dashbord.png" alt="logo" /></a>
+                            <a href="#"><img src="./img//logo.png" alt="logo" /></a>
                         </h1>
                         <p class="about-company">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit.

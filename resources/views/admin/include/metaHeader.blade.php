@@ -9,7 +9,7 @@
         <meta name="author" content="" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Tours And Travels</title>
-        <link rel="icon" type="image/png" href="{{ asset('assets/img/duplicare-logo-dashbord.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}">
         <!-- <script src="https://code.highcharts.com/highcharts.js"></script>
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
         <link href="assets/css/datatable-css.css" rel="stylesheet" />
