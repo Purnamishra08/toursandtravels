@@ -282,7 +282,5 @@ CREATE TABLE `tbl_package_duration` (
   `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`durationid`)
 );
-
+INSERT INTO `toursandtravels`.`tbl_package_duration` (`duration_name`, `no_ofdays`, `no_ofnights`, `status`) VALUES ('2 Days / 1 Nights', '2', '1', '1');
 #ManagePackages
-
-
