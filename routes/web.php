@@ -125,6 +125,9 @@ Route::middleware('auth')->group(function () {
     //Destination
     Route::get('/destination', [DestinationController::class, 'index'])->name('admin.destination');
     Route::match(['get', 'post'], '/adddestination', [DestinationController::class, 'adddestination'])->name('admin.destination.adddestination');
+    Route::match(['get', 'post'], '/editdestination/{id}', [DestinationController::class, 'editdestination'])->name('admin.destination.editdestination');
+    Route::post('/deletedestination/{id}', [DestinationController::class, 'deletedestination'])->name('admin.destination.deletedestination');
+    Route::post('/activeDestination/{id}', [DestinationController::class, 'activeDestination'])->name('admin.destination.activeDestination');
 
     //Manage location
 

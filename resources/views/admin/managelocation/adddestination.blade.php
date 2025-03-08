@@ -19,11 +19,11 @@
                     <div class="inner-layout">
                         <div class="container-fluid px-4 pt-3">
                             <nav class="tab-menu">
-                                <a href="{{ route('admin.destination.adddestination') }}" class="tab-menu__item active">
+                                <a href="{{ isset($destinationData) ? route('admin.destination.editdestination', ['id' => $destinationData->destination_id]) : route('admin.destination.adddestination') }}" class="tab-menu__item active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
                                     </svg>
-                                    {{ isset($Categorytags) ? 'Edit' : 'Add' }}
+                                    {{ isset($destinationData) ? 'Edit' : 'Add' }}
                                 </a>
                                 <a href="{{ route('admin.destination') }}" class="tab-menu__item">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
@@ -39,7 +39,7 @@
                                 <div class="form-container" style="margin-bottom: 25px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); background-color:#fff; padding:25px; border-radius: 4px;">
                                     <div class="panel-body">
                                         <div class="container">
-                                            <form action="{{ route('admin.destination.adddestination') }}" method="POST" id="form_destination" name="form_destination" class="add-user" enctype="multipart/form-data">
+                                            <form action="{{ isset($destinationData) ? route('admin.destination.editdestination', ['id' => $destinationData->destination_id]) : route('admin.destination.adddestination') }}" method="POST" id="form_destination" name="form_destination" class="add-user" enctype="multipart/form-data" onsubmit="return validator()">
                                                 @csrf
                                                 <div class="box-main">
                                                     <h3>Destination Details</h3>
@@ -48,7 +48,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Destination Name</label>
-                                                                <input type="text" class="form-control" placeholder="Enter destination name" name="destination_name" id="destination_name" value="{{ old('destination_name') }}">
+                                                                <input type="text" class="form-control" placeholder="Enter destination name" name="destination_name" id="destination_name" value="{{ old('destination_name', $destinationData->destination_name ?? '') }}">
                                                             </div>
                                                         </div>
 
@@ -56,7 +56,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Destination Url</label>
-                                                                <input type="text" class="form-control" readonly placeholder="Enter destination url" name="destination_url" id="destination_url" value="{{ old('destination_url') }}">
+                                                                <input type="text" class="form-control" readonly placeholder="Enter destination url" name="destination_url" id="destination_url" value="{{ old('destination_url', $destinationData->destination_url ?? '') }}">
                                                             </div>
                                                         </div>
 
@@ -66,11 +66,18 @@
                                                                 <label>Destination Types</label>
                                                                 <select data-placeholder="Choose destination type" class="chosen-select efilter" multiple tabindex="4" id="destination_type" name="destination_type[]" style="width: 100%;">
                                                                     @foreach($destinationTypes as $type)
-                                                                        <option value="{{ $type->destination_type_id }}">{{ $type->destination_type_name }}</option>
+                                                                        <option value="{{ $type->destination_type_id }}"
+                                                                            @if(!empty($selectedDestinationTypes) && in_array($type->destination_type_id, $selectedDestinationTypes)) 
+                                                                                selected 
+                                                                            @endif>
+                                                                            {{ $type->destination_type_name }}
+                                                                        </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
+
+
                                                             
                                                         <!-- Destination Categories -->
                                                         <div class="col-md-6">
@@ -78,7 +85,10 @@
                                                                 <label>Destination Categories</label>
                                                                 <select data-placeholder="Choose destination category" class="chosen-select efilter" multiple tabindex="4" id="edesti" name="edesti[]" style="width: 100%;">
                                                                     @foreach($categories as $category)
-                                                                        <option value="{{ $category->catid }}">{{ $category->cat_name }}</option>
+                                                                        <option value="{{ $category->catid }}"
+                                                                            @if(isset($selectedCategories) && in_array($category->catid, $selectedCategories)) selected @endif>
+                                                                            {{ $category->cat_name }}
+                                                                        </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -90,7 +100,10 @@
                                                                 <label>Getaway Tags</label>
                                                                 <select data-placeholder="Choose getaway tags" class="chosen-select" multiple tabindex="4" id="getatagid" name="getatagid[]" style="width: 100%;">
                                                                     @foreach($tags as $tag)
-                                                                        <option value="{{ $tag->tagid }}">{{ $tag->tag_name }}</option>
+                                                                        <option value="{{ $tag->tagid }}"
+                                                                            @if(isset($selectedGetawayTags) && in_array($tag->tagid, $selectedGetawayTags)) selected @endif>
+                                                                            {{ $tag->tag_name }}
+                                                                        </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -104,10 +117,10 @@
                                                                 <span>Image size should be 2000px X 350px</span>
                                                                 <div id="banner_preview" style="margin-top: 10px;">
                                                                     <img id="bannerPreview" 
-                                                                    src="{{ isset($Categorytags->menutag_img) ? asset('storage/category_tags_images/'.$Categorytags->menutag_img) : '' }}" 
+                                                                    src="{{ isset($destinationData->destiimg) ? asset('storage/destination_images/'.$destinationData->destiimg) : '' }}" 
                                                                     alt="Banner Preview" 
                                                                     class="img-fluid rounded border" 
-                                                                    style="max-width: 300px; display: {{ isset($Categorytags->menutag_img) ? 'block' : 'none' }};">
+                                                                    style="max-width: 300px; display: {{ isset($destinationData->destiimg) ? 'block' : 'none' }};">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -116,14 +129,14 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Destination Image</label>
-                                                                <input name="destismallimg" id="destismallimg" type="file" onchange="previewImage(event, 'banner_preview')">
+                                                                <input name="destismallimg" id="destismallimg" type="file" onchange="previewImage(event, 'banner_preview_dest')">
                                                                 <span>Image size should be 300px X 225px</span>
-                                                                <div id="banner_preview" style="margin-top: 10px;">
-                                                                    <img id="bannerPreview" 
-                                                                    src="{{ isset($Categorytags->menutag_img) ? asset('storage/category_tags_images/'.$Categorytags->menutag_img) : '' }}" 
-                                                                    alt="Banner Preview" 
+                                                                <div id="banner_preview_dest" style="margin-top: 10px;">
+                                                                    <img id="bannerPreviewDest" 
+                                                                    src="{{ isset($destinationData->destiimg_thumb) ? asset('storage/destination_images/thumbs/'.$destinationData->destiimg_thumb) : '' }}" 
+                                                                    alt="Banner Preview Destination" 
                                                                     class="img-fluid rounded border" 
-                                                                    style="max-width: 300px; display: {{ isset($Categorytags->menutag_img) ? 'block' : 'none' }};">
+                                                                    style="max-width: 300px; display: {{ isset($destinationData->destiimg_thumb) ? 'block' : 'none' }};">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -132,7 +145,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Alt Tag For Banner Image</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Alt tag for banner image" name="alttag_banner" id="alttag_banner" value="{{ old('alttag_banner') }}" maxlength="60">
+                                                                <input type="text" class="form-control" placeholder="Enter Alt tag for banner image" name="alttag_banner" id="alttag_banner" value="{{ old('alttag_banner', $destinationData->alttag_banner ?? '') }}" maxlength="60">
                                                             </div>
                                                         </div>
 
@@ -140,10 +153,21 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Alt Tag For Destination Image</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Alt tag for destination image" name="alttag_thumb" id="alttag_thumb" value="{{ old('alttag_thumb') }}" maxlength="60">
+                                                                <input type="text" class="form-control" placeholder="Enter Alt tag for destination image" name="alttag_thumb" id="alttag_thumb" value="{{ old('alttag_thumb', $destinationData->alttag_thumb ?? '') }}" maxlength="60">
                                                             </div>
                                                         </div>
 
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label> Destination Type (For showing in home page) </label>
+                                                                <select class="form-control" name="desttype_for_home" id="desttype_for_home">
+                                                                    <option value=''>-- Select Destination Type --</option>
+                                                                    @foreach($parameters as $type)
+                                                                        <option value="{{ $type->parid }}" @if(isset($destinationData) && $destinationData->desttype_for_home == $type->parid) selected @endif>{{ $type->par_value }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                 
 
                                                         <!-- Show on Footer Menu -->
@@ -152,7 +176,7 @@
                                                                 <label>Show on footer menu</label>
                                                                 <div class="row">
                                                                     <div class="col-md-12">
-                                                                        <input type="checkbox" name="show_on_footer" id="show_on_footer" value="1" {{ old('show_on_footer') ? 'checked' : '' }}>
+                                                                        <input type="checkbox" name="show_on_footer" id="show_on_footer" value="1" {{ old('show_on_footer', $destinationData->show_on_footer ?? '') ? 'checked' : '' }}>
                                                                         For footer menu
                                                                     </div>
                                                                 </div>
@@ -163,7 +187,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Pick / Drop Price ()</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Pick or Drop Price" name="pick_drop_price" id="pick_drop_price" value="{{ old('pick_drop_price') }}">
+                                                                <input type="text" class="form-control" placeholder="Enter Pick or Drop Price" name="pick_drop_price" id="pick_drop_price" value="{{ old('pick_drop_price', $destinationData->pick_drop_price ?? '') }}">
                                                             </div>
                                                         </div>
 
@@ -171,7 +195,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Minimum Accommodation Price /Person ()</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Minimum Accommodation price" name="accomodation_price" id="accomodation_price" value="{{ old('accomodation_price') }}">
+                                                                <input type="text" class="form-control" placeholder="Enter Minimum Accommodation price" name="accomodation_price" id="accomodation_price" value="{{ old('accomodation_price', $destinationData->accomodation_price ?? '') }}">
                                                             </div>
                                                         </div>
 
@@ -179,7 +203,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Latitude</label>
-                                                                <input type="text" class="form-control" placeholder="Destination Latitude" name="latitude" id="latitude" value="{{ old('latitude') }}">
+                                                                <input type="text" class="form-control" placeholder="Destination Latitude" name="latitude" id="latitude" value="{{ old('latitude', $destinationData->latitude ?? '') }}">
                                                             </div>
                                                         </div>
 
@@ -187,7 +211,13 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Longitude</label>
-                                                                <input type="text" class="form-control" placeholder="Destination Longitude" name="longitude" id="longitude" value="{{ old('longitude') }}">
+                                                                <input type="text" class="form-control" placeholder="Destination Longitude" name="longitude" id="longitude" value="{{ old('longitude', $destinationData->longitude ?? '') }}">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>To Find Latitude and Longitude Click <a href="http://www.latlong.net" target="_blank" style="color:#18c4c0">http://www.latlong.net</a></label>
                                                             </div>
                                                         </div>
 
@@ -195,7 +225,7 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label>About Destination</label>
-                                                                <textarea name="short_desc" id="short_desc" class="form-control">{{ old('short_desc') }}</textarea>
+                                                                <textarea name="short_desc" id="short_desc" class="form-control">{{ old('short_desc', $destinationData->about_destination ?? '') }}</textarea>
                                                             </div>
                                                         </div>
 
@@ -203,7 +233,7 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label>Places to Visit Text</label>
-                                                                <textarea name="places_to_visit_desc" id="places_to_visit_desc" class="form-control">{{ old('places_to_visit_desc') }}</textarea>
+                                                                <textarea name="places_to_visit_desc" id="places_to_visit_desc" class="form-control">{{ old('places_to_visit_desc', $destinationData->places_visit_desc ?? '') }}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -217,7 +247,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Ideal Trip Duration</label>
-                                                                <input type="text" class="form-control" placeholder="Ex- 3days / 2night" name="trip_duration" id="trip_duration" value="{{ old('trip_duration') }}">
+                                                                <input type="text" class="form-control" placeholder="Ex- 3days / 2night" name="trip_duration" id="trip_duration" value="{{ old('trip_duration', $destinationData->trip_duration ?? '') }}">
                                                             </div>
                                                         </div>
 
@@ -225,7 +255,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Nearest City</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Nearest City" name="nearest_city" id="nearest_city" value="{{ old('nearest_city') }}">
+                                                                <input type="text" class="form-control" placeholder="Enter Nearest City" name="nearest_city" id="nearest_city" value="{{ old('nearest_city', $destinationData->nearest_city ?? '') }}">
                                                             </div>
                                                         </div>
 
@@ -233,7 +263,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Best Time To Visit</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Visit Time" name="visit_time" id="visit_time" value="{{ old('visit_time') }}">
+                                                                <input type="text" class="form-control" placeholder="Enter Visit Time" name="visit_time" id="visit_time" value="{{ old('visit_time', $destinationData->visit_time ?? '') }}">
                                                             </div>
                                                         </div>
 
@@ -241,7 +271,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Peak Season</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Peak season" name="peak_season" id="peak_season" value="{{ old('peak_season') }}">
+                                                                <input type="text" class="form-control" placeholder="Enter Peak season" name="peak_season" id="peak_season" value="{{ old('peak_season', $destinationData->peak_season ?? '') }}">
                                                             </div>
                                                         </div>
 
@@ -249,7 +279,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Weather Info</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Weather info" name="weather_info" id="weather_info" value="{{ old('weather_info') }}">
+                                                                <input type="text" class="form-control" placeholder="Enter Weather info" name="weather_info" id="weather_info" value="{{ old('weather_info', $destinationData->weather_info ?? '') }}">
                                                             </div>
                                                         </div>
 
@@ -259,7 +289,10 @@
                                                                 <label>Similar Destination</label>
                                                                 <select data-placeholder="Choose Similar Destination" class="chosen-select efilter" multiple tabindex="4" id="other_info" name="other_info[]" style="width: 100%;">
                                                                     @foreach($similarDestinations as $destination)
-                                                                        <option value="{{ $destination->destination_id }}">{{ $destination->destination_name }}</option>
+                                                                        <option value="{{ $destination->destination_id }}" 
+                                                                            @if(!empty($similarDestinationTags) && in_array($destination->destination_id, $similarDestinationTags)) selected @endif>
+                                                                            {{ $destination->destination_name }}
+                                                                        </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -271,148 +304,153 @@
                                                                 <label>Near By Place</label>
                                                                 <select data-placeholder="Choose Near By Place" class="chosen-select efilter" multiple tabindex="4" id="near_info" name="near_info[]" style="width: 100%;">
                                                                     @foreach($nearByPlaces as $place)
-                                                                        <option value="{{ $place->destination_id }}">{{ $place->destination_name }}</option>
+                                                                        <option value="{{ $place->destination_id }}" 
+                                                                            @if(!empty($nearbyPlacesTags) && in_array($place->destination_id, $nearbyPlacesTags)) selected @endif>
+                                                                            {{ $place->destination_name }}
+                                                                        </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
+
+                                                        <!-- Other Information Section -->
+                                                        <div class="box-main">
+                                                            <h3>Other Information</h3>
+                                                            <div class="row">
+                                                                <!-- Internet Availability -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Internet Availability</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Internet Availability" name="internet_avl" id="internet_avl" value="{{ old('internet_avl' , $destinationData->internet_availability ?? '') }}">
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Std Code -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Std Code</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Std Code" name="std_code" id="std_code" value="{{ old('std_code', $destinationData->std_code ?? '') }}">
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Languages Spoken -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Languages Spoken</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Languages Spoken" name="lng_spk" id="lng_spk" value="{{ old('lng_spk', $destinationData->language_spoken ?? '') }}">
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Major Festivals -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Major Festivals</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Major Festivals" name="mjr_fest" id="mjr_fest" value="{{ old('mjr_fest', $destinationData->major_festivals ?? '') }}">
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Notes/Tips -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Notes/Tips</label>
+                                                                        <textarea class="form-control" placeholder="Notes/Tips..." name="note_tips" id="note_tips">{{ old('note_tips', $destinationData->note_tips ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Google Map -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Google Map</label>
+                                                                        <textarea class="form-control" placeholder="Enter Google Map" name="google_map" id="google_map">{{ old('google_map', $destinationData->google_map ?? '') }}</textarea>
+                                                                        <b>Example :</b><p style="color:#18c4c0"> &lt;iframe src="https://www.google.com/maps/d/embed?mid=19xHbU7LdnDtVsj_gR5u6EpnQ4OM&hl=en" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen&gt; &lt;/iframe&gt;</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Meta Tags Section -->
+                                                        <div class="box-main">
+                                                            <h3>Meta Tags</h3>
+                                                            <div class="row">
+                                                                <!-- Overview Meta Tags -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Meta Title</label>
+                                                                        <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="meta_title" id="meta_title">{{ old('meta_title', $destinationData->meta_title ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Meta Keyword</label>
+                                                                        <textarea name="meta_keywords" id="meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('meta_keywords', $destinationData->meta_keywords ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Meta Description</label>
+                                                                        <textarea name="meta_description" id="meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('meta_description', $destinationData->meta_description ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Place Meta Tags -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Place Meta Title</label>
+                                                                        <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="place_meta_title" id="place_meta_title">{{ old('place_meta_title', $destinationData->place_meta_title ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Place Meta Keyword</label>
+                                                                        <textarea name="place_meta_keywords" id="place_meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('place_meta_keywords', $destinationData->place_meta_keywords ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Place Meta Description</label>
+                                                                        <textarea name="place_meta_description" id="place_meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('place_meta_description', $destinationData->place_meta_description ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Package Meta Tags -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Meta Title</label>
+                                                                        <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="pckg_meta_title" id="pckg_meta_title">{{ old('pckg_meta_title', $destinationData->package_meta_title ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Meta Keyword</label>
+                                                                        <textarea name="pckg_meta_keywords" id="pckg_meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('pckg_meta_keywords', $destinationData->package_meta_keywords ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Meta Description</label>
+                                                                        <textarea name="pckg_meta_description" id="pckg_meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('pckg_meta_description', $destinationData->package_meta_description ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="clearfix"></div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="reset-button">
+                                                                <button type="submit" class="btn btn-primary" name="btnSubmit" id="btnSubmit">Save</button>
+                                                                <button name='reset' type="reset" value='Reset' class="btn btn-secondary">Reset</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-
-                                                <!-- Other Information Section -->
-                                                <div class="box-main">
-                                                    <h3>Other Information</h3>
-                                                    <div class="row">
-                                                        <!-- Internet Availability -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Internet Availability</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Internet Availability" name="internet_avl" id="internet_avl" value="{{ old('internet_avl') }}">
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Std Code -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Std Code</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Std Code" name="std_code" id="std_code" value="{{ old('std_code') }}">
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Languages Spoken -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Languages Spoken</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Languages Spoken" name="lng_spk" id="lng_spk" value="{{ old('lng_spk') }}">
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Major Festivals -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Major Festivals</label>
-                                                                <input type="text" class="form-control" placeholder="Enter Major Festivals" name="mjr_fest" id="mjr_fest" value="{{ old('mjr_fest') }}">
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Notes/Tips -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Notes/Tips</label>
-                                                                <textarea class="form-control" placeholder="Notes/Tips..." name="note_tips" id="note_tips">{{ old('note_tips') }}</textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Google Map -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Google Map</label>
-                                                                <textarea class="form-control" placeholder="Enter Google Map" name="google_map" id="google_map">{{ old('google_map') }}</textarea>
-                                                                Example : &lt;iframe src="https://www.google.com/maps/d/embed?mid=19xHbU7LdnDtVsj_gR5u6EpnQ4OM&hl=en" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen&gt; &lt;/iframe&gt;
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Meta Tags Section -->
-                                                <div class="box-main">
-                                                    <h3>Meta Tags</h3>
-                                                    <div class="row">
-                                                        <!-- Overview Meta Tags -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Meta Title</label>
-                                                                <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="meta_title" id="meta_title">{{ old('meta_title') }}</textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Meta Keyword</label>
-                                                                <textarea name="meta_keywords" id="meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('meta_keywords') }}</textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Meta Description</label>
-                                                                <textarea name="meta_description" id="meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('meta_description') }}</textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Place Meta Tags -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Place Meta Title</label>
-                                                                <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="place_meta_title" id="place_meta_title">{{ old('place_meta_title') }}</textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Place Meta Keyword</label>
-                                                                <textarea name="place_meta_keywords" id="place_meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('place_meta_keywords') }}</textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Place Meta Description</label>
-                                                                <textarea name="place_meta_description" id="place_meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('place_meta_description') }}</textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Package Meta Tags -->
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Package Meta Title</label>
-                                                                <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="pckg_meta_title" id="pckg_meta_title">{{ old('pckg_meta_title') }}</textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Package Meta Keyword</label>
-                                                                <textarea name="pckg_meta_keywords" id="pckg_meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('pckg_meta_keywords') }}</textarea>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>Package Meta Description</label>
-                                                                <textarea name="pckg_meta_description" id="pckg_meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('pckg_meta_description') }}</textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                                <div class="col-md-6">
-                                                    <div class="reset-button">
-                                                        <button type="submit" class="btn btn-primary" name="btnSubmit" id="btnSubmit">Save</button>
-                                                        <button name='reset' type="reset" value='Reset' class="btn btn-secondary">Reset</button>
-                                                    </div>
-                                                </div>
-                                            </xform>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -432,8 +470,19 @@
     <!-- FooterJs End-->
     <script src="{{ asset('assets/js/validation.js') }}"></script>
     <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
-    <!-- JavaScript for Image Preview -->
+    <!-- jQuery (Required for Chosen) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Chosen CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+    <!-- Chosen JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
     <script>
+         $(document).ready(function () {
+            $(".chosen-select").chosen({
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            });
+        });
          document.addEventListener("DOMContentLoaded", function () {
             CKEDITOR.replace('short_desc');
             CKEDITOR.replace('places_to_visit_desc');
@@ -464,62 +513,32 @@
             reader.readAsDataURL(event.target.files[0]);
         }
         function validator() {
-            if(!blankCheck('destination_name', 'Tag name cannot be blank'))
-                return false;
-            if(!blankCheck('destination_url', 'Tag name cannot be blank'))
-                return false;
-            if(!selectDropdown('menuid', 'Menu is required'))
-                return false;
-            if(!selectDropdown('catId', 'Category is required'))
-                return false;
-            if(!validateFilePresence('menutag_img', 'Banner image is required.'))
-                return false;
-            if(!validateFilePresence('menutagthumb_img', 'Getaways/Tour Image is required.'))
-                return false;
-            if (!blankCheck('alttag_banner', 'Banner Alt Tag cannot be blank'))
-                 return false;
-            if (!blankCheck('alttag_thumb', 'Alt Tag For Getaways Image cannot be blank'))
-                 return false;
-            if (!blankCheck('about_tag', 'About Tag cannot be blank'))
-                 return false;
-            if (!blankCheck('meta_title', 'Meta Title cannot be blank'))
-                 return false;
-            if (!blankCheck('meta_keywords', 'Meta Keywords cannot be blank'))
-                 return false;
-            if (!blankCheck('meta_description', 'Meta Description cannot be blank'))
-                 return false;
-        }
-        function getCategory(selectElement) {
-            var menuId = selectElement.value;
-        
-            if (menuId) {
-                $.ajax({
-                    url: "{{ url('/categorytags/getCategoryMenuWise') }}", // Route for AJAX request
-                    type: "POST",
-                    data: { menu_id: menuId },
-                    dataType: "json",
-                    cache: false,
-                    headers: {
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-                    },
-                    success: function(response) {
-                        var categorySelect = $('#catId');
-                        categorySelect.empty(); // Clear previous categories
-                        categorySelect.append('<option value=""> -- Select category --</option>'); // Default option
-                        
-                        // Loop through the categories returned from the controller
-                        $.each(response.categories, function(index, category) {
-                            var selected = '';
-                            if (category.catid == '{{ old('catId', $Categorytags->cat_id ?? '') }}') {
-                                selected = 'selected';
-                            }
-                            categorySelect.append('<option value="' + category.catid + '" ' + selected + '>' + category.cat_name + '</option>');
-                        });
-                    }
-                });
-            } else {
-                $('#catId').empty().append('<option value=""> -- Select category --</option>'); // Reset if no menu selected
-            }
+            // Validate text fields
+            if (!blankCheck('destination_name', 'Destination name cannot be blank')) return false;
+            if (!blankCheck('destination_url', 'Destination URL cannot be blank')) return false;
+            if (!blankCheck('alttag_banner', 'Banner Alt Tag cannot be blank')) return false;
+            if (!blankCheck('alttag_thumb', 'Alt Tag For Getaways Image cannot be blank')) return false;
+            if (!blankCheck('about_tag', 'About Tag cannot be blank')) return false;
+
+            if (!onlyNumeric('pick_drop_price', 'Pick up drop price must be a numeric value.')) return false;
+            if (!onlyNumeric('accomodation_price', 'Accomodation price must be a numeric value.')) return false;
+
+            if (!blankCheck('meta_title', 'Meta Title cannot be blank')) return false;
+            if (!blankCheck('meta_keywords', 'Meta Keywords cannot be blank')) return false;
+            if (!blankCheck('meta_description', 'Meta Description cannot be blank')) return false;
+
+            // Validate dropdowns
+            // if (!selectDropdown('menuid', 'Menu is required')) return false;
+            // if (!selectDropdown('catId', 'Category is required')) return false;
+
+            // Validate file inputs
+            if (!validateFilePresence('menutag_img', 'Banner image is required.')) return false;
+            if (!validateFilePresence('menutagthumb_img', 'Getaways/Tour Image is required.')) return false;
+
+            // Validate numeric fields
+           
+            // If all validations pass
+            return true;
         }
     </script>
 </body>
