@@ -216,6 +216,49 @@ CREATE TABLE `tbl_parameters` (
   KEY `INX_TBL_PARAMETERS 2024-05-25 21:26` (`parid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+CREATE TABLE `tbl_places` (
+  `placeid` int(11) NOT NULL AUTO_INCREMENT,
+  `destination_id` int(11) DEFAULT NULL,
+  `place_name` varchar(200) DEFAULT NULL,
+  `place_url` varchar(200) DEFAULT NULL,
+  `latitude` varchar(20) DEFAULT NULL,
+  `longitude` varchar(20) DEFAULT NULL,
+  `trip_duration` varchar(100) DEFAULT NULL,
+  `distance_from_nearest_city` varchar(200) DEFAULT NULL,
+  `placeimg` varchar(200) DEFAULT NULL,
+  `placethumbimg` varchar(300) DEFAULT NULL,
+  `alttag_banner` varchar(64) DEFAULT NULL,
+  `alttag_thumb` varchar(64) DEFAULT NULL,
+  `google_map` text DEFAULT NULL,
+  `travel_tips` text DEFAULT NULL,
+  `about_place` text DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `entry_fee` varchar(300) DEFAULT NULL,
+  `timing` text DEFAULT NULL,
+  `rating` varchar(100) DEFAULT NULL,
+  `meta_title` text DEFAULT NULL,
+  `meta_keywords` text DEFAULT NULL,
+  `meta_description` text DEFAULT NULL,
+  `pckg_meta_title` text DEFAULT NULL,
+  `pckg_meta_keywords` text DEFAULT NULL,
+  `pckg_meta_description` text DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`placeid`),
+  KEY `INX_TBL_PLACES 2024-05-25 11:08` (`place_url`)
+);
+
+CREATE TABLE `tbl_place_transport` (
+  `transportid` int(11) NOT NULL AUTO_INCREMENT,
+  `place_id` int(11) NOT NULL,
+  `transport_id` varchar(100) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`transportid`)
+);
+
 #ManageLocation
 
 

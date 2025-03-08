@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\manageHotels\HotelController;
 use App\Http\Controllers\Admin\manageLocation\StateController;
 use App\Http\Controllers\Admin\manageLocation\DestinationTypeController;
 use App\Http\Controllers\Admin\manageLocation\DestinationController;
+use App\Http\Controllers\Admin\manageLocation\PlacesController;
 use App\Http\Controllers\Admin\manageMenus\MenutagController;
 use App\Http\Controllers\Admin\manageMenus\CategoryController;
 use App\Http\Controllers\Admin\manageMenus\CategoryTagsController;
@@ -129,7 +130,13 @@ Route::middleware('auth')->group(function () {
     Route::match(['get', 'post'], '/editdestination/{id}', [DestinationController::class, 'editdestination'])->name('admin.destination.editdestination');
     Route::post('/deletedestination/{id}', [DestinationController::class, 'deletedestination'])->name('admin.destination.deletedestination');
     Route::post('/activeDestination/{id}', [DestinationController::class, 'activeDestination'])->name('admin.destination.activeDestination');
-
+    //Places
+    Route::get('/places', [PlacesController::class, 'index'])->name('admin.places');
+    Route::match(['get', 'post'], '/addplaces', [PlacesController::class, 'addplaces'])->name('admin.places.addplaces');
+    Route::match(['get', 'post'], '/editplaces/{id}', [PlacesController::class, 'editplaces'])->name('admin.places.editplaces');
+    Route::post('/deleteplaces/{id}', [PlacesController::class, 'deleteplaces'])->name('admin.places.deleteplaces');
+    Route::post('/activeplaces/{id}', [PlacesController::class, 'activeplaces'])->name('admin.places.activeplaces');
+    
     //Manage location
 
     //Manage Menus

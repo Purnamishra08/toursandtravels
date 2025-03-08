@@ -241,7 +241,6 @@
                                                         </div>
                                                     </fieldset>
                                                 </div>
-
                                                 <!-- Common Information Section -->
                                                 <div class="box-main">
                                                    
@@ -320,150 +319,155 @@
                                                             </div>
                                                     </fieldset>
                                                 </div>
-
-                                                        <!-- Other Information Section -->
-                                                        <div class="box-main">
-                                                        
-                                                            <fieldset>
-                                                                <legend>Other Information</legend>
-                                                                <div class="row">
-                                                                    <!-- Internet Availability -->
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Internet Availability</label>
-                                                                            <input type="text" class="form-control" placeholder="Enter Internet Availability" name="internet_avl" id="internet_avl" value="{{ old('internet_avl' , $destinationData->internet_availability ?? '') }}">
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <!-- Std Code -->
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Std Code</label>
-                                                                            <input type="text" class="form-control" placeholder="Enter Std Code" name="std_code" id="std_code" value="{{ old('std_code', $destinationData->std_code ?? '') }}">
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <!-- Languages Spoken -->
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Languages Spoken</label>
-                                                                            <input type="text" class="form-control" placeholder="Enter Languages Spoken" name="lng_spk" id="lng_spk" value="{{ old('lng_spk', $destinationData->language_spoken ?? '') }}">
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <!-- Major Festivals -->
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Major Festivals</label>
-                                                                            <input type="text" class="form-control" placeholder="Enter Major Festivals" name="mjr_fest" id="mjr_fest" value="{{ old('mjr_fest', $destinationData->major_festivals ?? '') }}">
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <!-- Notes/Tips -->
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Notes/Tips</label>
-                                                                            <textarea class="form-control" placeholder="Notes/Tips..." name="note_tips" id="note_tips">{{ old('note_tips', $destinationData->note_tips ?? '') }}</textarea>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <!-- Google Map -->
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Google Map</label>
-                                                                            <textarea class="form-control" placeholder="Enter Google Map" name="google_map" id="google_map">{{ old('google_map', $destinationData->google_map ?? '') }}</textarea>
-                                                                            <b>Example :</b><p style="color:#18c4c0"> &lt;iframe src="https://www.google.com/maps/d/embed?mid=19xHbU7LdnDtVsj_gR5u6EpnQ4OM&hl=en" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen&gt; &lt;/iframe&gt;</p>
-                                                                        </div>
-                                                                    </div>
+                                                <!-- Other Information Section -->
+                                                <div class="box-main">
+                                                
+                                                    <fieldset>
+                                                        <legend>Other Information</legend>
+                                                        <div class="row">
+                                                            <!-- Internet Availability -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Internet Availability</label>
+                                                                    <input type="text" class="form-control" placeholder="Enter Internet Availability" name="internet_avl" id="internet_avl" value="{{ old('internet_avl' , $destinationData->internet_availability ?? '') }}">
                                                                 </div>
-                                                            </fieldset>
-                                                        </div>
+                                                            </div>
 
-                                                        <!-- Meta Tags Section -->
-                                                        <div class="box-main">
-                                                          
-                                                            <fieldset>
-                                                                <legend>Meta Tags</legend>
-                                                                <div class="row">
-                                                                    <!-- Overview Meta Tags -->
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Meta Title</label>
-                                                                            <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="meta_title" id="meta_title">{{ old('meta_title', $destinationData->meta_title ?? '') }}</textarea>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Meta Keyword</label>
-                                                                            <textarea name="meta_keywords" id="meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('meta_keywords', $destinationData->meta_keywords ?? '') }}</textarea>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Meta Description</label>
-                                                                            <textarea name="meta_description" id="meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('meta_description', $destinationData->meta_description ?? '') }}</textarea>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <!-- Place Meta Tags -->
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Place Meta Title</label>
-                                                                            <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="place_meta_title" id="place_meta_title">{{ old('place_meta_title', $destinationData->place_meta_title ?? '') }}</textarea>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Place Meta Keyword</label>
-                                                                            <textarea name="place_meta_keywords" id="place_meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('place_meta_keywords', $destinationData->place_meta_keywords ?? '') }}</textarea>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Place Meta Description</label>
-                                                                            <textarea name="place_meta_description" id="place_meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('place_meta_description', $destinationData->place_meta_description ?? '') }}</textarea>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <!-- Package Meta Tags -->
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Package Meta Title</label>
-                                                                            <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="pckg_meta_title" id="pckg_meta_title">{{ old('pckg_meta_title', $destinationData->package_meta_title ?? '') }}</textarea>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Package Meta Keyword</label>
-                                                                            <textarea name="pckg_meta_keywords" id="pckg_meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('pckg_meta_keywords', $destinationData->package_meta_keywords ?? '') }}</textarea>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label>Package Meta Description</label>
-                                                                            <textarea name="pckg_meta_description" id="pckg_meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('pckg_meta_description', $destinationData->package_meta_description ?? '') }}</textarea>
-                                                                        </div>
-                                                                    </div>
+                                                            <!-- Std Code -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Std Code</label>
+                                                                    <input type="text" class="form-control" placeholder="Enter Std Code" name="std_code" id="std_code" value="{{ old('std_code', $destinationData->std_code ?? '') }}">
                                                                 </div>
-                                                            </fieldset>
-                                                        </div>
+                                                            </div>
 
-                                                        <div class="clearfix"></div>
+                                                            <!-- Languages Spoken -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Languages Spoken</label>
+                                                                    <input type="text" class="form-control" placeholder="Enter Languages Spoken" name="lng_spk" id="lng_spk" value="{{ old('lng_spk', $destinationData->language_spoken ?? '') }}">
+                                                                </div>
+                                                            </div>
 
-                                                        <div class="col-md-6 mb-3">
-                                                            <div class="reset-button">
-                                                                <button type="submit" class="btn btn-primary" name="btnSubmit" id="btnSubmit">Save</button>
-                                                                <button name='reset' type="reset" value='Reset' class="btn btn-secondary">Reset</button>
+                                                            <!-- Major Festivals -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Major Festivals</label>
+                                                                    <input type="text" class="form-control" placeholder="Enter Major Festivals" name="mjr_fest" id="mjr_fest" value="{{ old('mjr_fest', $destinationData->major_festivals ?? '') }}">
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Notes/Tips -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Notes/Tips</label>
+                                                                    <textarea class="form-control" placeholder="Notes/Tips..." name="note_tips" id="note_tips">{{ old('note_tips', $destinationData->note_tips ?? '') }}</textarea>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Google Map -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Google Map</label>
+                                                                    <textarea class="form-control" placeholder="Enter Google Map" name="google_map" id="google_map">{{ old('google_map', $destinationData->google_map ?? '') }}</textarea>
+                                                                    <b>Example :</b><p style="color:#18c4c0"> &lt;iframe src="https://www.google.com/maps/d/embed?mid=19xHbU7LdnDtVsj_gR5u6EpnQ4OM&hl=en" width="100%" height="300" frameborder="0" style="border:0" allowfullscreen&gt; &lt;/iframe&gt;</p>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    
-                                                
+                                                    </fieldset>
+                                                </div>
+                                                <!-- Meta Tags Section -->
+                                                <div class="box-main">
+                                                    <fieldset>
+                                                        <legend>Meta Tags</legend>
+                                                        <div class="row">
+                                                            <!-- Overview Meta Tags -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Meta Title</label>
+                                                                    <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="meta_title" id="meta_title">{{ old('meta_title', $destinationData->meta_title ?? '') }}</textarea>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Meta Keyword</label>
+                                                                    <textarea name="meta_keywords" id="meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('meta_keywords', $destinationData->meta_keywords ?? '') }}</textarea>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Meta Description</label>
+                                                                    <textarea name="meta_description" id="meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('meta_description', $destinationData->meta_description ?? '') }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="box-main">
+                                                    <fieldset>
+                                                        <legend>Place Meta Tags</legend>
+                                                            <div class="row">
+                                                                <!-- Place Meta Tags -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Place Meta Title</label>
+                                                                        <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="place_meta_title" id="place_meta_title">{{ old('place_meta_title', $destinationData->place_meta_title ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Place Meta Keyword</label>
+                                                                        <textarea name="place_meta_keywords" id="place_meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('place_meta_keywords', $destinationData->place_meta_keywords ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Place Meta Description</label>
+                                                                        <textarea name="place_meta_description" id="place_meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('place_meta_description', $destinationData->place_meta_description ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="box-main">
+                                                    <fieldset>
+                                                        <legend>Package Meta Tags</legend>
+                                                            <div class="row">
+                                                                <!-- Package Meta Tags -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Meta Title</label>
+                                                                        <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="pckg_meta_title" id="pckg_meta_title">{{ old('pckg_meta_title', $destinationData->package_meta_title ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Meta Keyword</label>
+                                                                        <textarea name="pckg_meta_keywords" id="pckg_meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('pckg_meta_keywords', $destinationData->package_meta_keywords ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Meta Description</label>
+                                                                        <textarea name="pckg_meta_description" id="pckg_meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('pckg_meta_description', $destinationData->package_meta_description ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="reset-button">
+                                                        <button type="submit" class="btn btn-primary" name="btnSubmit" id="btnSubmit">{{ isset($destinationData) ? 'Update' : 'Save' }}</button>
+                                                        <button name='reset' type="reset" value='Reset' class="btn btn-secondary">Reset</button>
+                                                    </div>
+                                                </div>
                                             </form>
                                       
                                     </div>
@@ -546,7 +550,7 @@
             if (!onlyNumeric('pick_drop_price', 'Pick up drop price must be a numeric value.')) return false;
             if (!onlyNumeric('accomodation_price', 'Accomodation price must be a numeric value.')) return false;
             // If all validations pass
-            
+
             return true;
         }
     </script>

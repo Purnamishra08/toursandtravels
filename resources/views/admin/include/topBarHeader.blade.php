@@ -43,6 +43,10 @@
             'admin.destination.adddestination'   => ['Location', 'Destinations', 'fa-globe', 'fa fa-location-dot'],
             'admin.destination.editdestination'   => ['Location', 'Destinations', 'fa-globe', 'fa fa-location-dot'],
 
+            'admin.places'   => ['Location', 'Places', 'fa-globe', 'fa fa fa-bookmark'],
+            'admin.places.addplaces'   => ['Location', 'Places', 'fa-globe', 'fa fa fa-bookmark'],
+            'admin.places.editplaces'   => ['Location', 'Places', 'fa-globe', 'fa fa fa-bookmark'],
+
             'admin.category'   => ['Menus', 'Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
             'admin.category.addcategory'   => ['Menus', 'Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
             'admin.category.editcategory'   => ['Menus', 'Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
