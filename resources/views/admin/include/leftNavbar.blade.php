@@ -144,7 +144,7 @@
                 <div class="collapse {{ Str::startsWith($currentRoute, ['admin.managepackagedurations']) ? 'show' : '' }}"
                     id="packages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link {{ $currentRoute == 'admin.managepackagedurations' ? 'active' : ''}}"
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.managepackagedurations']) ? 'active' : ''}}"
                             href="{{ route('admin.managepackagedurations') }}">
                             <i class="fa fa-hourglass mt-1 me-2"></i> Package Duration
                         </a>
