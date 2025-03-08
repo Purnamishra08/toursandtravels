@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}"> 
     <link href="{{ asset('assets/css/login.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    <link rel="icon" type="image/png" href="assets/img/duplicate-logo-dashbord.png">
+    <link rel="icon" type="image/png" href="assets/img/logo-dashbord.png">
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -19,7 +19,7 @@
         <div>
             <div class="login-container">
                 <h1 class="logo">
-                    <img src="{{ asset('assets/img/duplicate-logo.png') }}" alt="logo" >
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="logo" >
                 </h1>
                 <h2 class="login-title">Admin Login</h2>
                 @include('Admin.include.sweetaleart')
@@ -43,7 +43,7 @@
                 </div>
             </form>
             </div>
-            <footer>Copyright &copy; 2025 Tours and Travel, All Right Reserved</footer>
+            <footer>Copyright &copy; 2025 My Holiday Happiness, All Right Reserved</footer>
         </div>
     </main>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>

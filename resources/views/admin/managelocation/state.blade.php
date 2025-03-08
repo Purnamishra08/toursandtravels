@@ -106,7 +106,7 @@
                                                                         <form action="{{ route('admin.state.deleteState', $state->state_id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this state?')">
                                                                             @csrf
                                                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                                                                <i class="fa fa-trash-o"></i>
+                                                                                <i class="fa-regular fa-trash-can"></i>
                                                                             </button>
                                                                         </form>
                                                                     </td>

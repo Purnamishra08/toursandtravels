@@ -16,7 +16,7 @@
         <div>
             <div class="login-container">
                 <h1 class="logo">
-                    <img src="{{ asset('assets/img/duplicate-logo.png') }}" alt="logo" >
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="logo" >
                 </h1>
                 <h2 class="login-title">Admin Login</h2>
                 <div class="icon-input-control">
@@ -37,7 +37,7 @@
                     <a href="{{ route('admin.login') }}" class="forgot-link">Back to Login</a>
                 </div>
             </div>
-            <footer>Copyright &copy; 2025 Tours and Travel, All Right Reserved</footer>
+            <footer>Copyright &copy; 2025 My Holiday Happiness, All Right Reserved</footer>
         </div>
     </main>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>

@@ -175,7 +175,6 @@ function onlyNumeric(controlId)
         return true;
 }
 
-
 //============ Function to check dropdown is selected  ===============
 function selectDropdown(controlId, msg)
 {
@@ -192,7 +191,6 @@ function selectDropdown(controlId, msg)
     }
     return true;
 }
-
 
 //============ Function to check field value is decimal ===============
 function checkDecimal(controlId)
@@ -296,7 +294,6 @@ $(document.body).on('click', '.delrowbtn', function () {
 
 /* End - Add and/or Delete Row in jQuery */
 
-
 //============ Function to check field value is only numeric with custom message ===============
 function onlyNumeric(controlId,msg)
 {
@@ -335,4 +332,26 @@ function validateFilePresence(controlId, msg) {
         return false;
     }
     return true;
+}
+
+function isDecimalUptoTwo(controlId, msg) {
+    var data = $("#" + controlId).val();
+
+    if (data != " ") {
+        var reg = new RegExp(/^[0-9]+(\.[0-9]{1,2})?$/);
+        if (reg.test(data) == true) return true;
+        else {
+            if (data != "") {
+                Swal.fire({
+                    icon: "error",
+                    text: msg,
+                    confirmButtonColor: "#d33",
+                });
+                $("#" + controlId).focus();
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
 }

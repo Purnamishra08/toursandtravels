@@ -20,7 +20,7 @@
                     <div class="inner-layout">
                         <div class="container-fluid px-4 pt-3">
                         <nav class="tab-menu">
-        							<a href="{{ route('admin.destinationtype.adddestinationtype') }}"class="tab-menu__item  ">
+        							<a href="{{ route('admin.category.addmenutag') }}"class="tab-menu__item  ">
         								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
         									<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
         								  </svg>
@@ -55,20 +55,20 @@
                                                             <thead class="thead-dark">
                                                                 <tr class="bg-info text-white">
                                                                     <th>Sl #</th>
-                                                                    <th>Destination Type</th>
+                                                                    <th>Menu Tag</th>
                                                                     <th>Status</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @forelse($destination_type as $index => $destination_types)
+                                                                @forelse($menutags as $index => $menutag)
                                                                 <tr>
-                                                                    <td>{{ ($destination_type->currentPage() - 1) *
-                                                                    $destination_type->perPage() + $loop->iteration }}</td>
-                                                                    <td>{{ $destination_types->destination_type_name }}</td>
+                                                                    <td>{{ ($menutags->currentPage() - 1) *
+                                                                    $menutags->perPage() + $loop->iteration }}</td>
+                                                                    <td>{{ $menutag->menu_name }}</td>
                                                                     <td>
-                                                                        @if($destination_types->status == 1)
-                                                                            <form action="{{ route('admin.destinationtype.activeDestinationType', ['id' => $destination_types->destination_type_id]) }}" method="POST"
+                                                                        @if($menutag->status == 1)
+                                                                            <form action="{{ route('admin.category.activemenutag', ['id' => $menutag->menuid]) }}" method="POST"
                                                                                 onsubmit="return confirm('Are you sure you want to change the status?')">
                                                                                     @csrf
                                                                                     <button type="submit" class="btn btn-outline-success"
@@ -77,7 +77,7 @@
                                                                                     </button>
                                                                             </form>
                                                                         @else
-                                                                            <form action="{{ route('admin.destinationtype.activeDestinationType', ['id' => $destination_types->destination_type_id]) }}" method="POST"
+                                                                            <form action="{{ route('admin.category.activemenutag', ['id' => $menutag->menuid]) }}" method="POST"
                                                                                 onsubmit="return confirm('Are you sure you want to change the status?')">
                                                                                 @csrf
                                                                                 <button type="submit" class="btn btn-outline-dark"
@@ -88,10 +88,10 @@
                                                                         @endif
                                                                     </td>
                                                                     <td>
-                                                                        <a href="{{ route('admin.destinationtype.editdestinationtype', $destination_types->destination_type_id) }}" class="btn btn-primary btn-sm" title="Edit">
+                                                                        <a href="{{ route('admin.category.editmenutag', $menutag->menuid) }}" class="btn btn-primary btn-sm" title="Edit">
                                                                             <i class="fa fa-pencil"></i>
                                                                         </a>
-                                                                        <form action="{{ route('admin.destinationtype.deletedestinationtype',  $destination_types->destination_type_id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this destination type?')">
+                                                                        <form action="{{ route('admin.category.deletemenutag',  $menutag->menuid) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this destination type?')">
                                                                             @csrf
                                                                             <button type="submit" class="btn btn-danger btn-sm" title="Delete">
                                                                                 <i class="fa-regular fa-trash-can"></i>
@@ -109,9 +109,9 @@
                                                         {{-- Pagination Links --}}
                                                         <div class="pagination-wrapper d-flex justify-content-between align-items-center">
                                                             <p class="mb-0">
-                                                                Showing {{ $destination_type->firstItem() }} to {{ $destination_type->lastItem() }} of {{ $destination_type->total() }} entries
+                                                                Showing {{ $menutags->firstItem() }} to {{ $menutags->lastItem() }} of {{ $menutags->total() }} entries
                                                             </p>
-                                                            {{ $destination_type->links('pagination::bootstrap-4') }}
+                                                            {{ $menutags->links('pagination::bootstrap-4') }}
                                                         </div>
                                                     </div>
                                                 </div>

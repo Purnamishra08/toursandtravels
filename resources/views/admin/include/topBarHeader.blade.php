@@ -11,24 +11,52 @@
             'admin.change-password'   => ['Change Password', '', 'fa-pencil', ''],
             'admin.manageUser'        => ['Manage User', '', 'fa-user', ''],
             'admin.manageUser.addUser'=> ['Manage User', '', 'fa-user', ''],
-            'admin.manageVehicletype' => ['Manage Vehicles', 'Vehicle Type', 'fa-truck', 'fa-car'],
-            'admin.manageVehicleprice' => ['Manage Vehicles', 'Vehicle Price', 'fa-truck', 'fa-money'],
-            'admin.manageHoteltype'   => ['Manage Hotels', 'Hotel Type','fa-building','fa-hotel'],
-            'admin.manageSeasontype'   => ['Manage Hotels', 'Season Type','fa-building','fa-sun-o'],
-            'admin.manageHotel'   => ['Manage Hotels', 'Hotel','fa-building','fa-hotel'],
-            'admin.state'             => ['Location', 'State', 'fa-globe', 'fa-flag'],
-            'admin.destinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
-            'admin.destinationtype.adddestinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
-            'admin.destinationtype.editdestinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa-map-marker'],
-            'admin.category'   => ['Menus', 'Category', 'fa fa-th-list', 'fa fa-gg'],
-            'admin.category.addcategory'   => ['Menus', 'Category', 'fa fa-th-list', 'fa fa-gg'],
-            'admin.category.editcategory'   => ['Menus', 'Category', 'fa fa-th-list', 'fa fa-gg'],
+
+            'admin.manageVehicletype' => ['Manage Vehicles', 'Vehicle Type', 'fa-truck', 'fa fa-car'],
+            'admin.manageVehicletype.addVehicleType' => ['Manage Vehicles', 'Vehicle Type', 'fa-truck', 'fa fa-car'],
+            'admin.manageVehicletype.editVehicleType' => ['Manage Vehicles', 'Vehicle Type', 'fa-truck', 'fa fa-car'],
+
+            'admin.manageVehicleprice' => ['Manage Vehicles', 'Vehicle Price', 'fa-truck', 'fa-regular fa-money-bill-1'],
+            'admin.manageVehicleprice.addVehiclePrice' => ['Manage Vehicles', 'Vehicle Price', 'fa-truck', 'fa-regular fa-money-bill-1'],
+            'admin.manageVehicleprice.editVehiclePrice' => ['Manage Vehicles', 'Vehicle Price', 'fa-truck', 'fa-regular fa-money-bill-1'],
+
+            'admin.manageHoteltype'   => ['Manage Hotels', 'Hotel Type','fa-building','fa fa-hotel'],
+            'admin.manageHoteltype.addHotelType'   => ['Manage Hotels', 'Hotel Type','fa-building','fa fa-hotel'],
+            'admin.manageHoteltype.editHotelType'   => ['Manage Hotels', 'Hotel Type','fa-building','fa fa-hotel'],
+
+            'admin.manageSeasontype'   => ['Manage Hotels', 'Season Type','fa-building','fa-regular fa-sun'],
+            'admin.manageSeasontype.addSeasonType'   => ['Manage Hotels', 'Season Type','fa-building','fa-regular fa-sun'],
+            'admin.manageSeasontype.editSeasonType'   => ['Manage Hotels', 'Season Type','fa-building','fa-regular fa-sun'],
+
+            'admin.manageHotels'   => ['Manage Hotels', 'Hotel','fa-building','fa fa-hotel'],
+            'admin.manageHotels.addHotel'   => ['Manage Hotels', 'Hotel','fa-building','fa fa-hotel'],
+            'admin.manageHotels.editHotel'   => ['Manage Hotels', 'Hotel','fa-building','fa fa-hotel'],
+            'admin.manageHotels.viewHotel'   => ['Manage Hotels', 'Hotel','fa-building','fa fa-hotel'],
+
+            'admin.state'             => ['Location', 'State', 'fa-globe', 'fa fa-flag'],
+
+            'admin.destinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa fa-map-marker'],
+            'admin.destinationtype.adddestinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa fa-map-marker'],
+            'admin.destinationtype.editdestinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa fa-map-marker'],
+
+            'admin.destination'   => ['Location', 'Destinations', 'fa-globe', 'fa fa-location-dot'],
+            'admin.destination.adddestination'   => ['Location', 'Destinations', 'fa-globe', 'fa fa-location-dot'],
+            'admin.destination.editdestination'   => ['Location', 'Destinations', 'fa-globe', 'fa fa-location-dot'],
+
+            'admin.category'   => ['Menus', 'Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
+            'admin.category.addcategory'   => ['Menus', 'Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
+            'admin.category.editcategory'   => ['Menus', 'Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
+
             'admin.categorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
             'admin.categorytags.addcategorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
             'admin.categorytags.editcategorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
+            
+            'admin.managepackagedurations'   => ['Manage Packages', 'Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
+            'admin.managepackagedurations.addPackageDurations'   => ['Manage Packages', 'Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
+            'admin.managepackagedurations.editPackageDurations'   => ['Manage Packages', 'Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
         ];
 
-        $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '', 'fa-line-chart', ''];
+        $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '',    'fa-line-chart', ''];
     @endphp
 
     <div class="d-flex align-items-center">
@@ -38,7 +66,7 @@
     @if($route[1]) 
         <span class="mx-2">/</span>
         <div class="d-flex align-items-center">
-            <i class="fa {{ $route[3] }} me-2"></i> <span>{{ $route[1] }}</span>
+            <i class="{{ $route[3] }} me-2"></i> <span>{{ $route[1] }}</span>
         </div>
     @endif
 </h4>

@@ -97,7 +97,7 @@
                                                                         <button type="submit"
                                                                             class="btn btn-danger btn-sm"
                                                                             title="Delete">
-                                                                            <i class="fa fa-trash-o"></i>
+                                                                            <i class="fa-regular fa-trash-can"></i>
                                                                         </button>
                                                                     </form>
                                                                     @endif

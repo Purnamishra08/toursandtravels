@@ -133,7 +133,7 @@ class HotelTypeController extends Controller
             }            
         } catch (\Exception $e) {
             // Log the error
-            Log::error('Error Active/Inactive vehicle: ' . $e->getMessage());
+            Log::error('Error Active/Inactive hotel type: ' . $e->getMessage());
 
             return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to Active/Inactive Hotel type.']);
         }
