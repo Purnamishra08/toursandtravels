@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\manageLocation\DestinationController;
 use App\Http\Controllers\Admin\manageMenus\MenutagController;
 use App\Http\Controllers\Admin\manageMenus\CategoryController;
 use App\Http\Controllers\Admin\manageMenus\CategoryTagsController;
+use App\Http\Controllers\Admin\ManagePackages\PackageDurationsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -99,12 +100,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/activeSeasonType/{id}', [SeasonTypeController::class, 'activeSeasonType'])->name('admin.manageSeasontype.activeSeasonType');
 
     // Hotel
-    Route::get('/hotel', [HotelController::class, 'index'])->name('admin.manageHotel');
-    Route::match(['get', 'post'], '/addHotel', [HotelController::class, 'addHotel'])->name('admin.manageHotel.addHotel');
-    Route::match(['get', 'post'], '/editHotel/{id}', [HotelController::class, 'editHotel'])->name('admin.manageHotel.editHotel');
-    Route::match(['get', 'post'], '/viewHotel/{id}', [HotelController::class, 'viewHotel'])->name('admin.manageHotel.viewHotel');
-    Route::post('/deleteHotel/{id}', [HotelController::class, 'deleteHotel'])->name('admin.manageHotel.deleteHotel');
-    Route::post('/activeHotel/{id}', [HotelController::class, 'activeHotel'])->name('admin.manageHotel.activeHotel');
+    Route::match(['get', 'post'], '/hotel', [HotelController::class, 'index'])->name('admin.manageHotels');
+    Route::match(['get', 'post'], '/addHotel', [HotelController::class, 'addHotel'])->name('admin.manageHotels.addHotel');
+    Route::match(['get', 'post'], '/editHotel/{id}', [HotelController::class, 'editHotel'])->name('admin.manageHotels.editHotel');
+    Route::match(['get', 'post'], '/viewHotel/{id}', [HotelController::class, 'viewHotel'])->name('admin.manageHotels.viewHotel');
+    Route::post('/deleteHotel/{id}', [HotelController::class, 'deleteHotel'])->name('admin.manageHotels.deleteHotel');
+    Route::post('/activeHotel/{id}', [HotelController::class, 'activeHotel'])->name('admin.manageHotels.activeHotel');
 
     // Manage Hotels
 
@@ -148,4 +149,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/activecategorytags/{id}', [CategoryTagsController::class, 'activecategorytags'])->name('admin.categorytags.activecategorytags');
     Route::post('/categorytags/getCategoryMenuWise', [CategoryTagsController::class, 'getCategoryMenuWise'])->name('admin.categorytags.getCategoryMenuWise');
     //Manage Menus
+
+    // Manage Packages 
+
+    // Package Duration
+    Route::match(['get', 'post'], '/package-duration', [PackageDurationsController::class, 'index'])->name('admin.managepackagedurations');
+    Route::match(['get', 'post'], '/addPackageDurations', [PackageDurationsController::class, 'addPackageDurations'])->name('admin.managepackagedurations.addPackageDurations');
+    Route::match(['get', 'post'], '/editPackageDurations/{id}', [PackageDurationsController::class, 'editPackageDurations'])->name('admin.managepackagedurations.editPackageDurations');
+    Route::post('/deletePackageDurations/{id}', [PackageDurationsController::class, 'deletePackageDurations'])->name('admin.managepackagedurations.deletePackageDurations');
+    Route::post('/activePackageDurations/{id}', [PackageDurationsController::class, 'activePackageDurations'])->name('admin.managepackagedurations.activePackageDurations');
+    // Package Duration
+    // Manage Packages
 });

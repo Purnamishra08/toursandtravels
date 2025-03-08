@@ -20,7 +20,7 @@
                     <div class="inner-layout">
                         <div class="container-fluid px-4 pt-3">
                             <nav class="tab-menu">
-                                <a href="{{ route('admin.manageHotel.addHotel') }}" class="tab-menu__item active">
+                                <a href="{{ route('admin.manageHotels.addHotel') }}" class="tab-menu__item active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-plus" viewBox="0 0 16 16">
                                         <path
@@ -29,7 +29,7 @@
                                     </svg>
                                     Add
                                 </a>
-                                <a href="{{ route('admin.manageHotel') }}" class="tab-menu__item ">
+                                <a href="{{ route('admin.manageHotels') }}" class="tab-menu__item ">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-eye" viewBox="0 0 16 16">
                                         <path
@@ -53,7 +53,7 @@
                                     <div class="col-md-12">
                                         <div class="panel panel-bd lobidrag">
                                             <div class="panel-body">
-                                                <form action="{{ route('admin.manageHotel.addHotel') }}" method="POST"
+                                                <form action="{{ route('admin.manageHotels.addHotel') }}" method="POST"
                                                     id="userform" name="userform" class="add-user"
                                                     onsubmit="return validator()">
                                                     @csrf
@@ -357,7 +357,7 @@
                                                                                     class="btn btn-danger btn-sm views delrowbtn"
                                                                                     title="Delete" name="del[]"
                                                                                     id="del_0"><i
-                                                                                        class="fa fa-trash-o"></i></a>
+                                                                                        class="fa-regular fa-trash-can"></i></a>
                                                                             </td>
                                                                         </tr>
                                                                     </tbody>
@@ -369,7 +369,7 @@
                                                     <div class="col-md-6">
                                                         <div class="reset-button">
                                                             <button type="submit" class="btn btn-primary">Save</button>
-                                                            <button type="reset" class="btn blackbtn">Reset</button>
+                                                            <button type="reset" class="btn btn-danger">Reset</button>
                                                         </div>
                                                     </div>
                                                 </form>

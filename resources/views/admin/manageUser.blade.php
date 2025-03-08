@@ -129,7 +129,7 @@
                                                                                     <form action="{{ route('admin.manageUser.deleteUser', ['id' => $user->adminid]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?')" class="d-inline-block">
                                                                                         @csrf
                                                                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                                                                            <i class="fa fa-trash-o"></i>
+                                                                                            <i class="fa-regular fa-trash-can"></i>
                                                                                         </button>
                                                                                     </form>
                                                                                 @endif

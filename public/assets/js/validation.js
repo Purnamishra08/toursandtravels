@@ -336,3 +336,25 @@ function validateFilePresence(controlId, msg) {
     }
     return true;
 }
+
+function isDecimalUptoTwo(controlId, msg) {
+    var data = $("#" + controlId).val();
+
+    if (data != " ") {
+        var reg = new RegExp(/^[0-9]+(\.[0-9]{1,2})?$/);
+        if (reg.test(data) == true) return true;
+        else {
+            if (data != "") {
+                Swal.fire({
+                    icon: "error",
+                    text: msg,
+                    confirmButtonColor: "#d33",
+                });
+                $("#" + controlId).focus();
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+}

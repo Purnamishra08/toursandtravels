@@ -73,7 +73,7 @@
                                                     <div class="col-md-6">
                                                         <div class="reset-button">
                                                             <button type="submit" class="btn btn-primary">Update</button>
-                                                            <!-- <button type="reset" class="btn blackbtn">Reset</button> -->
+                                                            <!-- <button type="reset" class="btn btn-danger">Reset</button> -->
                                                         </div>
                                                     </div>
                                                 </form>

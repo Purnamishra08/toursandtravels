@@ -41,22 +41,22 @@
                         </a>
                         <a class="nav-link {{ Str::startsWith($currentRoute, 'admin.manageVehicleprice') ? 'active' : '' }}"
                             href="{{ route('admin.manageVehicleprice') }}">
-                            <i class="fa fa-money mt-1 me-2"></i> Vehicle Price
+                            <i class="fa-regular fa-money-bill-1 mt-1 me-2"></i> Vehicle Price
                         </a>
                     </nav>
                 </div>
 
                 
-                <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotel']) ? '' : 'collapsed' }}"
+                <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotels']) ? '' : 'collapsed' }}"
                     href="#" data-bs-toggle="collapse" data-bs-target="#manageHotels"
-                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotel']) ? 'true' : 'false' }}"
+                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotels']) ? 'true' : 'false' }}"
                     aria-controls="manageHotels">
                     <div class="sb-nav-link-icon"><i class="fa fa-building"></i></div>
                     Manage Hotels
                     <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
                 </a>
 
-                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype', 'admin.manageHotel']) ? 'show' : '' }}"
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype', 'admin.manageHotels']) ? 'show' : '' }}"
                     id="manageHotels" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link {{ Str::startsWith($currentRoute, 'admin.manageHoteltype') ? 'active' : '' }}"
@@ -65,20 +65,13 @@
                         </a>
                         <a class="nav-link {{ Str::startsWith($currentRoute, 'admin.manageSeasontype') ? 'active' : '' }}"
                             href="{{ route('admin.manageSeasontype') }}">
-                            <i class="fa fa-sun-o mt-1 me-2"></i> Season Type
+                            <!-- <i class="fa-thin fa-sun"></i> -->
+                            <i class="fa-regular fa-sun mt-1 me-2"></i> Season Type
                         </a>
-                        <a class="nav-link {{ Str::startsWith($currentRoute, 'admin.manageHotel') ? 'active' : '' }}"
-                            href="{{ route('admin.manageHotel') }}">
+                        <a class="nav-link {{ Str::startsWith($currentRoute, 'admin.manageHotels') ? 'active' : '' }}"
+                            href="{{ route('admin.manageHotels') }}">
                             <i class="fa fa-hotel mt-1 me-2"></i> Hotel
                         </a>
-                        <!-- <a class="nav-link {{ request()->routeIs('admin.manageVehicleprice*') ? 'active' : '' }}"
-                            href="">
-                            <i class="fa fa-sun-o mt-1 me-2"></i> Season Type
-                        </a>
-                        <a class="nav-link {{ request()->routeIs('admin.manageVehicleprice*') ? 'active' : '' }}"
-                            href="">
-                            <i class="fa fa-hotel mt-1 me-2"></i> Hotel
-                        </a> -->
                     </nav>
                 </div>
                
@@ -104,7 +97,7 @@
                         </a>
                         <a class="nav-link {{  Str::startsWith($currentRoute, ['admin.destination']) ? 'active' : '' }}"
                             href="{{ route('admin.destination') }}">
-                            <i class="fa fa-map-marker mt-1 me-2"></i> Destinations
+                            <i class="fa fa-location-dot mt-1 me-2"></i> Destinations
                         </a>
                         <a class="nav-link {{ request()->routeIs('') ? 'active' : '' }}"
                             href="">
@@ -131,7 +124,7 @@
                         </a>
                         <a class="nav-link {{ $currentRoute == 'admin.category' || $currentRoute == 'admin.category.addcategory' || $currentRoute == 'admin.category.editcategory'  ? 'active' : ''}}"
                             href="{{ route('admin.category') }}">
-                            <i class="fa fa-gg mt-1 me-2"></i> Category
+                            <i class="fa-brands fa-gg mt-1 me-2"></i> Category
                         </a>
                          <a class="nav-link {{ $currentRoute == 'admin.categorytags' || $currentRoute == 'admin.categorytags.addcategorytags' ||$currentRoute == 'admin.categorytags.editcategorytags' ? 'active' : '' }}"
                             href="{{ route('admin.categorytags') }}">
@@ -139,31 +132,32 @@
                         </a>
                     </nav>
                 </div>
+                <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.managepackagedurations']) ? '' : 'collapsed' }}"
+                    href="#" data-bs-toggle="collapse" data-bs-target="#packages"
+                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.managepackagedurations']) ? 'true' : 'false' }}"
+                    aria-controls="packages">
+                    <div class="sb-nav-link-icon"><i class="fa fa-person-walking-luggage"></i></div>
+                    Manage Packages
+                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                </a>
 
-                <!-- <a class="nav-link" href="tourist-registration.php"> 
-                    <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>
-                     Tourist Registration List
-                </a> -->
-                <!-- <a class="nav-link" href="view-generated-passlist.php">
-                    <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>
-                     Generated Pass List
-                </a>
-                <a class="nav-link" href="view-transaction.php">
-                    <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>
-                     Booking & Transcations
-                </a>
-                <a class="nav-link" href="#"> 
-                    <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>
-                    Booking Settlement
-                </a>
-                <a class="nav-link" href="#">
-                    <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>
-                    Revenue Report
-                </a> -->
-                <!-- <a class="nav-link" href="view-feedback.php"> 
-                    <div class="sb-nav-link-icon"><i class="bi bi-layout-split"></i></div>
-                    Feedback
-                </a>                       -->
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.managepackagedurations']) ? 'show' : '' }}"
+                    id="packages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link {{ $currentRoute == 'admin.managepackagedurations' ? 'active' : ''}}"
+                            href="{{ route('admin.managepackagedurations') }}">
+                            <i class="fa fa-hourglass mt-1 me-2"></i> Package Duration
+                        </a>
+                        <!-- <a class="nav-link {{ $currentRoute == 'admin.category' || $currentRoute == 'admin.category.addcategory' || $currentRoute == 'admin.category.editcategory'  ? 'active' : ''}}"
+                            href="{{ route('admin.category') }}">
+                            <i class="fa fa-gg mt-1 me-2"></i> Category
+                        </a>
+                         <a class="nav-link {{ $currentRoute == 'admin.categorytags' || $currentRoute == 'admin.categorytags.addcategorytags' ||$currentRoute == 'admin.categorytags.editcategorytags' ? 'active' : '' }}"
+                            href="{{ route('admin.categorytags') }}">
+                            <i class="fa fa-tag mt-1 me-2"></i> Category Tags
+                        </a> -->
+                    </nav>
+                </div>
             </div>
         </div>
     </nav>
