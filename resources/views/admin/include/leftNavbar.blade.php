@@ -120,7 +120,7 @@
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link {{ $currentRoute == 'admin.menutag' || $currentRoute == 'admin.category.addmenutag' || $currentRoute == 'admin.category.editmenutag'  ? 'active' : ''}}"
                             href="{{ route('admin.menutag') }}">
-                            <i class="fa fa-th-list mt-1 me-2"></i> Menu Tags
+                            <i class="fa-solid fa-tags mt-1 me-2"></i> Menu Tags
                         </a>
                         <a class="nav-link {{ $currentRoute == 'admin.category' || $currentRoute == 'admin.category.addcategory' || $currentRoute == 'admin.category.editcategory'  ? 'active' : ''}}"
                             href="{{ route('admin.category') }}">
