@@ -2,7 +2,7 @@
     <header id="header">
         <nav class="navbar navbar-expand-xl fixed-top">
             <div class="container">
-                <a href="#" class="navbar-brand"><img src="{{ asset('assets/img/web-img/duplicate-logo.png') }}" alt="logo" /></a>
+                <a href="#" class="navbar-brand"><img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" /></a>
                 <a class="nav-link ms-auto me-3 mob-menu mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" aria-current="page" href="#"><i class="bi bi-search text-white fs-5"></i></a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -14,7 +14,7 @@
                     aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title text-light" id="offcanvasNavbarLabel">
-                            <a href="#" class="navbar-brand"><img src="{{ asset('assets/img/web-img/duplicate-logo.png') }}" alt="logo" /></a>
+                            <a href="#" class="navbar-brand"><img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" /></a>
                         </h5>
                         <button type="button" class="btn-close btn-close-dark text-reset me-3"
                             data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -274,7 +274,7 @@
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="offcanvasTopLabel">
                 <a href="../index.blade.php" class="navbar-brand">
-                <img src="{{ asset('assets/img/web-img/duplicate-logo.png') }}" alt="logo" />
+                <img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" />
                    </a>
               </h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

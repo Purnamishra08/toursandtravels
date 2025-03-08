@@ -5,7 +5,7 @@
                     <div class="col-lg-4">
                         <h1 class="mb-3">
                             <a href="../index.blade.php">
-                                <img src="{{ asset('assets/img/web-img/duplicare-logo-dashbord.png') }}" alt="logo" />
+                                <img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" />
 
                                 
                         </h1>

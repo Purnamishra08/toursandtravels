@@ -50,10 +50,14 @@
             'admin.categorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
             'admin.categorytags.addcategorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
             'admin.categorytags.editcategorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
-            
+
             'admin.managepackagedurations'   => ['Manage Packages', 'Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
             'admin.managepackagedurations.addPackageDurations'   => ['Manage Packages', 'Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
             'admin.managepackagedurations.editPackageDurations'   => ['Manage Packages', 'Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
+
+            'admin.menutag' => ['Menus', 'Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
+            'admin.category.addmenutag' => ['Menus', 'Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
+            'admin.category.editmenutag' => ['Menus', 'Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '',    'fa-line-chart', ''];
