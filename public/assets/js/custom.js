@@ -22,12 +22,12 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
-$(document).ready(function () {
-    $('.date-picker').datepicker({
-       autoclose: true,
-       todayHighlight: true
-   });
-});
+// $(document).ready(function () {
+//     $('.date-picker').datepicker({
+//        autoclose: true,
+//        todayHighlight: true
+//    });
+// });
 
 
 

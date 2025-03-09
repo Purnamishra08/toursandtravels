@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\manageMenus\MenutagController;
 use App\Http\Controllers\Admin\manageMenus\CategoryController;
 use App\Http\Controllers\Admin\manageMenus\CategoryTagsController;
 use App\Http\Controllers\Admin\ManagePackages\PackageDurationsController;
+use App\Http\Controllers\Admin\ManagePackages\TourPackagesController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -156,11 +157,20 @@ Route::middleware('auth')->group(function () {
     // Manage Packages 
 
     // Package Duration
-    Route::match(['get', 'post'], '/package-duration', [PackageDurationsController::class, 'index'])->name('admin.managepackagedurations');
+    Route::match(['get', 'post'], '/package-durations', [PackageDurationsController::class, 'index'])->name('admin.managepackagedurations');
     Route::match(['get', 'post'], '/addPackageDurations', [PackageDurationsController::class, 'addPackageDurations'])->name('admin.managepackagedurations.addPackageDurations');
     Route::match(['get', 'post'], '/editPackageDurations/{id}', [PackageDurationsController::class, 'editPackageDurations'])->name('admin.managepackagedurations.editPackageDurations');
     Route::post('/deletePackageDurations/{id}', [PackageDurationsController::class, 'deletePackageDurations'])->name('admin.managepackagedurations.deletePackageDurations');
     Route::post('/activePackageDurations/{id}', [PackageDurationsController::class, 'activePackageDurations'])->name('admin.managepackagedurations.activePackageDurations');
     // Package Duration
+
+    // Tour Package
+    Route::match(['get', 'post'], '/tour-packages', [TourPackagesController::class, 'index'])->name('admin.managetourpackages');
+    Route::match(['get', 'post'], '/addTourPackages', [TourPackagesController::class, 'addTourPackages'])->name('admin.managetourpackages.addTourPackages');
+    Route::match(['get', 'post'], '/editTourPackages/{id}', [TourPackagesController::class, 'editTourPackages'])->name('admin.managetourpackages.editTourPackages');
+    Route::post('/deleteTourPackages/{id}', [TourPackagesController::class, 'deleteTourPackages'])->name('admin.managetourpackages.deleteTourPackages');
+    Route::post('/activeTourPackages/{id}', [TourPackagesController::class, 'activeTourPackages'])->name('admin.managetourpackages.activeTourPackages');
+    // Tour Package
+
     // Manage Packages
 });
