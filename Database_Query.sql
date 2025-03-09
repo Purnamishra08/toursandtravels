@@ -216,49 +216,6 @@ CREATE TABLE `tbl_parameters` (
   KEY `INX_TBL_PARAMETERS 2024-05-25 21:26` (`parid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
-CREATE TABLE `tbl_places` (
-  `placeid` int(11) NOT NULL AUTO_INCREMENT,
-  `destination_id` int(11) DEFAULT NULL,
-  `place_name` varchar(200) DEFAULT NULL,
-  `place_url` varchar(200) DEFAULT NULL,
-  `latitude` varchar(20) DEFAULT NULL,
-  `longitude` varchar(20) DEFAULT NULL,
-  `trip_duration` varchar(100) DEFAULT NULL,
-  `distance_from_nearest_city` varchar(200) DEFAULT NULL,
-  `placeimg` varchar(200) DEFAULT NULL,
-  `placethumbimg` varchar(300) DEFAULT NULL,
-  `alttag_banner` varchar(64) DEFAULT NULL,
-  `alttag_thumb` varchar(64) DEFAULT NULL,
-  `google_map` text DEFAULT NULL,
-  `travel_tips` text DEFAULT NULL,
-  `about_place` text DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `entry_fee` varchar(300) DEFAULT NULL,
-  `timing` text DEFAULT NULL,
-  `rating` varchar(100) DEFAULT NULL,
-  `meta_title` text DEFAULT NULL,
-  `meta_keywords` text DEFAULT NULL,
-  `meta_description` text DEFAULT NULL,
-  `pckg_meta_title` text DEFAULT NULL,
-  `pckg_meta_keywords` text DEFAULT NULL,
-  `pckg_meta_description` text DEFAULT NULL,
-  `created_date` datetime DEFAULT NULL,
-  `created_by` int(11) DEFAULT NULL,
-  `updated_date` datetime DEFAULT NULL,
-  `updated_by` int(11) DEFAULT NULL,
-  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
-  PRIMARY KEY (`placeid`),
-  KEY `INX_TBL_PLACES 2024-05-25 11:08` (`place_url`)
-);
-
-CREATE TABLE `tbl_place_transport` (
-  `transportid` int(11) NOT NULL AUTO_INCREMENT,
-  `place_id` int(11) NOT NULL,
-  `transport_id` varchar(100) DEFAULT NULL,
-  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
-  PRIMARY KEY (`transportid`)
-);
-
 #ManageLocation
 
 
@@ -326,4 +283,95 @@ CREATE TABLE `tbl_package_duration` (
   PRIMARY KEY (`durationid`)
 );
 INSERT INTO `toursandtravels`.`tbl_package_duration` (`duration_name`, `no_ofdays`, `no_ofnights`, `status`) VALUES ('2 Days / 1 Nights', '2', '1', '1');
+
+use toursandtravels;
+CREATE TABLE `tbl_tourpackages` (
+  `tourpackageid` int(11) NOT NULL AUTO_INCREMENT,
+  `tpackage_name` varchar(300) DEFAULT NULL,
+  `tpackage_url` varchar(200) DEFAULT NULL,
+  `tpackage_code` varchar(200) DEFAULT NULL,
+  `package_duration` int(11) DEFAULT NULL,
+  `price` decimal(13,2) DEFAULT NULL,
+  `fakeprice` decimal(13,2) DEFAULT NULL,
+  `pmargin_perctage` varchar(200) DEFAULT NULL,
+  `inclusion_exclusion` text DEFAULT NULL,
+  `tpackage_image` text DEFAULT NULL,
+  `tour_thumb` varchar(200) DEFAULT NULL,
+  `alttag_banner` varchar(64) DEFAULT NULL,
+  `alttag_thumb` varchar(64) DEFAULT NULL,
+  `ratings` float DEFAULT NULL,
+  `itinerary_note` text DEFAULT NULL,
+  `accomodation` int(11) DEFAULT NULL,
+  `tourtransport` int(11) DEFAULT NULL,
+  `sightseeing` int(11) DEFAULT NULL,
+  `breakfast` int(11) DEFAULT NULL,
+  `waterbottle` tinyint(4) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `pack_type` tinyint(4) DEFAULT NULL,
+  `itinerary` int(11) DEFAULT NULL,
+  `starting_city` int(11) DEFAULT NULL,
+  `meta_title` text DEFAULT NULL,
+  `meta_keywords` text DEFAULT NULL,
+  `meta_description` text DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `show_video_itinerary` int(11) NOT NULL DEFAULT 0,
+  `video_itinerary_link` longtext DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`tourpackageid`),
+  KEY `INX_TBL_TOURPACKAGES 2024-05-25 11:08` (`tpackage_url`)
+);
+
+CREATE TABLE `tbl_tags` (
+  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) DEFAULT NULL COMMENT '1= destination_id ,2=place_id, 3=tourpackage_id',
+  `type_id` int(11) DEFAULT NULL,
+  `tagid` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`tag_id`)
+);
+
+CREATE TABLE `tbl_package_accomodation` (
+  `acc_id` int(11) NOT NULL AUTO_INCREMENT,
+  `package_id` int(11) DEFAULT NULL,
+  `destination_id` int(11) DEFAULT NULL,
+  `noof_days` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`acc_id`)
+);
+
+CREATE TABLE `tbl_itinerary` (
+  `itinerary_id` int(11) NOT NULL AUTO_INCREMENT,
+  `itinerary_name` varchar(200) DEFAULT NULL,
+  `iti_travelmode` varchar(200) DEFAULT NULL,
+  `iti_idealstime` varchar(200) DEFAULT NULL,
+  `iti_duration` int(11) DEFAULT NULL,
+  `itinerary_url` varchar(200) DEFAULT NULL,
+  `itineraryimg` varchar(300) DEFAULT NULL,
+  `itinerarythumbimg` varchar(300) DEFAULT NULL,
+  `alttag_banner` varchar(64) DEFAULT NULL,
+  `alttag_thumb` varchar(64) DEFAULT NULL,
+  `starting_city` int(11) DEFAULT NULL,
+  `ratings` float DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `show_in_home` tinyint(4) DEFAULT NULL,
+  `meta_title` text DEFAULT NULL,
+  `meta_keywords` text DEFAULT NULL,
+  `meta_description` text DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`itinerary_id`),
+  KEY `INX_TBL_ITINERARY 2024-05-25 11:08` (`itinerary_url`)
+);
+
+
+
+
+
+
 #ManagePackages
