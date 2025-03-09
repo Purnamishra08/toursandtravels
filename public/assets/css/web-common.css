@@ -455,6 +455,38 @@ border: none;
     top: 4px;
     left: 0;
 }
+/* breard-crumb-css start */
+.breadcrumb-section{
+    height: 250px;
+    background-image: url(../img/web-img/innerpage-baner.png);
+    background-position: bottom;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.breadcrumb-section:before{
+    content: "";
+    background-color: #151515;
+    opacity: 0.65;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.breadcrumb-section .page-name{
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+    position: relative;
+    z-index: 22;
+}
+
+
+
 .blog-spot-wrapper{
     padding: 0;
     margin: 0;

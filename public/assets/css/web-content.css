@@ -1,0 +1,54 @@
+.page-area .section-title-container{
+    text-align: center;
+    display: block;
+}
+.page-area .section-title-container .section-title-large{
+    font-size: 2rem;
+}
+/* contactus page css */
+/* .contact-section {
+    background: linear-gradient(45deg, #f2f9fb, #b6c8de);
+} */
+.contact-left-section{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+}
+
+.contact-left-section li:not(:last-child){
+    margin-bottom: 1.5rem;
+}
+.contact-left-section h5{
+    font-weight: 600;
+    color: #505050;
+}
+.contact-left-section p{
+    margin-bottom: 0;
+}
+.icon-box{
+    --size:80px;
+    height: var(--size);
+    width: var(--size);
+    border-radius: 50%;
+    background:  linear-gradient(90deg, #f2f9fc, #e1eef3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.icon-box i{
+    font-size: 2rem;
+}
+.responsive-map{
+    overflow: hidden;
+    padding-bottom:400px;
+    position:relative;
+    height:0;
+    }
+    .responsive-map iframe{
+    left:0;
+    top:0;
+    height:400px;
+    width:100%;
+    position:absolute;
+    } 

@@ -4,7 +4,10 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <h1 class="mb-3">
-                            <a href="#"><img src="./img//logo.png" alt="logo" /></a>
+                            <a href="../index.blade.php">
+                                <img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" />
+
+                                
                         </h1>
                         <p class="about-company">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -57,32 +60,32 @@
 
                         <ul class="blog-spot-wrapper">
                             <li>
-                                <img src="./img/footer-blog-spot-1.png" alt="blog spot" />
+                                <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
                                 <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
                                     consectetur.</a>
                             </li>
                             <li>
-                                <img src="./img/footer-blog-spot-1.png" alt="blog spot" />
+                              <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
                                 <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
                                     consectetur.</a>
                             </li>
                             <li>
-                                <img src="./img/footer-blog-spot-1.png" alt="blog spot" />
+                              <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
                                 <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
                                     consectetur.</a>
                             </li>
                             <li>
-                                <img src="./img/footer-blog-spot-1.png" alt="blog spot" />
+                              <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
                                 <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
                                     consectetur.</a>
                             </li>
                             <li>
-                                <img src="./img/footer-blog-spot-1.png" alt="blog spot" />
+                              <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
                                 <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
                                     consectetur.</a>
                             </li>
                             <li>
-                                <img src="./img/footer-blog-spot-1.png" alt="blog spot" />
+                              <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
                                 <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
                                     consectetur.</a>
                             </li>
@@ -136,7 +139,7 @@
     integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
-    <script src="{{asset('assets/js/webcommon.js')}}"></script>
+    <script src="{{asset('assets/js/web-common.js')}}"></script>
     <script>
         new WOW().init();
     </script>

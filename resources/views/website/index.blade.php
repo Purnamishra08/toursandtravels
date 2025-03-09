@@ -23,10 +23,11 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                        <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                           
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="./img/single-star.png" alt="Rating" />
+                                    <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
@@ -43,10 +44,10 @@
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="./img/single-star.png" alt="Rating" />
+                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
@@ -63,10 +64,10 @@
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="./img/single-star.png" alt="Rating" />
+                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
@@ -83,10 +84,10 @@
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="./img/single-star.png" alt="Rating" />
+                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
@@ -103,10 +104,10 @@
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="./img/single-star.png" alt="Rating" />
+                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
@@ -123,10 +124,10 @@
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="./img/single-star.png" alt="Rating" />
+                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
@@ -143,10 +144,10 @@
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="./img/single-star.png" alt="Rating" />
+                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
@@ -163,10 +164,10 @@
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                            <img src="./img/card-img-1.png" class="card-img-top" alt="..." />
+                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="./img/single-star.png" alt="Rating" />
+                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
@@ -201,23 +202,23 @@
             </div>
             <div class="gallery-container wow animate__fadeInUp  "  data-wow-delay="600ms">
                 <div class="gallery-item">
-                    <img src="./img/destination-1.png.png" alt="Spain" />
+                    <img src="{{ asset('assets/img/web-img/destination-1.png.png') }}" alt="Spain" />
                     <div class="gallery-text">Spain</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="./img/destination-2.png.png" alt="Thailand" />
+                    <img src="{{ asset('assets/img/web-img/destination-2.png.png') }}" alt="Thailand" />
                     <div class="gallery-text">Thailand</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="./img/destination-3.png.png" alt="Africa" />
+                    <img src="{{ asset('assets/img/web-img/destination-3.png.png') }}" alt="Africa" />
                     <div class="gallery-text">Africa</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="./img/destination-4.png.png" alt="Australia" />
+                    <img src="{{ asset('assets/img/web-img/destination-4.png.png') }}" alt="Australia" />
                     <div class="gallery-text">Australia</div>
                 </div>
                 <div class="gallery-item">
-                    <img src="./img/destination-5.png.png" alt="Switzerland" />
+                    <img src="{{ asset('assets/img/web-img/destination-5.png.png') }}" alt="Switzerland" />
                     <div class="gallery-text">Switzerland</div>
                 </div>
             </div>
@@ -241,7 +242,8 @@
                             <div class="card-body">
                                 <div class="client-details mb-2">
                                     <div class="client-img-box">
-                                        <img src="./img/client-2.jpg" alt="" />
+                                        <img src="{{ asset('assets/img/web-img/client-2.jpg') }}" alt="img" />
+                                        
                                     </div>
                                     <div>
                                         <p class="client-name">Rohan Agarwal</p>
@@ -275,7 +277,7 @@
                             <div class="card-body">
                                 <div class="client-details mb-2">
                                     <div class="client-img-box">
-                                        <img src="./img/client-2.jpg" alt="" />
+                                    <img src="{{ asset('assets/img/web-img/client-2.jpg') }}" alt="img" />
                                     </div>
                                     <div>
                                         <p class="client-name">Purna Chandra Mishra</p>
@@ -309,7 +311,7 @@
                             <div class="card-body">
                                 <div class="client-details mb-2">
                                     <div class="client-img-box">
-                                        <img src="./img/client-1.webp" alt="" />
+                                    <img src="{{ asset('assets/img/web-img/client-1.webp') }}" alt="img" />
                                     </div>
                                     <div>
                                         <p class="client-name">Suman Sharma</p>
@@ -362,7 +364,7 @@
             </div>
             <div class="recent-post-wrapper">
                 <div class="card recent-post-card wow animate__fadeInUp  "  data-wow-delay="200ms">
-                    <img class="card-img-top" src="./img/img17.jpg.png" alt="" />
+                    <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
                     <div class="card-body">
                         <h5 class="card-title">
                             Life is a beautiful journey not a destination
@@ -377,7 +379,7 @@
                     </div>
                 </div>
                 <div class="card recent-post-card wow animate__fadeInUp  "  data-wow-delay="400ms">
-                    <img class="card-img-top" src="./img/img17.jpg.png" alt="" />
+                   <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
                     <div class="card-body">
                         <h5 class="card-title">
                             Life is a beautiful journey not a destination
@@ -392,7 +394,7 @@
                     </div>
                 </div>
                 <div class="card recent-post-card wow animate__fadeInUp  "  data-wow-delay="600ms">
-                    <img class="card-img-top" src="./img/img17.jpg.png" alt="" />
+                   <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
                     <div class="card-body">
                         <h5 class="card-title">
                             Life is a beautiful journey not a destination
@@ -407,7 +409,7 @@
                     </div>
                 </div>
                 <div class="card recent-post-card wow animate__fadeInUp  "  data-wow-delay="800ms">
-                    <img class="card-img-top" src="./img/img17.jpg.png" alt="" />
+                   <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
                     <div class="card-body">
                         <h5 class="card-title">
                             Life is a beautiful journey not a destination
