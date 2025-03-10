@@ -33,6 +33,11 @@
                                     </svg>
                                     View
                                 </a>
+                                <!-- table-utilities -->
+                                <div class="table-utilities">
+                                    <strong class="manadatory me-1">*</strong>Indicates Mandatory
+                                </div>
+                                <!-- table-utilities end-->
                             </nav>
                             @include('Admin.include.sweetaleart')
 
