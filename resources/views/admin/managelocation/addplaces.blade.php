@@ -373,12 +373,7 @@
     <!-- FooterJs End-->
     <script src="{{ asset('assets/js/validation.js') }}"></script>
     <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
-    <!-- jQuery (Required for Chosen) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Chosen CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
-    <!-- Chosen JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+    <script src="{{ asset('assets/js/chosen.jquery.js') }}"></script>
     <script>
          $(document).ready(function () {
             $(".chosen-select").chosen({
