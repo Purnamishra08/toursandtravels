@@ -395,7 +395,7 @@
             $('#getatagid').chosen();
         });
     </script>
-    <<script>
+    <script>
         function validator(){
         if(!blankCheck('tpackage_name','Please Enter Package Name'))
         return false;
