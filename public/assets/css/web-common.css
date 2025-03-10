@@ -63,8 +63,11 @@ ul,ol{
 p{
     margin-bottom: 0;
 }
+.card{
+    border: 0;
+}
 section{
-    padding: 2rem 0;
+    padding: 3rem 0;
 }
 .section-title-container{
    display: flex;

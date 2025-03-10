@@ -6,7 +6,7 @@
                         <h1 class="mb-3">
                             <a href="../index.blade.php">
                                 <img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" />
-
+                            </a>
                                 
                         </h1>
                         <p class="about-company">

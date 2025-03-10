@@ -31,7 +31,8 @@
     height: var(--size);
     width: var(--size);
     border-radius: 50%;
-    background:  linear-gradient(90deg, #f2f9fc, #e1eef3);
+    /* background:  linear-gradient(90deg, #f2f9fc, #e1eef3); */
+    background: linear-gradient(124deg, #ceeafceb, #dffaf8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -52,3 +53,28 @@
     width:100%;
     position:absolute;
     } 
+    .office-add-section{
+        background-color: rgb(191 217 234);
+    }
+    .office-address{
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+        height: 100%;
+    }
+    .office-address h5{
+        margin-bottom: 1rem;
+        color: #03787a;
+        font-weight: 600;
+    }
+    .office-address .contact-wrapper{
+        margin-top: 0;
+    }
+    .office-address .contact-wrapper li a, .office-address .quick-link-wrapper li a {
+        color: #000;
+        font-size: 1rem;
+       
+    }
+    .office-address .contact-wrapper li i {
+        color: #34bdb2;
+        font-size: 1rem;
+        flex: 0 0 1.2rem;
+    }

@@ -260,7 +260,7 @@
                                 <a class="nav-link" aria-current="page" href="#">Blogs</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="../contactus.blade.php">Contact</a>
+                                <a class="nav-link" aria-current="page" href="../contactus">Contact</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" aria-current="page" href="#"><i class="bi bi-search"></i></a>

@@ -20,11 +20,16 @@
                 <a href="#" class=" btn btn-outline-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
             </div>
             <div class="swiper popular-tour-swiper wow animate__fadeInUp  "  data-wow-delay="400ms">
-                <div class="swiper-wrapper">
+                <div class="swiper-wrapper px-1">
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
                         <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
                            
+                        <div class="tour-details">
+                            <small>3 Days</small>
+                            <small>12+</small>
+                            <small>Los Angeles</small>
+                        </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
                                     <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
@@ -33,152 +38,178 @@
                                 <h5 class="card-title">Forest Adventure</h5>
                                 <div class="price d-flex align-items-center gap-1">
                                     <span>$1870 </span> <small>/ Per Person</small>
+                                   
                                 </div>
-                                <div class="tour-details">
-                                    <small>3 Days</small>
-                                    <small>12+</small>
-                                    <small>Los Angeles</small>
-                                </div>
+                                <a href="#" class=" btn btn-warning d-block">view-Details</a>
+                                
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                        <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                           
+                        <div class="tour-details">
+                            <small>3 Days</small>
+                            <small>12+</small>
+                            <small>Los Angeles</small>
+                        </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
+                                    <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
                                 <div class="price d-flex align-items-center gap-1">
                                     <span>$1870 </span> <small>/ Per Person</small>
+                                   
                                 </div>
-                                <div class="tour-details">
-                                    <small>3 Days</small>
-                                    <small>12+</small>
-                                    <small>Los Angeles</small>
-                                </div>
+                                <a href="#" class=" btn btn-warning d-block">view-Details</a>
+                                
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                        <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                           
+                        <div class="tour-details">
+                            <small>3 Days</small>
+                            <small>12+</small>
+                            <small>Los Angeles</small>
+                        </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
+                                    <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
                                 <div class="price d-flex align-items-center gap-1">
                                     <span>$1870 </span> <small>/ Per Person</small>
+                                   
                                 </div>
-                                <div class="tour-details">
-                                    <small>3 Days</small>
-                                    <small>12+</small>
-                                    <small>Los Angeles</small>
-                                </div>
+                                <a href="#" class=" btn btn-warning d-block">view-Details</a>
+                                
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                        <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                           
+                        <div class="tour-details">
+                            <small>3 Days</small>
+                            <small>12+</small>
+                            <small>Los Angeles</small>
+                        </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
+                                    <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
                                 <div class="price d-flex align-items-center gap-1">
                                     <span>$1870 </span> <small>/ Per Person</small>
+                                   
                                 </div>
-                                <div class="tour-details">
-                                    <small>3 Days</small>
-                                    <small>12+</small>
-                                    <small>Los Angeles</small>
-                                </div>
+                                <a href="#" class=" btn btn-warning d-block">view-Details</a>
+                                
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                        <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                           
+                        <div class="tour-details">
+                            <small>3 Days</small>
+                            <small>12+</small>
+                            <small>Los Angeles</small>
+                        </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
+                                    <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
                                 <div class="price d-flex align-items-center gap-1">
                                     <span>$1870 </span> <small>/ Per Person</small>
+                                   
                                 </div>
-                                <div class="tour-details">
-                                    <small>3 Days</small>
-                                    <small>12+</small>
-                                    <small>Los Angeles</small>
-                                </div>
+                                <a href="#" class=" btn btn-warning d-block">view-Details</a>
+                                
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                        <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                           
+                        <div class="tour-details">
+                            <small>3 Days</small>
+                            <small>12+</small>
+                            <small>Los Angeles</small>
+                        </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
+                                    <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
                                 <div class="price d-flex align-items-center gap-1">
                                     <span>$1870 </span> <small>/ Per Person</small>
+                                   
                                 </div>
-                                <div class="tour-details">
-                                    <small>3 Days</small>
-                                    <small>12+</small>
-                                    <small>Los Angeles</small>
-                                </div>
+                                <a href="#" class=" btn btn-warning d-block">view-Details</a>
+                                
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                        <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                           
+                        <div class="tour-details">
+                            <small>3 Days</small>
+                            <small>12+</small>
+                            <small>Los Angeles</small>
+                        </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
+                                    <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
                                 <div class="price d-flex align-items-center gap-1">
                                     <span>$1870 </span> <small>/ Per Person</small>
+                                   
                                 </div>
-                                <div class="tour-details">
-                                    <small>3 Days</small>
-                                    <small>12+</small>
-                                    <small>Los Angeles</small>
-                                </div>
+                                <a href="#" class=" btn btn-warning d-block">view-Details</a>
+                                
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
                         <div class="card popular-tour-card">
-                             <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                        <img src="{{ asset('assets/img/web-img/card-img-1.png') }}" alt="img" />
+                           
+                        <div class="tour-details">
+                            <small>3 Days</small>
+                            <small>12+</small>
+                            <small>Los Angeles</small>
+                        </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
+                                    <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating" />
                                     <span class="text-secondary">8.0 Superb</span>
                                 </div>
                                 <h5 class="card-title">Forest Adventure</h5>
                                 <div class="price d-flex align-items-center gap-1">
                                     <span>$1870 </span> <small>/ Per Person</small>
+                                   
                                 </div>
-                                <div class="tour-details">
-                                    <small>3 Days</small>
-                                    <small>12+</small>
-                                    <small>Los Angeles</small>
-                                </div>
+                                <a href="#" class=" btn btn-warning d-block">view-Details</a>
+                                
                             </div>
                         </div>
                     </div>
