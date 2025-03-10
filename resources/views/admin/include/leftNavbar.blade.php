@@ -95,7 +95,7 @@
                             href="{{ route('admin.destinationtype') }}">
                             <i class="fa fa-map-marker mt-1 me-2"></i> Destination Type
                         </a>
-                        <a class="nav-link {{  Str::startsWith($currentRoute, ['admin.destination']) ? 'active' : '' }}"
+                        <a class="nav-link {{ $currentRoute=='admin.destination' ? 'active' : '' }}"
                             href="{{ route('admin.destination') }}">
                             <i class="fa fa-location-dot mt-1 me-2"></i> Destinations
                         </a>
