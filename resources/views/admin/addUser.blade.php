@@ -60,14 +60,14 @@
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Name</label>
+                                                                    <label>Name  <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Enter name" name="uname" id="uname" 
                                                                         value="{{ isset($user) ? $user->admin_name : '' }}">
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-md-6">
-                                                                <label class="d-block">User Type</label>
+                                                                <label class="d-block">User Type  <span class="manadatory">*</span></label>
                                                                 @if(isset($user) && $user->admin_type == 1)
                                                                     <div class="form-check form-check-inline">
                                                                         <input class="form-check-input" type="radio" name="utype" id="utype1" value="1" 
@@ -90,7 +90,7 @@
 
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Contact No.</label>
+                                                                    <label>Contact No.  <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Enter Contact no" name="contact" id="contact" 
                                                                         value="{{ isset($user) ? $user->contact_no : '' }}">
                                                                 </div>
@@ -98,7 +98,7 @@
 
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Email</label>
+                                                                    <label>Email  <span class="manadatory">*</span></label>
                                                                     <input type="email" class="form-control" placeholder="Enter Email Id" name="email" id="email" 
                                                                         value="{{ isset($user) ? $user->email_id : '' }}">
                                                                 </div>
@@ -108,14 +108,14 @@
                                                             <!-- Show Password Fields Only in Add Mode -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Password</label>
+                                                                    <label>Password  <span class="manadatory">*</span></label>
                                                                     <input type="password" class="form-control" placeholder="Enter Password" name="password" id="password">
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Confirm Password</label>
+                                                                    <label>Confirm Password  <span class="manadatory">*</span></label>
                                                                     <input type="password" class="form-control" placeholder="Enter Confirm Password" name="cpassword" id="cpassword">
                                                                 </div>
                                                             </div>
