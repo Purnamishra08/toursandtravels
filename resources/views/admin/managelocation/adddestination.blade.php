@@ -32,6 +32,11 @@
                                     </svg>
                                     View
                                 </a>
+                                <!-- table-utilities -->
+                                <div class="table-utilities">
+                                    <strong class="manadatory me-1">*</strong>Indicates Mandatory
+                                </div>
+                                <!-- table-utilities end-->
                             </nav>
                             @include('Admin.include.sweetaleart')
 
@@ -49,7 +54,7 @@
                                                             <!-- Destination Name -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Destination Name</label>
+                                                                    <label>Destination Name <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Enter destination name" name="destination_name" id="destination_name" value="{{ old('destination_name', $destinationData->destination_name ?? '') }}">
                                                                 </div>
                                                             </div>
@@ -57,7 +62,7 @@
                                                             <!-- Destination URL -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Destination Url</label>
+                                                                    <label>Destination Url <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" readonly placeholder="Enter destination url" name="destination_url" id="destination_url" value="{{ old('destination_url', $destinationData->destination_url ?? '') }}">
                                                                 </div>
                                                             </div>
@@ -114,7 +119,7 @@
                                                             <!-- Banner Image -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Banner Image</label>
+                                                                    <label>Banner Image <span class="manadatory">*</span></label>
                                                                     <input name="destiimg" id="destiimg" class="form-control" type="file" onchange="previewImage(event, 'banner_preview')">
                                                                     <span>Image size should be 2000px X 350px</span>
                                                                     <div id="banner_preview" style="margin-top: 10px;">
@@ -130,7 +135,7 @@
                                                             <!-- Destination Image -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Destination Image</label>
+                                                                    <label>Destination Image <span class="manadatory">*</span></label>
                                                                     <input name="destismallimg" id="destismallimg" class="form-control" type="file" onchange="previewImage(event, 'banner_preview_dest')">
                                                                     <span>Image size should be 300px X 225px</span>
                                                                     <div id="banner_preview_dest" style="margin-top: 10px;">
@@ -146,7 +151,7 @@
                                                             <!-- Alt Tag for Banner Image -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Alt Tag For Banner Image</label>
+                                                                    <label>Alt Tag For Banner Image <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Enter Alt tag for banner image" name="alttag_banner" id="alttag_banner" value="{{ old('alttag_banner', $destinationData->alttag_banner ?? '') }}" maxlength="60">
                                                                 </div>
                                                             </div>
@@ -154,7 +159,7 @@
                                                             <!-- Alt Tag for Destination Image -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Alt Tag For Destination Image</label>
+                                                                    <label>Alt Tag For Destination Image <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Enter Alt tag for destination image" name="alttag_thumb" id="alttag_thumb" value="{{ old('alttag_thumb', $destinationData->alttag_thumb ?? '') }}" maxlength="60">
                                                                 </div>
                                                             </div>
@@ -188,7 +193,7 @@
                                                             <!-- Pick/Drop Price -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Pick / Drop Price ()</label>
+                                                                    <label>Pick / Drop Price () <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Enter Pick or Drop Price" name="pick_drop_price" id="pick_drop_price" value="{{ old('pick_drop_price', $destinationData->pick_drop_price ?? '') }}">
                                                                 </div>
                                                             </div>
@@ -196,7 +201,7 @@
                                                             <!-- Minimum Accommodation Price -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Minimum Accommodation Price /Person ()</label>
+                                                                    <label>Minimum Accommodation Price /Person () <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Enter Minimum Accommodation price" name="accomodation_price" id="accomodation_price" value="{{ old('accomodation_price', $destinationData->accomodation_price ?? '') }}">
                                                                 </div>
                                                             </div>
@@ -204,7 +209,7 @@
                                                             <!-- Latitude -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Latitude</label>
+                                                                    <label>Latitude <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Destination Latitude" name="latitude" id="latitude" value="{{ old('latitude', $destinationData->latitude ?? '') }}">
                                                                 </div>
                                                             </div>
@@ -212,7 +217,7 @@
                                                             <!-- Longitude -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Longitude</label>
+                                                                    <label>Longitude <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Destination Longitude" name="longitude" id="longitude" value="{{ old('longitude', $destinationData->longitude ?? '') }}">
                                                                 </div>
                                                             </div>
@@ -226,7 +231,7 @@
                                                             <!-- About Destination -->
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label>About Destination</label>
+                                                                    <label>About Destination <span class="manadatory">*</span></label>
                                                                     <textarea name="short_desc" id="short_desc" class="form-control">{{ old('short_desc', $destinationData->about_destination ?? '') }}</textarea>
                                                                 </div>
                                                             </div>
@@ -536,6 +541,7 @@
             if (!blankCheck('accomodation_price', 'Accomodation price cannot be blank')) return false;
             if (!blankCheck('latitude', 'Latitude cannot be blank')) return false;
             if (!blankCheck('longitude', 'Longitude cannot be blank')) return false;
+            if (!blankCheck('short_desc', 'About destination cannot be blank')) return false;
 
             // Validate file inputs
             if (!validateFilePresence('menutag_img', 'Banner image is required.')) return false;

@@ -50,14 +50,14 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group" style="margin-bottom: 20px;">
-                                                            <label>Tag Name</label>
+                                                            <label>Tag Name  <span class="manadatory">*</span></label>
                                                             <input type="text" class="form-control" placeholder="Enter Tag Name" name="tag_name" id="tag_name" value="{{ old('tag_name', $Categorytags->tag_name ?? '') }}">
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-6">
                                                         <div class="form-group" style="margin-bottom: 20px;">
-                                                            <label>Tag URL</label>
+                                                            <label>Tag URL  <span class="manadatory">*</span></label>
                                                             <input type="text" class="form-control" placeholder="Enter Tag URL" name="tag_url" id="tag_url" readonly value="{{ old('tag_url', $Categorytags->tag_url ?? '') }}">
                                                         </div>
                                                     </div>
@@ -66,7 +66,7 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group" style="margin-bottom: 20px;">
-                                                            <label>Menu</label>
+                                                            <label>Menu  <span class="manadatory">*</span></label>
                                                             <select class="form-control" name="menuid" id="menuid" onchange="getCategory(this)">
                                                                 <option value=""> --Select menu tab--</option>
                                                                 @foreach($menuTags as $menu)
@@ -81,7 +81,7 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group" style="margin-bottom: 20px;">
-                                                            <label>Category</label>
+                                                            <label>Category  <span class="manadatory">*</span></label>
                                                             <select class="form-control" name="catId" id="catId">
                                                                 <option value=""> -- Select category --</option>
                                                             </select>
@@ -92,7 +92,7 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group" style="margin-bottom: 20px;">
-                                                            <label>Banner Image</label>
+                                                            <label>Banner Image  <span class="manadatory">*</span></label>
                                                             <input name="menutag_img" id="menutag_img" type="file" onchange="previewImage(event, 'banner_preview')">
                                                             <span>Image size should be 1920px X 488px</span>
                                                             <div id="banner_preview" style="margin-top: 10px;">

@@ -34,7 +34,7 @@
         							</a>
         							<!-- table-utilities -->
         							<div class="table-utilities">
-        								<!-- <strong class="manadatory me-1">*</strong>Indicates Mandatory -->
+        								<strong class="manadatory me-1">*</strong>Indicates Mandatory
         							</div>
         							<!-- table-utilities end-->
         						</nav>
@@ -47,7 +47,7 @@
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 form-group">
-                                            <label>Destination Type</label>
+                                            <label>Destination Type <span class="manadatory">*</span></label>
                                             <input type="text" class="form-control" placeholder="Enter destination type" name="destinationtype" id="destinationtype" 
                                                 value="{{ old('destinationtype', $destinationtype->destination_type_name ?? '') }}">
                                         </div>
@@ -71,15 +71,13 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
-     
+    <script src="{{ asset('assets/js/validation.js') }}"></script>
     <script>
         function validator(){
             if(!blankCheck('destinationtype','Destination type cannot be blank'))
                 return false;
         }
     </script>
-
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
 </body>
 
 </html>
