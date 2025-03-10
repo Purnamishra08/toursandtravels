@@ -48,293 +48,299 @@
                                                 <form action="{{ route('admin.managetourpackages.addTourPackages') }}" method="POST" id="form_tpackages" name="form_tpackages" class="add-user" enctype="multipart/form-data" onsubmit="return validator()">
                                                     @csrf
                                                     <div class="box-main">
-                                                        <h3>Package Details</h3>
-                                                        <div class="row">
-                                                            <!-- Package Name -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Package Name</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter package name" name="tpackage_name" id="tpackage_name" value="{{ old('tpackage_name') }}">
-                                                                </div>
-                                                            </div>
-                                                            <!-- Package Url -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Package Url</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter tour package url" name="tpackage_url" id="tpackage_url" value="{{ old('tpackage_url') }}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Package Code -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Package Code</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter tour package code" name="tpackage_code" id="tpackage_code" value="{{ old('tpackage_code') }}">
-                                                                </div>
-                                                            </div>
-                                                            <!-- Package Duration -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Package Duration</label>
-                                                                    <select class="form-control" name="pduration" id="pduration">
-                                                                        <option value="">-- Select Duration --</option>
-                                                                        @foreach($durations as $duration)
-                                                                            <option value="{{ $duration->durationid }}" {{ old('pduration') == $duration->durationid ? 'selected' : '' }}>
-                                                                                {{ $duration->duration_name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Price and Fake Price -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Price (₹)</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter price for package" name="price" id="price" value="{{ old('price') }}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Fake Price (₹)</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter fake price for package" name="fakeprice" id="fakeprice" value="{{ old('fakeprice') }}">
-                                                                </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Profit Margin Percentage -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Profit Margin Percentage (%)</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter profit margin percentage" name="pmargin_perctage" id="pmargin_perctage" value="{{ old('pmargin_perctage') }}">
-                                                                </div>
-                                                            </div>
-                                                            <!-- Package Ratings -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Package Ratings</label>
-                                                                    <select class="form-control" name="rating" id="rating">
-                                                                        <option value="0">Select Rating</option>
-                                                                        <option value="1" {{ old('rating') == '1' ? 'selected' : '' }}>1</option>
-                                                                        <option value="1.5" {{ old('rating') == '1.5' ? 'selected' : '' }}>1.5</option>
-                                                                        <option value="2" {{ old('rating') == '2' ? 'selected' : '' }}>2</option>
-                                                                        <option value="2.5" {{ old('rating') == '2.5' ? 'selected' : '' }}>2.5</option>
-                                                                        <option value="3" {{ old('rating') == '3' ? 'selected' : '' }}>3</option>
-                                                                        <option value="3.5" {{ old('rating') == '3.5' ? 'selected' : '' }}>3.5</option>
-                                                                        <option value="4" {{ old('rating') == '4' ? 'selected' : '' }}>4</option>
-                                                                        <option value="4.5" {{ old('rating') == '4.5' ? 'selected' : '' }}>4.5</option>
-                                                                        <option value="5" {{ old('rating') == '5' ? 'selected' : '' }}>5</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Tour Availability Checkboxes -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="accomodation">Tour Availability</label>
-                                                                    <div class="row">
-                                                                        <div class="col-md-12">
-                                                                            <input type="checkbox" name="accomodation" id="accomodation" value="1" {{ old('accomodation') ? 'checked' : '' }}> Accommodation &nbsp;
-                                                                            <input type="checkbox" name="tourtransport" id="tourtransport" value="1" {{ old('tourtransport') ? 'checked' : '' }}> Transportation &nbsp;
-                                                                            <input type="checkbox" name="sightseeing" id="sightseeing" value="1" {{ old('sightseeing') ? 'checked' : '' }}> Sightseeing &nbsp;
-                                                                            <input type="checkbox" name="breakfast" id="breakfast" value="1" {{ old('breakfast') ? 'checked' : '' }}> Breakfast &nbsp;
-                                                                            <input type="checkbox" name="waterbottle" id="waterbottle" value="1" {{ old('waterbottle') ? 'checked' : '' }}> Water Bottle
-                                                                        </div>
+                                                        <fieldset>
+                                                            <legend> Package Details</legend>
+                                                            <div class="row">
+                                                                <!-- Package Name -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Name</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter package name" name="tpackage_name" id="tpackage_name" value="{{ old('tpackage_name') }}">
                                                                     </div>
                                                                 </div>
-                                                                <div id="tour_avai_err"></div>
-                                                            </div>
-                                                            <!-- Tour Tags -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Tour Tags</label>
-                                                                    <select data-placeholder="Choose tour tags" class="chosen-select" multiple tabindex="4" id="getatagid" name="getatagid[]" style="width: 100%; height: auto; border: 1px solid #aaa; font-size:13px; padding:5px 7px;">
-                                                                        @foreach($tags as $tag)
-                                                                            <option value="{{ $tag->tagid }}">{{ $tag->tag_name }}</option>
-                                                                        @endforeach
-                                                                    </select>
+                                                                <!-- Package Url -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Url</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter tour package url" name="tpackage_url" id="tpackage_url" value="{{ old('tpackage_url') }}">
+                                                                    </div>
                                                                 </div>
-                                                                <div id="gettourtag_err"></div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Banner and Tour Images -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Banner Image</label>
-                                                                    <input type="file" name="tourimg" id="tourimg">
-                                                                    <span>Image size should be 745px X 450px</span>
+                                                                <div class="clearfix"></div>
+                                                                <!-- Package Code -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Code</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter tour package code" name="tpackage_code" id="tpackage_code" value="{{ old('tpackage_code') }}">
+                                                                    </div>
                                                                 </div>
-                                                                <div id="placeimo_err"></div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Tour Image</label>
-                                                                    <input type="file" name="tourthumb" id="tourthumb">
-                                                                    <span>Image size should be 300px X 225px</span>
+                                                                <!-- Package Duration -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Duration</label>
+                                                                        <select class="form-control" name="pduration" id="pduration">
+                                                                            <option value="">-- Select Duration --</option>
+                                                                            @foreach($durations as $duration)
+                                                                                <option value="{{ $duration->durationid }}" {{ old('pduration') == $duration->durationid ? 'selected' : '' }}>
+                                                                                    {{ $duration->duration_name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
-                                                                <div id="placeimot_err"></div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Alt Tags -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Alt Tag For Banner Image</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter Alt tag for banner image" name="alttag_banner" id="alttag_banner" value="{{ old('alttag_banner') }}" maxlength="60">
+                                                                <div class="clearfix"></div>
+                                                                <!-- Price and Fake Price -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Price (₹)</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter price for package" name="price" id="price" value="{{ old('price') }}">
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Alt Tag For Tour Image</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter Alt tag for tour image" name="alttag_thumb" id="alttag_thumb" value="{{ old('alttag_thumb') }}" maxlength="60">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Fake Price (₹)</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter fake price for package" name="fakeprice" id="fakeprice" value="{{ old('fakeprice') }}">
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Package Type and Itinerary -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Package Type</label>
-                                                                    <select class="form-control" name="packtype" id="packtype">
-                                                                        <option value="">-- Select Package Type --</option>
-                                                                        @foreach($packageTypes as $pack)
-                                                                            <option value="{{ $pack->parid }}" {{ old('packtype') == $pack->parid ? 'selected' : '' }}>
-                                                                                {{ $pack->par_value }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
+                                                                <div class="clearfix"></div>
+                                                                <!-- Profit Margin Percentage -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Profit Margin Percentage (%)</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter profit margin percentage" name="pmargin_perctage" id="pmargin_perctage" value="{{ old('pmargin_perctage') }}">
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Choose Itinerary</label>
-                                                                    <select class="form-control" name="itinerary" id="itinerary">
-                                                                        <option value="">-- Select Itinerary --</option>
-                                                                        @foreach($itineraries as $itin)
-                                                                            <option value="{{ $itin->itinerary_id }}" {{ old('itinerary') == $itin->itinerary_id ? 'selected' : '' }}>
-                                                                                {{ $itin->itinerary_name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
+                                                                <!-- Package Ratings -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Ratings</label>
+                                                                        <select class="form-control" name="rating" id="rating">
+                                                                            <option value="0">Select Rating</option>
+                                                                            <option value="1" {{ old('rating') == '1' ? 'selected' : '' }}>1</option>
+                                                                            <option value="1.5" {{ old('rating') == '1.5' ? 'selected' : '' }}>1.5</option>
+                                                                            <option value="2" {{ old('rating') == '2' ? 'selected' : '' }}>2</option>
+                                                                            <option value="2.5" {{ old('rating') == '2.5' ? 'selected' : '' }}>2.5</option>
+                                                                            <option value="3" {{ old('rating') == '3' ? 'selected' : '' }}>3</option>
+                                                                            <option value="3.5" {{ old('rating') == '3.5' ? 'selected' : '' }}>3.5</option>
+                                                                            <option value="4" {{ old('rating') == '4' ? 'selected' : '' }}>4</option>
+                                                                            <option value="4.5" {{ old('rating') == '4.5' ? 'selected' : '' }}>4.5</option>
+                                                                            <option value="5" {{ old('rating') == '5' ? 'selected' : '' }}>5</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Video Itinerary -->
-                                                            <div class="col-md-2">
-                                                                <div class="form-group">
-                                                                    <input type="checkbox" name="show_video_itinerary" id="show_video_itinerary" {{ old('show_video_itinerary') ? 'checked' : '' }}> Show Video Itinerary
+                                                                <div class="clearfix"></div>
+                                                                <!-- Tour Availability Checkboxes -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="accomodation">Tour Availability</label>
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <input type="checkbox" name="accomodation" id="accomodation" value="1" {{ old('accomodation') ? 'checked' : '' }}> Accommodation &nbsp;
+                                                                                <input type="checkbox" name="tourtransport" id="tourtransport" value="1" {{ old('tourtransport') ? 'checked' : '' }}> Transportation &nbsp;
+                                                                                <input type="checkbox" name="sightseeing" id="sightseeing" value="1" {{ old('sightseeing') ? 'checked' : '' }}> Sightseeing &nbsp;
+                                                                                <input type="checkbox" name="breakfast" id="breakfast" value="1" {{ old('breakfast') ? 'checked' : '' }}> Breakfast &nbsp;
+                                                                                <input type="checkbox" name="waterbottle" id="waterbottle" value="1" {{ old('waterbottle') ? 'checked' : '' }}> Water Bottle
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="tour_avai_err"></div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-10">
-                                                                <div class="form-group">
-                                                                    <label>Video Itinerary Link</label>
-                                                                    <input type="text" name="video_itinerary_link" id="video_itinerary_link" placeholder="https://www.youtube.com/embed/XXXXXXXXXX" class="form-control" value="{{ old('video_itinerary_link') }}">
+                                                                <!-- Tour Tags -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Tour Tags</label>
+                                                                        <select data-placeholder="Choose tour tags" class="chosen-select" multiple tabindex="4" id="getatagid" name="getatagid[]" style="width: 100%; height: auto; border: 1px solid #aaa; font-size:13px; padding:5px 7px;">
+                                                                            @foreach($tags as $tag)
+                                                                                <option value="{{ $tag->tagid }}">{{ $tag->tag_name }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div id="gettourtag_err"></div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Starting City -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Starting City</label>
-                                                                    <select class="form-control" name="starting_city" id="starting_city">
-                                                                        <option value="">-- Select Starting City --</option>
-                                                                        @foreach($destinations as $destination)
-                                                                            <option value="{{ $destination->destination_id }}" {{ old('starting_city') == $destination->destination_id ? 'selected' : '' }}>
-                                                                                {{ $destination->destination_name }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
+                                                                <div class="clearfix"></div>
+                                                                <!-- Banner and Tour Images -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Banner Image</label>
+                                                                        <input type="file" name="tourimg" id="tourimg">
+                                                                        <span>Image size should be 745px X 450px</span>
+                                                                    </div>
+                                                                    <div id="placeimo_err"></div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Inclusion / Exclusion -->
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label>Inclusion / Exclusion</label>
-                                                                    <textarea name="inclusion" id="inclusion" class="form-control" placeholder="Inclusion / Exclusion...">{{ old('inclusion', $inclusion ?? '') }}</textarea>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Tour Image</label>
+                                                                        <input type="file" name="tourthumb" id="tourthumb">
+                                                                        <span>Image size should be 300px X 225px</span>
+                                                                    </div>
+                                                                    <div id="placeimot_err"></div>
                                                                 </div>
-                                                                <div id="inclusion_err"></div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <!-- Itinerary Note -->
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label>Itinerary Note</label>
-                                                                    <textarea name="itinerary_note" id="itinerary_note" class="form-control" placeholder="Itinerary Note...">{{ old('itinerary_note') }}</textarea>
+                                                                <div class="clearfix"></div>
+                                                                <!-- Alt Tags -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Alt Tag For Banner Image</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Alt tag for banner image" name="alttag_banner" id="alttag_banner" value="{{ old('alttag_banner') }}" maxlength="60">
+                                                                    </div>
                                                                 </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Alt Tag For Tour Image</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Alt tag for tour image" name="alttag_thumb" id="alttag_thumb" value="{{ old('alttag_thumb') }}" maxlength="60">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <!-- Package Type and Itinerary -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package Type</label>
+                                                                        <select class="form-control" name="packtype" id="packtype">
+                                                                            <option value="">-- Select Package Type --</option>
+                                                                            @foreach($packageTypes as $pack)
+                                                                                <option value="{{ $pack->parid }}" {{ old('packtype') == $pack->parid ? 'selected' : '' }}>
+                                                                                    {{ $pack->par_value }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Choose Itinerary</label>
+                                                                        <select class="form-control" name="itinerary" id="itinerary">
+                                                                            <option value="">-- Select Itinerary --</option>
+                                                                            @foreach($itineraries as $itin)
+                                                                                <option value="{{ $itin->itinerary_id }}" {{ old('itinerary') == $itin->itinerary_id ? 'selected' : '' }}>
+                                                                                    {{ $itin->itinerary_name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <!-- Video Itinerary -->
+                                                                <div class="col-md-2">
+                                                                    <div class="form-group">
+                                                                        <input type="checkbox" name="show_video_itinerary" id="show_video_itinerary" {{ old('show_video_itinerary') ? 'checked' : '' }}> Show Video Itinerary
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-10">
+                                                                    <div class="form-group">
+                                                                        <label>Video Itinerary Link</label>
+                                                                        <input type="text" name="video_itinerary_link" id="video_itinerary_link" placeholder="https://www.youtube.com/embed/XXXXXXXXXX" class="form-control" value="{{ old('video_itinerary_link') }}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <!-- Starting City -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Starting City</label>
+                                                                        <select class="form-control" name="starting_city" id="starting_city">
+                                                                            <option value="">-- Select Starting City --</option>
+                                                                            @foreach($destinations as $destination)
+                                                                                <option value="{{ $destination->destination_id }}" {{ old('starting_city') == $destination->destination_id ? 'selected' : '' }}>
+                                                                                    {{ $destination->destination_name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <!-- Inclusion / Exclusion -->
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label>Inclusion / Exclusion</label>
+                                                                        <textarea name="inclusion" id="inclusion" class="form-control" placeholder="Inclusion / Exclusion...">{{ old('inclusion', $inclusion ?? '') }}</textarea>
+                                                                    </div>
+                                                                    <div id="inclusion_err"></div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <!-- Itinerary Note -->
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label>Itinerary Note</label>
+                                                                        <textarea name="itinerary_note" id="itinerary_note" class="form-control" placeholder="Itinerary Note...">{{ old('itinerary_note') }}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
                                                             </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
+                                                        </fieldset>
                                                     </div>
 
                                                     <!-- Accomodation Section -->
                                                     <div class="box-main">
-                                                        <h3>Accomodation</h3>
-                                                        <div class="row">
-                                                            <div class="col-md-8">
-                                                                <table id="addRowTable" class="table table-bordered table-striped table-hover">
-                                                                    <thead>
-                                                                        <tr class="info">
-                                                                            <th width="50%">Destination name</th>
-                                                                            <th width="40%">No of Nights Booking in Hotel</th>
-                                                                            <th width="10%"></th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <select class="form-control" id="destination_id" name="destination_id[]">
-                                                                                    <option value="">-- Select destination --</option>
-                                                                                    @foreach($availableDestinations as $dest)
-                                                                                        <option value="{{ $dest->destination_id }}">{{ $dest->destination_name }}</option>
-                                                                                    @endforeach
-                                                                                </select>
-                                                                                <div id="seasontype_err"></div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <select class="form-control" name="no_ofdays[]" id="no_ofdays">
-                                                                                    <option value="">-- Select No of Nights --</option>
-                                                                                    @for($i = 1; $i <= $max_noof_days; $i++)
-                                                                                        <option value="{{ $i }}">{{ $i }}</option>
-                                                                                    @endfor
-                                                                                </select>
-                                                                            </td>
-                                                                            <td>
-                                                                                <a href="javascript:void(0);" class="btn btn-success btn-sm views addrowbtn" title="Add"><i class="fa fa-plus"></i></a>
-                                                                                <a href="javascript:void(0);" class="btn btn-danger btn-sm views delrowbtn" title="Delete" name="del[]" id="del_0"><i class="fa-regular fa-trash-can"></i></a>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
+                                                        <fieldset>
+                                                            <legend>Accomodation</legend>
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    <table id="addRowTable" class="table table-bordered table-striped table-hover">
+                                                                        <thead>
+                                                                            <tr class="info">
+                                                                                <th width="50%">Destination name</th>
+                                                                                <th width="40%">No of Nights Booking in Hotel</th>
+                                                                                <th width="10%"></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <select class="form-control" id="destination_id" name="destination_id[]">
+                                                                                        <option value="">-- Select destination --</option>
+                                                                                        @foreach($availableDestinations as $dest)
+                                                                                            <option value="{{ $dest->destination_id }}">{{ $dest->destination_name }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                    <div id="seasontype_err"></div>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <select class="form-control" name="no_ofdays[]" id="no_ofdays">
+                                                                                        <option value="">-- Select No of Nights --</option>
+                                                                                        @for($i = 1; $i <= $max_noof_days; $i++)
+                                                                                            <option value="{{ $i }}">{{ $i }}</option>
+                                                                                        @endfor
+                                                                                    </select>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm views addrowbtn" title="Add"><i class="fa fa-plus"></i></a>
+                                                                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm views delrowbtn" title="Delete" name="del[]" id="del_0"><i class="fa-regular fa-trash-can"></i></a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="clearfix"></div>
                                                             </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
+                                                        </fieldset>
                                                     </div>
 
                                                     <div class="clearfix"></div>
 
                                                     <!-- Meta Tags Section -->
                                                     <div class="box-main">
-                                                        <h3>Meta Tags</h3>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Meta Title</label>
-                                                                    <textarea name="meta_title" id="meta_title" class="form-control textarea1" placeholder="Meta Title...">{{ old('meta_title') }}</textarea>
+                                                        <fieldset>
+                                                            <legend>Meta Tags</legend>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Meta Title</label>
+                                                                        <textarea name="meta_title" id="meta_title" class="form-control textarea1" placeholder="Meta Title...">{{ old('meta_title') }}</textarea>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Meta Keywords</label>
-                                                                    <textarea name="meta_keywords" id="meta_keywords" class="form-control textarea1" placeholder="Meta Keywords...">{{ old('meta_keywords') }}</textarea>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Meta Keywords</label>
+                                                                        <textarea name="meta_keywords" id="meta_keywords" class="form-control textarea1" placeholder="Meta Keywords...">{{ old('meta_keywords') }}</textarea>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Meta Description</label>
-                                                                    <textarea name="meta_description" id="meta_description" class="form-control textarea" placeholder="Meta Description here...">{{ old('meta_description') }}</textarea>
+                                                                <div class="clearfix"></div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Meta Description</label>
+                                                                        <textarea name="meta_description" id="meta_description" class="form-control textarea" placeholder="Meta Description here...">{{ old('meta_description') }}</textarea>
+                                                                    </div>
                                                                 </div>
+                                                                <div class="clearfix"></div>
                                                             </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
+                                                        </fieldset>
                                                     </div>
 
                                                     <div class="clearfix"></div>
