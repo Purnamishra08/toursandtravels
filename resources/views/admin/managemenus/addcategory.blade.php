@@ -33,6 +33,11 @@
                                     </svg>
                                     View
                                 </a>
+                                <!-- table-utilities -->
+                                <div class="table-utilities">
+                                    <strong class="manadatory me-1">*</strong>Indicates Mandatory
+                                </div>
+                                <!-- table-utilities end-->
                             </nav>
                             @include('Admin.include.sweetaleart')
 
@@ -43,7 +48,7 @@
                                         @csrf
 
                                         <div class="form-group">
-                                            <label for="menuid">Menu</label>
+                                            <label for="menuid">Menu  <span class="manadatory">*</span></label>
                                             <select class="form-control fld" name="menuid" id="menuid">
                                                 <option value=""> --Select menu tab--</option>
                                                 @foreach($menuTags as $menu)
@@ -56,7 +61,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="cat_name">Category</label>
+                                            <label for="cat_name">Category  <span class="manadatory">*</span></label>
                                             <input type="text" class="form-control fld" placeholder="Enter category" name="cat_name" id="cat_name" value="{{ old('cat_name', $Category->cat_name ?? '') }}">
                                         </div>
 
@@ -85,14 +90,14 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
-
+    <script src="{{ asset('assets/js/validation.js') }}"></script>
     <script>
         function validator() {
-            if(!blankCheck('cat_name', 'Category cannot be blank'))
-                return false;
+            if(!selectDropdown('menuid', 'Menu is required')) return false;
+            if(!blankCheck('cat_name', 'Category cannot be blank')) return false;
         }
     </script>
 
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
 </body>
 </html>

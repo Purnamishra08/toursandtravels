@@ -32,6 +32,11 @@
                                     </svg>
                                     View
                                 </a>
+                                <!-- table-utilities -->
+                                <div class="table-utilities">
+                                    <strong class="manadatory me-1">*</strong>Indicates Mandatory
+                                </div>
+                                <!-- table-utilities end-->
                             </nav>
                             @include('Admin.include.sweetaleart')
 
@@ -49,7 +54,7 @@
                                                             <!-- Place Name -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Place Name</label>
+                                                                    <label>Place Name  <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Enter place name" name="place_name" id="place_name" value="{{ old('place_name', $placesData->place_name ?? '') }}">
                                                                 </div>
                                                             </div>
@@ -57,7 +62,7 @@
                                                             <!-- Place URL -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Place Url</label>
+                                                                    <label>Place Url <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" readonly placeholder="Enter place url" name="place_url" id="place_url" value="{{ old('place_url', $placesData->place_url ?? '') }}">
                                                                 </div>
                                                             </div>
@@ -65,7 +70,7 @@
                                                             <!-- Destination -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Destination</label>
+                                                                    <label>Destination <span class="manadatory">*</span></label>
                                                                     <select data-placeholder="Choose destination type" tabindex="4" id="destination_id" name="destination_id" style="width: 100%;" class="form-control">
                                                                         <option value="">--Select Destination--</option>
                                                                         @foreach($destinations as $type)
@@ -97,7 +102,7 @@
                                                             <!-- Banner Image -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Banner Image</label>
+                                                                    <label>Banner Image <span class="manadatory">*</span></label>
                                                                     <input name="placeimg" id="placeimg" class="form-control" type="file" onchange="previewImage(event, 'banner_preview')">
                                                                     <span>Image size should be 1140px X 350px</span>
                                                                     <div id="banner_preview" style="margin-top: 10px;">
@@ -113,7 +118,7 @@
                                                             <!-- Place Image -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Place Image</label>
+                                                                    <label>Place Image <span class="manadatory">*</span></label>
                                                                     <input name="placethumbimg" id="placethumbimg" class="form-control" type="file" onchange="previewImage(event, 'banner_preview_dest')">
                                                                     <span>Image size should be 500px X 300px</span>
                                                                     <div id="banner_preview_dest" style="margin-top: 10px;">
@@ -129,7 +134,7 @@
                                                             <!-- Alt Tag for Banner Image -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Alt Tag For Banner Image</label>
+                                                                    <label>Alt Tag For Banner Image <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Enter Alt tag for banner image" name="alttag_banner" id="alttag_banner" value="{{ old('alttag_banner', $placesData->alttag_banner ?? '') }}" maxlength="60">
                                                                 </div>
                                                             </div>
@@ -137,7 +142,7 @@
                                                             <!-- Alt Tag for Place Image -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Alt Tag For Place Image</label>
+                                                                    <label>Alt Tag For Place Image <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Enter Alt tag for destination image" name="alttag_thumb" id="alttag_thumb" value="{{ old('alttag_thumb', $placesData->alttag_thumb ?? '') }}" maxlength="60">
                                                                 </div>
                                                             </div>
@@ -145,7 +150,7 @@
                                                             <!-- Latitude -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Latitude</label>
+                                                                    <label>Latitude <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Destination Latitude" name="latitude" id="latitude" value="{{ old('latitude', $placesData->latitude ?? '') }}">
                                                                 </div>
                                                             </div>
@@ -153,7 +158,7 @@
                                                             <!-- Longitude -->
                                                             <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Longitude</label>
+                                                                    <label>Longitude <span class="manadatory">*</span></label>
                                                                     <input type="text" class="form-control" placeholder="Destination Longitude" name="longitude" id="longitude" value="{{ old('longitude', $placesData->longitude ?? '') }}">
                                                                 </div>
                                                             </div>
@@ -182,7 +187,7 @@
                                                             <!-- About Destination -->
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label>About Place</label>
+                                                                    <label>About Place <span class="manadatory">*</span></label>
                                                                     <textarea name="short_desc" id="short_desc" class="form-control">{{ old('short_desc', $placesData->about_place ?? '') }}</textarea>
                                                                 </div>
                                                             </div>
@@ -373,12 +378,7 @@
     <!-- FooterJs End-->
     <script src="{{ asset('assets/js/validation.js') }}"></script>
     <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
-    <!-- jQuery (Required for Chosen) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Chosen CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
-    <!-- Chosen JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+    <script src="{{ asset('assets/js/chosen.jquery.js') }}"></script>
     <script>
          $(document).ready(function () {
             $(".chosen-select").chosen({
