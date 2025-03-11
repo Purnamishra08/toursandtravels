@@ -84,23 +84,25 @@
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ route('admin.manageHoteltype.editHotelType', ['id' => $hoteltype->hotel_type_id]) }}"
-                                                                        class="btn btn-success btn-sm" title="Edit">
-                                                                        <i class="fa fa-pencil"></i>
-                                                                    </a>
-                                                                    @if(session('user')->admin_type == 1)
-                                                                    <form
-                                                                        action="{{ route('admin.manageHoteltype.deleteHotelType', ['id' => $hoteltype->hotel_type_id]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to delete this vehicle?')">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-danger btn-sm"
-                                                                            title="Delete">
-                                                                            <i class="fa-regular fa-trash-can"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                    @endif
+                                                                    <div class="d-flex gap-1">
+                                                                        <a href="{{ route('admin.manageHoteltype.editHotelType', ['id' => $hoteltype->hotel_type_id]) }}"
+                                                                            class="btn btn-success btn-sm" title="Edit">
+                                                                            <i class="fa fa-pencil"></i>
+                                                                        </a>
+                                                                        @if(session('user')->admin_type == 1)
+                                                                        <form
+                                                                            action="{{ route('admin.manageHoteltype.deleteHotelType', ['id' => $hoteltype->hotel_type_id]) }}"
+                                                                            method="POST"
+                                                                            onsubmit="return confirm('Are you sure you want to delete this vehicle?')">
+                                                                            @csrf
+                                                                            <button type="submit"
+                                                                                class="btn btn-danger btn-sm"
+                                                                                title="Delete">
+                                                                                <i class="fa-regular fa-trash-can"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                        @endif
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             @empty

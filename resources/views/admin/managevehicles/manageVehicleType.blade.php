@@ -98,23 +98,25 @@
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                    <a href="{{ route('admin.manageVehicletype.editVehicleType', ['id' => $vehicletype->vehicleid]) }}"
+                                                                    <div class="d-flex gap-1">
+                                                                        <a href="{{ route('admin.manageVehicletype.editVehicleType', ['id' => $vehicletype->vehicleid]) }}"
                                                                         class="btn btn-success btn-sm" title="Edit">
                                                                         <i class="fa fa-pencil"></i>
-                                                                    </a>
-                                                                    @if(session('user')->admin_type == 1)
-                                                                    <form
-                                                                        action="{{ route('admin.manageVehicletype.deleteVehicleType', ['id' => $vehicletype->vehicleid]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to delete this vehicle?')">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-danger btn-sm"
-                                                                            title="Delete">
-                                                                            <i class="fa-regular fa-trash-can"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                    @endif
+                                                                        </a>
+                                                                        @if(session('user')->admin_type == 1)
+                                                                        <form
+                                                                            action="{{ route('admin.manageVehicletype.deleteVehicleType', ['id' => $vehicletype->vehicleid]) }}"
+                                                                            method="POST"
+                                                                            onsubmit="return confirm('Are you sure you want to delete this vehicle?')">
+                                                                            @csrf
+                                                                            <button type="submit"
+                                                                                class="btn btn-danger btn-sm"
+                                                                                title="Delete">
+                                                                                <i class="fa-regular fa-trash-can"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                        @endif
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             @empty
