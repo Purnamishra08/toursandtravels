@@ -233,7 +233,6 @@ CREATE TABLE `tbl_menus` (
   PRIMARY KEY (`menuid`),
   KEY `continent_id` (`menu_name`)
 );
-
 CREATE TABLE `tbl_menutags` (
   `tagid` int(11) NOT NULL AUTO_INCREMENT,
   `menuid` int(11) DEFAULT NULL,

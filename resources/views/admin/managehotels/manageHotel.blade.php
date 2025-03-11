@@ -170,6 +170,7 @@
                                                                     @endif
                                                                 </td>
                                                                 <td>
+                                                                    <div class="d-flex gap-1">
                                                                     <a href="{{ route('admin.manageHotels.editHotel', ['id' => $hotel->hotel_id]) }}"
                                                                         class="btn btn-success btn-sm" title="Edit">
                                                                         <i class="fa fa-pencil"></i>
@@ -191,6 +192,7 @@
                                                                         </button>
                                                                     </form>
                                                                     @endif
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             @empty

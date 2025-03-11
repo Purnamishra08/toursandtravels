@@ -161,7 +161,7 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
                                                                         <label>Banner Image</label>
-                                                                        <input type="file" name="tourimg" id="tourimg">
+                                                                        <input class="form-control" type="file" name="tourimg" id="tourimg">
                                                                         <span>Image size should be 745px X 450px</span>
                                                                     </div>
                                                                     <div id="placeimo_err"></div>
@@ -169,7 +169,7 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
                                                                         <label>Tour Image</label>
-                                                                        <input type="file" name="tourthumb" id="tourthumb">
+                                                                        <input class="form-control" type="file" name="tourthumb" id="tourthumb">
                                                                         <span>Image size should be 300px X 225px</span>
                                                                     </div>
                                                                     <div id="placeimot_err"></div>
@@ -300,8 +300,10 @@
                                                                                     </select>
                                                                                 </td>
                                                                                 <td>
-                                                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm views addrowbtn" title="Add"><i class="fa fa-plus"></i></a>
-                                                                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm views delrowbtn" title="Delete" name="del[]" id="del_0"><i class="fa-regular fa-trash-can"></i></a>
+                                                                                    <div class="d-flex gap-1">
+                                                                                        <a href="javascript:void(0);" class="btn btn-success btn-sm views addrowbtn" title="Add"><i class="fa fa-plus"></i></a>
+                                                                                        <a href="javascript:void(0);" class="btn btn-danger btn-sm views delrowbtn" title="Delete" name="del[]" id="del_0"><i class="fa-regular fa-trash-can"></i></a>
+                                                                                    </div>
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
