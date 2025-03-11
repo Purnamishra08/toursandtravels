@@ -18,7 +18,8 @@ class DestinationController extends Controller
                        ->where('p.bit_Deleted_Flag', 0)
                        ->where('d.bit_Deleted_Flag',0)
                        ->paginate(10);
-        return view('admin.managelocation.destination', ['destination' => $destination]);
+        $parameters  = DB::table('tbl_parameters')->select('parid','par_value')->where('status', 1)->where('param_type', 'TD')->where('bit_Deleted_Flag', 0)->get();
+        return view('admin.managelocation.destination', ['destination' => $destination, 'parameters' => $parameters]);
     }
 
     public function adddestination(Request $request){

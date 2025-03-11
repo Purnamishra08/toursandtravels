@@ -120,6 +120,38 @@
                                                                 </div>
                                                             </div>
                                                             @endif
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Modules</label>
+                                                                    <div class="chkbx-inner">
+                                                                        @php 
+                                                                            $cnt = 0; 
+                                                                            $isAdminTypeOne = isset($user) && $user->admin_type == 1; 
+                                                                        @endphp
+
+                                                                        <div class="row">
+                                                                            @foreach ($modules as $module)
+                                                                                @php $cnt++; @endphp
+                                                                                <div class="col-md-6">
+                                                                                    <div class="checkbox checkbox-info">
+                                                                                        <input type="checkbox" name="modules[]" id="modules_{{ $cnt }}" value="{{ $module->moduleid }}"
+                                                                                            {{ in_array($module->moduleid, old('modules', $selectedModules)) ? 'checked' : '' }}
+                                                                                            {{ $isAdminTypeOne ? 'disabled' : '' }}> {{-- Disable if admin_type == 1 --}}
+                                                                                        <label for="modules_{{ $cnt }}">{{ $module->module }}</label>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                @if ($cnt % 2 == 0)
+                                                                                    <div class="clearfix"></div>
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </div>
+
+                                                                        <div style="margin-left: 15px;" id="modules_errorloc"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
                                                         </div>
 
                                                         <div class="col-md-6">

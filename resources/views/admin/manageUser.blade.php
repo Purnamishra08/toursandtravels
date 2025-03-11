@@ -92,7 +92,7 @@
                                                                             {{ $user->modules ?? 'N/A' }}
                                                                         </td>
                                                                         <td>
-                                                                            @if ($user->adminid != 1)
+                                                                            @if ($user->admin_type != 1)
                                                                             
                                                                                 @if ($user->status == 1)
                                                                                     <form action="{{ route('admin.manageUser.activeUser', ['id' => $user->adminid]) }}" method="POST"
