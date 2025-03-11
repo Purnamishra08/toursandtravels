@@ -224,12 +224,16 @@ CREATE TABLE `tbl_parameters` (
 CREATE TABLE `tbl_menus` (
   `menuid` int(11) NOT NULL AUTO_INCREMENT,
   `menu_name` varchar(200) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
+  `created_by` int(11) NOT NULL DEFAULT 0,
+  `created_date` timestamp NULL DEFAULT current_timestamp(),
+  `updated_by` int(11) NOT NULL DEFAULT 0,
+  `updated_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` int(1) DEFAULT NULL,
   `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`menuid`),
   KEY `continent_id` (`menu_name`)
 );
+
 CREATE TABLE `tbl_menutags` (
   `tagid` int(11) NOT NULL AUTO_INCREMENT,
   `menuid` int(11) DEFAULT NULL,
