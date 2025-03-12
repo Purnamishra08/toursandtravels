@@ -34,7 +34,7 @@ class ManageUserController extends Controller
             // Attach modules to user object
             $user->modules = implode(', ', $modules);
         }
-        return view('admin.manageUser', compact('users'));
+        return view('admin.manageUser.manageUser', compact('users'));
     }
 
     public function viewPop(Request $request)
@@ -152,7 +152,7 @@ class ManageUserController extends Controller
             }
         }else{
             $modules = DB::table('tbl_modules')->select('moduleid','module')->where('status', 1)->where('bit_Deleted_Flag', 0)->get();
-            return view('admin.addUser', ['modules' => $modules]);
+            return view('admin.manageUser.addUser', ['modules' => $modules]);
         }
         
     }
@@ -222,7 +222,7 @@ class ManageUserController extends Controller
                         ->pluck('moduleid')
                         ->toArray();
                 }
-                return view('admin.addUser', ['user' => $user, 'modules' => $modules, 'selectedModules' => $selectedModules]);
+                return view('admin.manageUser.addUser', ['user' => $user, 'modules' => $modules, 'selectedModules' => $selectedModules]);
             }
         }
         
