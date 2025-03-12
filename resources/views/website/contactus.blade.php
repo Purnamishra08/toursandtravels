@@ -2,7 +2,9 @@
 @include('website.include.webheader')
 
 <div class="breadcrumb-section">
-    <h1 class="page-name">Contact Us</h1>
+    <div class="container">
+        <h1 class="page-name">Contact Us</h1>
+    </div>
 
 
 </div>
@@ -11,10 +13,10 @@
 
         <div class="container">
             <div class="section-title-container wow animate__fadeInUp  "  data-wow-delay="200ms">
-                <h2 class="section-title section-title-large mb-1">Need help? Contact Us Now!</h2>
-                <p class="w-md-75 text-center">
-                    Thank you for  your intrest. Please fill out the form and we will get back to you promptly regarding your request
-                </p>
+                <div>
+                <p class="section-title-small">Contact Us</p>
+                <h2 class="section-title">Feel free to write to us anytime</h2>
+                </div>
             </div>
        
             <div class="row">

@@ -60,6 +60,9 @@ ul,ol{
   padding: 0;
   margin: 0;
 }
+h1,h2,h3,h4,h5{
+    font-weight: 600;
+}
 p{
     margin-bottom: 0;
 }
@@ -468,7 +471,7 @@ border: none;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 }
 .breadcrumb-section:before{
     content: "";
@@ -481,7 +484,7 @@ border: none;
     bottom: 0;
 }
 .breadcrumb-section .page-name{
-    text-align: center;
+    
     font-size: 2rem;
     color: #fff;
     position: relative;

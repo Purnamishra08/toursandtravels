@@ -25,7 +25,7 @@
                                 <a class="nav-link active" aria-current="page" href="#">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#">About Us</a>
+                                <a class="nav-link" aria-current="page" href="aboutus">About Us</a>
                             </li>
 
                             <!-- Below Destination is only show in desktop -->
