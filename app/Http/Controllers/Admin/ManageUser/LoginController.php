@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use DB;
 
 class LoginController extends Controller
 {
@@ -47,7 +48,8 @@ class LoginController extends Controller
             $user = Auth::user();
             
             if ($user->bit_Deleted_Flag == 0 && $user->status == 1) {
-                session(['user' => Auth::user()]);
+                $moduleAccess = DB::table('tbl_admin_modules')->where('adminid', $user->adminid)->where('bit_Deleted_Flag', 0)->pluck('moduleid')->toArray();
+                session(['user' => Auth::user(), 'moduleAccess' => $moduleAccess]);
                 return redirect()->intended('/dashboard');
             }
             Auth::logout();

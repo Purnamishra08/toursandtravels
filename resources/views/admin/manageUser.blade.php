@@ -125,7 +125,7 @@
                                                                                 <a href="javascript:void(0);" class="btn btn-primary btn-sm view" title="View" onclick="loadUserDetails({{ $user->adminid }})">
                                                                                     <i class="fa fa-eye"></i>
                                                                                 </a>
-                                                                                @if(session('user') != null && session('user')->admin_type == 1 && $user->adminid != 1)
+                                                                                @if(session('user') != null && session('user')->admin_type == 1 && $user->admin_type != 1)
                                                                                     <form action="{{ route('admin.manageUser.deleteUser', ['id' => $user->adminid]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?')" class="d-inline-block">
                                                                                         @csrf
                                                                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete">
