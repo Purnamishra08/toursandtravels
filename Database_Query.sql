@@ -1,4 +1,21 @@
 use toursandtravels;
+#Manange User
+CREATE TABLE `tbl_admin_modules` (
+  `amid` int(11) NOT NULL AUTO_INCREMENT,
+  `adminid` int(11) DEFAULT NULL,
+  `moduleid` int(11) DEFAULT NULL,
+  `created_date` timestamp NULL DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` timestamp NULL DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`amid`),
+  KEY `adminid` (`adminid`),
+  KEY `moduleid` (`moduleid`),
+  CONSTRAINT `tbl_admin_modules_ibfk_1` FOREIGN KEY (`moduleid`) REFERENCES `tbl_modules` (`moduleid`),
+  CONSTRAINT `tbl_admin_modules_ibfk_2` FOREIGN KEY (`adminid`) REFERENCES `tbl_admin` (`adminid`)
+);
+
 #Manage Vehicles
 CREATE TABLE `tbl_vehicletypes` (
   `vehicleid` int(11) NOT NULL AUTO_INCREMENT,

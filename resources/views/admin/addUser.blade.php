@@ -135,7 +135,7 @@
                                                                                 <div class="col-md-6">
                                                                                     <div class="checkbox checkbox-info">
                                                                                         <input type="checkbox" name="modules[]" id="modules_{{ $cnt }}" value="{{ $module->moduleid }}"
-                                                                                            {{ in_array($module->moduleid, old('modules', $selectedModules)) ? 'checked' : '' }}
+                                                                                            {{ in_array($module->moduleid, old('modules', $selectedModules ?? [])) ? 'checked' : '' }}
                                                                                             {{ $isAdminTypeOne ? 'disabled' : '' }}> {{-- Disable if admin_type == 1 --}}
                                                                                         <label for="modules_{{ $cnt }}">{{ $module->module }}</label>
                                                                                     </div>

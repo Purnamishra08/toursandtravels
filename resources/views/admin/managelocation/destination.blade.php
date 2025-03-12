@@ -41,13 +41,13 @@
         						</nav>
                                 <!--Filter Box Start-->
                                 <div class="filterBox collapse bg-light p-3" id="filterBox">
-                                    <form action="{{ route('admin.destination') }}" method="POST" onsubmit="return validator()">
+                                    <form action="{{ route('admin.destination') }}" method="POST">
                                         @csrf
                                         <div class="row">
                                             <!-- Hotel Name -->
                                             <div class="col-sm-4 form-group mb-sm-0">
                                                 <label class="control-label">Destination Name</label>
-                                                <input type="text" class="form-control" id="destination_name" name="destination_name" 
+                                                <input type="text" class="form-control" id="destination_name" name="destination_name"
                                                     value="{{ request('destination_name') }}">
                                             </div>
                                             <div class="col-sm-4 form-group mb-sm-0">
@@ -68,20 +68,20 @@
                                             <div class="col-sm-4 form-group mb-sm-0">
                                                 <label class="control-label">Status</label>
                                                 <select class="form-select" id="status" name="status">
-                                                    <option value="">Select</option>
+                                                    <option value="">--Select--</option>
                                                     <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active</option>
                                                     <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Inactive</option>
                                                 </select>
                                             </div>
+                                        </div><br>
+                                        <div class="row">
                                             <!-- Submit and Reset Buttons -->
                                             <div class="col-sm-4 form-group mb-sm-0 align-self-end">
                                                 <button class="btn btn-success mr-2" type="submit">Submit</button>
-                                                <!-- <button class="btn btn-warning" type="reset" id="resetBtn">Reset</button> -->
-                                                <a href="{{ route('admin.destination') }}" class="btn btn-warning">Reset</a>
+                                                <button class="btn btn-warning" type="reset" id="resetBtn">Reset</button>
                                             </div>
                                         </div>
                                     </form>
-
                                 </div>
                                 <div class="text-center filterBtn">
                                     <button type="button" class="showListBtn" data-bs-toggle="collapse"
@@ -165,7 +165,7 @@
                                                                 </tr>
                                                                 @empty
                                                                 <tr>
-                                                                    <td colspan="5" class="text-center">No data available</td>
+                                                                    <td colspan="7" class="text-center">No data available</td>
                                                                 </tr>
                                                                 @endforelse
                                                             </tbody>
