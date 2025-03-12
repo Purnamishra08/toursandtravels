@@ -10,15 +10,31 @@ use Illuminate\Support\Str;
 
 class PlacesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $places = DB::table('tbl_places as p')
+        $place_name         = $request->input('place_name', '');
+        $destination_id     = $request->input('destination_id', '');
+        $status             = $request->input('status', '');
+
+        $query = DB::table('tbl_places as p')
                        ->select('p.placeimg', 'p.placethumbimg', 'p.placeid', 'p.place_name','d.destination_id', 'd.destination_name', 'p.status')
                        ->leftJoin('tbl_destination as d', 'p.destination_id', '=', 'd.destination_id')
                        ->where('p.bit_Deleted_Flag', 0)
-                       ->where('d.bit_Deleted_Flag',0)
-                       ->paginate(10);
-        return view('admin.managelocation.places', ['places' => $places]);
+                       ->where('d.bit_Deleted_Flag',0);
+        if (!empty($place_name)) {
+            $query->where('p.place_name', 'like', '%' . $place_name . '%');
+        }
+        if (!empty($destination_id)) {
+            $query->where('p.destination_id', $destination_id);
+        }
+        if (!empty($status)) {
+            $query->where('p.status', $status);
+        }
+        $places = $query->paginate(10);
+
+        $destinations = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
+
+        return view('admin.managelocation.places', ['places' => $places, 'destinations' => $destinations]);
     }
 
     public function addplaces(Request $request){

@@ -5,17 +5,36 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Models\User;
-
 use DB;
 
 class ManageUserController extends Controller
 {
     public function index()
     {
-        $data = DB::table('tbl_admin')->where('bit_Deleted_Flag', 0)->paginate(10);
-        return view('admin.manageUser', ['users' => $data]);
+        $users = DB::table('tbl_admin')->where('bit_Deleted_Flag', 0)->paginate(10);
+        foreach ($users as $user) {
+            if ($user->admin_type == 1) {
+                $modules = DB::table('tbl_modules')
+                    ->where('status', 1)
+                    ->orderBy('moduleid', 'ASC')
+                    ->pluck('module')
+                    ->toArray();
+            } else {
+                $modules = DB::table('tbl_admin_modules as a')
+                    ->join('tbl_modules as b', 'a.moduleid', '=', 'b.moduleid')
+                    ->where('a.adminid', $user->adminid)
+                    ->orderBy('b.moduleid', 'ASC')
+                    ->pluck('b.module')
+                    ->toArray();
+            }
+            
+            // Attach modules to user object
+            $user->modules = implode(', ', $modules);
+        }
+        return view('admin.manageUser.manageUser', compact('users'));
     }
 
     public function viewPop(Request $request)
@@ -64,8 +83,20 @@ class ManageUserController extends Controller
             $validator = Validator::make($request->all(), [
                 'uname' => ['required', 'regex:/^[A-Za-z\s]+$/'],
                 'utype' => ['required', 'in:1,2,3'],
-                'contact' => ['required', 'regex:/^[6-9]\d{9}$/', 'unique:tbl_admin,contact_no'],
-                'email' => ['required', 'email', 'unique:tbl_admin,email_id'],
+                'contact' => [
+                    'required',
+                    'regex:/^[6-9]\d{9}$/',
+                    Rule::unique('tbl_admin', 'contact_no')->where(function ($query) {
+                        return $query->where('bit_Deleted_Flag', 0);
+                    }),
+                ],
+                'email' => [
+                    'required',
+                    'email',
+                    Rule::unique('tbl_admin', 'email_id')->where(function ($query) {
+                        return $query->where('bit_Deleted_Flag', 0);
+                    }),
+                ],
                 'password' => ['required', 'min:6'],
                 'cpassword' => ['required', 'same:password'],
             ]);
@@ -82,20 +113,46 @@ class ManageUserController extends Controller
             }
 
             try {
-                $user = User::create([
-                    'admin_name'    => $request->input('uname'),
-                    'admin_type'    => $request->input('utype'),
-                    'contact_no'    => $request->input('contact'),
-                    'email_id'      => $request->input('email'),
-                    'password'      => Hash::make($request->input('password')),
+                $user = DB::table('tbl_admin')->insertGetId([
+                    'admin_name'  => $request->input('uname'),
+                    'admin_type'  => $request->input('utype'),
+                    'contact_no'  => $request->input('contact'),
+                    'email_id'    => $request->input('email'),
+                    'password'    => Hash::make($request->input('password')),
                 ]);
-    
+                $lastInsertedId = DB::getPdo()->lastInsertId();
+                DB::table('tbl_admin_modules')->where('adminid', $lastInsertedId)->delete();
+                $utype = $request->input('utype');
+                // If not Super Admin (utype != 1 && utype != 2)
+                if ($utype != 1) {
+                    $modules = $request->input('modules', []); // Default to an empty array if no modules selected
+                    $sess_userid = session('user')->adminid ?? 0; // Get logged-in user's ID
+                    $date = now(); // Get current timestamp
+
+                    $insertData = [];
+
+                    foreach ($modules as $moduleid) {
+                        $insertData[] = [
+                            'adminid'      => $lastInsertedId,
+                            'moduleid'     => $moduleid,
+                            'created_by'   => $sess_userid,
+                            'created_date' => $date
+                        ];
+                    }
+
+                    // Insert multiple records at once
+                    if (!empty($insertData)) {
+                        DB::table('tbl_admin_modules')->insert($insertData);
+                    }
+                }
+
                 return redirect()->back()->with('success', 'User created successfully!');
             } catch (Exception $e) {
                 return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to create user.'])->withInput();
             }
         }else{
-            return view('admin.addUser');
+            $modules = DB::table('tbl_modules')->select('moduleid','module')->where('status', 1)->where('bit_Deleted_Flag', 0)->get();
+            return view('admin.manageUser.addUser', ['modules' => $modules]);
         }
         
     }
@@ -128,9 +185,44 @@ class ManageUserController extends Controller
                 $user->email_id = $request->input('email');
 
                 $user->save();
+                DB::table('tbl_admin_modules')->where('adminid', $id)->delete();
+                $utype = $request->input('utype');
+                if ($utype != 1) { // If not Super Admin
+                    $modules = $request->input('modules', []); // Get selected modules
+                    $sess_userid = session('user')->adminid ?? 0;
+                    $date = now();
+        
+                    $insertData = [];
+                    foreach ($modules as $moduleid) {
+                        $insertData[] = [
+                            'adminid'      => $id,  // Use $id instead of last inserted ID
+                            'moduleid'     => $moduleid,
+                            'created_by'   => $sess_userid,
+                            'created_date' => $date
+                        ];
+                    }
+        
+                    if (!empty($insertData)) {
+                        DB::table('tbl_admin_modules')->insert($insertData);
+                    }
+                }
                 return redirect()->back()->with('success', 'User updated successfully!');
             }else{
-                return view('admin.addUser', ['user' => $user]);
+                $modules = DB::table('tbl_modules')->select('moduleid','module')->where('status', 1)->where('bit_Deleted_Flag', 0)->get();
+                if ($user->admin_type == 1) {
+                    $selectedModules = DB::table('tbl_modules')
+                        ->where('status', 1)
+                        ->orderBy('moduleid', 'ASC')
+                        ->pluck('moduleid')
+                        ->toArray();
+                } else {
+                    $selectedModules = DB::table('tbl_admin_modules')
+                        ->where('adminid', $user->adminid)
+                        ->orderBy('moduleid', 'ASC')
+                        ->pluck('moduleid')
+                        ->toArray();
+                }
+                return view('admin.manageUser.addUser', ['user' => $user, 'modules' => $modules, 'selectedModules' => $selectedModules]);
             }
         }
         
