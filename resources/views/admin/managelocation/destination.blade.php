@@ -113,20 +113,28 @@
                                                                     <td>{{ $destinations->destination_name }}</td>
                                                                     <td>
                                                                         <div class="mt-2">
-                                                                            <img id="destinationBannerPreview"
-                                                                                src="{{ isset($destinations->destiimg) ? asset('storage/destination_images/'.$destinations->destiimg) : '' }}"
-                                                                                alt="Destination Banner Preview"
-                                                                                class="img-fluid rounded border"
-                                                                                style="width: 150px; height: 80px; object-fit: cover;">
+                                                                            @if(isset($destinations->destiimg) && !empty($destinations->destiimg))
+                                                                                <a href="{{ asset('storage/destination_images/'.$destinations->destiimg) }}" target="_blank">
+                                                                                    <img id="destinationBannerPreview" 
+                                                                                        src="{{ asset('storage/destination_images/'.$destinations->destiimg) }}"
+                                                                                        alt="Destination Banner Preview"
+                                                                                        class="img-fluid rounded border"
+                                                                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                                                                </a>
+                                                                            @endif
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="mt-2">
-                                                                            <img id="destinationImagePreview" 
-                                                                                src="{{ isset($destinations->destiimg_thumb) ? asset('storage/destination_images/thumbs/'.$destinations->destiimg_thumb) : '' }}"
-                                                                                alt="Destination Image"
-                                                                                class="img-fluid rounded border"
-                                                                                style="width: 150px; height: 80px; object-fit: cover;">
+                                                                            @if(isset($destinations->destiimg_thumb) && !empty($destinations->destiimg_thumb))
+                                                                                <a href="{{ asset('storage/destination_images/thumbs/'.$destinations->destiimg_thumb) }}" target="_blank">
+                                                                                    <img id="destinationImagePreview" 
+                                                                                        src="{{ asset('storage/destination_images/thumbs/'.$destinations->destiimg_thumb) }}"
+                                                                                        alt="Destination Image"
+                                                                                        class="img-fluid rounded border"
+                                                                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                                                                </a>
+                                                                            @endif
                                                                         </div>
                                                                     </td>
                                                                     <td>{{ $destinations->par_value }}</td>

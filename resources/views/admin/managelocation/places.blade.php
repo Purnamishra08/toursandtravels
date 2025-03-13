@@ -114,20 +114,28 @@
                                                                     <td>{{ $place->destination_name }}</td>
                                                                     <td>
                                                                         <div class="mt-2">
-                                                                            <img id="destinationBannerPreview"
-                                                                                src="{{ isset($place->placeimg) ? asset('storage/place_images/'.$place->placeimg) : '' }}"
-                                                                                alt="Destination Banner Preview"
-                                                                                class="img-fluid rounded border"
-                                                                                style="width: 150px; height: 80px; object-fit: cover;">
+                                                                            @if(isset($place->placeimg) && !empty($place->placeimg))
+                                                                                <a href="{{ asset('storage/place_images/'.$place->placeimg) }}" target="_blank">
+                                                                                    <img id="destinationBannerPreview"
+                                                                                        src="{{ asset('storage/place_images/'.$place->placeimg) }}"
+                                                                                        alt="Destination Banner Preview"
+                                                                                        class="img-fluid rounded border"
+                                                                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                                                                </a>
+                                                                            @endif
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <div class="mt-2">
-                                                                            <img id="destinationImagePreview" 
-                                                                                src="{{ isset($place->placethumbimg) ? asset('storage/place_images/thumbs/'.$place->placethumbimg) : '' }}"
-                                                                                alt="Destination Image"
-                                                                                class="img-fluid rounded border"
-                                                                                style="width: 150px; height: 80px; object-fit: cover;">
+                                                                            @if(isset($place->placethumbimg) && !empty($place->placethumbimg))
+                                                                                <a href="{{ asset('storage/place_images/thumbs/'.$place->placethumbimg) }}" target="_blank">
+                                                                                    <img id="destinationImagePreview" 
+                                                                                        src="{{ asset('storage/place_images/thumbs/'.$place->placethumbimg) }}"
+                                                                                        alt="Destination Image"
+                                                                                        class="img-fluid rounded border"
+                                                                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                                                                </a>
+                                                                            @endif
                                                                         </div>
                                                                     </td>
                                                                     <td>
