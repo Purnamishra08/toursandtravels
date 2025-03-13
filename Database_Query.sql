@@ -390,8 +390,34 @@ CREATE TABLE `tbl_itinerary` (
 );
 
 
-
-
-
-
 #ManagePackages
+
+select * from tbl_contact;
+#Enquiry
+CREATE TABLE `tbl_contact` (
+  `enq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cont_name` varchar(100) DEFAULT NULL,
+  `cont_email` varchar(150) DEFAULT NULL,
+  `cont_phone` varchar(20) DEFAULT NULL,
+  `cont_enquiry_details` varchar(1200) DEFAULT NULL,
+  `page_name` varchar(100) DEFAULT NULL,
+  `cont_date` datetime DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`enq_id`)
+);
+INSERT INTO `toursandtravels`.`tbl_contact` (`cont_name`, `cont_email`, `cont_phone`, `cont_enquiry_details`, `page_name`, `cont_date`, `bit_Deleted_Flag`) VALUES ('Rohan Agarwal', 'agarwalrohan132@gmail.com', '7790058321', 'qwertyuioplkjhgfdsazxcvbnm', 'Contact Us', '2019-10-14 10:33:48', b'0');
+
+CREATE TABLE `tbl_reply_enquiry` (
+  `reply_id` int(11) NOT NULL AUTO_INCREMENT,
+  `adminid` int(11) NOT NULL,
+  `type` tinyint(4) DEFAULT NULL COMMENT '1=enqid, 2= itinerary enquiry  id, , 3= package enquiry',
+  `enq_id` int(11) NOT NULL,
+  `message` text DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`reply_id`),
+  KEY `adminid` (`adminid`),
+  KEY `enquiry_id` (`enq_id`)
+);
+select * from tbl_reply_enquiry
+#Enquiry

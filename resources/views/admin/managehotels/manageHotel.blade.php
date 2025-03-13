@@ -183,7 +183,7 @@
                                                                     <form
                                                                         action="{{ route('admin.manageHotels.deleteHotel', ['id' => $hotel->hotel_id]) }}"
                                                                         method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to delete this vehicle?')">
+                                                                        onsubmit="return confirm('Are you sure you want to delete this hotel?')">
                                                                         @csrf
                                                                         <button type="submit"
                                                                             class="btn btn-danger btn-sm"
