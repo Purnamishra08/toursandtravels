@@ -9,12 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
+use DB;
 
 class LoginController extends Controller
 {
     public function index()
     {
-        return view('admin.login');
+        return view('admin.manageUser.login');
     }
 
     public function login(Request $request)
@@ -47,7 +48,8 @@ class LoginController extends Controller
             $user = Auth::user();
             
             if ($user->bit_Deleted_Flag == 0 && $user->status == 1) {
-                session(['user' => Auth::user()]);
+                $moduleAccess = DB::table('tbl_admin_modules')->where('adminid', $user->adminid)->where('bit_Deleted_Flag', 0)->pluck('moduleid')->toArray();
+                session(['user' => Auth::user(), 'moduleAccess' => $moduleAccess]);
                 return redirect()->intended('/dashboard');
             }
             Auth::logout();
@@ -69,7 +71,7 @@ class LoginController extends Controller
 
     public function forgotPassword()
     {
-        return view('admin.forgotpassword');
+        return view('admin.manageUser.forgotpassword');
     }
 
     public function changePassword(Request $request)
@@ -95,7 +97,7 @@ class LoginController extends Controller
     
             return back()->with('success', 'Password updated successfully!');
         }else{
-            return view('admin.changePassword');
+            return view('admin.manageUser.changePassword');
         }
     }
 }

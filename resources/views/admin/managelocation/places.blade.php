@@ -39,6 +39,55 @@
         							</div>
         							<!-- table-utilities end-->
         						</nav>
+                                <!--Filter Box Start-->
+                                <div class="filterBox collapse bg-light p-3" id="filterBox">
+                                    <form action="{{ route('admin.places') }}" method="POST">
+                                        @csrf
+                                        <div class="row">
+                                            <!-- Hotel Name -->
+                                            <div class="col-sm-4 form-group mb-sm-0">
+                                                <label class="control-label">Place Name</label>
+                                                <input type="text" class="form-control" id="place_name" name="place_name"
+                                                    value="{{ request('place_name') }}">
+                                            </div>
+                                            <div class="col-sm-4 form-group mb-sm-0">
+                                                <label class="control-label">Destination</label>
+                                                <select class="form-select" id="destination_id" name="destination_id">
+                                                    <option value="">-- Select Destination Type --</option>
+                                                    @forelse($destinations as $type)
+                                                        <option value="{{ $type->destination_id }}" 
+                                                            {{ request('destination_id') == $type->destination_id ? 'selected' : '' }}>
+                                                            {{ $type->destination_name }}
+                                                        </option>
+                                                    @empty
+                                                        <option value="" disabled>No destination available</option>
+                                                    @endforelse
+                                                </select>
+                                            </div>
+                                            <!-- Status -->
+                                            <div class="col-sm-4 form-group mb-sm-0">
+                                                <label class="control-label">Status</label>
+                                                <select class="form-select" id="status" name="status">
+                                                    <option value="">--Select--</option>
+                                                    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active</option>
+                                                    <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div><br>
+                                        <div class="row">
+                                            <!-- Submit and Reset Buttons -->
+                                            <div class="col-sm-4 form-group mb-sm-0 align-self-end">
+                                                <button class="btn btn-success mr-2" type="submit">Submit</button>
+                                                <button class="btn btn-warning" type="reset" id="resetBtn">Reset</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="text-center filterBtn">
+                                    <button type="button" class="showListBtn" data-bs-toggle="collapse"
+                                        data-bs-target="#filterBox"><i class="fa fa-search"></i> Search</button>
+                                </div>
+                                <!--Filter Box End-->
                             @include('Admin.include.sweetaleart')
                             <section class="content">
                                             <div class="panel">

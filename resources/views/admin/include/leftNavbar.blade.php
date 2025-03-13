@@ -22,15 +22,19 @@
                     
                 @endphp
                 
-
-                <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageVehicletype', 'admin.manageVehicleprice']) ? '' : 'collapsed' }}"
-                    href="#" data-bs-toggle="collapse" data-bs-target="#manageVehicles"
-                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageVehicletype', 'admin.manageVehicleprice']) ? 'true' : 'false' }}"
-                    aria-controls="manageVehicles">
-                    <div class="sb-nav-link-icon"><i class="fa fa-truck"></i></div>
-                    Manage Vehicles
-                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
-                </a>
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(5, session('moduleAccess')))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageVehicletype', 'admin.manageVehicleprice']) ? '' : 'collapsed' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#manageVehicles"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageVehicletype', 'admin.manageVehicleprice']) ? 'true' : 'false' }}"
+                        aria-controls="manageVehicles">
+                        <div class="sb-nav-link-icon"><i class="fa fa-truck"></i></div>
+                        Manage Vehicles
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+                @endif
 
                 <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageVehicletype', 'admin.manageVehicleprice']) ? 'show' : '' }}"
                     id="manageVehicles" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
@@ -46,16 +50,20 @@
                     </nav>
                 </div>
 
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(12, session('moduleAccess')))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotels']) ? '' : 'collapsed' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#manageHotels"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotels']) ? 'true' : 'false' }}"
+                        aria-controls="manageHotels">
+                        <div class="sb-nav-link-icon"><i class="fa fa-building"></i></div>
+                        Manage Hotels
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+                @endif
                 
-                <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotels']) ? '' : 'collapsed' }}"
-                    href="#" data-bs-toggle="collapse" data-bs-target="#manageHotels"
-                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotels']) ? 'true' : 'false' }}"
-                    aria-controls="manageHotels">
-                    <div class="sb-nav-link-icon"><i class="fa fa-building"></i></div>
-                    Manage Hotels
-                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
-                </a>
-
                 <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype', 'admin.manageHotels']) ? 'show' : '' }}"
                     id="manageHotels" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
@@ -74,15 +82,20 @@
                         </a>
                     </nav>
                 </div>
-               
-                <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.state','admin.destinationtype']) ? '' : 'collapsed' }}"
-                    href="#" data-bs-toggle="collapse" data-bs-target="#locations"
-                    aria-expanded="{{  Str::startsWith($currentRoute, ['admin.state','admin.destinationtype']) ? 'true' : 'false' }}"
-                    aria-controls="locations">
-                    <div class="sb-nav-link-icon"><i class="fa fa-globe"></i></div>
-                    Location
-                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
-                </a>
+                
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(6, session('moduleAccess')))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.state','admin.destinationtype']) ? '' : 'collapsed' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#locations"
+                        aria-expanded="{{  Str::startsWith($currentRoute, ['admin.state','admin.destinationtype']) ? 'true' : 'false' }}"
+                        aria-controls="locations">
+                        <div class="sb-nav-link-icon"><i class="fa fa-globe"></i></div>
+                        Location
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+                @endif
 
                 <div class="collapse {{ Str::startsWith($currentRoute, ['admin.state','admin.destinationtype','admin.destination', 'admin.places']) ? 'show' : '' }}"
                     id="locations" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
@@ -107,15 +120,20 @@
                         </a>
                     </nav>
                 </div>
-                
-                <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? '' : 'collapsed' }}"
-                    href="#" data-bs-toggle="collapse" data-bs-target="#menus"
-                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? 'true' : 'false' }}"
-                    aria-controls="menus">
-                    <div class="sb-nav-link-icon"><i class="fa fa-th-list"></i></div>
-                    Menus
-                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
-                </a>
+
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(8, session('moduleAccess')))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? '' : 'collapsed' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#menus"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? 'true' : 'false' }}"
+                        aria-controls="menus">
+                        <div class="sb-nav-link-icon"><i class="fa fa-th-list"></i></div>
+                        Menus
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+                @endif
 
                 <div class="collapse {{ Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags', 'admin.menutag']) ? 'show' : '' }}"
                     id="menus" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
@@ -134,14 +152,20 @@
                         </a>
                     </nav>
                 </div>
-                <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.managetourpackages']) ? '' : 'collapsed' }}"
-                    href="#" data-bs-toggle="collapse" data-bs-target="#packages"
-                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.managetourpackages']) ? 'true' : 'false' }}"
-                    aria-controls="packages">
-                    <div class="sb-nav-link-icon"><i class="fa fa-person-walking-luggage"></i></div>
-                    Manage Packages
-                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
-                </a>
+
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(10, session('moduleAccess')))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.managetourpackages']) ? '' : 'collapsed' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#packages"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.managetourpackages']) ? 'true' : 'false' }}"
+                        aria-controls="packages">
+                        <div class="sb-nav-link-icon"><i class="fa fa-person-walking-luggage"></i></div>
+                        Manage Packages
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+                @endif
 
                 <div class="collapse {{ Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.managetourpackages']) ? 'show' : '' }}"
                     id="packages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">

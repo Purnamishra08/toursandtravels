@@ -2,6 +2,22 @@
     @include('Admin.include.metaheader')
     <!-- Metaheader Section End -->
     <link href="{{asset('assets/css/change-password.css')}}" rel="stylesheet" />
+    <style>
+       
+            .form-control{
+            height: auto !important;
+        }
+        .login-title{
+            margin: 0 0 1rem ;
+        }
+        .change-password-img{
+           width: 85%;
+        }
+        .login-btn{
+            padding: .5rem;
+        }
+        
+    </style>
 
     <body>
         <div id="layoutSidenav">
@@ -18,13 +34,13 @@
 
                     <!-- Main Content Start-->
                     <main>
-                        <div class="inner-layout">
-                            <div class="container-fluid px-4 pt-3">
+                        <div class="inner-layout h-100">
+                            <div class="container-fluid px-4 pt-3 h-100">
                                 <!-- <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item active">Change Password</li>
                                 </ol> -->
                                 @include('Admin.include.sweetaleart')
-                                <div class="row align-items-center mt-md-4">
+                                <div class="row align-items-center h-100 ">
                                     <div class="col-md-6">
                                         <img class="change-password-img" src="{{ asset('assets/img/change-password.png') }}" alt="">
                                     </div>
@@ -39,7 +55,7 @@
                                                     <label for="old_password" class="form-label">Old Password</label>
                                                     <div class="icon-input-control">
 
-                                                        <input type="password" class="form-control password-input" id="old_password" name="old_password">
+                                                        <input type="password" class="form-control " id="old_password" name="old_password">
                                                         <i class="toggle-password bi bi-eye-slash icon-input-right"></i>
                                                     </div>
                                                     <div id="old_password_error" class="text-danger mt-1" style="display: none;"></div>
@@ -49,7 +65,7 @@
                                                 <div class="mb-3">
                                                     <label for="new_password" class="form-label">New Password</label>
                                                     <div class="icon-input-control">
-                                                        <input type="password" class="form-control password-input" id="new_password" name="new_password">
+                                                        <input type="password" class="form-control " id="new_password" name="new_password">
                                                         <i class="toggle-password bi bi-eye-slash icon-input-right"></i>
                                                     </div>
                                                     <div id="new_password_error" class="text-danger mt-1" style="display: none;"></div>

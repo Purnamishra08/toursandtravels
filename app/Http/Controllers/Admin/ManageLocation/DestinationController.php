@@ -10,15 +10,31 @@ use Illuminate\Support\Str;
 
 class DestinationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $destination = DB::table('tbl_destination as d')
+        $destination_name   = $request->input('destination_name', '');
+        $desttype_for_home  = $request->input('desttype_for_home', '');
+        $status             = $request->input('status', '');
+        
+        $query = DB::table('tbl_destination as d')
                        ->select('d.destiimg', 'd.destiimg_thumb', 'd.destination_id', 'd.destination_name', 'p.par_value', 'd.status')
                        ->leftJoin('tbl_parameters as p', 'd.desttype_for_home', '=', 'p.parid')
                        ->where('p.bit_Deleted_Flag', 0)
-                       ->where('d.bit_Deleted_Flag',0)
-                       ->paginate(10);
-        return view('admin.managelocation.destination', ['destination' => $destination]);
+                       ->where('d.bit_Deleted_Flag',0);
+
+        if (!empty($destination_name)) {
+            $query->where('d.destination_name', 'like', '%' . $destination_name . '%');
+        }
+        if (!empty($desttype_for_home)) {
+            $query->where('d.desttype_for_home', $desttype_for_home);
+        }
+        if (!empty($status)) {
+            $query->where('d.status', $status);
+        }
+        $destination = $query->paginate(10);
+
+        $parameters  = DB::table('tbl_parameters')->select('parid','par_value')->where('status', 1)->where('param_type', 'TD')->where('bit_Deleted_Flag', 0)->get();
+        return view('admin.managelocation.destination', ['destination' => $destination, 'parameters' => $parameters]);
     }
 
     public function adddestination(Request $request){
