@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\manageMenus\CategoryController;
 use App\Http\Controllers\Admin\manageMenus\CategoryTagsController;
 use App\Http\Controllers\Admin\ManagePackages\PackageDurationsController;
 use App\Http\Controllers\Admin\ManagePackages\TourPackagesController;
+use App\Http\Controllers\Admin\ManageGeneralSettings\GeneralSettingsController;
 Use App\Http\Controllers\Admin\ManageEnquiries\EnquiryController;
 use Illuminate\Support\Facades\Route;
 /*
@@ -184,6 +185,10 @@ Route::middleware('auth')->group(function () {
 
     // Manage Packages
 
+    //General setiings
+    Route::match(['get', 'post'], '/generalsettings', [GeneralSettingsController::class, 'index'])->name('admin.generalsettings');
+    Route::match(['get', 'post'], '/editgeneralsettings/{id}', [GeneralSettingsController::class, 'editgeneralsettings'])->name('admin.managetourpackages.editgeneralsettings');
+    
     //Manage Enquiries
     //Enquiry
     Route::match(['get', 'post'], '/enquiry', [EnquiryController::class, 'index'])->name('admin.manageenquiry');

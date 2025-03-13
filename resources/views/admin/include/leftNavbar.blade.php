@@ -181,14 +181,19 @@
                     </nav>
                 </div>
 
-                <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.manageenquiry']) ? '' : 'collapsed' }}"
-                    href="#" data-bs-toggle="collapse" data-bs-target="#manageenquiries"
-                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.managepackagedurations']) ? 'true' : 'false' }}"
-                    aria-controls="manageenquiries">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-person-circle-question"></i></div>
-                    Manage Enquiries
-                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
-                </a>
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(4, session('moduleAccess')))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.manageenquiry']) ? '' : 'collapsed' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#manageenquiries"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.managepackagedurations']) ? 'true' : 'false' }}"
+                        aria-controls="manageenquiries">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-person-circle-question"></i></div>
+                        Manage Enquiries
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+                @endif
 
                 <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageenquiry']) ? 'show' : '' }}"
                     id="manageenquiries" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
@@ -199,6 +204,17 @@
                         </a>
                     </nav>
                 </div>
+
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(2, session('moduleAccess')))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link {{ request()->routeIs('admin.generalsettings*') ? 'active' : '' }}"
+                        href="{{ route('admin.generalsettings') }}">
+                        <div class="sb-nav-link-icon"><i class="fa fa-user"></i></div>
+                        General Settings
+                    </a>
+                @endif
             </div>
         </div>
     </nav>
