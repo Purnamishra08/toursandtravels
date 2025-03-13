@@ -387,6 +387,29 @@ class HotelController extends Controller
     ]);
 }
 
+    public function deleteHotel(Request $request, $id)
+    {
+        // Retrieve vehicle type by ID
+        $data = DB::table('tbl_hotel')->where('hotel_id', $id)->first();
 
+        if (!$data) {
+            return back()->withErrors(['error' => 'Hotel not found!']);
+        }
 
+        try {
+            // Soft delete: Update the bit_Deleted_Flag
+            DB::table('tbl_hotel')->where('hotel_id', $id)->update([
+                'bit_Deleted_Flag' => 1,
+                'updated_date' => now(),
+                'updated_by' => isset(session('user')->adminid) ? session('user')->adminid : 0,
+            ]);
+
+            return redirect()->back()->with('success', 'Hotel deleted successfully!');
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error deleting Hotel: ' . $e->getMessage());
+
+            return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to delete Hotel.']);
+        }
+    }
 }

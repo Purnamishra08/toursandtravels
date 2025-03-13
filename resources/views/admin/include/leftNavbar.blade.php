@@ -156,6 +156,25 @@
                         </a>
                     </nav>
                 </div>
+
+                <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.manageenquiry']) ? '' : 'collapsed' }}"
+                    href="#" data-bs-toggle="collapse" data-bs-target="#manageenquiries"
+                    aria-expanded="{{ Str::startsWith($currentRoute, ['admin.managepackagedurations']) ? 'true' : 'false' }}"
+                    aria-controls="manageenquiries">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-person-circle-question"></i></div>
+                    Manage Enquiries
+                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                </a>
+
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageenquiry']) ? 'show' : '' }}"
+                    id="manageenquiries" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.manageenquiry']) ? 'active' : ''}}"
+                            href="{{ route('admin.manageenquiry') }}">
+                            <i class="fa-solid fa-question mt-1 me-2"></i> Enquiry
+                        </a>
+                    </nav>
+                </div>
             </div>
         </div>
     </nav>

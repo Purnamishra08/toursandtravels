@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\manageMenus\CategoryController;
 use App\Http\Controllers\Admin\manageMenus\CategoryTagsController;
 use App\Http\Controllers\Admin\ManagePackages\PackageDurationsController;
 use App\Http\Controllers\Admin\ManagePackages\TourPackagesController;
+Use App\Http\Controllers\Admin\ManageEnquiries\EnquiryController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -181,4 +182,12 @@ Route::middleware('auth')->group(function () {
     // Tour Package
 
     // Manage Packages
+
+    //Manage Enquiries
+    //Enquiry
+    Route::match(['get', 'post'], '/enquiry', [EnquiryController::class, 'index'])->name('admin.manageenquiry');
+    Route::match(['get', 'post'], '/viewEnquiry/{id}', [EnquiryController::class, 'viewEnquiry'])->name('admin.manageenquiry.viewEnquiry');
+    Route::post('/deleteEnquiry/{id}', [EnquiryController::class, 'deleteEnquiry'])->name('admin.manageenquiry.deleteEnquiry');
+    //Enquiry
+    //Manage Enquiries
 });
