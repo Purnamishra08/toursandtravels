@@ -92,7 +92,7 @@
                         aria-expanded="{{  Str::startsWith($currentRoute, ['admin.state','admin.destinationtype']) ? 'true' : 'false' }}"
                         aria-controls="locations">
                         <div class="sb-nav-link-icon"><i class="fa fa-globe"></i></div>
-                        Location
+                        Manage Location
                         <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
                     </a>
                 @endif
@@ -130,7 +130,7 @@
                         aria-expanded="{{ Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? 'true' : 'false' }}"
                         aria-controls="menus">
                         <div class="sb-nav-link-icon"><i class="fa fa-th-list"></i></div>
-                        Menus
+                        Manage Menus
                         <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
                     </a>
                 @endif
