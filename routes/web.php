@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\ManagePackages\TourPackagesController;
 use App\Http\Controllers\Admin\ManageGeneralSettings\GeneralSettingsController;
 Use App\Http\Controllers\Admin\ManageEnquiries\EnquiryController;
 Use App\Http\Controllers\Admin\ManageReviews\ReviewsController;
+Use App\Http\Controllers\Admin\ManageEnquiries\ItineraryEnquiryController;
+Use App\Http\Controllers\Admin\ManageEnquiries\PackageEnquiryController;
 Use App\Http\Controllers\Admin\ManageFaqs\CommonFaqController;
 Use App\Http\Controllers\Admin\ManageFaqs\PackageFaqController;
 use Illuminate\Support\Facades\Route;
@@ -198,7 +200,20 @@ Route::middleware('auth')->group(function () {
     Route::match(['get', 'post'], '/viewEnquiry/{id}', [EnquiryController::class, 'viewEnquiry'])->name('admin.manageenquiry.viewEnquiry');
     Route::post('/deleteEnquiry/{id}', [EnquiryController::class, 'deleteEnquiry'])->name('admin.manageenquiry.deleteEnquiry');
     //Enquiry
+    //Itinerary Enquiry
+    Route::match(['get', 'post'], '/itinerary-enquiry', [ItineraryEnquiryController::class, 'index'])->name('admin.manageitineraryenquiry');
+    Route::match(['get', 'post'], '/viewItineraryEnquiry/{id}', [ItineraryEnquiryController::class, 'viewItineraryEnquiry'])->name('admin.manageitineraryenquiry.viewItineraryEnquiry');
+    Route::post('/deleteItineraryEnquiry/{id}', [ItineraryEnquiryController::class, 'deleteItineraryEnquiry'])->name('admin.manageitineraryenquiry.deleteItineraryEnquiry');
+    //Itinerary Enquiry
+    //Package Enquiry
+    Route::match(['get', 'post'], '/package-enquiry', [PackageEnquiryController::class, 'index'])->name('admin.managepackageenquiry');
+    Route::match(['get', 'post'], '/viewPackageEnquiry/{id}', [PackageEnquiryController::class, 'viewPackageEnquiry'])->name('admin.managepackageenquiry.viewPackageEnquiry');
+    Route::post('/deletePackageEnquiry/{id}', [PackageEnquiryController::class, 'deletePackageEnquiry'])->name('admin.managepackageenquiry.deletePackageEnquiry');
+    //Package Enquiry
     //Manage Enquiries
+
+    
+    
 
      //Manage Reviews admin.managereviews.addreviews
      Route::match(['get', 'post'], '/managereviews', [ReviewsController::class, 'index'])->name('admin.managereviews');

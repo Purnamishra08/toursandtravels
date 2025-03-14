@@ -185,9 +185,9 @@
                         (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(4, session('moduleAccess')))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
-                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.manageenquiry']) ? '' : 'collapsed' }}"
+                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.manageenquiry','admin.manageitineraryenquiry','admin.managepackageenquiry']) ? '' : 'collapsed' }}"
                         href="#" data-bs-toggle="collapse" data-bs-target="#manageenquiries"
-                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.managepackagedurations']) ? 'true' : 'false' }}"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageenquiry','admin.manageitineraryenquiry','admin.managepackageenquiry']) ? 'true' : 'false' }}"
                         aria-controls="manageenquiries">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-person-circle-question"></i></div>
                         Manage Enquiries
@@ -195,12 +195,20 @@
                     </a>
                 @endif
 
-                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageenquiry']) ? 'show' : '' }}"
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageenquiry','admin.manageitineraryenquiry','admin.managepackageenquiry']) ? 'show' : '' }}"
                     id="manageenquiries" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.manageenquiry']) ? 'active' : ''}}"
                             href="{{ route('admin.manageenquiry') }}">
                             <i class="fa-solid fa-question mt-1 me-2"></i> Enquiry
+                        </a>
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.manageitineraryenquiry']) ? 'active' : ''}}"
+                            href="{{ route('admin.manageitineraryenquiry') }}">
+                            <i class="fa-solid fa-circle-question mt-1 me-2"></i>Itinerary Enquiry
+                        </a>
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.managepackageenquiry']) ? 'active' : ''}}"
+                            href="{{ route('admin.managepackageenquiry') }}">
+                            <i class="fa-solid fa-clipboard-question mt-1 me-2"></i>Package Enquiry
                         </a>
                     </nav>
                 </div>

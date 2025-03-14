@@ -176,7 +176,7 @@
                                                                         <i class="fa fa-pencil"></i>
                                                                     </a>
                                                                     <a href="{{ route('admin.manageHotels.viewHotel', ['id' => $hotel->hotel_id]) }}"
-                                                                        class="btn btn-primary btn-sm" title="Edit">
+                                                                        class="btn btn-primary btn-sm" title="View">
                                                                         <i class="fa fa-eye"></i>
                                                                     </a>
                                                                     @if(session('user')->admin_type == 1)
