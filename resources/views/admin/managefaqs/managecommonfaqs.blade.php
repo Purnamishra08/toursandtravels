@@ -81,73 +81,26 @@
                                 <!--Filter Box End-->
                             @include('Admin.include.sweetaleart')
                             <section class="content">
-                                            <div class="panel">
-                                                <div class="panel-body">
-                                                    <div class="table-responsive">
-                                                        <table id="faqTable" class="table table-bordered table-striped">
-                                                            <thead class="thead-dark">
-                                                                <tr class="bg-info text-white">
-                                                                    <th width="2%">Sl #</th>
-                                                                    <th width="15%">Questions</th>
-                                                                    <th width="20%">Answers</th>
-                                                                    <th width="2%">Order</th>
-                                                                    <th width="5%">Created</th>
-                                                                    <th width="3%">Status</th>
-                                                                    <th width="5%">Action</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @forelse($commonfaq as $index => $commonfaqs)
-                                                                <tr>
-                                                                    <td>{{ ($commonfaq->currentPage() - 1) *
-                                                                    $commonfaq->perPage() + $loop->iteration }}</td>
-                                                                    <td>{{ $commonfaqs->faq_question }}</td>
-                                                                    <td>{!! $commonfaqs->faq_answer !!}</td>
-                                                                    <td>{{ $commonfaqs->faq_order }}</td>
-                                                                    <td>{{ date("jS M Y", strtotime($commonfaqs->created_date)) }}</td>
-                                                                    <td>
-                                                                        @if($commonfaqs->status == 1)
-                                                                            <form action="{{ route('admin.commonfaqs.activecommonfaqs', ['id' => $commonfaqs->faq_id]) }}" method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                    @csrf
-                                                                                    <button type="submit" class="btn btn-outline-success"
-                                                                                        title="Active. Click to deactivate.">
-                                                                                        <span class="label-custom label label-success">Active</span>
-                                                                                    </button>
-                                                                            </form>
-                                                                        @else
-                                                                            <form action="{{ route('admin.commonfaqs.activecommonfaqs', ['id' => $commonfaqs->faq_id]) }}" method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                @csrf
-                                                                                <button type="submit" class="btn btn-outline-dark"
-                                                                                    title="Active. Click to deactivate.">
-                                                                                    <span class="label-custom label label-danger">Inactive</span>
-                                                                                </button>
-                                                                            </form>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="{{ route('admin.commonfaqs.editcommonfaqs', $commonfaqs->faq_id) }}" class="btn btn-primary btn-sm" title="Edit">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        <form action="{{ route('admin.commonfaqs.deletecommonfaqs',  $commonfaqs->faq_id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this common faq ?')">
-                                                                            @csrf
-                                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                                                                <i class="fa-regular fa-trash-can"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                                @empty
-                                                                <tr>
-                                                                    <td colspan="7" class="text-center">No data available</td>
-                                                                </tr>
-                                                                @endforelse
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table id="faqTable" class="table table-bordered table-striped">
+                                                <thead class="thead-dark">
+                                                    <tr class="bg-info text-white">
+                                                        <th width="2%">Sl #</th>
+                                                        <th width="15%">Questions</th>
+                                                        <th width="20%">Answers</th>
+                                                        <th width="2%">Order</th>
+                                                        <th width="5%">Created</th>
+                                                        <th width="3%">Status</th>
+                                                        <th width="5%">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </section>
                         </div>
                     </div>
@@ -174,11 +127,31 @@
     <script>
         $(document).ready(function () {
             $('#faqTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('admin.commonfaqs.data') }}",
+                type: "GET",
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'faq_question', name: 'faq_question' },
+                    { data: 'faq_answer', name: 'faq_answer', render: function(data, type, row) {
+                        return $('<div>').html(data).text(); // Decode HTML entities
+                    }},
+                    { data: 'faq_order', name: 'faq_order' },
+                    { data: 'created_date', name: 'created_date' },
+                    { data: 'status', name: 'status', orderable: false, searchable: false, render: function(data, type, row) {
+                        return data; // Allow HTML rendering
+                    }},
+                    { data: 'action', name: 'action', orderable: false, searchable: false, render: function(data, type, row) {
+                        return data; // Render buttons properly
+                    }}
+                ],
                 paging: true,
                 searching: true,
                 ordering: true,
                 info: true,
                 lengthMenu: [10, 25, 50, 100],
+                pageLength: 10,
                 language: {
                     search: "Filter records:",
                 },

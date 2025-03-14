@@ -236,7 +236,8 @@ Route::middleware('auth')->group(function () {
     //Manage Faqs
 
     //Common faqs
-    Route::match(['get', 'post'], '/commonfaqs', [CommonFaqController::class, 'index'])->name('admin.commonfaqs');
+    Route::get('/commonfaqs', [CommonFaqController::class, 'index'])->name('admin.commonfaqs');
+    Route::get('/commonfaqs/data', [CommonFaqController::class, 'getData'])->name('admin.commonfaqs.data');
     Route::match(['get', 'post'], '/addcommonfaqs', [CommonFaqController::class, 'addcommonfaqs'])->name('admin.commonfaqs.addcommonfaqs');
     Route::match(['get', 'post'], '/editcommonfaqs/{id}', [CommonFaqController::class, 'editcommonfaqs'])->name('admin.commonfaqs.editcommonfaqs');
     Route::post('/activecommonfaqs/{id}', [CommonFaqController::class, 'activecommonfaqs'])->name('admin.commonfaqs.activecommonfaqs');
