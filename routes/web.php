@@ -54,10 +54,10 @@ Route::get('/optimize', function() {
         'results' => $output
     ]);
 });
-Route::view('/website', 'website.index');
+Route::view('/', 'website.index');
 Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
-Route::get('/admin/login', [LoginController::class, 'index'])->name('admin.login');
+Route::get('/admin', [LoginController::class, 'index'])->name('admin.login');
 Route::post('/admin/login', [LoginController::class, 'login'])->name('admin.processLogin');
 Route::get('/admin/forgot-password', [LoginController::class, 'forgotPassword'])->name('admin.forgot-password');
 Route::get('/admin/change-password', [LoginController::class, 'changePassword'])->name('admin.change-password');
