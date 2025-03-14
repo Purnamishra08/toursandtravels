@@ -58,7 +58,7 @@
                                                 </div> -->
                                                 <div class="panel-body">
                                                     <div class="table-responsive">
-                                                        <table id="example" class="table table-bordered ">
+                                                        <table id="faqTable" class="table table-bordered ">
                                                             <thead>
                                                                 <tr >
                                                                     <th width="6%">Sl #</th>
@@ -144,13 +144,6 @@
                                                                 @endforelse
                                                             </tbody>
                                                         </table>
-                                                        {{-- Pagination Links --}}
-                                                        <div class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">
-                                                                Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} entries
-                                                            </p>
-                                                            {{ $users->links('pagination::bootstrap-4') }}
-                                                        </div>
                                                     </div>
                                                 </div>                          
                                             </div>
@@ -187,6 +180,29 @@
         <!-- FooterJs End--> 
         
         <script src="{{ asset('assets/js/validation.js') }}"></script>
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+
+        <!-- jQuery (Required for DataTables) -->
+        <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+
+        <!-- DataTables JS -->
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+        <script>
+            $(document).ready(function () {
+                $('#faqTable').DataTable({
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    lengthMenu: [10, 25, 50, 100],
+                    language: {
+                        search: "Filter records:",
+                    },
+                });
+            });
+        </script>
         <script>
            function loadUserDetails(userId) {
                 $('#userModal .modal-body').html('<div style="text-align:center;margin-top:150px;margin-bottom:100px;color:#377b9e;"><i class="fa fa-spinner fa-spin fa-3x"></i> <span>Processing...</span></div>');

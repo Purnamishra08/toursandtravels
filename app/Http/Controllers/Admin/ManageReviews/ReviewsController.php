@@ -246,13 +246,13 @@ class ReviewsController extends Controller
 
             // Half Star Logic
             if (fmod($review->no_of_star, 1) !== 0.00) {
-                $stars .= '<i class="fa fa-star-half-o text-warning"></i> ';
+                $stars .= '<i class="fa fa-star-half text-warning"></i> ';
                 $x++;
             }
 
             // Remaining Empty Stars
             while ($x <= 5) {
-                $stars .= '<i class="fa fa-star-o text-muted"></i> ';
+                $stars .= '<i class="fa fa-star text-muted"></i> ';
                 $x++;
             }
 

@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\ManagePackages\TourPackagesController;
 use App\Http\Controllers\Admin\ManageGeneralSettings\GeneralSettingsController;
 Use App\Http\Controllers\Admin\ManageEnquiries\EnquiryController;
 Use App\Http\Controllers\Admin\ManageReviews\ReviewsController;
+Use App\Http\Controllers\Admin\ManageFaqs\CommonFaqController;
+Use App\Http\Controllers\Admin\ManageFaqs\PackageFaqController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
