@@ -215,6 +215,17 @@
                         General Settings
                     </a>
                 @endif
+
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(13, session('moduleAccess')))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link {{ request()->routeIs('admin.managereviews*') ? 'active' : '' }}"
+                        href="{{ route('admin.managereviews') }}">
+                        <div class="sb-nav-link-icon"><i class="fa fa-user"></i></div>
+                        Manage Reviews
+                    </a>
+                @endif
             </div>
         </div>
     </nav>

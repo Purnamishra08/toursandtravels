@@ -421,3 +421,21 @@ CREATE TABLE `tbl_reply_enquiry` (
 );
 select * from tbl_reply_enquiry
 #Enquiry
+
+
+#Reviews
+CREATE TABLE `tbl_reviews` (
+  `review_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tourtagid` text DEFAULT NULL,
+  `reviewer_name` varchar(100) DEFAULT NULL,
+  `reviewer_loc` varchar(150) DEFAULT NULL,
+  `no_of_star` varchar(100) DEFAULT NULL,
+  `feedback_msg` text DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `created_date` datetime DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`review_id`)
+);

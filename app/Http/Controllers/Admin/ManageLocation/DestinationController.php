@@ -190,7 +190,7 @@ class DestinationController extends Controller
                 } else {
                     throw new \Exception('Destination could not be added.');
                 }
-            } catch (\Exception $e) {dd($e);
+            } catch (\Exception $e) {
                 DB::rollBack(); // Rollback transaction on error
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }
