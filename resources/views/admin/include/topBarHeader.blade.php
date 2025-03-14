@@ -62,6 +62,15 @@
             'admin.menutag' => ['Menus', 'Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
             'admin.category.addmenutag' => ['Menus', 'Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
             'admin.category.editmenutag' => ['Menus', 'Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
+
+            'admin.manageenquiry' => ['Manage Enquiries','Enquiry','fa-person-circle-question','fa-solid fa-question'],
+            'admin.manageenquiry.viewEnquiry' => ['Manage Enquiries','Enquiry','fa-person-circle-question','fa-solid fa-question'],
+
+            'admin.manageitineraryenquiry' => ['Manage Enquiries','Itinerary Enquiry','fa-person-circle-question','fa-solid fa-circle-question'],
+            'admin.manageitineraryenquiry.viewItineraryEnquiry' => ['Manage Enquiries','Itinerary Enquiry','fa-person-circle-question','fa-solid fa-circle-question'],
+
+            'admin.managepackageenquiry' => ['Manage Enquiries','Package Enquiry','fa-person-circle-question','fa-solid fa-clipboard-question'],
+            'admin.managepackageenquiry.viewPackageEnquiry' => ['Manage Enquiries','Package Enquiry','fa-person-circle-question','fa-solid fa-clipboard-question'],
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '',    'fa-line-chart', ''];

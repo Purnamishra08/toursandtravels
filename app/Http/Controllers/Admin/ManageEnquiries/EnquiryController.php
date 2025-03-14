@@ -45,19 +45,19 @@ class EnquiryController extends Controller
             $query->where('a.cont_phone', 'like', '%' . $cont_phone . '%');
         }
         if (!empty($from_date)) {
-            $query->where('a.from_date', $from_date);
+            $query->where('a.cont_date', $from_date);
         }
 
         // Paginate the results
         $enquiry = $query->paginate(10);
 
         // Return the view with the Enquiry data and dropdowns
-        return view('admin.manageenquiries.manageenquiry', [
+        return view('admin.manageenquiries.manageEnquiry', [
             'enquirys'       => $enquiry
         ]);
     }
 
-   public function viewEnquiry(Request $request, $id)
+    public function viewEnquiry(Request $request, $id)
     {
         try {
             // Fetch enquiry data
@@ -82,6 +82,7 @@ class EnquiryController extends Controller
             // Fetch messages related to the enquiry ID
             $messages = DB::table('tbl_reply_enquiry')
                 ->where('enq_id', $id)
+                ->where('type', 1)
                 ->select('message', 'created_date', 'adminid')
                 ->orderBy('created_date', 'desc')
                 ->get();

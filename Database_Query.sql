@@ -419,7 +419,50 @@ CREATE TABLE `tbl_reply_enquiry` (
   KEY `adminid` (`adminid`),
   KEY `enquiry_id` (`enq_id`)
 );
-select * from tbl_reply_enquiry
+select * from tbl_reply_enquiry;
+
+#ItineraryEnquiry
+use toursandtravels;
+CREATE TABLE `tbl_tripcustomize` (
+  `tripcust_id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(150) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `tsdate` datetime DEFAULT NULL,
+  `duration` int(100) DEFAULT NULL,
+  `tnote` varchar(1200) DEFAULT NULL,
+  `itinerary_id` int(11) DEFAULT NULL,
+  `package_id` int(11) DEFAULT NULL,
+  `created_date` timestamp NULL DEFAULT current_timestamp(),
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`tripcust_id`)
+) ;
+INSERT INTO `toursandtravels`.`tbl_tripcustomize` (`email`, `phone`, `tsdate`, `duration`, `tnote`, `package_id`) VALUES ('agarwalrohan132@gmail.com', '7790058321', '2019-11-21 00:00:00', '2', 'Interested', '1');
+
+#ItineraryEnquiry
+
+#Package Enquiry
+use toursandtravels;
+CREATE TABLE `tbl_package_inquiry` (
+  `enq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(200) DEFAULT NULL,
+  `last_name` varchar(200) DEFAULT NULL,
+  `emailid` varchar(250) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `noof_adult` int(5) DEFAULT NULL,
+  `noof_child` int(5) DEFAULT NULL,
+  `tour_date` date DEFAULT NULL,
+  `accomodation` int(11) DEFAULT NULL,
+  `packageid` int(11) DEFAULT NULL,
+  `inquiry_date` datetime DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`enq_id`)
+);
+select * from tbl_package_inquiry;
+INSERT INTO `toursandtravels`.`tbl_package_inquiry` (`first_name`, `last_name`, `emailid`, `phone`, `message`, `noof_adult`, `noof_child`, `tour_date`, `accomodation`, `packageid`, `inquiry_date`) VALUES ('Rohan', 'Agarwal', 'agarwalrohan132@gmail.com', '7790058321', 'we have our personal travel vehicle so excluding the vehicle charges can i know the estimate', '4', '2', '2021-02-02', '2', '1', '2021-01-25 17:55:49');
+#Package Enquiry
+
+
 #Enquiry
 
 

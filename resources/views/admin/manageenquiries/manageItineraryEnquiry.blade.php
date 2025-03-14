@@ -29,7 +29,7 @@
                                     </svg>
                                     Add
                                 </a> -->
-                                <a href="{{ route('admin.manageenquiry') }}" class="tab-menu__item active">
+                                <a href="{{ route('admin.manageitineraryenquiry') }}" class="tab-menu__item active">
                                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                         class="bi bi-eye" viewBox="0 0 16 16">
                                         <path
@@ -39,18 +39,18 @@
                                             d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z">
                                         </path>
                                     </svg> -->
-                                    Manage Enquiry
+                                    Manage Itinerary Enquiry
                                 </a>
                             </nav>
                             <!--Filter Box Start-->
                             <div class="filterBox collapse bg-light p-3" id="filterBox">
-                                <form action="{{ route('admin.manageenquiry') }}" method="POST" onsubmit="return validator()">
+                                <form action="{{ route('admin.manageitineraryenquiry') }}" method="POST" onsubmit="return validator()">
                                     @csrf
                                     <div class="row">
                                         <div class="col-sm-4 form-group mb-sm-0">
-                                            <label class="control-label">Name</label>
-                                            <input type="text" class="form-control" id="cont_name" name="cont_name" 
-                                                value="{{ request('cont_name') }}">
+                                            <label class="control-label">Package Name</label>
+                                            <input type="text" class="form-control" id="package_name" name="package_name" 
+                                                value="{{ request('package_name') }}">
                                         </div>
                                        <div class="col-sm-4 form-group mb-sm-0">
                                             <label class="control-label">Email</label>
@@ -75,7 +75,7 @@
                                         <div class="col-sm-4 form-group mb-sm-0 align-self-end">
                                             <button class="btn btn-success mr-2" type="submit">Submit</button>
                                             <!-- <button class="btn btn-warning" type="reset" id="resetBtn">Reset</button> -->
-                                            <a href="{{ route('admin.manageenquiry') }}" class="btn btn-warning">Reset</a>
+                                            <a href="{{ route('admin.manageitineraryenquiry') }}" class="btn btn-warning">Reset</a>
                                         </div>
                                     </div>
                                 </form>
@@ -98,37 +98,35 @@
                                                         <thead>
                                                             <tr class="info">
                                                                 <th width="2%">Sl #</th>
-                                                                <th width="13%">Name</th>
+                                                                <th width="13%">Package Name</th>
                                                                 <th width="13%">Email Id</th>
                                                                 <th width="13%">Contact No</th>
-                                                                <th width="13%">Page Name</th>
+                                                                <th width="13%">Trip Start Date</th>
                                                                 <th width="13%">Enquiry Details</th>
-                                                                <th width="13%">Enquiry Date</th>
                                                                 <th width="12%">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @forelse ($enquirys as $key => $enquiry)
+                                                            @forelse ($itineraryEnquirys as $key => $itineraryEnquiry)
                                                             <tr>
-                                                                <td>{{ ($enquirys->currentPage() - 1) *
-                                                                    $enquirys->perPage() + $loop->iteration }}</td>
-                                                                <td>{{ $enquiry->cont_name }}</td>
-                                                                <td>{{ $enquiry->cont_email }}</td>
-                                                                <td>{{ $enquiry->cont_phone }}</td>
-                                                                <td>{{ $enquiry->page_name }}</td>
-                                                                <td>{{ $enquiry->cont_enquiry_details }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($enquiry->cont_date)->format('jS M Y') }}</td>
+                                                                <td>{{ ($itineraryEnquirys->currentPage() - 1) *
+                                                                    $itineraryEnquirys->perPage() + $loop->iteration }}</td>
+                                                                <td>{{ $itineraryEnquiry->package_id }}</td>
+                                                                <td>{{ $itineraryEnquiry->email }}</td>
+                                                                <td>{{ $itineraryEnquiry->phone }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($itineraryEnquiry->tsdate)->format('jS M Y') }}</td>
+                                                                <td>{{ $itineraryEnquiry->tnote }}</td>
                                                                 <td>
                                                                     <div class="d-flex gap-1">
-                                                                    <a href="{{ route('admin.manageenquiry.viewEnquiry', ['id' => $enquiry->enq_id]) }}"
+                                                                    <a href="{{ route('admin.manageitineraryenquiry.viewItineraryEnquiry', ['id' => $itineraryEnquiry->tripcust_id]) }}"
                                                                         class="btn btn-primary btn-sm" title="View">
                                                                         <i class="fa fa-eye"></i>
                                                                     </a>
                                                                     @if(session('user')->admin_type == 1)
                                                                     <form
-                                                                        action="{{ route('admin.manageenquiry.deleteEnquiry', ['id' => $enquiry->enq_id]) }}"
+                                                                        action="{{ route('admin.manageitineraryenquiry.deleteItineraryEnquiry', ['id' => $itineraryEnquiry->tripcust_id]) }}"
                                                                         method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to delete this enquiry?')">
+                                                                        onsubmit="return confirm('Are you sure you want to delete this Itinerary Enquiry?')">
                                                                         @csrf
                                                                         <button type="submit"
                                                                             class="btn btn-danger btn-sm"
@@ -152,11 +150,11 @@
                                                     <div
                                                         class="pagination-wrapper d-flex justify-content-between align-items-center">
                                                         <p class="mb-0">
-                                                            Showing {{ $enquirys->firstItem() }} to {{
-                                                            $enquirys->lastItem() }} of {{ $enquirys->total() }}
+                                                            Showing {{ $itineraryEnquirys->firstItem() }} to {{
+                                                            $itineraryEnquirys->lastItem() }} of {{ $itineraryEnquirys->total() }}
                                                             entries
                                                         </p>
-                                                        {{ $enquirys->links('pagination::bootstrap-4') }}
+                                                        {{ $itineraryEnquirys->links('pagination::bootstrap-4') }}
                                                     </div>
 
                                                 </div>
