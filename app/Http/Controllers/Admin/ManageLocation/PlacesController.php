@@ -7,34 +7,117 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class PlacesController extends Controller
 {
     public function index(Request $request)
     {
-        $place_name         = $request->input('place_name', '');
-        $destination_id     = $request->input('destination_id', '');
-        $status             = $request->input('status', '');
-
-        $query = DB::table('tbl_places as p')
-                       ->select('p.placeimg', 'p.placethumbimg', 'p.placeid', 'p.place_name','d.destination_id', 'd.destination_name', 'p.status')
-                       ->leftJoin('tbl_destination as d', 'p.destination_id', '=', 'd.destination_id')
-                       ->where('p.bit_Deleted_Flag', 0)
-                       ->where('d.bit_Deleted_Flag',0);
-        if (!empty($place_name)) {
-            $query->where('p.place_name', 'like', '%' . $place_name . '%');
-        }
-        if (!empty($destination_id)) {
-            $query->where('p.destination_id', $destination_id);
-        }
-        if (!empty($status)) {
-            $query->where('p.status', $status);
-        }
-        $places = $query->paginate(10);
-
         $destinations = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
 
-        return view('admin.managelocation.places', ['places' => $places, 'destinations' => $destinations]);
+        return view('admin.managelocation.places', ['destinations' => $destinations]);
+    }
+
+    public function getData(Request $request){
+        if ($request->ajax()) {
+            // Fetch places for DataTables
+            $query = DB::table('tbl_places as p')
+                ->select('p.placeimg', 'p.placethumbimg', 'p.placeid', 'p.place_name', 'd.destination_id', 'd.destination_name', 'p.status')
+                ->leftJoin('tbl_destination as d', 'p.destination_id', '=', 'd.destination_id')
+                ->where('p.bit_Deleted_Flag', 0)
+                ->where('d.bit_Deleted_Flag', 0);
+
+            $place_name         = $request->input('place_name', '');
+            $destination_id     = $request->input('destination_id', '');
+            $status             = $request->input('status', '');
+
+            if (!empty($place_name)) {
+                $query->where('p.place_name', 'like', '%' . $place_name . '%');
+            }
+            if (!empty($destination_id)) {
+                $query->where('p.destination_id', $destination_id);
+            }
+            if (!empty($status)) {
+                $query->where('p.status', $status);
+            }
+
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('p.place_name', 'like', '%' . $search . '%')
+                      ->orWhere('d.destination_name', 'like', '%' . $search . '%');
+                });
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('place_name', function ($row) {
+                    return $row->place_name;
+                })
+                ->addColumn('destination_name', function ($row) {
+                    return $row->destination_name;
+                })
+                ->addColumn('placeimg', function ($row) {
+                    if (!empty($row->placeimg)) {
+                        return '<a href="' . asset('storage/place_images/' . $row->placeimg) . '" target="_blank">
+                                    <img id="destinationBannerPreview"
+                                        src="' . asset('storage/place_images/' . $row->placeimg) . '"
+                                        alt="Destination Banner Preview"
+                                        class="img-fluid rounded border"
+                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                </a>';
+                    }
+                    return '';
+                })
+                ->addColumn('placethumbimg', function ($row) {
+                    if (!empty($row->placethumbimg)) {
+                        return '<a href="' . asset('storage/place_images/thumbs/' . $row->placethumbimg) . '" target="_blank">
+                                    <img id="destinationImagePreview" 
+                                        src="' . asset('storage/place_images/thumbs/' . $row->placethumbimg) . '"
+                                        alt="Destination Image"
+                                        class="img-fluid rounded border"
+                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                </a>';
+                    }
+                    return '';
+                })
+                ->addColumn('status', function ($row) {
+                    $csrf = csrf_field();
+                    $route = route('admin.places.activeplaces', ['id' => $row->placeid]);
+                    $confirmMessage = "return confirm('Are you sure you want to change the status?')";
+    
+                    if ($row->status == 1) {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-success" title="Active. Click to deactivate.">
+                                        <span class="label-custom label label-success">Active</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-dark" title="Inactive. Click to activate.">
+                                        <span class="label-custom label label-danger">Inactive</span>
+                                    </button>
+                                </form>';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.places.editplaces', $row->placeid) . '" class="btn btn-primary btn-sm" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <form action="' . route('admin.places.deleteplaces', $row->placeid) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this place?\')">
+                            ' . csrf_field() . '
+                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>';
+                })
+                ->rawColumns(['placeimg', 'placethumbimg', 'status', 'action']) // Allow HTML rendering
+                ->make(true);
+        }
     }
 
     public function addplaces(Request $request){

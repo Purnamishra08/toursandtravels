@@ -61,7 +61,7 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
-         <!-- DataTables CSS -->
+    <!-- DataTables CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
 
     <!-- jQuery (Required for DataTables) -->

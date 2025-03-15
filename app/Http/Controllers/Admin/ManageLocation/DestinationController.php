@@ -7,34 +7,123 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class DestinationController extends Controller
 {
     public function index(Request $request)
     {
-        $destination_name   = $request->input('destination_name', '');
-        $desttype_for_home  = $request->input('desttype_for_home', '');
-        $status             = $request->input('status', '');
-        
-        $query = DB::table('tbl_destination as d')
-                       ->select('d.destiimg', 'd.destiimg_thumb', 'd.destination_id', 'd.destination_name', 'p.par_value', 'd.status')
-                       ->leftJoin('tbl_parameters as p', 'd.desttype_for_home', '=', 'p.parid')
-                       ->where('p.bit_Deleted_Flag', 0)
-                       ->where('d.bit_Deleted_Flag',0);
+        // For initial page load, return the view
+        $parameters = DB::table('tbl_parameters')
+        ->select('parid', 'par_value')
+        ->where('status', 1)
+        ->where('param_type', 'TD')
+        ->where('bit_Deleted_Flag', 0)
+        ->get();
 
-        if (!empty($destination_name)) {
-            $query->where('d.destination_name', 'like', '%' . $destination_name . '%');
-        }
-        if (!empty($desttype_for_home)) {
-            $query->where('d.desttype_for_home', $desttype_for_home);
-        }
-        if (!empty($status)) {
-            $query->where('d.status', $status);
-        }
-        $destination = $query->paginate(10);
+        return view('admin.managelocation.destination', ['parameters' => $parameters]);
+    }
 
-        $parameters  = DB::table('tbl_parameters')->select('parid','par_value')->where('status', 1)->where('param_type', 'TD')->where('bit_Deleted_Flag', 0)->get();
-        return view('admin.managelocation.destination', ['destination' => $destination, 'parameters' => $parameters]);
+    public function getData(Request $request){
+        if ($request->ajax()) {
+            // Fetch destinations for DataTables
+            $query = DB::table('tbl_destination as d')
+                ->select('d.destiimg', 'd.destiimg_thumb', 'd.destination_id', 'd.destination_name', 'p.par_value', 'd.status')
+                ->leftJoin('tbl_parameters as p', 'd.desttype_for_home', '=', 'p.parid')
+                ->where('p.bit_Deleted_Flag', 0)
+                ->where('d.bit_Deleted_Flag', 0);
+
+            $destination_name   = $request->input('destination_name', '');
+            $desttype_for_home  = $request->input('desttype_for_home', '');
+            $status             = $request->input('status', '');
+
+            if (!empty($destination_name)) {
+                $query->where('d.destination_name', 'like', '%' . $destination_name . '%');
+            }
+            if (!empty($desttype_for_home)) {
+                $query->where('d.desttype_for_home', $desttype_for_home);
+            }
+            if (!empty($status)) {
+                $query->where('d.status', $status);
+            }
+
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('d.destination_name', 'like', '%' . $search . '%')
+                      ->orWhere('p.par_value', 'like', '%' . $search . '%');
+                });
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('destination_name', function ($row) {
+                    return $row->destination_name;
+                })
+                ->addColumn('destiimg', function ($row) {
+                    if (!empty($row->destiimg)) {
+                        return '<a href="' . asset('storage/destination_images/' . $row->destiimg) . '" target="_blank">
+                                    <img id="destinationBannerPreview" 
+                                        src="' . asset('storage/destination_images/' . $row->destiimg) . '"
+                                        alt="Destination Banner Preview"
+                                        class="img-fluid rounded border"
+                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                </a>';
+                    }
+                    return '';
+                })
+                ->addColumn('destiimg_thumb', function ($row) {
+                    if (!empty($row->destiimg_thumb)) {
+                        return '<a href="' . asset('storage/destination_images/thumbs/' . $row->destiimg_thumb) . '" target="_blank">
+                                    <img id="destinationImagePreview" 
+                                        src="' . asset('storage/destination_images/thumbs/' . $row->destiimg_thumb) . '"
+                                        alt="Destination Image"
+                                        class="img-fluid rounded border"
+                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                </a>';
+                    }
+                    return '';
+                })
+                ->addColumn('par_value', function ($row) {
+                    return $row->par_value;
+                })
+                ->addColumn('status', function ($row) {
+                    $csrf = csrf_field();
+                    $route = route('admin.destination.activeDestination', ['id' => $row->destination_id]);
+                    $confirmMessage = "return confirm('Are you sure you want to change the status?')";
+    
+                    if ($row->status == 1) {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-success" title="Active. Click to deactivate.">
+                                        <span class="label-custom label label-success">Active</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-dark" title="Inactive. Click to activate.">
+                                        <span class="label-custom label label-danger">Inactive</span>
+                                    </button>
+                                </form>';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.destination.editdestination', $row->destination_id) . '" class="btn btn-primary btn-sm" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <form action="' . route('admin.destination.deletedestination', $row->destination_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this destination?\')">
+                            ' . csrf_field() . '
+                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>';
+                })
+                ->rawColumns(['destiimg', 'destiimg_thumb', 'status', 'action']) // Allow HTML rendering
+                ->make(true);
+        }    
     }
 
     public function adddestination(Request $request){

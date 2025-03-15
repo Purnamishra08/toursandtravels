@@ -41,7 +41,7 @@
         						</nav>
                                 <!--Filter Box Start-->
                                 <div class="filterBox collapse bg-light p-3" id="filterBox">
-                                    <form action="{{ route('admin.destination') }}" method="POST">
+                                    <form id="filterForm">
                                         @csrf
                                         <div class="row">
                                             <!-- Hotel Name -->
@@ -90,104 +90,26 @@
                                 <!--Filter Box End-->
                             @include('Admin.include.sweetaleart')
                             <section class="content">
-                                            <div class="panel">
-                                                <div class="panel-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered table-striped">
-                                                            <thead class="thead-dark">
-                                                                <tr class="bg-info text-white">
-                                                                    <th width="8%">Sl #</th>
-                                                                    <th width="20%">Destination Name</th>
-                                                                    <th width="12%">Destination Banner</th>
-                                                                    <th width="12%">Destination Image</th>
-                                                                    <th width="15%">Home page type</th>
-                                                                    <th width="8%">Status</th>
-                                                                    <th width="10%">Action</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @forelse($destination as $index => $destinations)
-                                                                <tr>
-                                                                    <td>{{ ($destination->currentPage() - 1) *
-                                                                    $destination->perPage() + $loop->iteration }}</td>
-                                                                    <td>{{ $destinations->destination_name }}</td>
-                                                                    <td>
-                                                                        <div class="mt-2">
-                                                                            @if(isset($destinations->destiimg) && !empty($destinations->destiimg))
-                                                                                <a href="{{ asset('storage/destination_images/'.$destinations->destiimg) }}" target="_blank">
-                                                                                    <img id="destinationBannerPreview" 
-                                                                                        src="{{ asset('storage/destination_images/'.$destinations->destiimg) }}"
-                                                                                        alt="Destination Banner Preview"
-                                                                                        class="img-fluid rounded border"
-                                                                                        style="width: 150px; height: 80px; object-fit: cover;">
-                                                                                </a>
-                                                                            @endif
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="mt-2">
-                                                                            @if(isset($destinations->destiimg_thumb) && !empty($destinations->destiimg_thumb))
-                                                                                <a href="{{ asset('storage/destination_images/thumbs/'.$destinations->destiimg_thumb) }}" target="_blank">
-                                                                                    <img id="destinationImagePreview" 
-                                                                                        src="{{ asset('storage/destination_images/thumbs/'.$destinations->destiimg_thumb) }}"
-                                                                                        alt="Destination Image"
-                                                                                        class="img-fluid rounded border"
-                                                                                        style="width: 150px; height: 80px; object-fit: cover;">
-                                                                                </a>
-                                                                            @endif
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>{{ $destinations->par_value }}</td>
-                                                                    <td>
-                                                                        @if($destinations->status == 1)
-                                                                            <form action="{{ route('admin.destination.activeDestination', ['id' => $destinations->destination_id]) }}" method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                    @csrf
-                                                                                    <button type="submit" class="btn btn-outline-success"
-                                                                                        title="Active. Click to deactivate.">
-                                                                                        <span class="label-custom label label-success">Active</span>
-                                                                                    </button>
-                                                                            </form>
-                                                                        @else
-                                                                            <form action="{{ route('admin.destination.activeDestination', ['id' => $destinations->destination_id]) }}" method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                @csrf
-                                                                                <button type="submit" class="btn btn-outline-dark"
-                                                                                    title="Active. Click to deactivate.">
-                                                                                    <span class="label-custom label label-danger">Inactive</span>
-                                                                                </button>
-                                                                            </form>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="{{ route('admin.destination.editdestination', $destinations->destination_id) }}" class="btn btn-primary btn-sm" title="Edit">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        <form action="{{ route('admin.destination.deletedestination',  $destinations->destination_id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this destination ?')">
-                                                                            @csrf
-                                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                                                                <i class="fa-regular fa-trash-can"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                                @empty
-                                                                <tr>
-                                                                    <td colspan="7" class="text-center">No data available</td>
-                                                                </tr>
-                                                                @endforelse
-                                                            </tbody>
-                                                        </table>
-                                                        {{-- Pagination Links --}}
-                                                        <div class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">
-                                                                Showing {{ $destination->firstItem() }} to {{ $destination->lastItem() }} of {{ $destination->total() }} entries
-                                                            </p>
-                                                            {{ $destination->links('pagination::bootstrap-4') }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table id="destination" class="table table-bordered table-striped">
+                                                <thead class="thead-dark">
+                                                    <tr class="bg-info text-white">
+                                                        <th width="8%">Sl #</th>
+                                                        <th width="20%">Destination Name</th>
+                                                        <th width="12%">Destination Banner</th>
+                                                        <th width="12%">Destination Image</th>
+                                                        <th width="15%">Home page type</th>
+                                                        <th width="8%">Status</th>
+                                                        <th width="10%">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </section>
                         </div>
                     </div>
@@ -202,6 +124,66 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+
+    <!-- jQuery (Required for DataTables) -->
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+
+    <!-- DataTables JS -->
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#destination').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                        url: "{{ route('admin.destination.data') }}",
+                        type: "GET",
+                        data: function (d) {
+                            d.search = $('input[type="search"]').val();
+                            d.destination_name = $('#destination_name').val();
+                            d.desttype_for_home = $('#desttype_for_home').val();
+                            d.status = $('#status').val();
+                        }
+                },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'destination_name', name: 'destination_name' },
+                    { data: 'destiimg', name: 'destiimg', orderable: false, searchable: false },
+                    { data: 'destiimg_thumb', name: 'destiimg_thumb', orderable: false, searchable: false },
+                    { data: 'par_value', name: 'par_value' },
+                    { data: 'status', name: 'status', render: function(data, type, row) {
+                        return data; // Allow HTML rendering
+                    }},
+                    { data: 'action', name: 'action', orderable: false, searchable: false, render: function(data, type, row) {
+                        return data; // Render buttons properly
+                    }}
+                ],
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                lengthMenu: [10, 25, 50, 100],
+                pageLength: 10,
+                language: {
+                search: "Filter records:",
+                },
+            });
+            // Handle form submission
+            $('#filterForm').on('submit', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+                table.ajax.reload(); // Reload the DataTable with the new filters
+            });
+
+            // Handle reset button click
+            $('#resetBtn').on('click', function () {
+                $('#filterForm')[0].reset(); // Reset the form
+                table.ajax.reload(); // Reload the DataTable without filters
+            });
+        });
+    </script>
 </body>
 
 </html>

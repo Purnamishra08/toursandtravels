@@ -41,7 +41,7 @@
         						</nav>
                                 <!--Filter Box Start-->
                                 <div class="filterBox collapse bg-light p-3" id="filterBox">
-                                    <form action="{{ route('admin.places') }}" method="POST">
+                                    <form id="filterForm">
                                         @csrf
                                         <div class="row">
                                             <!-- Hotel Name -->
@@ -93,7 +93,7 @@
                                             <div class="panel">
                                                 <div class="panel-body">
                                                     <div class="table-responsive">
-                                                        <table class="table table-bordered table-striped">
+                                                        <table id="places" class="table table-bordered table-striped">
                                                             <thead class="thead-dark">
                                                                 <tr class="bg-info text-white">
                                                                     <th width="8%">Sl #</th>
@@ -105,86 +105,8 @@
                                                                     <th width="10%">Action</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                                @forelse($places as $index => $place)
-                                                                <tr>
-                                                                    <td>{{ ($places->currentPage() - 1) *
-                                                                    $places->perPage() + $loop->iteration }}</td>
-                                                                    <td>{{ $place->place_name }}</td>
-                                                                    <td>{{ $place->destination_name }}</td>
-                                                                    <td>
-                                                                        <div class="mt-2">
-                                                                            @if(isset($place->placeimg) && !empty($place->placeimg))
-                                                                                <a href="{{ asset('storage/place_images/'.$place->placeimg) }}" target="_blank">
-                                                                                    <img id="destinationBannerPreview"
-                                                                                        src="{{ asset('storage/place_images/'.$place->placeimg) }}"
-                                                                                        alt="Destination Banner Preview"
-                                                                                        class="img-fluid rounded border"
-                                                                                        style="width: 150px; height: 80px; object-fit: cover;">
-                                                                                </a>
-                                                                            @endif
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div class="mt-2">
-                                                                            @if(isset($place->placethumbimg) && !empty($place->placethumbimg))
-                                                                                <a href="{{ asset('storage/place_images/thumbs/'.$place->placethumbimg) }}" target="_blank">
-                                                                                    <img id="destinationImagePreview" 
-                                                                                        src="{{ asset('storage/place_images/thumbs/'.$place->placethumbimg) }}"
-                                                                                        alt="Destination Image"
-                                                                                        class="img-fluid rounded border"
-                                                                                        style="width: 150px; height: 80px; object-fit: cover;">
-                                                                                </a>
-                                                                            @endif
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        @if($place->status == 1)
-                                                                            <form action="{{ route('admin.places.activeplaces', ['id' => $place->placeid]) }}" method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                    @csrf
-                                                                                    <button type="submit" class="btn btn-outline-success"
-                                                                                        title="Active. Click to deactivate.">
-                                                                                        <span class="label-custom label label-success">Active</span>
-                                                                                    </button>
-                                                                            </form>
-                                                                        @else
-                                                                            <form action="{{ route('admin.places.activeplaces', ['id' => $place->placeid]) }}" method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                @csrf
-                                                                                <button type="submit" class="btn btn-outline-dark"
-                                                                                    title="Active. Click to deactivate.">
-                                                                                    <span class="label-custom label label-danger">Inactive</span>
-                                                                                </button>
-                                                                            </form>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="{{ route('admin.places.editplaces', $place->placeid) }}" class="btn btn-primary btn-sm" title="Edit">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        <form action="{{ route('admin.places.deleteplaces',  $place->placeid) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this place ?')">
-                                                                            @csrf
-                                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                                                                <i class="fa-regular fa-trash-can"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                                @empty
-                                                                <tr>
-                                                                    <td colspan="7" class="text-center">No data available</td>
-                                                                </tr>
-                                                                @endforelse
-                                                            </tbody>
+                                                            <tbody></tbody>
                                                         </table>
-                                                        {{-- Pagination Links --}}
-                                                        <div class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">
-                                                                Showing {{ $places->firstItem() }} to {{ $places->lastItem() }} of {{ $places->total() }} entries
-                                                            </p>
-                                                            {{ $places->links('pagination::bootstrap-4') }}
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -202,6 +124,66 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+
+    <!-- jQuery (Required for DataTables) -->
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+
+    <!-- DataTables JS -->
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#places').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                        url: "{{ route('admin.places.data') }}",
+                        type: "GET",
+                        data: function (d) {
+                            d.search = $('input[type="search"]').val();
+                            d.place_name = $('#place_name').val();
+                            d.destination_id = $('#destination_id').val();
+                            d.status = $('#status').val();
+                        }
+                },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'place_name', name: 'place_name' },
+                    { data: 'destination_name', name: 'destination_name' },
+                    { data: 'placeimg', name: 'placeimg', orderable: false, searchable: false },
+                    { data: 'placethumbimg', name: 'placethumbimg', orderable: false, searchable: false },
+                    { data: 'status', name: 'status', render: function(data, type, row) {
+                        return data; // Allow HTML rendering
+                    }},
+                    { data: 'action', name: 'action', orderable: false, searchable: false, render: function(data, type, row) {
+                        return data; // Render buttons properly
+                    }}
+                ],
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                lengthMenu: [10, 25, 50, 100],
+                pageLength: 10,
+                language: {
+                search: "Filter records:",
+                },
+            });
+            // Handle form submission
+            $('#filterForm').on('submit', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+                table.ajax.reload(); // Reload the DataTable with the new filters
+            });
+
+            // Handle reset button click
+            $('#resetBtn').on('click', function () {
+                $('#filterForm')[0].reset(); // Reset the form
+                table.ajax.reload(); // Reload the DataTable without filters
+            });
+        });
+    </script>
 </body>
 
 </html>

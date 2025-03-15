@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin\ManageLocation;
 
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -11,8 +12,64 @@ class DestinationTypeController extends Controller
 {
     public function index()
     {
-        $destination_type = DB::table('tbl_destination_type')->where('bit_Deleted_Flag',0)->paginate(10);
-        return view('admin.managelocation.destination_type', ['destination_type' => $destination_type]);
+        return view('admin.managelocation.destination_type');
+    }
+
+    public function getData(Request $request){
+        if ($request->ajax()) {
+            // Fetch destination types for DataTables
+            $query = DB::table('tbl_destination_type')
+                ->where('bit_Deleted_Flag', 0);
+    
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('destination_type_name', 'like', '%' . $search . '%');
+                });
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('destination_type_name', function ($row) {
+                    return $row->destination_type_name;
+                })
+                ->addColumn('status', function ($row) {
+                    $csrf = csrf_field();
+                    $route = route('admin.destinationtype.activeDestinationType', ['id' => $row->destination_type_id]);
+                    $confirmMessage = "return confirm('Are you sure you want to change the status?')";
+    
+                    if ($row->status == 1) {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-success" title="Active. Click to deactivate.">
+                                        <span class="label-custom label label-success">Active</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-dark" title="Inactive. Click to activate.">
+                                        <span class="label-custom label label-danger">Inactive</span>
+                                    </button>
+                                </form>';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.destinationtype.editdestinationtype', $row->destination_type_id) . '" class="btn btn-primary btn-sm" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <form action="' . route('admin.destinationtype.deletedestinationtype', $row->destination_type_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this destination type?\')">
+                            ' . csrf_field() . '
+                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>';
+                })
+                ->rawColumns(['status', 'action']) // Allow HTML rendering
+                ->make(true);
+        }
     }
 
     public function adddestination_type(Request $request){

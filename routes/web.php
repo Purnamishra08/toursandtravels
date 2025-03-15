@@ -130,18 +130,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/deleteState/{id}', [StateController::class, 'deleteState'])->name('admin.state.deleteState');
     //Destination type
     Route::get('/destination_type', [DestinationTypeController::class, 'index'])->name('admin.destinationtype');
+    Route::get('/destination_type/data', [DestinationTypeController::class, 'getData'])->name('admin.destination_type.data');
     Route::match(['get', 'post'], '/adddestination_type', [DestinationTypeController::class, 'adddestination_type'])->name('admin.destinationtype.adddestinationtype');
     Route::match(['get', 'post'], '/editdestination_type/{id}', [DestinationTypeController::class, 'editdestination_type'])->name('admin.destinationtype.editdestinationtype');
     Route::post('/deletedestination_type/{id}', [DestinationTypeController::class, 'deletedestination_type'])->name('admin.destinationtype.deletedestinationtype');
     Route::post('/activeDestinationType/{id}', [DestinationTypeController::class, 'activeDestinationType'])->name('admin.destinationtype.activeDestinationType');
     //Destination
     Route::match(['get', 'post'], '/destination', [DestinationController::class, 'index'])->name('admin.destination');
+    Route::get('/destination/data', [DestinationController::class, 'getData'])->name('admin.destination.data');
     Route::match(['get', 'post'], '/adddestination', [DestinationController::class, 'adddestination'])->name('admin.destination.adddestination');
     Route::match(['get', 'post'], '/editdestination/{id}', [DestinationController::class, 'editdestination'])->name('admin.destination.editdestination');
     Route::post('/deletedestination/{id}', [DestinationController::class, 'deletedestination'])->name('admin.destination.deletedestination');
     Route::post('/activeDestination/{id}', [DestinationController::class, 'activeDestination'])->name('admin.destination.activeDestination');
     //Places
-    Route::match(['get', 'post'], '/places', [PlacesController::class, 'index'])->name('admin.places');
+    Route::get('/places', [PlacesController::class, 'index'])->name('admin.places');
+    Route::get('/places/data', [PlacesController::class, 'getData'])->name('admin.places.data');
     Route::match(['get', 'post'], '/addplaces', [PlacesController::class, 'addplaces'])->name('admin.places.addplaces');
     Route::match(['get', 'post'], '/editplaces/{id}', [PlacesController::class, 'editplaces'])->name('admin.places.editplaces');
     Route::post('/deleteplaces/{id}', [PlacesController::class, 'deleteplaces'])->name('admin.places.deleteplaces');
