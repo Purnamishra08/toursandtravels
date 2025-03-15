@@ -133,6 +133,7 @@
                     url: "{{ route('admin.commonfaqs.data') }}",
                     type: "GET",
                     data: function (d) {
+                        d.search = $('input[type="search"]').val();
                         d.faq_question = $('#faq_question').val();
                         d.faq_answer = $('#faq_answer').val();
                         d.status = $('#status').val();

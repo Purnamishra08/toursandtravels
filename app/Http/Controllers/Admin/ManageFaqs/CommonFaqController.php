@@ -37,6 +37,15 @@ class CommonFaqController extends Controller
             $query->where('status', $status);
         }
 
+        // Handle global search
+        if ($request->has('search') && !empty($request->input('search'))) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('faq_question', 'like', '%' . $search . '%')
+                ->orWhere('faq_answer', 'like', '%' . $search . '%');
+            });
+        }
+
         return DataTables::of($query)
             ->addIndexColumn()
             ->editColumn('created_date', function ($row) {

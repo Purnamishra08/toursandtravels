@@ -243,5 +243,11 @@ Route::middleware('auth')->group(function () {
     
     //Package faqs
     Route::match(['get', 'post'], '/packagefaqs', [PackageFaqController::class, 'index'])->name('admin.packagefaqs');
+    Route::get('/packagefaqs/data', [PackageFaqController::class, 'getData'])->name('admin.packagefaqs.data');
+    Route::match(['get', 'post'], '/addpackagefaqs', [PackageFaqController::class, 'addpackagefaqs'])->name('admin.packagefaqs.addpackagefaqs');
+    Route::match(['get', 'post'], '/editpackagefaqs/{id}', [PackageFaqController::class, 'editpackagefaqs'])->name('admin.packagefaqs.editpackagefaqs');
+    Route::post('/activepackagefaqs/{id}', [PackageFaqController::class, 'activepackagefaqs'])->name('admin.packagefaqs.activepackagefaqs');
+    Route::post('/deletepackagefaqs/{id}', [PackageFaqController::class, 'deletepackagefaqs'])->name('admin.packagefaqs.deletepackagefaqs');
+    //Package faqs
     //Manage Faqs
 });
