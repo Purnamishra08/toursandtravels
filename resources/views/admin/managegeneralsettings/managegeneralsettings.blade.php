@@ -27,18 +27,13 @@
         								</svg>
         								View
         							</a>
-        							<!-- table-utilities -->
-        							<div class="table-utilities">
-        								<!-- <strong class="manadatory me-1">*</strong>Indicates Mandatory -->
-        							</div>
-        							<!-- table-utilities end-->
         						</nav>
                             @include('Admin.include.sweetaleart')
                             <section class="content">
                                             <div class="panel">
                                                 <div class="panel-body">
                                                     <div class="table-responsive">
-                                                        <table class="table table-bordered table-striped">
+                                                        <table id="generalsettingstable" class="table table-bordered table-striped">
                                                             <thead class="thead-dark">
                                                                 <tr class="bg-info text-white">
                                                                     <th>Sl #</th>
@@ -47,51 +42,8 @@
                                                                     <th>Action</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                                @forelse($parameters as $index => $parameter)
-                                                                <tr>
-                                                                    <td>{{ ($parameters->currentPage() - 1) *
-                                                                    $parameters->perPage() + $loop->iteration }}</td>
-                                                                    <td>{{ $parameter->parameter }}</td>
-                                                                    <td>
-                                                                        @if($parameter->input_type != 3)
-                                                                            @if($parameter->parid == 4)
-                                                                                Edit to view this code
-                                                                            @else
-                                                                                {!! $parameter->par_value !!}
-                                                                            @endif
-                                                                        @else
-                                                                            @if(isset($parameter->par_value) && !empty($parameter->par_value))
-                                                                                <a href="{{ asset('storage/parameters/'.$parameter->par_value) }}" target="_blank">
-                                                                                    <img id="destinationImagePreview" 
-                                                                                        src="{{ asset('storage/parameters/'.$parameter->par_value) }}"
-                                                                                        alt="Destination Image"
-                                                                                        class="img-fluid rounded border"
-                                                                                        style="width: 150px; height: 80px; object-fit: cover;">
-                                                                                </a>
-                                                                            @endif
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="{{ route('admin.managetourpackages.editgeneralsettings', $parameter->parid) }}" class="btn btn-primary btn-sm" title="Edit">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                                @empty
-                                                                <tr>
-                                                                    <td colspan="4" class="text-center">No data available</td>
-                                                                </tr>
-                                                                @endforelse
-                                                            </tbody>
+                                                            <tbody></tbody>
                                                         </table>
-                                                        {{-- Pagination Links --}}
-                                                        <div class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">
-                                                                Showing {{ $parameters->firstItem() }} to {{ $parameters->lastItem() }} of {{ $parameters->total() }} entries
-                                                            </p>
-                                                            {{ $parameters->links('pagination::bootstrap-4') }}
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,6 +61,47 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
+         <!-- DataTables CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+
+    <!-- jQuery (Required for DataTables) -->
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+
+    <!-- DataTables JS -->
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#generalsettingstable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                        url: "{{ route('admin.generalsettings.data') }}",
+                        type: "GET",
+                        data: function (d) {
+                            d.search = $('input[type="search"]').val();
+                        }
+                },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'parameter', name: 'parameter' },
+                    { data: 'par_value', name: 'par_value' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false, render: function(data, type, row) {
+                        return data; // Render buttons properly
+                    }}
+                ],
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                lengthMenu: [10, 25, 50, 100],
+                pageLength: 10,
+                language: {
+                search: "Filter records:",
+                },
+            });
+        });
+    </script>
 </body>
 
 </html>

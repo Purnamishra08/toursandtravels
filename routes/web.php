@@ -192,7 +192,8 @@ Route::middleware('auth')->group(function () {
     // Manage Packages
 
     //General setiings
-    Route::match(['get', 'post'], '/generalsettings', [GeneralSettingsController::class, 'index'])->name('admin.generalsettings');
+    Route::get('/generalsettings', [GeneralSettingsController::class, 'index'])->name('admin.generalsettings');
+    Route::get('/generalsettings/data', [GeneralSettingsController::class, 'getData'])->name('admin.generalsettings.data');
     Route::match(['get', 'post'], '/editgeneralsettings/{id}', [GeneralSettingsController::class, 'editgeneralsettings'])->name('admin.managetourpackages.editgeneralsettings');
     
     //Manage Enquiries
@@ -213,26 +214,15 @@ Route::middleware('auth')->group(function () {
     //Package Enquiry
     //Manage Enquiries
 
-    
-    
-
      //Manage Reviews
-     Route::match(['get', 'post'], '/managereviews', [ReviewsController::class, 'index'])->name('admin.managereviews');
+     Route::get('/managereviews', [ReviewsController::class, 'index'])->name('admin.managereviews');
+     Route::get('/managereviews/data', [ReviewsController::class, 'getData'])->name('admin.managereviews.data');
      Route::match(['get', 'post'], '/addreviews', [ReviewsController::class, 'addreviews'])->name('admin.managereviews.addreviews');
      Route::match(['get', 'post'], '/editreviews/{id}', [ReviewsController::class, 'editreviews'])->name('admin.managereviews.editreviews');
      Route::post('/activereviews/{id}', [ReviewsController::class, 'activereviews'])->name('admin.managereviews.activereviews');
      Route::post('/deletereviews/{id}', [ReviewsController::class, 'deletereviews'])->name('admin.managereviews.deletereviews');
      Route::post('/managereviews/viewpop', [ReviewsController::class, 'viewPop'])->name('admin.managereviews.viewPop');
      //Manage Reviews
-
-     //Manage Reviews
-    Route::match(['get', 'post'], '/managereviews', [ReviewsController::class, 'index'])->name('admin.managereviews');
-    Route::match(['get', 'post'], '/addreviews', [ReviewsController::class, 'addreviews'])->name('admin.managereviews.addreviews');
-    Route::match(['get', 'post'], '/editreviews/{id}', [ReviewsController::class, 'editreviews'])->name('admin.managereviews.editreviews');
-    Route::post('/activereviews/{id}', [ReviewsController::class, 'activereviews'])->name('admin.managereviews.activereviews');
-    Route::post('/deletereviews/{id}', [ReviewsController::class, 'deletereviews'])->name('admin.managereviews.deletereviews');
-    Route::post('/managereviews/viewpop', [ReviewsController::class, 'viewPop'])->name('admin.managereviews.viewPop');
-    //Manage Reviews
 
     //Manage Faqs
 

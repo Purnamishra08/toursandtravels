@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\ManageReviews;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Str;
@@ -12,44 +13,119 @@ class ReviewsController extends Controller
 {
     public function index(Request $request)
     {
-        $reviewer_name      = $request->input('reviewer_name', '');
-        $reviewer_loc       = $request->input('reviewer_loc', '');
-        $no_of_star         = $request->input('no_of_star', '');
-        $status             = $request->input('status', '');
+        return view('admin.managereviews.managereviews');
+    }
 
-        $query =$query = DB::table('tbl_reviews as r')
-            ->leftJoin('tbl_menutags as t', DB::raw('FIND_IN_SET(t.tagid, r.tourtagid)'), '>', DB::raw('0'))
-            ->select(
-                'r.review_id',
-                'r.tourtagid',
-                'r.reviewer_name',
-                'r.reviewer_loc',
-                'r.no_of_star',
-                'r.feedback_msg',
-                'r.status',
-                'r.updated_date',
-                DB::raw("GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name SEPARATOR ', ') AS tag_name")
-            )
-            ->where('r.bit_Deleted_Flag', 0)
-            ->orderBy('r.review_id', 'DESC')
-            ->groupBy('r.review_id', 'r.tourtagid', 'r.reviewer_name', 'r.reviewer_loc', 'r.no_of_star', 'r.feedback_msg', 'r.status', 'r.updated_date');
-        
-        if (!empty($reviewer_name)) {
-            $query->where('r.reviewer_name', 'like', '%' . $reviewer_name . '%');
+    public function getData(Request $request)
+    {
+        if ($request->ajax()) {
+            // Fetch reviews for DataTables
+            $query = DB::table('tbl_reviews as r')
+                ->leftJoin('tbl_menutags as t', DB::raw('FIND_IN_SET(t.tagid, r.tourtagid)'), '>', DB::raw('0'))
+                ->select(
+                    'r.review_id',
+                    'r.tourtagid',
+                    'r.reviewer_name',
+                    'r.reviewer_loc',
+                    'r.no_of_star',
+                    'r.feedback_msg',
+                    'r.status',
+                    'r.updated_date',
+                    DB::raw("GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name SEPARATOR ', ') AS tag_name")
+                )
+                ->where('r.bit_Deleted_Flag', 0)
+                ->orderBy('r.review_id', 'DESC')
+                ->groupBy('r.review_id', 'r.tourtagid', 'r.reviewer_name', 'r.reviewer_loc', 'r.no_of_star', 'r.feedback_msg', 'r.status', 'r.updated_date');
+
+            $reviewer_name      = $request->input('reviewer_name', '');
+            $reviewer_loc       = $request->input('reviewer_loc', '');
+            $no_of_star         = $request->input('no_of_star', '');
+            $status             = $request->input('status', '');
+
+            if (!empty($reviewer_name)) {
+                $query->where('r.reviewer_name', 'like', '%' . $reviewer_name . '%');
+            }
+            if (!empty($reviewer_loc)) {
+                $query->where('r.reviewer_loc', $reviewer_loc);
+            }
+            if (!empty($no_of_star)) {
+                $query->where('r.no_of_star', $no_of_star);
+            }
+            if (!empty($status)) {
+                $query->where('r.status', $status);
+            }
+
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('r.reviewer_name', 'like', '%' . $search . '%')
+                    ->orWhere('r.reviewer_loc', 'like', '%' . $search . '%')
+                    ->orWhere('r.no_of_star', 'like', '%' . $search . '%')
+                    ->orWhere('r.feedback_msg', 'like', '%' . $search . '%')
+                    ->orWhere('t.tag_name', 'like', '%' . $search . '%');
+                });
+            }
+
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('reviewer_name', function ($row) {
+                    return $row->reviewer_name;
+                })
+                ->addColumn('reviewer_loc', function ($row) {
+                    return $row->reviewer_loc;
+                })
+                ->addColumn('tag_name', function ($row) {
+                    return $row->tag_name;
+                })
+                ->addColumn('no_of_star', function ($row) {
+                    return $row->no_of_star;
+                })
+                ->addColumn('feedback_msg', function ($row) {
+                    return $row->feedback_msg;
+                })
+                ->addColumn('updated_date', function ($row) {
+                    return date('jS M Y', strtotime($row->updated_date));
+                })
+                ->addColumn('status', function ($row) {
+                    $csrf = csrf_field();
+                    $route = route('admin.managereviews.activereviews', ['id' => $row->review_id]);
+                    $confirmMessage = "return confirm('Are you sure you want to change the status?')";
+
+                    if ($row->status == 1) {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-success" title="Active. Click to deactivate.">
+                                        <span class="label-custom label label-success">Active</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-dark" title="Inactive. Click to activate.">
+                                        <span class="label-custom label label-danger">Inactive</span>
+                                    </button>
+                                </form>';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.managereviews.editreviews', $row->review_id) . '" class="btn btn-primary btn-sm" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="btn btn-primary btn-sm view" title="View" onclick="loadReviewDetails(' . $row->review_id . ')">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <form action="' . route('admin.managereviews.deletereviews', $row->review_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this review?\')">
+                            ' . csrf_field() . '
+                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>';
+                })
+                ->rawColumns(['status', 'action']) // Allow HTML rendering
+                ->make(true);
         }
-        if (!empty($reviewer_loc)) {
-            $query->where('r.reviewer_loc', $reviewer_loc);
-        }
-        if (!empty($no_of_star)) {
-            $query->where('r.no_of_star', $no_of_star);
-        }
-        if (!empty($status)) {
-            $query->where('r.status', $status);
-        }
-        
-        $reviews = $query->paginate(10);
-    
-        return view('admin.managereviews.managereviews', ['reviews' => $reviews]);
     }
 
     public function addreviews(Request $request){
