@@ -109,8 +109,8 @@ class CommonFaqController extends Controller
             DB::beginTransaction(); // Start transaction
             try {
                 $data = [
-                    'faq_question'              => $request->input('faq_question'),
-                    'faq_answer'                => $request->input('faq_answer'),
+                    'faq_question'              => stripslashes($request->input('faq_question')),
+                    'faq_answer'                => stripslashes($request->input('faq_answer')),
                     'faq_order'                 => $request->input('faq_order'),
                     'status'                    => 1,
                     'created_by'                => session('user')->adminid ?? 0,
@@ -157,13 +157,11 @@ class CommonFaqController extends Controller
             DB::beginTransaction(); // Start transaction
             try {
                 $data = [
-                    'faq_question'              => $request->input('faq_question'),
-                    'faq_answer'                => $request->input('faq_answer'),
+                    'faq_question'              => stripslashes($request->input('faq_question')),
+                    'faq_answer'                => stripslashes($request->input('faq_answer')),
                     'faq_order'                 => $request->input('faq_order'),
                     'status'                    => 1,
-                    'created_by'                => session('user')->adminid ?? 0,
                     'updated_by'                => session('user')->adminid ?? 0,
-                    'created_date'              => now(),
                     'updated_date'              => now(),
                 ];
                 // Insert into database

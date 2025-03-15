@@ -120,8 +120,8 @@ class PackageFaqController extends Controller
             try {
                 $data = [
                     'tag_id'                    => $request->input('tag_id'),
-                    'faq_question'              => $request->input('faq_question'),
-                    'faq_answer'                => $request->input('faq_answer'),
+                    'faq_question'              => stripslashes($request->input('faq_question')),
+                    'faq_answer'                => stripslashes($request->input('faq_answer')),
                     'faq_order'                 => $request->input('faq_order'),
                     'status'                    => 1,
                     'created_by'                => session('user')->adminid ?? 0,
@@ -171,8 +171,8 @@ class PackageFaqController extends Controller
             try {
                 $data = [
                     'tag_id'                    => $request->input('tag_id'),
-                    'faq_question'              => $request->input('faq_question'),
-                    'faq_answer'                => $request->input('faq_answer'),
+                    'faq_question'              => stripslashes($request->input('faq_question')),
+                    'faq_answer'                => stripslashes($request->input('faq_answer')),
                     'faq_order'                 => $request->input('faq_order'),
                     'status'                    => 1,
                     'updated_by'                => session('user')->adminid ?? 0,
