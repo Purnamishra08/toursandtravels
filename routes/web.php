@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::match(['get', 'post'], '/dashboard', function () {return view('admin.dashboard');})->name('admin.dashboard');
     // Manage User
     Route::get('/manageUser', [ManageUserController::class, 'index'])->name('admin.manageUser');
+    Route::get('/manageUser/data', [ManageUserController::class, 'getData'])->name('admin.manageUser.data');
     Route::match(['get', 'post'], '/addUser', [ManageUserController::class, 'addUser'])->name('admin.manageUser.addUser');
     Route::match(['get', 'post'], '/editUser/{id}', [ManageUserController::class, 'editUser'])->name('admin.manageUser.editUser');
     Route::post('/manageUser/viewpop', [ManageUserController::class, 'viewPop'])->name('admin.manageUser.viewPop');
