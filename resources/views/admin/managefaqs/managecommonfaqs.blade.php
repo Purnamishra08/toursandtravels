@@ -41,7 +41,7 @@
         						</nav>
                                 <!--Filter Box Start-->
                                 <div class="filterBox collapse bg-light p-3" id="filterBox">
-                                    <form action="{{ route('admin.commonfaqs') }}" method="POST">
+                                    <form id="filterForm">
                                         @csrf
                                         <div class="row">
                                             <!-- Question Name -->
@@ -126,11 +126,18 @@
     <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $('#faqTable').DataTable({
+            var table = $('#faqTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('admin.commonfaqs.data') }}",
-                type: "GET",
+                ajax: {
+                    url: "{{ route('admin.commonfaqs.data') }}",
+                    type: "GET",
+                    data: function (d) {
+                        d.faq_question = $('#faq_question').val();
+                        d.faq_answer = $('#faq_answer').val();
+                        d.status = $('#status').val();
+                    }
+                },
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'faq_question', name: 'faq_question' },
@@ -155,6 +162,17 @@
                 language: {
                     search: "Filter records:",
                 },
+            });
+            // Handle form submission
+            $('#filterForm').on('submit', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+                table.ajax.reload(); // Reload the DataTable with the new filters
+            });
+
+            // Handle reset button click
+            $('#resetBtn').on('click', function () {
+                $('#filterForm')[0].reset(); // Reset the form
+                table.ajax.reload(); // Reload the DataTable without filters
             });
         });
     </script>
