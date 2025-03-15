@@ -155,18 +155,21 @@ Route::middleware('auth')->group(function () {
     //Manage Menus
     //manage menu tag
     Route::get('/menutag', [MenutagController::class, 'index'])->name('admin.menutag');
+    Route::get('/menutag/data', [MenutagController::class, 'getData'])->name('admin.menutag.data');
     Route::match(['get', 'post'], '/addmenutag', [MenutagController::class, 'addmenutag'])->name('admin.category.addmenutag');
     Route::match(['get', 'post'], '/editmenutag/{id}', [MenutagController::class, 'editmenutag'])->name('admin.category.editmenutag');
     Route::post('/deletemenutag/{id}', [MenutagController::class, 'deletemenutag'])->name('admin.category.deletemenutag');
     Route::post('/activemenutag/{id}', [MenutagController::class, 'activemenutag'])->name('admin.category.activemenutag');
     //Manage category
     Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
+    Route::get('/category/data', [CategoryController::class, 'getData'])->name('admin.category.data');
     Route::match(['get', 'post'], '/addcategory', [CategoryController::class, 'addcategory'])->name('admin.category.addcategory');
     Route::match(['get', 'post'], '/editcategory/{id}', [CategoryController::class, 'editcategory'])->name('admin.category.editcategory');
     Route::post('/deletecategory/{id}', [CategoryController::class, 'deletecategory'])->name('admin.category.deletecategory');
     Route::post('/activecategory/{id}', [CategoryController::class, 'activecategory'])->name('admin.category.activecategory');
     //Manage category tags
     Route::get('/categorytags', [CategoryTagsController::class, 'index'])->name('admin.categorytags');
+    Route::get('/categorytags/data', [CategoryTagsController::class, 'getData'])->name('admin.categorytags.data');
     Route::match(['get', 'post'], '/addcategorytags', [CategoryTagsController::class, 'addcategorytags'])->name('admin.categorytags.addcategorytags');
     Route::match(['get', 'post'], '/editcategorytags/{id}', [CategoryTagsController::class, 'editcategorytags'])->name('admin.categorytags.editcategorytags');
     Route::post('/deletecategorytags/{id}', [CategoryTagsController::class, 'deletecategorytags'])->name('admin.categorytags.deletecategorytags');

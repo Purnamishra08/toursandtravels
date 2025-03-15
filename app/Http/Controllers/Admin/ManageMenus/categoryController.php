@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin\ManageMenus;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use DB;
@@ -10,14 +11,71 @@ use DB;
 class CategoryController extends Controller
 {
     public function index(Request $request){
-        $perPage = $request->get('perPage', 10);
-        $menus_type = DB::table('tbl_menucategories as a')
-                      ->select('a.catid', 'm.menu_name','a.cat_name', 'a.status', 'a.bit_Deleted_Flag')
-                      ->leftJoin('tbl_menus as m', 'a.menuid', '=', 'm.menuid')
-                      ->where('a.bit_Deleted_Flag',0)
-                      ->where('m.bit_Deleted_Flag',0)
-                      ->paginate($perPage);
-        return view('admin.managemenus.category', ['menus_type' => $menus_type]);
+        return view('admin.managemenus.category');
+    }
+
+    public function getData(Request $request){
+        if ($request->ajax()) {
+            // Fetch menu categories for DataTables
+            $query = DB::table('tbl_menucategories as a')
+                ->select('a.catid', 'm.menu_name', 'a.cat_name', 'a.status', 'a.bit_Deleted_Flag')
+                ->leftJoin('tbl_menus as m', 'a.menuid', '=', 'm.menuid')
+                ->where('a.bit_Deleted_Flag', 0)
+                ->where('m.bit_Deleted_Flag', 0);
+    
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('m.menu_name', 'like', '%' . $search . '%')
+                      ->orWhere('a.cat_name', 'like', '%' . $search . '%');
+                });
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('menu_name', function ($row) {
+                    return $row->menu_name;
+                })
+                ->addColumn('cat_name', function ($row) {
+                    return $row->cat_name;
+                })
+                ->addColumn('status', function ($row) {
+                    $csrf = csrf_field();
+                    $route = route('admin.category.activecategory', ['id' => $row->catid]);
+                    $confirmMessage = "return confirm('Are you sure you want to change the status?')";
+    
+                    if ($row->status == 1) {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-success" title="Active. Click to deactivate.">
+                                        <span class="label-custom label label-success">Active</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-dark" title="Inactive. Click to activate.">
+                                        <span class="label-custom label label-danger">Inactive</span>
+                                    </button>
+                                </form>';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.category.editcategory', $row->catid) . '" class="btn btn-primary btn-sm" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <form action="' . route('admin.category.deletecategory', $row->catid) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this category?\')">
+                            ' . csrf_field() . '
+                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>';
+                })
+                ->rawColumns(['status', 'action']) // Allow HTML rendering
+                ->make(true);
+        }
     }
 
     public function addcategory(Request $request){
