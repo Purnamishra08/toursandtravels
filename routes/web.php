@@ -16,10 +16,12 @@ use App\Http\Controllers\Admin\manageMenus\CategoryTagsController;
 use App\Http\Controllers\Admin\ManagePackages\PackageDurationsController;
 use App\Http\Controllers\Admin\ManagePackages\TourPackagesController;
 use App\Http\Controllers\Admin\ManageGeneralSettings\GeneralSettingsController;
-Use App\Http\Controllers\Admin\ManageEnquiries\EnquiryController;
-Use App\Http\Controllers\Admin\ManageReviews\ReviewsController;
-Use App\Http\Controllers\Admin\ManageEnquiries\ItineraryEnquiryController;
-Use App\Http\Controllers\Admin\ManageEnquiries\PackageEnquiryController;
+use App\Http\Controllers\Admin\ManageEnquiries\EnquiryController;
+use App\Http\Controllers\Admin\ManageReviews\ReviewsController;
+use App\Http\Controllers\Admin\ManageEnquiries\ItineraryEnquiryController;
+use App\Http\Controllers\Admin\ManageEnquiries\PackageEnquiryController;
+use App\Http\Controllers\Admin\ManageFaqs\CommonFaqController;
+use App\Http\Controllers\Admin\ManageFaqs\PackageFaqController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::match(['get', 'post'], '/dashboard', function () {return view('admin.dashboard');})->name('admin.dashboard');
     // Manage User
     Route::get('/manageUser', [ManageUserController::class, 'index'])->name('admin.manageUser');
+    Route::get('/manageUser/data', [ManageUserController::class, 'getData'])->name('admin.manageUser.data');
     Route::match(['get', 'post'], '/addUser', [ManageUserController::class, 'addUser'])->name('admin.manageUser.addUser');
     Route::match(['get', 'post'], '/editUser/{id}', [ManageUserController::class, 'editUser'])->name('admin.manageUser.editUser');
     Route::post('/manageUser/viewpop', [ManageUserController::class, 'viewPop'])->name('admin.manageUser.viewPop');
@@ -127,18 +130,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/deleteState/{id}', [StateController::class, 'deleteState'])->name('admin.state.deleteState');
     //Destination type
     Route::get('/destination_type', [DestinationTypeController::class, 'index'])->name('admin.destinationtype');
+    Route::get('/destination_type/data', [DestinationTypeController::class, 'getData'])->name('admin.destination_type.data');
     Route::match(['get', 'post'], '/adddestination_type', [DestinationTypeController::class, 'adddestination_type'])->name('admin.destinationtype.adddestinationtype');
     Route::match(['get', 'post'], '/editdestination_type/{id}', [DestinationTypeController::class, 'editdestination_type'])->name('admin.destinationtype.editdestinationtype');
     Route::post('/deletedestination_type/{id}', [DestinationTypeController::class, 'deletedestination_type'])->name('admin.destinationtype.deletedestinationtype');
     Route::post('/activeDestinationType/{id}', [DestinationTypeController::class, 'activeDestinationType'])->name('admin.destinationtype.activeDestinationType');
     //Destination
     Route::match(['get', 'post'], '/destination', [DestinationController::class, 'index'])->name('admin.destination');
+    Route::get('/destination/data', [DestinationController::class, 'getData'])->name('admin.destination.data');
     Route::match(['get', 'post'], '/adddestination', [DestinationController::class, 'adddestination'])->name('admin.destination.adddestination');
     Route::match(['get', 'post'], '/editdestination/{id}', [DestinationController::class, 'editdestination'])->name('admin.destination.editdestination');
     Route::post('/deletedestination/{id}', [DestinationController::class, 'deletedestination'])->name('admin.destination.deletedestination');
     Route::post('/activeDestination/{id}', [DestinationController::class, 'activeDestination'])->name('admin.destination.activeDestination');
     //Places
-    Route::match(['get', 'post'], '/places', [PlacesController::class, 'index'])->name('admin.places');
+    Route::get('/places', [PlacesController::class, 'index'])->name('admin.places');
+    Route::get('/places/data', [PlacesController::class, 'getData'])->name('admin.places.data');
     Route::match(['get', 'post'], '/addplaces', [PlacesController::class, 'addplaces'])->name('admin.places.addplaces');
     Route::match(['get', 'post'], '/editplaces/{id}', [PlacesController::class, 'editplaces'])->name('admin.places.editplaces');
     Route::post('/deleteplaces/{id}', [PlacesController::class, 'deleteplaces'])->name('admin.places.deleteplaces');
@@ -149,18 +155,21 @@ Route::middleware('auth')->group(function () {
     //Manage Menus
     //manage menu tag
     Route::get('/menutag', [MenutagController::class, 'index'])->name('admin.menutag');
+    Route::get('/menutag/data', [MenutagController::class, 'getData'])->name('admin.menutag.data');
     Route::match(['get', 'post'], '/addmenutag', [MenutagController::class, 'addmenutag'])->name('admin.category.addmenutag');
     Route::match(['get', 'post'], '/editmenutag/{id}', [MenutagController::class, 'editmenutag'])->name('admin.category.editmenutag');
     Route::post('/deletemenutag/{id}', [MenutagController::class, 'deletemenutag'])->name('admin.category.deletemenutag');
     Route::post('/activemenutag/{id}', [MenutagController::class, 'activemenutag'])->name('admin.category.activemenutag');
     //Manage category
     Route::get('/category', [CategoryController::class, 'index'])->name('admin.category');
+    Route::get('/category/data', [CategoryController::class, 'getData'])->name('admin.category.data');
     Route::match(['get', 'post'], '/addcategory', [CategoryController::class, 'addcategory'])->name('admin.category.addcategory');
     Route::match(['get', 'post'], '/editcategory/{id}', [CategoryController::class, 'editcategory'])->name('admin.category.editcategory');
     Route::post('/deletecategory/{id}', [CategoryController::class, 'deletecategory'])->name('admin.category.deletecategory');
     Route::post('/activecategory/{id}', [CategoryController::class, 'activecategory'])->name('admin.category.activecategory');
     //Manage category tags
     Route::get('/categorytags', [CategoryTagsController::class, 'index'])->name('admin.categorytags');
+    Route::get('/categorytags/data', [CategoryTagsController::class, 'getData'])->name('admin.categorytags.data');
     Route::match(['get', 'post'], '/addcategorytags', [CategoryTagsController::class, 'addcategorytags'])->name('admin.categorytags.addcategorytags');
     Route::match(['get', 'post'], '/editcategorytags/{id}', [CategoryTagsController::class, 'editcategorytags'])->name('admin.categorytags.editcategorytags');
     Route::post('/deletecategorytags/{id}', [CategoryTagsController::class, 'deletecategorytags'])->name('admin.categorytags.deletecategorytags');
@@ -191,7 +200,8 @@ Route::middleware('auth')->group(function () {
     // Manage Packages
 
     //General setiings
-    Route::match(['get', 'post'], '/generalsettings', [GeneralSettingsController::class, 'index'])->name('admin.generalsettings');
+    Route::get('/generalsettings', [GeneralSettingsController::class, 'index'])->name('admin.generalsettings');
+    Route::get('/generalsettings/data', [GeneralSettingsController::class, 'getData'])->name('admin.generalsettings.data');
     Route::match(['get', 'post'], '/editgeneralsettings/{id}', [GeneralSettingsController::class, 'editgeneralsettings'])->name('admin.managetourpackages.editgeneralsettings');
     
     //Manage Enquiries
@@ -212,14 +222,34 @@ Route::middleware('auth')->group(function () {
     //Package Enquiry
     //Manage Enquiries
 
-    
-    
-
-     //Manage Reviews admin.managereviews.addreviews
-     Route::match(['get', 'post'], '/managereviews', [ReviewsController::class, 'index'])->name('admin.managereviews');
+     //Manage Reviews
+     Route::get('/managereviews', [ReviewsController::class, 'index'])->name('admin.managereviews');
+     Route::get('/managereviews/data', [ReviewsController::class, 'getData'])->name('admin.managereviews.data');
      Route::match(['get', 'post'], '/addreviews', [ReviewsController::class, 'addreviews'])->name('admin.managereviews.addreviews');
      Route::match(['get', 'post'], '/editreviews/{id}', [ReviewsController::class, 'editreviews'])->name('admin.managereviews.editreviews');
      Route::post('/activereviews/{id}', [ReviewsController::class, 'activereviews'])->name('admin.managereviews.activereviews');
      Route::post('/deletereviews/{id}', [ReviewsController::class, 'deletereviews'])->name('admin.managereviews.deletereviews');
      Route::post('/managereviews/viewpop', [ReviewsController::class, 'viewPop'])->name('admin.managereviews.viewPop');
+     //Manage Reviews
+
+    //Manage Faqs
+
+    //Common faqs
+    Route::get('/commonfaqs', [CommonFaqController::class, 'index'])->name('admin.commonfaqs');
+    Route::get('/commonfaqs/data', [CommonFaqController::class, 'getData'])->name('admin.commonfaqs.data');
+    Route::match(['get', 'post'], '/addcommonfaqs', [CommonFaqController::class, 'addcommonfaqs'])->name('admin.commonfaqs.addcommonfaqs');
+    Route::match(['get', 'post'], '/editcommonfaqs/{id}', [CommonFaqController::class, 'editcommonfaqs'])->name('admin.commonfaqs.editcommonfaqs');
+    Route::post('/activecommonfaqs/{id}', [CommonFaqController::class, 'activecommonfaqs'])->name('admin.commonfaqs.activecommonfaqs');
+    Route::post('/deletecommonfaqs/{id}', [CommonFaqController::class, 'deletecommonfaqs'])->name('admin.commonfaqs.deletecommonfaqs');
+    //Common faqs
+    
+    //Package faqs
+    Route::match(['get', 'post'], '/packagefaqs', [PackageFaqController::class, 'index'])->name('admin.packagefaqs');
+    Route::get('/packagefaqs/data', [PackageFaqController::class, 'getData'])->name('admin.packagefaqs.data');
+    Route::match(['get', 'post'], '/addpackagefaqs', [PackageFaqController::class, 'addpackagefaqs'])->name('admin.packagefaqs.addpackagefaqs');
+    Route::match(['get', 'post'], '/editpackagefaqs/{id}', [PackageFaqController::class, 'editpackagefaqs'])->name('admin.packagefaqs.editpackagefaqs');
+    Route::post('/activepackagefaqs/{id}', [PackageFaqController::class, 'activepackagefaqs'])->name('admin.packagefaqs.activepackagefaqs');
+    Route::post('/deletepackagefaqs/{id}', [PackageFaqController::class, 'deletepackagefaqs'])->name('admin.packagefaqs.deletepackagefaqs');
+    //Package faqs
+    //Manage Faqs
 });

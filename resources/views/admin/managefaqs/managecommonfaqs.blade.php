@@ -20,7 +20,7 @@
                     <div class="inner-layout">
                         <div class="container-fluid px-4 pt-3">
                         <nav class="tab-menu">
-        							<a href="{{ route('admin.places.addplaces') }}"class="tab-menu__item  ">
+        							<a href="{{ route('admin.commonfaqs.addcommonfaqs') }}"class="tab-menu__item  ">
         								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
         									<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
         								  </svg>
@@ -44,28 +44,19 @@
                                     <form id="filterForm">
                                         @csrf
                                         <div class="row">
-                                            <!-- Hotel Name -->
-                                            <div class="col-sm-4 form-group mb-sm-0">
-                                                <label class="control-label">Place Name</label>
-                                                <input type="text" class="form-control" id="place_name" name="place_name"
-                                                    value="{{ request('place_name') }}">
+                                            <!-- Question Name -->
+                                            <div class="col-sm-6 form-group mb-sm-0">
+                                                <label class="control-label">Question</label>
+                                                <input type="text" class="form-control" id="faq_question" name="faq_question"
+                                                    value="{{ request('faq_question') }}">
                                             </div>
-                                            <div class="col-sm-4 form-group mb-sm-0">
-                                                <label class="control-label">Destination</label>
-                                                <select class="form-select" id="destination_id" name="destination_id">
-                                                    <option value="">-- Select Destination Type --</option>
-                                                    @forelse($destinations as $type)
-                                                        <option value="{{ $type->destination_id }}" 
-                                                            {{ request('destination_id') == $type->destination_id ? 'selected' : '' }}>
-                                                            {{ $type->destination_name }}
-                                                        </option>
-                                                    @empty
-                                                        <option value="" disabled>No destination available</option>
-                                                    @endforelse
-                                                </select>
+                                            <div class="col-sm-6 form-group mb-sm-0">
+                                                <label class="control-label">Answer</label>
+                                                <input type="text" class="form-control" id="faq_answer" name="faq_answer"
+                                                    value="{{ request('faq_answer') }}">
                                             </div>
                                             <!-- Status -->
-                                            <div class="col-sm-4 form-group mb-sm-0">
+                                            <div class="col-sm-6 form-group mb-sm-0">
                                                 <label class="control-label">Status</label>
                                                 <select class="form-select" id="status" name="status">
                                                     <option value="">--Select--</option>
@@ -90,34 +81,34 @@
                                 <!--Filter Box End-->
                             @include('Admin.include.sweetaleart')
                             <section class="content">
-                                            <div class="panel">
-                                                <div class="panel-body">
-                                                    <div class="table-responsive">
-                                                        <table id="places" class="table table-bordered table-striped">
-                                                            <thead class="thead-dark">
-                                                                <tr class="bg-info text-white">
-                                                                    <th width="8%">Sl #</th>
-                                                                    <th width="20%">Place</th>
-                                                                    <th width="12%">Destination</th>
-                                                                    <th width="12%">Banner Image</th>
-                                                                    <th width="15%">Place Image</th>
-                                                                    <th width="8%">Status</th>
-                                                                    <th width="10%">Action</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody></tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table id="faqTable" class="table table-bordered table-striped">
+                                                <thead class="thead-dark">
+                                                    <tr class="bg-info text-white">
+                                                        <th width="2%">Sl #</th>
+                                                        <th width="15%">Questions</th>
+                                                        <th width="20%">Answers</th>
+                                                        <th width="2%">Order</th>
+                                                        <th width="5%">Created</th>
+                                                        <th width="3%">Status</th>
+                                                        <th width="5%">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </section>
                         </div>
                     </div>
                 </main>
-
                 <!-- Footer Start-->
                 @include('Admin.include.footer')
                 <!-- Footer End-->
+                 
             </div>
         </div>
     </div>
@@ -135,26 +126,28 @@
     <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
     <script>
         $(document).ready(function () {
-            var table = $('#places').DataTable({
+            var table = $('#faqTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                        url: "{{ route('admin.places.data') }}",
-                        type: "GET",
-                        data: function (d) {
-                            d.search = $('input[type="search"]').val();
-                            d.place_name = $('#place_name').val();
-                            d.destination_id = $('#destination_id').val();
-                            d.status = $('#status').val();
-                        }
+                    url: "{{ route('admin.commonfaqs.data') }}",
+                    type: "GET",
+                    data: function (d) {
+                        d.search = $('input[type="search"]').val();
+                        d.faq_question = $('#faq_question').val();
+                        d.faq_answer = $('#faq_answer').val();
+                        d.status = $('#status').val();
+                    }
                 },
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    { data: 'place_name', name: 'place_name' },
-                    { data: 'destination_name', name: 'destination_name' },
-                    { data: 'placeimg', name: 'placeimg', orderable: false, searchable: false },
-                    { data: 'placethumbimg', name: 'placethumbimg', orderable: false, searchable: false },
-                    { data: 'status', name: 'status', render: function(data, type, row) {
+                    { data: 'faq_question', name: 'faq_question' },
+                    { data: 'faq_answer', name: 'faq_answer', render: function(data, type, row) {
+                        return $('<div>').html(data).text(); // Decode HTML entities
+                    }},
+                    { data: 'faq_order', name: 'faq_order' },
+                    { data: 'created_date', name: 'created_date' },
+                    { data: 'status', name: 'status', orderable: false, searchable: false, render: function(data, type, row) {
                         return data; // Allow HTML rendering
                     }},
                     { data: 'action', name: 'action', orderable: false, searchable: false, render: function(data, type, row) {
@@ -168,7 +161,7 @@
                 lengthMenu: [10, 25, 50, 100],
                 pageLength: 10,
                 language: {
-                search: "Filter records:",
+                    search: "Filter records:",
                 },
             });
             // Handle form submission

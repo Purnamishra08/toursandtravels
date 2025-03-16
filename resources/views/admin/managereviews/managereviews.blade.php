@@ -41,7 +41,7 @@
         						</nav>
                                 <!--Filter Box Start-->
                                 <div class="filterBox collapse bg-light p-3" id="filterBox">
-                                    <form action="{{ route('admin.managereviews') }}" method="POST">
+                                    <form id="filterForm">
                                         @csrf
                                         <div class="row">
                                             <!-- Hotel Name -->
@@ -101,7 +101,7 @@
                                             <div class="panel">
                                                 <div class="panel-body">
                                                     <div class="table-responsive">
-                                                        <table class="table table-bordered table-striped">
+                                                        <table id="reviewsTable" class="table table-bordered table-striped">
                                                             <thead class="thead-dark">
                                                                 <tr class="bg-info text-white">
                                                                     <th width="2%">Sl #</th>
@@ -115,67 +115,8 @@
                                                                     <th width="10%">Action</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody>
-                                                                @forelse($reviews as $index => $review)
-                                                                <tr>
-                                                                    <td>{{ ($reviews->currentPage() - 1) *
-                                                                    $reviews->perPage() + $loop->iteration }}</td>
-                                                                    <td>{{ $review->reviewer_name }}</td>
-                                                                    <td>{{ $review->reviewer_loc }}</td>
-                                                                    <td>{{ $review->tag_name }}</td>
-                                                                    <td>{{ $review->no_of_star }}</td>
-                                                                    <td>{{ $review->feedback_msg }}</td>
-                                                                    <td>{{ $review->updated_date }}</td>
-                                                                    <td>
-                                                                        @if($review->status == 1)
-                                                                            <form action="{{ route('admin.managereviews.activereviews', ['id' => $review->review_id]) }}" method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                    @csrf
-                                                                                    <button type="submit" class="btn btn-outline-success"
-                                                                                        title="Active. Click to deactivate.">
-                                                                                        <span class="label-custom label label-success">Active</span>
-                                                                                    </button>
-                                                                            </form>
-                                                                        @else
-                                                                            <form action="{{ route('admin.managereviews.activereviews', ['id' => $review->review_id]) }}" method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                @csrf
-                                                                                <button type="submit" class="btn btn-outline-dark"
-                                                                                    title="Active. Click to deactivate.">
-                                                                                    <span class="label-custom label label-danger">Inactive</span>
-                                                                                </button>
-                                                                            </form>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="{{ route('admin.managereviews.editreviews', $review->review_id) }}" class="btn btn-primary btn-sm" title="Edit">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        <a href="javascript:void(0);" class="btn btn-primary btn-sm view" title="View" onclick="loadReviewDetails({{ $review->review_id }})">
-                                                                            <i class="fa fa-eye"></i>
-                                                                        </a>
-                                                                        <form action="{{ route('admin.managereviews.deletereviews',  $review->review_id) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this review ?')">
-                                                                            @csrf
-                                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                                                                <i class="fa-regular fa-trash-can"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                                @empty
-                                                                <tr>
-                                                                    <td colspan="9" class="text-center">No data available</td>
-                                                                </tr>
-                                                                @endforelse
-                                                            </tbody>
+                                                            <tbody></tbody>
                                                         </table>
-                                                        {{-- Pagination Links --}}
-                                                        <div class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">
-                                                                Showing {{ $reviews->firstItem() }} to {{ $reviews->lastItem() }} of {{ $reviews->total() }} entries
-                                                            </p>
-                                                            {{ $reviews->links('pagination::bootstrap-4') }}
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -209,7 +150,69 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+
+    <!-- jQuery (Required for DataTables) -->
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+
+    <!-- DataTables JS -->
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
     <script>
+        $(document).ready(function () {
+            var table = $('#reviewsTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                        url: "{{ route('admin.managereviews.data') }}",
+                        type: "GET",
+                        data: function (d) {
+                            d.search = $('input[type="search"]').val();
+                            d.reviewer_name = $('#reviewer_name').val();
+                            d.reviewer_loc = $('#reviewer_loc').val();
+                            d.no_of_star = $('#no_of_star').val();
+                            d.status = $('#status').val();
+                        }
+                },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'reviewer_name', name: 'reviewer_name' },
+                    { data: 'reviewer_loc', name: 'reviewer_loc' },
+                    { data: 'tag_name', name: 'tag_name' },
+                    { data: 'no_of_star', name: 'no_of_star' },
+                    { data: 'feedback_msg', name: 'feedback_msg' },
+                    { data: 'updated_date', name: 'updated_date' },
+                    { data: 'status', name: 'status', render: function(data, type, row) {
+                        return data; // Allow HTML rendering
+                    }},
+                    { data: 'action', name: 'action', orderable: false, searchable: false, render: function(data, type, row) {
+                        return data; // Render buttons properly
+                    }}
+                ],
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                lengthMenu: [10, 25, 50, 100],
+                pageLength: 10,
+                language: {
+                search: "Filter records:",
+                },
+            });
+            // Handle form submission
+            $('#filterForm').on('submit', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+                table.ajax.reload(); // Reload the DataTable with the new filters
+            });
+
+            // Handle reset button click
+            $('#resetBtn').on('click', function () {
+                $('#filterForm')[0].reset(); // Reset the form
+                table.ajax.reload(); // Reload the DataTable without filters
+            });
+        });
+        
         function loadReviewDetails(reviewId) {
             $('#userModal .modal-body').html('<div style="text-align:center;margin-top:150px;margin-bottom:100px;color:#377b9e;"><i class="fa fa-spinner fa-spin fa-3x"></i> <span>Processing...</span></div>');
 

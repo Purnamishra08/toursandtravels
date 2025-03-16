@@ -71,6 +71,16 @@
 
             'admin.managepackageenquiry' => ['Manage Enquiries','Package Enquiry','fa-person-circle-question','fa-solid fa-clipboard-question'],
             'admin.managepackageenquiry.viewPackageEnquiry' => ['Manage Enquiries','Package Enquiry','fa-person-circle-question','fa-solid fa-clipboard-question'],
+
+            'admin.managereviews' => ['Manage Reviews', 'Manage Reviews', 'fa fa-comment', 'fa fa-comment'],
+
+            'admin.commonfaqs' => ['Manage Faqs', 'Common Faqs', 'fa fa-question', 'fa fa-question'],
+            'admin.commonfaqs.addcommonfaqs' => ['Manage Faqs', 'Common Faqs', 'fa fa-question', 'fa fa-question'],
+            'admin.commonfaqs.editcommonfaqs' => ['Manage Faqs', 'Common Faqs', 'fa fa-question', 'fa fa-question'],
+
+            'admin.packagefaqs' => ['Manage Faqs', 'Package Faqs', 'fa fa-question', 'fa fa-question-circle'],
+            'admin.packagefaqs.addpackagefaqs' => ['Manage Faqs', 'Package Faqs', 'fa fa-question', 'fa fa-question-circle'],
+            'admin.packagefaqs.editpackagefaqs' => ['Manage Faqs', 'Package Faqs', 'fa fa-question', 'fa fa-question-circle']
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '',    'fa-line-chart', ''];

@@ -501,7 +501,7 @@
                 width: "100%"
             });
         });
-         document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
             CKEDITOR.replace('short_desc');
             CKEDITOR.replace('places_to_visit_desc');
             const originalWarn = console.warn;

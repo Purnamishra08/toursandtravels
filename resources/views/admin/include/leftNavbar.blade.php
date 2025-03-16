@@ -230,10 +230,38 @@
                     )
                     <a class="nav-link {{ request()->routeIs('admin.managereviews*') ? 'active' : '' }}"
                         href="{{ route('admin.managereviews') }}">
-                        <div class="sb-nav-link-icon"><i class="fa fa-user"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fa fa-comment"></i></div>
                         Manage Reviews
                     </a>
                 @endif
+
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(16, session('moduleAccess')))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.commonfaqs', 'admin.packagefaqs']) ? '' : 'collapsed' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#faqs"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.commonfaqs', 'admin.packagefaqs']) ? 'true' : 'false' }}"
+                        aria-controls="faqs">
+                        <div class="sb-nav-link-icon"><i class="fa fa-question"></i></div>
+                        Manage Faqs
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+                @endif
+
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.commonfaqs','admin.packagefaqs']) ? 'show' : '' }}"
+                    id="faqs" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.commonfaqs']) ? 'active' : ''}}"
+                            href="{{ route('admin.commonfaqs') }}">
+                            <i class="fa fa-question mt-1 me-2"></i> Common Faqs
+                        </a>
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.packagefaqs']) ? 'active' : ''}}"
+                            href="{{ route('admin.packagefaqs') }}">
+                            <i class="fa fa-question-circle mt-1 me-2"></i> Package Faqs
+                        </a>
+                    </nav>
+                </div>
             </div>
         </div>
     </nav>

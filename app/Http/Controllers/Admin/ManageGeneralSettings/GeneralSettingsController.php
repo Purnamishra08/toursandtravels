@@ -8,14 +8,66 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 use Exception;
 
 class GeneralSettingsController extends Controller
 {
     public function index(Request $request)
     {
-        $parameters  = DB::table('tbl_parameters')->select('parid','parameter','par_value','input_type')->where('status', 1)->where('param_type', 'CS')->where('bit_Deleted_Flag', 0)->paginate(10);
-        return view('admin.managegeneralsettings.managegeneralsettings', ['parameters' => $parameters]);
+        return view('admin.managegeneralsettings.managegeneralsettings');
+    }
+
+    public function getData(Request $request){
+        if ($request->ajax()) {
+            // Fetch parameters for DataTables
+            $query = DB::table('tbl_parameters')
+                ->select('parid', 'parameter', 'par_value', 'input_type')
+                ->where('status', 1)
+                ->where('param_type', 'CS')
+                ->where('bit_Deleted_Flag', 0);
+    
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('parameter', 'like', '%' . $search . '%')
+                      ->orWhere('par_value', 'like', '%' . $search . '%');
+                });
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('parameter', function ($row) {
+                    return $row->parameter;
+                })
+                ->addColumn('par_value', function ($row) {
+                    if ($row->input_type != 3) {
+                        if ($row->parid == 4) {
+                            return 'Edit to view this code';
+                        } else {
+                            return $row->par_value;
+                        }
+                    } else {
+                        if (!empty($row->par_value)) {
+                            return '<a href="' . asset('storage/parameters/' . $row->par_value) . '" target="_blank">
+                                        <img id="destinationImagePreview" 
+                                            src="' . asset('storage/parameters/' . $row->par_value) . '"
+                                            alt="Destination Image"
+                                            class="img-fluid rounded border"
+                                            style="width: 150px; height: 80px; object-fit: cover;">
+                                    </a>';
+                        }
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    return '<a href="' . route('admin.managetourpackages.editgeneralsettings', $row->parid) . '" class="btn btn-primary btn-sm" title="Edit">
+                                <i class="fa fa-pencil"></i>
+                            </a>';
+                })
+                ->rawColumns(['par_value', 'action']) // Allow HTML rendering
+                ->make(true);
+        }
     }
 
     public function editgeneralsettings(Request $request, $id){

@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin\ManageMenus;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -11,12 +12,65 @@ use DB;
 class MenutagController extends Controller
 {
     public function index(Request $request){
-        $perPage = $request->get('perPage', 10);
-        $menutags = DB::table('tbl_menus as a')
-                      ->select('a.menu_name', 'a.menuid', 'a.status', 'a.bit_Deleted_Flag')
-                      ->where('a.bit_Deleted_Flag',0)
-                      ->paginate($perPage);
-        return view('admin.managemenus.menutags', ['menutags' => $menutags]);
+        return view('admin.managemenus.menutags');
+    }
+
+    public function getData(Request $request){
+        if ($request->ajax()) {
+            // Fetch menu tags for DataTables
+            $query = DB::table('tbl_menus as a')
+                ->select('a.menu_name', 'a.menuid', 'a.status', 'a.bit_Deleted_Flag')
+                ->where('a.bit_Deleted_Flag', 0);
+    
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('a.menu_name', 'like', '%' . $search . '%');
+                });
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('menu_name', function ($row) {
+                    return $row->menu_name;
+                })
+                ->addColumn('status', function ($row) {
+                    $csrf = csrf_field();
+                    $route = route('admin.category.activemenutag', ['id' => $row->menuid]);
+                    $confirmMessage = "return confirm('Are you sure you want to change the status?')";
+    
+                    if ($row->status == 1) {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-success" title="Active. Click to deactivate.">
+                                        <span class="label-custom label label-success">Active</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-dark" title="Inactive. Click to activate.">
+                                        <span class="label-custom label label-danger">Inactive</span>
+                                    </button>
+                                </form>';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.category.editmenutag', $row->menuid) . '" class="btn btn-primary btn-sm" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                        <form action="' . route('admin.category.deletemenutag', $row->menuid) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this menu tag?\')">
+                            ' . csrf_field() . '
+                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>';
+                })
+                ->rawColumns(['status', 'action']) // Allow HTML rendering
+                ->make(true);
+        }
     }
 
     public function addmenutag(Request $request){

@@ -482,3 +482,35 @@ CREATE TABLE `tbl_reviews` (
   `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`review_id`)
 );
+
+
+#FAQ
+CREATE TABLE `tbl_faqs` (
+  `faq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `faq_question` varchar(400) DEFAULT NULL,
+  `faq_answer` text DEFAULT NULL,
+  `faq_order` smallint(6) DEFAULT 0,
+  `status` tinyint(4) DEFAULT 1,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`faq_id`)
+);
+
+CREATE TABLE `tbl_package_faqs` (
+  `faq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tag_id` int(11) DEFAULT 0,
+  `faq_question` varchar(400) DEFAULT NULL,
+  `faq_answer` text DEFAULT NULL,
+  `faq_order` smallint(6) DEFAULT 0,
+  `status` tinyint(4) DEFAULT 1,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`faq_id`)
+);
+

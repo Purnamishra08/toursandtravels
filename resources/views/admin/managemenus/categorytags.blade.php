@@ -41,90 +41,25 @@
         						</nav>
                             @include('Admin.include.sweetaleart')
                             <section class="content">
-                                            <div class="panel">
-                                                <div class="panel-body">
-                                                <form action="{{ route('admin.categorytags') }}" method="GET" class="form-inline">
-                                                    <div class="form-group col-auto">
-                                                        <label for="records-per-page" class="mr-2">Records per page:</label>
-                                                        <select name="perPage" id="records-per-page" class="form-control form-control-sm" onchange="this.form.submit()">
-                                                            <option value="10" {{ request()->get('perPage') == 10 ? 'selected' : '' }}>10</option>
-                                                            <option value="20" {{ request()->get('perPage') == 20 ? 'selected' : '' }}>20</option>
-                                                            <option value="100" {{ request()->get('perPage') == 100 ? 'selected' : '' }}>100</option>
-                                                        </select>
-                                                    </div>
-                                                </form>
-
-
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered table-striped">
-                                                            <thead class="thead-dark">
-                                                                <tr class="bg-info text-white">
-                                                                    <th>Sl #</th>
-                                                                    <th>Menus</th>
-                                                                    <th>Categories</th>
-                                                                    <th>Tags</th>
-                                                                    <th>Status</th>
-                                                                    <th>Action</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @forelse($category_tags as $index => $category_tag)
-                                                                <tr>
-                                                                    <td>{{ ($category_tags->currentPage() - 1) *
-                                                                    $category_tags->perPage() + $loop->iteration }}</td>
-                                                                    <td>{{ $category_tag->menu_name }}</td>
-                                                                    <td>{{ $category_tag->cat_name }}</td>
-                                                                    <td>{{ $category_tag->tag_name }}</td>
-                                                                    <td>
-                                                                        @if($category_tag->status == 1)
-                                                                            <form action="{{ route('admin.categorytags.activecategorytags', ['id' => $category_tag->tagid]) }}" method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                    @csrf
-                                                                                    <button type="submit" class="btn btn-outline-success"
-                                                                                        title="Active. Click to deactivate.">
-                                                                                        <span class="label-custom label label-success">Active</span>
-                                                                                    </button>
-                                                                            </form>
-                                                                        @else
-                                                                            <form action="{{ route('admin.categorytags.activecategorytags', ['id' => $category_tag->tagid]) }}" method="POST"
-                                                                                onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                @csrf
-                                                                                <button type="submit" class="btn btn-outline-dark"
-                                                                                    title="Active. Click to deactivate.">
-                                                                                    <span class="label-custom label label-danger">Inactive</span>
-                                                                                </button>
-                                                                            </form>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="{{ route('admin.categorytags.editcategorytags', $category_tag->tagid) }}" class="btn btn-primary btn-sm" title="Edit">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        <form action="{{ route('admin.categorytags.deletecategorytags',  $category_tag->tagid) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure to delete this destination type?')">
-                                                                            @csrf
-                                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                                                                <i class="fa-regular fa-trash-can"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                                @empty
-                                                                <tr>
-                                                                    <td colspan="5" class="text-center">No data available</td>
-                                                                </tr>
-                                                                @endforelse
-                                                            </tbody>
-                                                        </table>
-                                                        {{-- Pagination Links --}}
-                                                        <div class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">
-                                                                Showing {{ $category_tags->firstItem() }} to {{ $category_tags->lastItem() }} of {{ $category_tags->total() }} entries
-                                                            </p>
-                                                            {{ $category_tags->links('pagination::bootstrap-4') }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table id="categoryTagsTable" class="table table-bordered table-striped">
+                                                <thead class="thead-dark">
+                                                    <tr class="bg-info text-white">
+                                                        <th>Sl #</th>
+                                                        <th>Menus</th>
+                                                        <th>Categories</th>
+                                                        <th>Tags</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </section>
                         </div>
                     </div>
@@ -139,6 +74,51 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+
+    <!-- jQuery (Required for DataTables) -->
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+
+    <!-- DataTables JS -->
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#categoryTagsTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                        url: "{{ route('admin.categorytags.data') }}",
+                        type: "GET",
+                        data: function (d) {
+                            d.search = $('input[type="search"]').val();
+                        }
+                },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'menu_name', name: 'menu_name' },
+                    { data: 'cat_name', name: 'cat_name' },
+                    { data: 'tag_name', name: 'tag_name' },
+                    { data: 'status', name: 'status', render: function(data, type, row) {
+                        return data; // Allow HTML rendering
+                    }},
+                    { data: 'action', name: 'action', orderable: false, searchable: false, render: function(data, type, row) {
+                        return data; // Render buttons properly
+                    }}
+                ],
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                lengthMenu: [10, 25, 50, 100],
+                pageLength: 10,
+                language: {
+                search: "Filter records:",
+                },
+            });
+        });
+    </script>
 </body>
 
 </html>

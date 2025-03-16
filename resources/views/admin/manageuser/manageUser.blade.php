@@ -3,8 +3,8 @@
     <!-- Metaheader Section End -->
     <body>
         <div id="layoutSidenav"> 
-            <!-- Left Navbar Start-->              
-            @include('Admin.include.leftNavbar')       
+            <!-- Left Navbar Start-->
+            @include('Admin.include.leftNavbar')
             <!-- Left Navbar End-->
 
             <div id="layoutSidenav_content">
@@ -18,9 +18,6 @@
                     <main>
                         <div class="inner-layout">
                             <div class="container-fluid px-4 pt-3">
-                                <!-- <ol class="breadcrumb mb-4">
-                                    <li class="breadcrumb-item active">Manage user</li>
-                                </ol> -->
                                 <nav class="tab-menu">
         							<a href="{{ route('admin.manageUser.addUser') }}" class="tab-menu__item ">
         								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
@@ -35,30 +32,15 @@
         								</svg>
         								View
         							</a>
-        							<!-- table-utilities -->
-        							<div class="table-utilities">
-        								<!-- <strong class="manadatory me-1">*</strong>Indicates Mandatory -->
-        							</div>
-        							<!-- table-utilities end-->
         						</nav>
                                 @include('Admin.include.sweetaleart')
                                 <section class="content">
                                     <div class="row">
-                                        <!-- @if (session('success'))
-                                            <div class="alert alert-success">{{ session('success') }}</div>
-                                        @endif -->
                                         <div class="col-sm-12">
                                             <div class="panel panel-bd lobidrag">
-                                                <!-- <div class="panel-heading">
-                                                    <div class="btn-group" id="buttonexport">
-                                                        <a href="{{ route('admin.manageUser.addUser') }}">
-                                                            <h4><i class="fa fa-plus-circle"></i> Add User</h4>
-                                                        </a> 
-                                                    </div>
-                                                </div> -->
                                                 <div class="panel-body">
                                                     <div class="table-responsive">
-                                                        <table id="example" class="table table-bordered ">
+                                                        <table id="userTable" class="table table-bordered ">
                                                             <thead>
                                                                 <tr >
                                                                     <th width="6%">Sl #</th>
@@ -72,87 +54,11 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @forelse ($users as $key => $user)
-                                                                    <tr>
-                                                                    <td>{{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}</td>
-                                                                        <td>{{ $user->admin_name }}</td>
-                                                                        <td>
-                                                                            @if ($user->admin_type == 1)
-                                                                                Super Admin
-                                                                            @elseif ($user->admin_type == 2)
-                                                                                Admin
-                                                                            @else
-                                                                                User
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>{{ $user->contact_no }}</td>
-                                                                        <td>{{ $user->email_id }}</td>
-                                                                        <td>
-                                                                            {{-- Fetch modules dynamically if required --}}
-                                                                            {{ $user->modules ?? 'N/A' }}
-                                                                        </td>
-                                                                        <td>
-                                                                            @if ($user->admin_type != 1)
-                                                                            
-                                                                                @if ($user->status == 1)
-                                                                                    <form action="{{ route('admin.manageUser.activeUser', ['id' => $user->adminid]) }}" method="POST"
-                                                                                    onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                        @csrf
-                                                                                        <button type="submit" class="btn btn-outline-success"
-                                                                                            title="Active. Click to deactivate.">
-                                                                                            <span class="label-custom label label-success">Active</span>
-                                                                                        </button>
-                                                                                    </form>
-                                                                                @else
-                                                                                    <form action="{{ route('admin.manageUser.activeUser', ['id' => $user->adminid]) }}" method="POST"
-                                                                                    onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                                        @csrf
-                                                                                        <button type="submit" class="btn btn-outline-dark"
-                                                                                            title="Active. Click to deactivate.">
-                                                                                            <span class="label-custom label label-danger">Inactive</span>
-                                                                                        </button>
-                                                                                    </form>
-                                                                                @endif
-                                                                            @else
-                                                                                <span class="label-custom label label-success">Active</span>
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="d-flex gap-2">
-                                                                                <a href="{{ route('admin.manageUser.editUser', ['id' => $user->adminid]) }}" class="btn btn-success btn-sm" title="Edit">
-                                                                                    <i class="fa fa-pencil"></i>
-                                                                                </a>
-                                                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm view" title="View" onclick="loadUserDetails({{ $user->adminid }})">
-                                                                                    <i class="fa fa-eye"></i>
-                                                                                </a>
-                                                                                @if(session('user') != null && session('user')->admin_type == 1 && $user->admin_type != 1)
-                                                                                    <form action="{{ route('admin.manageUser.deleteUser', ['id' => $user->adminid]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?')" class="d-inline-block">
-                                                                                        @csrf
-                                                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                                                                            <i class="fa-regular fa-trash-can"></i>
-                                                                                        </button>
-                                                                                    </form>
-                                                                                @endif
-                                                                            </div>
-                                                                        </td>
-
-                                                                    </tr>
-                                                                @empty
-                                                                    <tr>
-                                                                        <td class="text-center" colspan="8">No data available in table</td>
-                                                                    </tr>
-                                                                @endforelse
+                                                                
                                                             </tbody>
                                                         </table>
-                                                        {{-- Pagination Links --}}
-                                                        <div class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                            <p class="mb-0">
-                                                                Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} entries
-                                                            </p>
-                                                            {{ $users->links('pagination::bootstrap-4') }}
-                                                        </div>
                                                     </div>
-                                                </div>                          
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -176,19 +82,65 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Footer Start-->  
+                    <!-- Footer Start-->
                     @include('Admin.include.footer')
-                    <!-- Footer End-->  
+                    <!-- Footer End-->
                 </div>
             </div>
         </div>
-        <!-- FooterJs Start-->  
+        <!-- FooterJs Start-->
         @include('Admin.include.footerJs')
-        <!-- FooterJs End--> 
-        
+        <!-- FooterJs End-->
+
+        <!-- validation js -->
         <script src="{{ asset('assets/js/validation.js') }}"></script>
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
+
+        <!-- jQuery (Required for DataTables) -->
+        <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+
+        <!-- DataTables JS -->
+        <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
         <script>
-           function loadUserDetails(userId) {
+            $(document).ready(function () {
+                $('#userTable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('admin.manageUser.data') }}",
+                        type: "GET",
+                        data: function (d) {
+                            d.search = $('input[type="search"]').val();
+                        }
+                    },
+                    columns: [
+                        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                        { data: 'admin_name', name: 'admin_name' },
+                        { data: 'admin_type', name: 'admin_type' },
+                        { data: 'contact_no', name: 'contact_no' },
+                        { data: 'email_id', name: 'email_id' },
+                        { data: 'modules', name: 'modules' },
+                        { data: 'status', name: 'status', render: function(data, type, row) {
+                        return data; // Allow HTML rendering
+                        }},
+                        { data: 'action', name: 'action', orderable: false, searchable: false, render: function(data, type, row) {
+                            return data; // Render buttons properly
+                        }}
+                    ],
+                    paging: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    lengthMenu: [10, 25, 50, 100],
+                    pageLength: 10,
+                    language: {
+                        search: "Filter records:",
+                    },
+                });
+            });
+            function loadUserDetails(userId) {
                 $('#userModal .modal-body').html('<div style="text-align:center;margin-top:150px;margin-bottom:100px;color:#377b9e;"><i class="fa fa-spinner fa-spin fa-3x"></i> <span>Processing...</span></div>');
 
                 $.ajax({
@@ -218,7 +170,5 @@
                 $('#userModal').modal('hide');
             });
         </script>
-        
-
     </body>
 </html>
