@@ -77,7 +77,7 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
                                                                         <label>Package Duration</label>
-                                                                        <select class="form-control" name="pduration" id="pduration">
+                                                                        <select class="form-control" name="pduration" id="pduration" onchange="getItineraryAddMore(this)">
                                                                             <option value="">-- Select Duration --</option>
                                                                             @foreach($durations as $duration)
                                                                                 <option value="{{ $duration->durationid }}" {{ old('pduration') == $duration->durationid ? 'selected' : '' }}>
@@ -142,7 +142,6 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div id="tour_avai_err"></div>
                                                                 </div>
                                                                 <!-- Tour Tags -->
                                                                 <div class="col-md-6">
@@ -154,7 +153,6 @@
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
-                                                                    <div id="gettourtag_err"></div>
                                                                 </div>
                                                                 <div class="clearfix"></div>
                                                                 <!-- Banner and Tour Images -->
@@ -164,7 +162,6 @@
                                                                         <input class="form-control" type="file" name="tourimg" id="tourimg">
                                                                         <span>Image size should be 745px X 450px</span>
                                                                     </div>
-                                                                    <div id="placeimo_err"></div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
@@ -172,7 +169,6 @@
                                                                         <input class="form-control" type="file" name="tourthumb" id="tourthumb">
                                                                         <span>Image size should be 300px X 225px</span>
                                                                     </div>
-                                                                    <div id="placeimot_err"></div>
                                                                 </div>
                                                                 <div class="clearfix"></div>
                                                                 <!-- Alt Tags -->
@@ -203,7 +199,7 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-md-6">
+                                                                <!-- <div class="col-md-6">
                                                                     <div class="form-group">
                                                                         <label>Choose Itinerary</label>
                                                                         <select class="form-control" name="itinerary" id="itinerary">
@@ -215,7 +211,7 @@
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
-                                                                </div>
+                                                                </div> -->
                                                                 <div class="clearfix"></div>
                                                                 <!-- Video Itinerary -->
                                                                 <div class="col-md-2">
@@ -229,6 +225,8 @@
                                                                         <input type="text" name="video_itinerary_link" id="video_itinerary_link" placeholder="https://www.youtube.com/embed/XXXXXXXXXX" class="form-control" value="{{ old('video_itinerary_link') }}">
                                                                     </div>
                                                                 </div>
+                                                                <div class="clearfix"></div>
+                                                                <div id="show_day_wise"></div>
                                                                 <div class="clearfix"></div>
                                                                 <!-- Starting City -->
                                                                 <div class="col-md-6">
@@ -251,7 +249,6 @@
                                                                         <label>Inclusion / Exclusion</label>
                                                                         <textarea name="inclusion" id="inclusion" class="form-control" placeholder="Inclusion / Exclusion...">{{ old('inclusion', $inclusion ?? '') }}</textarea>
                                                                     </div>
-                                                                    <div id="inclusion_err"></div>
                                                                 </div>
                                                                 <div class="clearfix"></div>
                                                                 <!-- Itinerary Note -->
@@ -289,7 +286,6 @@
                                                                                             <option value="{{ $dest->destination_id }}">{{ $dest->destination_name }}</option>
                                                                                         @endforeach
                                                                                     </select>
-                                                                                    <div id="seasontype_err"></div>
                                                                                 </td>
                                                                                 <td>
                                                                                     <select class="form-control" name="no_ofdays[]" id="no_ofdays">
@@ -427,12 +423,33 @@
         return false;
         if(!blankCheck('alttag_thumb','Please Enter Alt Tag For Tour Image'))
         return false;
-        if(!selectDropdown('itinerary','Please Select Itinerary'))
-        return false;
+        // if(!selectDropdown('itinerary','Please Select Itinerary'))
+        // return false;
         if(!selectDropdown('starting_city','Please Select Starting City'))
         return false;
         }
         
+        function getItineraryAddMore(select) {
+            const value = select.value;
+            if (value != 0) {
+                $.ajax({
+                    url: "{{ route('admin.managetourpackages.getItineraryAddmore') }}", // Use named route
+                    type: "POST",
+                    data: {
+                        duration_id: value,
+                        _token: "{{ csrf_token() }}" // CSRF token for security
+                    },
+                    success: function(response) {
+                        $('#show_day_wise').html(response);
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            } else {
+                $('#show_day_wise').html('');
+            }
+        }
         </script>
 
 </body>
