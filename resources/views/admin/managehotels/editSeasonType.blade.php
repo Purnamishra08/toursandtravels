@@ -85,14 +85,14 @@
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
 
-    <<script>
+    <script>
         function validator(){
         if(!blankCheck('seasonType','Season Type cannot be Blank'))
         return false;
         }
         </script>
 
-        <script src="{{ asset('assets/js/validation.js') }}"></script>
+        
 
 </body>
 

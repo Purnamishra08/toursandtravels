@@ -184,9 +184,6 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
-    <script>
-</script>
 </body>
 
 </html>

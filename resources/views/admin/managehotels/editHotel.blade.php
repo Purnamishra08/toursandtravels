@@ -394,7 +394,7 @@
 
     </script>
 
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
 
 </body>
 

@@ -154,7 +154,7 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
     <script>
     // document.getElementById('resetBtn').addEventListener('click', function (e) {
     //     e.preventDefault(); // Prevent the default reset action

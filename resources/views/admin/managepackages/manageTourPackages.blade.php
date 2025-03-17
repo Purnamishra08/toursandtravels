@@ -145,7 +145,7 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
     <script>
 $(document).ready(function () {
     // Setup DataTable

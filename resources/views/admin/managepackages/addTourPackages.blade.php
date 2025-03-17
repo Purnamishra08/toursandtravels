@@ -369,7 +369,7 @@
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
 
-        <script src="{{ asset('assets/js/validation.js') }}"></script>
+        
         <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
         <script src="{{ asset('assets/js/chosen.jquery.js') }}"></script>
         <script>

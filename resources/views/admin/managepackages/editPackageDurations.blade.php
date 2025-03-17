@@ -114,6 +114,6 @@
                 return false;
         }
     </script>
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
 </body>
 </html>

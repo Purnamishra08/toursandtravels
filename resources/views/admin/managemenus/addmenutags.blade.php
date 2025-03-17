@@ -71,7 +71,7 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
     <script>
         function validator(){
             if(!blankCheck('menu_name','Menu tag cannot be blank'))
