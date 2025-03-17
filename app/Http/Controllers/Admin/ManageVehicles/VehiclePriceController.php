@@ -47,6 +47,9 @@ class VehiclePriceController extends Controller
                 ->addColumn('action', function ($row) {
                     $editUrl = route('admin.manageVehicleprice.editVehiclePrice', ['id' => $row->priceid]);
                     $deleteUrl = route('admin.manageVehicleprice.deleteVehiclePrice', ['id' => $row->priceid]);
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                    $requiredModuleId = 5;
 
                     $buttons = '
                         <div class="d-flex gap-1">
@@ -54,7 +57,7 @@ class VehiclePriceController extends Controller
                                 <i class="fa fa-pencil"></i>
                             </a>';
                     
-                    if (session('user')->admin_type == 1) {
+                    if ($user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1)) {
                         $buttons .= '
                             <form action="'.$deleteUrl.'" method="POST" 
                                 onsubmit="return confirm(\'Are you sure you want to delete this vehicle?\')">

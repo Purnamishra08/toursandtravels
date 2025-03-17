@@ -38,6 +38,9 @@ class SeasonTypeController extends Controller
                 ->addColumn('action', function ($row) {
                     $editUrl = route('admin.manageSeasontype.editSeasonType', ['id' => $row->season_type_id]);
                     $deleteUrl = route('admin.manageSeasontype.deleteSeasonType', ['id' => $row->season_type_id]);
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                    $requiredModuleId = 12;
 
                     $buttons = '
                         <div class="d-flex gap-1">
@@ -45,7 +48,7 @@ class SeasonTypeController extends Controller
                                 <i class="fa fa-pencil"></i>
                             </a>';
                     
-                    if (session('user')->admin_type == 1) {
+                    if ($user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1)) {
                         $buttons .= '
                             <form action="'.$deleteUrl.'" method="POST" 
                                 onsubmit="return confirm(\'Are you sure you want to delete this season?\')">
