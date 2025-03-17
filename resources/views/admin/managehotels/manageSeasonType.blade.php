@@ -44,86 +44,17 @@
                                         <div class="panel panel-bd lobidrag">
                                             <div class="panel-body">
                                                 <div class="table-responsive">
-                                                    <table id="example"
-                                                        class="table table-bordered table-striped table-hover">
+                                                    <table id="seasonTypeTable" class="table table-bordered table-striped table-hover">
                                                         <thead>
                                                             <tr class="info">
-                                                                <th width="2%">Sl #</th>
-                                                                <th width="13%">Season Type</th>
-                                                                <th width="7%">Status</th>
+                                                                <th width="6%">Sl #</th>
+                                                                <th width="20%">Season Type</th>
+                                                                <th width="12%">Status</th>
                                                                 <th width="12%">Action</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            @forelse ($seasontypes as $key => $seasontype)
-                                                            <tr>
-                                                                <td>{{ ($seasontypes->currentPage() - 1) *
-                                                                    $seasontypes->perPage() + $loop->iteration }}</td>
-                                                                <td>{{ $seasontype->season_type_name }}</td>
-                                                                <td>
-                                                                    @if ($seasontype->status == 1)
-                                                                    <form action="{{ route('admin.manageSeasontype.activeSeasonType', ['id' => $seasontype->season_type_id]) }}"
-                                                                            method="POST"
-                                                                            onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                            @csrf
-                                                                            <button type="submit" class="btn btn-outline-success"
-                                                                                title="Active. Click to deactivate.">
-                                                                                <span class="label-custom label label-success">Active</span>
-                                                                            </button>
-                                                                    </form>
-                                                                    @else
-                                                                    <form action="{{ route('admin.manageSeasontype.activeSeasonType', ['id' => $seasontype->season_type_id]) }}"
-                                                                            method="POST"
-                                                                            onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                            @csrf
-                                                                            <button type="submit" class="btn btn-outline-dark"
-                                                                                title="Inactive. Click to activate.">
-                                                                                <span class="label-custom label label-danger">Inactive</span>
-                                                                            </button>
-                                                                    </form>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <div class="d-flex gap-1">
-                                                                        <a href="{{ route('admin.manageSeasontype.editSeasonType', ['id' => $seasontype->season_type_id]) }}"
-                                                                            class="btn btn-success btn-sm" title="Edit">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        @if(session('user')->admin_type == 1)
-                                                                        <form
-                                                                            action="{{ route('admin.manageSeasontype.deleteSeasonType', ['id' => $seasontype->season_type_id]) }}"
-                                                                            method="POST"
-                                                                            onsubmit="return confirm('Are you sure you want to delete this season?')">
-                                                                            @csrf
-                                                                            <button type="submit"
-                                                                                class="btn btn-danger btn-sm"
-                                                                                title="Delete">
-                                                                                <i class="fa-regular fa-trash-can"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                        @endif
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            @empty
-                                                            <tr>
-                                                                <td class="text-center" colspan="8">No data available
-                                                                </td>
-                                                            </tr>
-                                                            @endforelse
-                                                        </tbody>
+                                                        <tbody></tbody>
                                                     </table>
-                                                    {{-- Pagination Links --}}
-                                                    <div
-                                                        class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">
-                                                            Showing {{ $seasontypes->firstItem() }} to {{
-                                                            $seasontypes->lastItem() }} of {{ $seasontypes->total() }}
-                                                            entries
-                                                        </p>
-                                                        {{ $seasontypes->links('pagination::bootstrap-4') }}
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -150,6 +81,47 @@
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
     <script src="{{ asset('assets/js/validation.js') }}"></script>
+    <script>
+    $(document).ready(function () {
+        $('#seasonTypeTable').DataTable({
+            processing: true, // Show loading indicator
+            serverSide: true, // Use server-side processing
+            ajax: '{{ route('admin.manageSeasontype') }}', // Fetch data via AJAX
+            
+            columns: [
+                { 
+                    data: null, 
+                    orderable: false, 
+                    searchable: false, 
+                    render: (data, type, row, meta) => meta.row + 1 
+                },
+                { data: 'season_type_name', name: 'season_type_name' },
+                { data: 'status', name: 'status', orderable: false, searchable: true },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ],
+
+            order: [[1, 'asc']], // Default order by Season Type Name (2nd column)
+
+            lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+
+            searching: true,
+
+            language: {
+                emptyTable: "No data available",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                infoEmpty: "No entries found",
+                search: "Search:",
+                paginate: {
+                    first: "First",
+                    last: "Last",
+                    next: "Next",
+                    previous: "Previous"
+                }
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

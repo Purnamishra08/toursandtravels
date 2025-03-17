@@ -514,3 +514,6 @@ CREATE TABLE `tbl_package_faqs` (
   PRIMARY KEY (`faq_id`)
 );
 
+ALTER TABLE `toursandtravels`.`tbl_hotel` 
+CHANGE COLUMN `destination_name` `destination_name` INT(11) NOT NULL ,
+CHANGE COLUMN `hotel_type` `hotel_type` INT(11) NOT NULL ;

@@ -73,7 +73,11 @@
                                                     <div class="col-md-6">
                                                         <div class="gap row">
                                                             <div class="col-md-4"> <label> Trip Advisor URL</label></div>
+                                                            @if($hotels->trip_advisor_url)
                                                             <div class="col-md-8"><a href="{{$hotels->trip_advisor_url}}" target="_blank">Link</a></div>
+                                                            @else
+                                                            <div class="col-md-8">No link</div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 

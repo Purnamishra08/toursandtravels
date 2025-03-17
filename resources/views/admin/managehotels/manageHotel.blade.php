@@ -44,7 +44,7 @@
                             </nav>
                             <!--Filter Box Start-->
                             <div class="filterBox collapse bg-light p-3" id="filterBox">
-                                <form action="{{ route('admin.manageHotels') }}" method="POST" onsubmit="return validator()">
+                                <form action="{{ route('admin.manageHotels') }}" method="GET" onsubmit="return validator()">
                                     @csrf
                                     <div class="row">
                                         <!-- Hotel Name -->
@@ -114,106 +114,21 @@
                                         <div class="panel panel-bd lobidrag">
                                             <div class="panel-body">
                                                 <div class="table-responsive">
-                                                    <table id="example"
-                                                        class="table table-bordered table-striped table-hover">
+                                                    <table id="hotelTable" class="table table-bordered table-striped">
                                                         <thead>
-                                                            <tr class="info">
-                                                                <th width="2%">Sl #</th>
-                                                                <th width="13%">Hotel Name</th>
-                                                                <th width="13%">Destination</th>
-                                                                <th width="13%">Hotel Type</th>
-                                                                <th width="13%">Room Type</th>
-                                                                <th width="13%">Default Price (₹)</th>
-                                                                <th width="13%">Star Rating</th>
-                                                                <th width="7%">Status</th>
-                                                                <th width="12%">Action</th>
+                                                            <tr>
+                                                                <th>Sl #</th>
+                                                                <th>Hotel Name</th>
+                                                                <th>Destination</th>
+                                                                <th>Hotel Type</th>
+                                                                <th>Room Type</th>
+                                                                <th>Price (₹)</th>
+                                                                <th>Star Rating</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            @forelse ($hotels as $key => $hotel)
-                                                            <tr>
-                                                                <td>{{ ($hotels->currentPage() - 1) *
-                                                                    $hotels->perPage() + $loop->iteration }}</td>
-                                                                <td>{{ $hotel->hotel_name }}</td>
-                                                                <td>{{ $hotel->destination_name }}</td>
-                                                                <td>{{ $hotel->hotel_type_name }}</td>
-                                                                <td>{{ $hotel->room_type }}</td>
-                                                                <td>{{ $hotel->default_price }}</td>
-                                                                <td>{{ $hotel->star_rating }}</td>
-                                                                <td>
-                                                                    @if ($hotel->status == 1)
-                                                                    <form
-                                                                        action="{{ route('admin.manageHotels.activeHotel', ['id' => $hotel->hotel_id]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-outline-success"
-                                                                            title="Active. Click to deactivate.">
-                                                                            <span
-                                                                                class="label-custom label label-success">Active</span>
-                                                                        </button>
-                                                                    </form>
-                                                                    @else
-                                                                    <form
-                                                                        action="{{ route('admin.manageHotels.activeHotel', ['id' => $hotel->hotel_id]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-outline-dark"
-                                                                            title="Inactive. Click to activate.">
-                                                                            <span
-                                                                                class="label-custom label label-danger">Inactive</span>
-                                                                        </button>
-                                                                    </form>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <div class="d-flex gap-1">
-                                                                    <a href="{{ route('admin.manageHotels.editHotel', ['id' => $hotel->hotel_id]) }}"
-                                                                        class="btn btn-success btn-sm" title="Edit">
-                                                                        <i class="fa fa-pencil"></i>
-                                                                    </a>
-                                                                    <a href="{{ route('admin.manageHotels.viewHotel', ['id' => $hotel->hotel_id]) }}"
-                                                                        class="btn btn-primary btn-sm" title="View">
-                                                                        <i class="fa fa-eye"></i>
-                                                                    </a>
-                                                                    @if(session('user')->admin_type == 1)
-                                                                    <form
-                                                                        action="{{ route('admin.manageHotels.deleteHotel', ['id' => $hotel->hotel_id]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to delete this hotel?')">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-danger btn-sm"
-                                                                            title="Delete">
-                                                                            <i class="fa-regular fa-trash-can"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                    @endif
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            @empty
-                                                            <tr>
-                                                                <td class="text-center" colspan="9">No data available
-                                                                </td>
-                                                            </tr>
-                                                            @endforelse
-                                                        </tbody>
                                                     </table>
-                                                    {{-- Pagination Links --}}
-                                                    <div
-                                                        class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">
-                                                            Showing {{ $hotels->firstItem() }} to {{
-                                                            $hotels->lastItem() }} of {{ $hotels->total() }}
-                                                            entries
-                                                        </p>
-                                                        {{ $hotels->links('pagination::bootstrap-4') }}
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -249,6 +164,50 @@
     //     document.getElementById('hotel_type').selectedIndex = 0;
     //     document.getElementById('status').selectedIndex = 0;
     // });
+    
+    $(document).ready(function () {
+    loadTable();
+
+    function loadTable() {
+        $('#hotelTable').DataTable().clear().destroy(); // ✅ Clear and destroy before reinitializing
+        $('#hotelTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route('admin.manageHotels') }}',
+                type: 'GET',
+                data: function (d) {
+                    d.hotel_name = $('input[name=hotel_name]').val();
+                    d.destinationid = $('select[name=destinationid]').val();
+                    d.hotel_type = $('select[name=hotel_type]').val();
+                    d.status = $('select[name=status]').val();
+                }
+            },
+            columns: [
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                { data: 'hotel_name', name: 'a.hotel_name' }, // ✅ Fix table alias
+                { data: 'destination_name', name: 'b.destination_name' }, // ✅ Fix table alias
+                { data: 'hotel_type_name', name: 'c.hotel_type_name' }, // ✅ Fix table alias
+                { data: 'room_type', name: 'a.room_type' }, // ✅ Fix table alias
+                { data: 'default_price', name: 'a.default_price' }, // ✅ Fix table alias
+                { data: 'star_rating', name: 'a.star_rating' }, // ✅ Fix table alias
+                { data: 'status', name: 'a.status', orderable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
+        });
+    }
+
+    $('#filterForm').on('submit', function (e) {
+        e.preventDefault();
+        $('#hotelTable').DataTable().ajax.reload(); // ✅ Reload DataTable after form submit
+    });
+
+    $('#resetFilter').click(function () {
+        $('#filterForm')[0].reset();
+        $('#hotelTable').DataTable().ajax.reload();
+    });
+});
+
 </script>
 </body>
 
