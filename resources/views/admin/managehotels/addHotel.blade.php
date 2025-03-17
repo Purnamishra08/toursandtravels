@@ -58,313 +58,317 @@
                                                     onsubmit="return validator()">
                                                     @csrf
                                                     <div class="box-main">
-                                                        <h3>Hotel Details</h3>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Hotel Name <span
-                                                                            class="manadatory">*</span></label>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="Enter Hotel Name" name="hotel_name"
-                                                                        id="hotel_name">
+                                                        <fieldset>
+                                                            <legend>Hotel Details</legend>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Hotel Name <span
+                                                                                    class="manadatory">*</span></label>
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Enter Hotel Name" name="hotel_name"
+                                                                                id="hotel_name">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Destination <span
+                                                                                    class="manadatory">*</span></label>
+                                                                            <select class="form-control" id="destinationid"
+                                                                                name="destinationid">
+                                                                                <option value="">-- Select destination --
+                                                                                </option>
+                                                                                @forelse($destinations as $destination)
+                                                                                <option
+                                                                                    value="{{ $destination->destination_id }}"
+                                                                                    {{ old('destinationid')==$destination->
+                                                                                    destination_id ? 'selected' : '' }}>
+                                                                                    {{ $destination->destination_name }}
+                                                                                </option>
+                                                                                @empty
+                                                                                <option value="" disabled>No destination
+                                                                                    available
+                                                                                </option>
+                                                                                @endforelse
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Hotel Type <span
+                                                                                    class="manadatory">*</span></label>
+                                                                            <select class="form-control" id="hotel_type"
+                                                                                name="hotel_type">
+                                                                                <option value="">-- Select Hotel Type --
+                                                                                </option>
+                                                                                @forelse($hotelTypes as $hotelType)
+                                                                                <option value="{{ $hotelType->hotel_type_id }}"
+                                                                                    {{ old('hotel_type')==$hotelType->
+                                                                                    hotel_type_id ? 'selected' : '' }}>
+                                                                                    {{ $hotelType->hotel_type_name }}
+                                                                                </option>
+                                                                                @empty
+                                                                                <option value="" disabled>No hotel type
+                                                                                    available
+                                                                                </option>
+                                                                                @endforelse
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Room Type <span
+                                                                                    class="manadatory">*</span></label>
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Enter Room Type" name="room_type"
+                                                                                id="room_type">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="clearfix"></div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Trip Advisor URL</label>
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Enter Trip Advisor URL"
+                                                                                name="trip_url" id="trip_url">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Default Price (₹) <span
+                                                                                    class="manadatory">*</span></label>
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Enter Default Price"
+                                                                                name="default_price" id="default_price">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="clearfix"></div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label>Star Ratings (Out of 5)</label>
+                                                                            <input type="text" class="form-control"
+                                                                                placeholder="Enter Star Ratings. Eg. 4 or 4.5 "
+                                                                                name="star_ratings" id="star_ratings">
+                                                                        </div>
+                                                                    </div>
+
                                                                 </div>
-                                                            </div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Destination <span
-                                                                            class="manadatory">*</span></label>
-                                                                    <select class="form-control" id="destinationid"
-                                                                        name="destinationid">
-                                                                        <option value="">-- Select destination --
-                                                                        </option>
-                                                                        @forelse($destinations as $destination)
-                                                                        <option
-                                                                            value="{{ $destination->destination_id }}"
-                                                                            {{ old('destinationid')==$destination->
-                                                                            destination_id ? 'selected' : '' }}>
-                                                                            {{ $destination->destination_name }}
-                                                                        </option>
-                                                                        @empty
-                                                                        <option value="" disabled>No destination
-                                                                            available
-                                                                        </option>
-                                                                        @endforelse
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Hotel Type <span
-                                                                            class="manadatory">*</span></label>
-                                                                    <select class="form-control" id="hotel_type"
-                                                                        name="hotel_type">
-                                                                        <option value="">-- Select Hotel Type --
-                                                                        </option>
-                                                                        @forelse($hotelTypes as $hotelType)
-                                                                        <option value="{{ $hotelType->hotel_type_id }}"
-                                                                            {{ old('hotel_type')==$hotelType->
-                                                                            hotel_type_id ? 'selected' : '' }}>
-                                                                            {{ $hotelType->hotel_type_name }}
-                                                                        </option>
-                                                                        @empty
-                                                                        <option value="" disabled>No hotel type
-                                                                            available
-                                                                        </option>
-                                                                        @endforelse
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Room Type <span
-                                                                            class="manadatory">*</span></label>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="Enter Room Type" name="room_type"
-                                                                        id="room_type">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="clearfix"></div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Trip Advisor URL</label>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="Enter Trip Advisor URL"
-                                                                        name="trip_url" id="trip_url">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Default Price (₹) <span
-                                                                            class="manadatory">*</span></label>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="Enter Default Price"
-                                                                        name="default_price" id="default_price">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="clearfix"></div>
-
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Star Ratings (Out of 5)</label>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="Enter Star Ratings. Eg. 4 or 4.5 "
-                                                                        name="star_ratings" id="star_ratings">
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
+                                                        </fieldset>
                                                     </div>
                                                     <div class="box-main">
-                                                        <h3>Season Wise Price (In ₹)</h3>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <table id="addRowTable"
-                                                                    class="table table-bordered table-striped table-hover">
-                                                                    <thead>
-                                                                        <tr class="info">
-                                                                            <th width="17%">Season Type <span
-                                                                                    class="manadatory">*</span></th>
-                                                                            <th width="20%">Season Start Duration <span
-                                                                                    class="manadatory">*</span></th>
-                                                                            <th width="20%">Season End Duration <span
-                                                                                    class="manadatory">*</span></th>
-                                                                            <th width="9%">Price/Adult (₹) <span
-                                                                                    class="manadatory">*</span></th>
-                                                                            <th width="9%">Price/Couple (₹) <span
-                                                                                    class="manadatory">*</span></th>
-                                                                            <th width="9%">Price/Kids (₹) <span
-                                                                                    class="manadatory">*</span></th>
-                                                                            <th width="9%">Extra Bed/Adult <span
-                                                                                    class="manadatory">*</span></th>
-                                                                            <th width="7%"></th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td>
-                                                                                <select class="form-control"
-                                                                                    id="season_type"
-                                                                                    name="season_type[]">
-                                                                                    <option value="">-- Select Type --
-                                                                                    </option>
-                                                                                    @forelse($seasonTypes as $seasonType)
-                                                                                    <option
-                                                                                        value="{{ $seasonType->season_type_id }}"
-                                                                                        {{
-                                                                                        old('season_type')==$seasonType->
-                                                                                        season_type_id ? 'selected' : ''
-                                                                                        }}>
-                                                                                        {{ $seasonType->season_type_name
-                                                                                        }}
-                                                                                    </option>
-                                                                                    @empty
-                                                                                    <option value="" disabled>No season
-                                                                                        type available
-                                                                                    </option>
-                                                                                    @endforelse
-                                                                                </select>
-                                                                            </td>
+                                                        <fieldset>
+                                                            <legend>Season Wise Price (In ₹)</legend>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <table id="addRowTable"
+                                                                        class="table table-bordered table-striped table-hover">
+                                                                        <thead>
+                                                                            <tr class="info">
+                                                                                <th width="17%">Season Type <span
+                                                                                        class="manadatory">*</span></th>
+                                                                                <th width="20%">Season Start Duration <span
+                                                                                        class="manadatory">*</span></th>
+                                                                                <th width="20%">Season End Duration <span
+                                                                                        class="manadatory">*</span></th>
+                                                                                <th width="9%">Price/Adult (₹) <span
+                                                                                        class="manadatory">*</span></th>
+                                                                                <th width="9%">Price/Couple (₹) <span
+                                                                                        class="manadatory">*</span></th>
+                                                                                <th width="9%">Price/Kids (₹) <span
+                                                                                        class="manadatory">*</span></th>
+                                                                                <th width="9%">Extra Bed/Adult <span
+                                                                                        class="manadatory">*</span></th>
+                                                                                <th width="7%"></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <select class="form-control"
+                                                                                        id="season_type"
+                                                                                        name="season_type[]">
+                                                                                        <option value="">-- Select Type --
+                                                                                        </option>
+                                                                                        @forelse($seasonTypes as $seasonType)
+                                                                                        <option
+                                                                                            value="{{ $seasonType->season_type_id }}"
+                                                                                            {{
+                                                                                            old('season_type')==$seasonType->
+                                                                                            season_type_id ? 'selected' : ''
+                                                                                            }}>
+                                                                                            {{ $seasonType->season_type_name
+                                                                                            }}
+                                                                                        </option>
+                                                                                        @empty
+                                                                                        <option value="" disabled>No season
+                                                                                            type available
+                                                                                        </option>
+                                                                                        @endforelse
+                                                                                    </select>
+                                                                                </td>
 
-                                                                            <td>
-                                                                                <div class="row">
-                                                                                    <div
-                                                                                        class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                        <select name="from_startmonth[]"
-                                                                                            class="form-control"
-                                                                                            id="from_startmonth">
-                                                                                            <option value="">--Month--
-                                                                                            </option>
-                                                                                            <option value="01">January
-                                                                                            </option>
-                                                                                            <option value="02">February
-                                                                                            </option>
-                                                                                            <option value="03">March
-                                                                                            </option>
-                                                                                            <option value="04">April
-                                                                                            </option>
-                                                                                            <option value="05">May
-                                                                                            </option>
-                                                                                            <option value="06">June
-                                                                                            </option>
-                                                                                            <option value="07">July
-                                                                                            </option>
-                                                                                            <option value="08">August
-                                                                                            </option>
-                                                                                            <option value="09">September
-                                                                                            </option>
-                                                                                            <option value="10">October
-                                                                                            </option>
-                                                                                            <option value="11">November
-                                                                                            </option>
-                                                                                            <option value="12">December
-                                                                                            </option>
-                                                                                        </select>
+                                                                                <td>
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-md-6 col-sm-6 col-xs-6 months">
+                                                                                            <select name="from_startmonth[]"
+                                                                                                class="form-control"
+                                                                                                id="from_startmonth">
+                                                                                                <option value="">--Month--
+                                                                                                </option>
+                                                                                                <option value="01">January
+                                                                                                </option>
+                                                                                                <option value="02">February
+                                                                                                </option>
+                                                                                                <option value="03">March
+                                                                                                </option>
+                                                                                                <option value="04">April
+                                                                                                </option>
+                                                                                                <option value="05">May
+                                                                                                </option>
+                                                                                                <option value="06">June
+                                                                                                </option>
+                                                                                                <option value="07">July
+                                                                                                </option>
+                                                                                                <option value="08">August
+                                                                                                </option>
+                                                                                                <option value="09">September
+                                                                                                </option>
+                                                                                                <option value="10">October
+                                                                                                </option>
+                                                                                                <option value="11">November
+                                                                                                </option>
+                                                                                                <option value="12">December
+                                                                                                </option>
+                                                                                            </select>
+                                                                                        </div>
+
+                                                                                        <div
+                                                                                            class="col-md-6 col-sm-6 col-xs-6 months">
+                                                                                            <select name="from_startdate[]"
+                                                                                                class="form-control"
+                                                                                                id="from_startdate">
+                                                                                                <option value="">--Day--
+                                                                                                </option>
+                                                                                                <?php for ($i = 1; $i < 32; $i++) { ?>
+                                                                                                <option
+                                                                                                    value="<?php echo $i ?>">
+                                                                                                    <?php echo $i ?>
+                                                                                                </option>
+                                                                                                <?php } ?>
+                                                                                            </select>
+                                                                                        </div>
                                                                                     </div>
+                                                                                </td>
 
-                                                                                    <div
-                                                                                        class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                        <select name="from_startdate[]"
-                                                                                            class="form-control"
-                                                                                            id="from_startdate">
-                                                                                            <option value="">--Day--
-                                                                                            </option>
-                                                                                            <?php for ($i = 1; $i < 32; $i++) { ?>
-                                                                                            <option
-                                                                                                value="<?php echo $i ?>">
-                                                                                                <?php echo $i ?>
-                                                                                            </option>
-                                                                                            <?php } ?>
-                                                                                        </select>
+                                                                                <td>
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-md-6 col-sm-6 col-xs-6 months">
+                                                                                            <select name="from_endmonth[]"
+                                                                                                class="form-control"
+                                                                                                id="from_endmonth">
+                                                                                                <option value="">--Month--
+                                                                                                </option>
+                                                                                                <option value="01">January
+                                                                                                </option>
+                                                                                                <option value="02">February
+                                                                                                </option>
+                                                                                                <option value="03">March
+                                                                                                </option>
+                                                                                                <option value="04">April
+                                                                                                </option>
+                                                                                                <option value="05">May
+                                                                                                </option>
+                                                                                                <option value="06">June
+                                                                                                </option>
+                                                                                                <option value="07">July
+                                                                                                </option>
+                                                                                                <option value="08">August
+                                                                                                </option>
+                                                                                                <option value="09">September
+                                                                                                </option>
+                                                                                                <option value="10">October
+                                                                                                </option>
+                                                                                                <option value="11">November
+                                                                                                </option>
+                                                                                                <option value="12">December
+                                                                                                </option>
+                                                                                            </select>
+                                                                                        </div>
+
+                                                                                        <div
+                                                                                            class="col-md-6 col-sm-6 col-xs-6 months">
+                                                                                            <select name="from_enddate[]"
+                                                                                                class="form-control"
+                                                                                                id="from_enddate">
+                                                                                                <option value="">--Day--
+                                                                                                </option>
+                                                                                                <?php for ($i = 1; $i < 32; $i++) { ?>
+                                                                                                <option
+                                                                                                    value="<?php echo $i ?>">
+                                                                                                    <?php echo $i ?>
+                                                                                                </option>
+                                                                                                <?php } ?>
+                                                                                            </select>
+                                                                                        </div>
                                                                                     </div>
-                                                                                </div>
-                                                                            </td>
+                                                                                </td>
 
-                                                                            <td>
-                                                                                <div class="row">
-                                                                                    <div
-                                                                                        class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                        <select name="from_endmonth[]"
-                                                                                            class="form-control"
-                                                                                            id="from_endmonth">
-                                                                                            <option value="">--Month--
-                                                                                            </option>
-                                                                                            <option value="01">January
-                                                                                            </option>
-                                                                                            <option value="02">February
-                                                                                            </option>
-                                                                                            <option value="03">March
-                                                                                            </option>
-                                                                                            <option value="04">April
-                                                                                            </option>
-                                                                                            <option value="05">May
-                                                                                            </option>
-                                                                                            <option value="06">June
-                                                                                            </option>
-                                                                                            <option value="07">July
-                                                                                            </option>
-                                                                                            <option value="08">August
-                                                                                            </option>
-                                                                                            <option value="09">September
-                                                                                            </option>
-                                                                                            <option value="10">October
-                                                                                            </option>
-                                                                                            <option value="11">November
-                                                                                            </option>
-                                                                                            <option value="12">December
-                                                                                            </option>
-                                                                                        </select>
-                                                                                    </div>
+                                                                                <td>
+                                                                                    <input type="text" class="form-control"
+                                                                                        placeholder="Price"
+                                                                                        name="adult_price[]"
+                                                                                        id="adult_price">
+                                                                                </td>
 
-                                                                                    <div
-                                                                                        class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                        <select name="from_enddate[]"
-                                                                                            class="form-control"
-                                                                                            id="from_enddate">
-                                                                                            <option value="">--Day--
-                                                                                            </option>
-                                                                                            <?php for ($i = 1; $i < 32; $i++) { ?>
-                                                                                            <option
-                                                                                                value="<?php echo $i ?>">
-                                                                                                <?php echo $i ?>
-                                                                                            </option>
-                                                                                            <?php } ?>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </td>
+                                                                                <td>
+                                                                                    <input type="text" class="form-control"
+                                                                                        placeholder="Price"
+                                                                                        name="couple_price[]"
+                                                                                        id="couple_price">
+                                                                                </td>
 
-                                                                            <td>
-                                                                                <input type="text" class="form-control"
-                                                                                    placeholder="Price"
-                                                                                    name="adult_price[]"
-                                                                                    id="adult_price">
-                                                                            </td>
+                                                                                <td>
+                                                                                    <input type="text" class="form-control"
+                                                                                        placeholder="Price"
+                                                                                        name="kid_price[]" id="kid_price">
+                                                                                </td>
 
-                                                                            <td>
-                                                                                <input type="text" class="form-control"
-                                                                                    placeholder="Price"
-                                                                                    name="couple_price[]"
-                                                                                    id="couple_price">
-                                                                            </td>
+                                                                                <td>
+                                                                                    <input type="text" class="form-control"
+                                                                                        placeholder="Price"
+                                                                                        name="adult_extra[]"
+                                                                                        id="adult_extra">
+                                                                                </td>
 
-                                                                            <td>
-                                                                                <input type="text" class="form-control"
-                                                                                    placeholder="Price"
-                                                                                    name="kid_price[]" id="kid_price">
-                                                                            </td>
-
-                                                                            <td>
-                                                                                <input type="text" class="form-control"
-                                                                                    placeholder="Price"
-                                                                                    name="adult_extra[]"
-                                                                                    id="adult_extra">
-                                                                            </td>
-
-                                                                            <td>
-                                                                                <a href="javascript:void(0);"
-                                                                                    class="btn btn-success btn-sm views addrowbtn"
-                                                                                    title="Add"><i
-                                                                                        class="fa fa-plus"></i></a>
-                                                                                <a href="javascript:void(0);"
-                                                                                    class="btn btn-danger btn-sm views delrowbtn"
-                                                                                    title="Delete" name="del[]"
-                                                                                    id="del_0"><i
-                                                                                        class="fa-regular fa-trash-can"></i></a>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
+                                                                                <td>
+                                                                                    <a href="javascript:void(0);"
+                                                                                        class="btn btn-success btn-sm views addrowbtn"
+                                                                                        title="Add"><i
+                                                                                            class="fa fa-plus"></i></a>
+                                                                                    <a href="javascript:void(0);"
+                                                                                        class="btn btn-danger btn-sm views delrowbtn"
+                                                                                        title="Delete" name="del[]"
+                                                                                        id="del_0"><i
+                                                                                            class="fa-regular fa-trash-can"></i></a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="clearfix"></div>
                                                             </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
+                                                        </fieldset>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="reset-button">
@@ -439,9 +443,6 @@
         }
 
     </script>
-
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
-
 </body>
 
 </html>

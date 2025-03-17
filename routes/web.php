@@ -195,6 +195,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/activeTourPackages/{id}', [TourPackagesController::class, 'activeTourPackages'])->name('admin.managetourpackages.activeTourPackages');
     Route::match(['get', 'post'], '/getItineraryAddmore', [TourPackagesController::class, 'getItineraryAddmore'])->name('admin.managetourpackages.getItineraryAddmore');
     Route::match(['get', 'post'], '/editItineraryAddmore', [TourPackagesController::class, 'editItineraryAddmore'])->name('admin.managetourpackages.editItineraryAddmore');
+    Route::match(['get', 'post'], '/viewTourPackages/{id}', [TourPackagesController::class, 'viewTourPackages'])->name('admin.managetourpackages.viewTourPackages');
     // Tour Package
 
     // Manage Packages

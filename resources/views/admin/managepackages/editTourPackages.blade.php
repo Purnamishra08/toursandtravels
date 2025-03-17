@@ -53,14 +53,14 @@
                                                                 <!-- Package Name -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>Package Name</label>
+                                                                        <label>Package Name <span class="manadatory">*</span></label>
                                                                         <input type="text" class="form-control" placeholder="Enter package name" name="tpackage_name" id="tpackage_name" value="{{ old('tpackage_name',$tourPackage->tpackage_name) }}">
                                                                     </div>
                                                                 </div>
                                                                 <!-- Package Url -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>Package Url</label>
+                                                                        <label>Package Url <span class="manadatory">*</span></label>
                                                                         <input type="text" class="form-control" placeholder="Enter tour package url" name="tpackage_url" id="tpackage_url" value="{{ old('tpackage_url',$tourPackage->tpackage_url) }}">
                                                                     </div>
                                                                 </div>
@@ -68,14 +68,14 @@
                                                                 <!-- Package Code -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>Package Code</label>
+                                                                        <label>Package Code <span class="manadatory">*</span></label>
                                                                         <input type="text" class="form-control" placeholder="Enter tour package code" name="tpackage_code" id="tpackage_code" value="{{ old('tpackage_code',$tourPackage->tpackage_code) }}">
                                                                     </div>
                                                                 </div>
                                                                 <!-- Package Duration -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>Package Duration</label>
+                                                                        <label>Package Duration <span class="manadatory">*</span></label>
                                                                         <select class="form-control" name="pduration" id="pduration" onchange="getItineraryAddMore(this)">
                                                                             <option value="">-- Select Duration --</option>
                                                                             @foreach($durations as $duration)
@@ -90,13 +90,13 @@
                                                                 <!-- Price and Fake Price -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>Price (₹)</label>
+                                                                        <label>Price (₹) <span class="manadatory">*</span></label>
                                                                         <input type="text" class="form-control" placeholder="Enter price for package" name="price" id="price" value="{{ old('price',$tourPackage->price) }}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>Fake Price (₹)</label>
+                                                                        <label>Fake Price (₹) <span class="manadatory">*</span></label>
                                                                         <input type="text" class="form-control" placeholder="Enter fake price for package" name="fakeprice" id="fakeprice" value="{{ old('fakeprice',$tourPackage->fakeprice) }}">
                                                                     </div>
                                                                 </div>
@@ -104,7 +104,7 @@
                                                                 <!-- Profit Margin Percentage -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>Profit Margin Percentage (%)</label>
+                                                                        <label>Profit Margin Percentage (%) <span class="manadatory">*</span></label>
                                                                         <input type="text" class="form-control" placeholder="Enter profit margin percentage" name="pmargin_perctage" id="pmargin_perctage" value="{{ old('pmargin_perctage',$tourPackage->pmargin_perctage) }}">
                                                                     </div>
                                                                 </div>
@@ -145,7 +145,7 @@
                                                                 <!-- Tour Tags -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">    
-                                                                        <label>Tour Tags</label>
+                                                                        <label>Tour Tags <span class="manadatory">*</span></label>
                                                                         <select data-placeholder="Choose tour tags" class="chosen-select" multiple tabindex="4" id="getatagid" name="getatagid[]" style="width: 100%; height: auto; border: 1px solid #aaa; font-size:13px; padding:5px 7px;">
                                                                             @foreach($tags as $tag)
                                                                                 <option value="{{ $tag->tagid }}" @if(isset($selectedTags->tagid) && in_array($tag->tagid, explode(',', $selectedTags->tagid))) selected @endif >{{ $tag->tag_name }}</option>
@@ -157,28 +157,40 @@
                                                                 <!-- Banner and Tour Images -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <div id="banner_preview_dest" style="margin-top: 10px;">
+                                                                        <div id="banner_preview_dest"">
+                                                                        <a href="{{ asset('storage/tourpackages/' . $tourPackage->tpackage_image) }}"    target="_blank">
                                                                         <img id="bannerPreviewDest" 
                                                                         src="{{ isset($tourPackage->tpackage_image) ? asset('storage/tourpackages/'.$tourPackage->tpackage_image) : '' }}" 
                                                                         alt="Banner Image Preview" 
                                                                         class="img-fluid rounded border" 
-                                                                        style="max-width: 300px; display: {{ isset($tourPackage->tpackage_image) ? 'block' : 'none' }};">
+                                                                        style="width: 150px; display: {{ isset($tourPackage->tpackage_image) ? 'block' : 'none' }};;height:150px">
+                                                                        </a>
                                                                         </div>
-                                                                        <label>Banner Image</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <div id="banner_preview_dest"">
+                                                                        <a href="{{ asset('storage/tourpackages/thumbs/' . $tourPackage->tour_thumb) }}"    target="_blank">
+                                                                        <img id="bannerPreviewDest" 
+                                                                        src="{{ isset($tourPackage->tour_thumb) ? asset('storage/tourpackages/thumbs/'.$tourPackage->tour_thumb) : '' }}" 
+                                                                        alt="Banner Image Preview" 
+                                                                        class="img-fluid rounded border" 
+                                                                        style="width: 150px; display: {{ isset($tourPackage->tour_thumb) ? 'block' : 'none' }};height:150px">
+                                                                    </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Banner Image <span class="manadatory">*</span></label>
                                                                         <input class="form-control" type="file" name="tourimg" id="tourimg">
                                                                         <span>Image size should be 745px X 450px</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <div class="form-group">
-                                                                        <div id="banner_preview_dest" style="margin-top: 10px;">
-                                                                        <img id="bannerPreviewDest" 
-                                                                        src="{{ isset($tourPackage->tour_thumb) ? asset('storage/tourpackages/thumbs/'.$tourPackage->tour_thumb) : '' }}" 
-                                                                        alt="Banner Image Preview" 
-                                                                        class="img-fluid rounded border" 
-                                                                        style="max-width: 300px; display: {{ isset($tourPackage->tour_thumb) ? 'block' : 'none' }};">
-                                                                        </div>
-                                                                        <label>Tour Image</label>
+                                                                        <label>Tour Image <span class="manadatory">*</span></label>
                                                                         <input class="form-control" type="file" name="tourthumb" id="tourthumb">
                                                                         <span>Image size should be 300px X 225px</span>
                                                                     </div>
@@ -187,13 +199,13 @@
                                                                 <!-- Alt Tags -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>Alt Tag For Banner Image</label>
+                                                                        <label>Alt Tag For Banner Image <span class="manadatory">*</span></label>
                                                                         <input type="text" class="form-control" placeholder="Enter Alt tag for banner image" name="alttag_banner" id="alttag_banner" value="{{ old('alttag_banner',$tourPackage->alttag_banner) }}" maxlength="60">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>Alt Tag For Tour Image</label>
+                                                                        <label>Alt Tag For Tour Image <span class="manadatory">*</span></label>
                                                                         <input type="text" class="form-control" placeholder="Enter Alt tag for tour image" name="alttag_thumb" id="alttag_thumb" value="{{ old('alttag_thumb',$tourPackage->alttag_thumb) }}" maxlength="60">
                                                                     </div>
                                                                 </div>
@@ -244,7 +256,7 @@
                                                                 <!-- Starting City -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
-                                                                        <label>Starting City</label>
+                                                                        <label>Starting City <span class="manadatory">*</span></label>
                                                                         <select class="form-control" name="starting_city" id="starting_city">
                                                                             <option value="">-- Select Starting City --</option>
                                                                             @foreach($destinations as $destination)
@@ -285,8 +297,8 @@
                                                                     <table id="addRowTable" class="table table-bordered table-striped table-hover">
                                                                         <thead>
                                                                             <tr class="info">
-                                                                                <th width="50%">Destination name</th>
-                                                                                <th width="40%">No of Nights Booking in Hotel</th>
+                                                                                <th width="50%">Destination name <span class="manadatory">*</span></th>
+                                                                                <th width="40%">No of Nights Booking in Hotel <span class="manadatory">*</span></th>
                                                                                 <th width="10%"></th>
                                                                             </tr>
                                                                         </thead>

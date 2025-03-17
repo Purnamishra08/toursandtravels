@@ -34,6 +34,64 @@
                                     View
                                 </a>
                             </nav>
+                            <!--Filter Box Start-->
+                            <div class="filterBox collapse bg-light p-3" id="filterBox">
+                                <form action="{{ route('admin.managetourpackages') }}" method="GET">
+                                    <div class="row">
+                                        <div class="col-sm-4 form-group mb-sm-0">
+                                            <label class="control-label">Packages</label>
+                                            <input type="text" class="form-control" id="package_name" name="package_name" 
+                                                value="{{ request('package_name') }}">
+                                        </div>
+                                        <div class="col-sm-4 form-group mb-sm-0">
+                                            <label class="control-label">Starting City</label>
+                                            <select class="form-select" id="starting_city" name="starting_city">
+                                                <option value="">-- Select Starting City --</option>
+                                                @foreach($destinations as $destination)
+                                                    <option value="{{ $destination->destination_id }}" {{ request('starting_city') == $destination->destination_id ? 'selected' : '' }}>
+                                                        {{ $destination->destination_name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4 form-group mb-sm-0">
+                                            <label class="control-label">Duration</label>
+                                            <select class="form-select" id="duration" name="duration">
+                                                <option value="">-- Select Duration--</option>
+                                                @forelse($durations as $duration)
+                                                    <option value="{{ $duration->durationid }}" 
+                                                        {{ request('duration') == $duration->durationid ? 'selected' : '' }}>
+                                                        {{ $duration->duration_name }}
+                                                    </option>
+                                                @empty
+                                                    <option value="" disabled>No destination available</option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                        <!-- Status -->
+                                        <div class="col-sm-4 form-group mb-sm-0">
+                                            <label class="control-label">Status</label>
+                                            <select class="form-select" id="status" name="status">
+                                                <option value="">Select</option>
+                                                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active</option>
+                                                <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Inactive</option>
+                                            </select>
+                                        </div>
+                                        <!-- Submit and Reset Buttons -->
+                                        <div class="col-sm-4 form-group mb-sm-0 align-self-end">
+                                            <button class="btn btn-success mr-2" type="submit">Submit</button>
+                                            <!-- <button class="btn btn-warning" type="reset" id="resetBtn">Reset</button> -->
+                                            <a href="{{ route('admin.managetourpackages') }}" class="btn btn-warning">Reset</a>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                            <div class="text-center filterBtn">
+                                <button type="button" class="showListBtn" data-bs-toggle="collapse"
+                                    data-bs-target="#filterBox"><i class="fa fa-search"></i> Search</button>
+                            </div>
+                            <!--Filter Box End-->
                             @include('Admin.include.sweetaleart')
                             <section class="content">
                                 <div class="row">
@@ -48,22 +106,20 @@
                                                         class="table table-bordered table-striped table-hover">
                                                         <thead>
                                                             <tr class="info">
-                                                                <th width="6%">Sl #</th>
-                                                                <th width="13%">Packages</th>
+                                                                <th width="1%">Sl #</th>
+                                                                <th width="20%">Packages</th>
                                                                 <th width="10%">Starting City</th>
                                                                 <th width="10%">Package Durations</th>
                                                                 <th width="9%">Price (₹)</th>
-                                                                <th width="13%">Itinerary</th>
                                                                 <th width="12%">Banner Images</th>
                                                                 <th width="12%">Tour Images</th>
                                                                 <th width="6%">Status</th>
                                                                 <th width="9%">Action</th>
                                                             </tr>
                                                         </thead>
+                                                        <tbody></tbody>
                                                     </table>
-                                                    {{-- Pagination Links --}}
                                                     
-
                                                 </div>
                                             </div>
                                         </div>
@@ -90,6 +146,53 @@
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
     <script src="{{ asset('assets/js/validation.js') }}"></script>
+    <script>
+$(document).ready(function () {
+    // Setup DataTable
+    let table = $('#example').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('admin.managetourpackages') }}",
+            data: function (d) {
+                d.package_name = $('#package_name').val();
+                d.starting_city = $('#starting_city').val();
+                d.duration = $('#duration').val();
+                d.status = $('#status').val();
+            }
+        },
+        columns: [
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'tpackage_name', name: 'a.tpackage_name' },
+            { data: 'destination_name', name: 'b.destination_name' },
+            { data: 'duration_name', name: 'c.duration_name' },
+            { data: 'price', name: 'a.price' },
+            { data: 'banner', name: 'a.tpackage_image', orderable: false, searchable: false },
+            { data: 'thumb', name: 'a.tour_thumb', orderable: false, searchable: false },
+            { data: 'status', name: 'a.status', orderable: false, searchable: false },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
+        ],
+        order: [[1, 'asc']],
+        pageLength: 10,
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    });
+
+    // Filter Form Submission
+    $('#filterForm').on('submit', function (e) {
+        e.preventDefault(); // Prevent form submission
+        table.draw(); // Reload table with filter values
+    });
+
+    // Reset Button
+    $('#resetBtn').on('click', function () {
+        $('#filterForm')[0].reset(); // Reset form fields
+        table.draw(); // Reload table with reset values
+    });
+});
+
+
+    </script>
+    
 </body>
 
 </html>
