@@ -202,11 +202,11 @@
                 </div>
             </div>
         </div>
-        <!-- FooterJs Start-->  
+        <!-- FooterJs Start-->
         @include('Admin.include.footerJs')
-        <!-- FooterJs End--> 
+        <!-- FooterJs End-->
         
-        <script src="{{ asset('assets/js/validation.js') }}"></script>
+        
         <script>
             function toggleAccess(moduleId) {
                 let checkbox = document.getElementById('module_' + moduleId);

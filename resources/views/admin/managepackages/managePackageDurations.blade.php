@@ -44,90 +44,20 @@
                                         <div class="panel panel-bd lobidrag">
                                             <div class="panel-body">
                                                 <div class="table-responsive">
-                                                    <table id="example"
-                                                        class="table table-bordered table-striped table-hover">
+                                                    <table id="packageDurationsTable" class="table table-bordered table-striped table-hover">
                                                         <thead>
                                                             <tr class="info">
-                                                                <th width="2%">Sl #</th>
-                                                                <th width="13%">Duration</th>
-                                                                <th width="13%">No. of Days</th>
-                                                                <th width="13%">No. of Night</th>
-                                                                <th width="7%">Status</th>
-                                                                <th width="12%">Action</th>
+                                                                <th width="5%">Sl #</th>
+                                                                <th width="20%">Duration</th>
+                                                                <th width="15%">No. of Days</th>
+                                                                <th width="15%">No. of Nights</th>
+                                                                <th width="15%">Status</th>
+                                                                <th width="20%">Action</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @forelse ($packageDurations as $key => $packageDuration)
-                                                            <tr>
-                                                                <td>{{ ($packageDurations->currentPage() - 1) *
-                                                                    $packageDurations->perPage() + $loop->iteration }}</td>
-                                                                <td>{{ $packageDuration->duration_name }}</td>
-                                                                <td>{{ $packageDuration->no_ofdays }}</td>
-                                                                <td>{{ $packageDuration->no_ofnights }}</td>
-                                                                <td>
-                                                                    @if ($packageDuration->status == 1)
-                                                                        <form action="{{ route('admin.managepackagedurations.activePackageDurations', ['id' => $packageDuration->durationid]) }}"
-                                                                            method="POST"
-                                                                            onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                            @csrf
-                                                                            <button type="submit" class="btn btn-outline-success"
-                                                                                title="Active. Click to deactivate.">
-                                                                                <span class="label-custom label label-success">Active</span>
-                                                                            </button>
-                                                                        </form>
-                                                                    @else
-                                                                        <form action="{{ route('admin.managepackagedurations.activePackageDurations', ['id' => $packageDuration->durationid]) }}"
-                                                                            method="POST"
-                                                                            onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                            @csrf
-                                                                            <button type="submit" class="btn btn-outline-dark"
-                                                                                title="Inactive. Click to activate.">
-                                                                                <span class="label-custom label label-danger">Inactive</span>
-                                                                            </button>
-                                                                        </form>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <div class="d-flex gap-1">
-                                                                        <a href="{{ route('admin.managepackagedurations.editPackageDurations', ['id' => $packageDuration->durationid]) }}"
-                                                                            class="btn btn-success btn-sm" title="Edit">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        @if(session('user')->admin_type == 1)
-                                                                        <form
-                                                                            action="{{ route('admin.managepackagedurations.deletePackageDurations', ['id' => $packageDuration->durationid]) }}"
-                                                                            method="POST"
-                                                                            onsubmit="return confirm('Are you sure you want to delete this vehicle?')">
-                                                                            @csrf
-                                                                            <button type="submit"
-                                                                                class="btn btn-danger btn-sm"
-                                                                                title="Delete">
-                                                                                <i class="fa-regular fa-trash-can"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                        @endif
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            @empty
-                                                            <tr>
-                                                                <td class="text-center" colspan="8">No data available
-                                                                </td>
-                                                            </tr>
-                                                            @endforelse
                                                         </tbody>
                                                     </table>
-                                                    {{-- Pagination Links --}}
-                                                    <div
-                                                        class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">
-                                                            Showing {{ $packageDurations->firstItem() }} to {{
-                                                            $packageDurations->lastItem() }} of {{ $packageDurations->total() }}
-                                                            entries
-                                                        </p>
-                                                        {{ $packageDurations->links('pagination::bootstrap-4') }}
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -153,7 +83,32 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
+    <script>
+        $(document).ready(function () {
+    $('#packageDurationsTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '{{ route('admin.managepackagedurations') }}',
+        columns: [
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'duration_name', name: 'duration_name', orderable: true, searchable: true }, // ✅ Sorting enabled
+            { data: 'no_ofdays', name: 'no_ofdays', orderable: true, searchable: true }, // ✅ Sorting enabled
+            { data: 'no_ofnights', name: 'no_ofnights', orderable: true, searchable: true }, // ✅ Sorting enabled
+            { data: 'status', name: 'status', orderable: false, searchable: false }, // ❌ Sorting disabled
+            { data: 'action', name: 'action', orderable: false, searchable: false } // ❌ Sorting disabled
+        ],
+        order: [[1, 'desc']], // ✅ Default order on "Duration"
+        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        pageLength: 10,
+        // language: {
+        //     searchPlaceholder: "Search package durations...",
+        //     search: "_INPUT_",
+        // }
+    });
+});
+
+    </script>
 </body>
 
 </html>

@@ -54,89 +54,18 @@
                                             </div> -->
                                             <div class="panel-body">
                                                 <div class="table-responsive">
-                                                    <table id="example"
-                                                        class="table table-bordered table-striped table-hover">
-                                                        <thead>
-                                                            <tr >
-                                                                <th width="6%">Sl #</th>
-                                                                <th width="13%">Vehicle Name</th>
-                                                                <th width="9%">Capacity</th>
-                                                                <th width="7%">Status</th>
-                                                                <th width="12%">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @forelse ($vehicletypes as $key => $vehicletype)
-                                                            <tr>
-                                                                <td>{{ ($vehicletypes->currentPage() - 1) *
-                                                                    $vehicletypes->perPage() + $loop->iteration }}</td>
-                                                                <td>{{ $vehicletype->vehicle_name }}</td>
-                                                                <td>{{ $vehicletype->capacity }} Members</td>
-                                                                <td>
-                                                                    @if ($vehicletype->status == 1)
-                                                                    <form
-                                                                        action="{{ route('admin.manageVehicletype.activeVehicleType', ['id' => $vehicletype->vehicleid]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                        @csrf
-                                                                        <button type="submit" class="btn btn-outline-success"
-                                                                            title="Active. Click to deactivate.">
-                                                                            <span class="label-custom label label-success">Active</span>
-                                                                        </button>
-                                                                    </form>
-                                                                    @else
-                                                                    <form
-                                                                        action="{{ route('admin.manageVehicletype.activeVehicleType', ['id' => $vehicletype->vehicleid]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                        @csrf
-                                                                        <button type="submit" class="btn btn-outline-dark"
-                                                                            title="Inactive. Click to activate.">
-                                                                            <span class="label-custom label label-danger">Inactive</span>
-                                                                        </button>
-                                                                    </form>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <div class="d-flex gap-1">
-                                                                        <a href="{{ route('admin.manageVehicletype.editVehicleType', ['id' => $vehicletype->vehicleid]) }}"
-                                                                        class="btn btn-success btn-sm" title="Edit">
-                                                                        <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        @if(session('user')->admin_type == 1)
-                                                                        <form
-                                                                            action="{{ route('admin.manageVehicletype.deleteVehicleType', ['id' => $vehicletype->vehicleid]) }}"
-                                                                            method="POST"
-                                                                            onsubmit="return confirm('Are you sure you want to delete this vehicle?')">
-                                                                            @csrf
-                                                                            <button type="submit"
-                                                                                class="btn btn-danger btn-sm"
-                                                                                title="Delete">
-                                                                                <i class="fa-regular fa-trash-can"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                        @endif
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            @empty
-                                                            <tr>
-                                                                <td class="text-center" colspan="8">No data available
-                                                                </td>
-                                                            </tr>
-                                                            @endforelse
-                                                        </tbody>
-                                                    </table>
-                                                    {{-- Pagination Links --}}
-                                                    <div
-                                                        class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">
-                                                            Showing {{ $vehicletypes->firstItem() }} to {{
-                                                            $vehicletypes->lastItem() }} of {{ $vehicletypes->total() }}
-                                                            entries
-                                                        </p>
-                                                        {{ $vehicletypes->links('pagination::bootstrap-4') }}
-                                                    </div>
+                                                <table id="vehicleTypeTable" class="table table-bordered table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Sl #</th>
+                                                            <th>Vehicle Name</th>
+                                                            <th>Capacity</th>
+                                                            <th>Status</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
 
                                                 </div>
                                             </div>
@@ -163,7 +92,58 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
+
+    <script>
+    $(document).ready(function () {
+        $('#vehicleTypeTable').DataTable({
+            processing: true, // Show loading indicator
+            serverSide: true, // Use server-side processing
+            ajax: '{{ route('admin.manageVehicletype') }}', // Fetch data from controller
+            
+            columns: [
+                { 
+                    data: null, 
+                    orderable: false, 
+                    searchable: false, 
+                    render: (data, type, row, meta) => meta.row + 1 
+                },
+                { data: 'vehicle_name', name: 'vehicle_name' },
+                { 
+                    data: 'capacity', 
+                    name: 'capacity',
+                    render: (data) => `${data} Members` 
+                },
+                { data: 'status', name: 'status', orderable: false, searchable: true },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ],
+
+            order: [[1, 'asc']], // Default order by Vehicle Name (2nd column)
+
+            // Length menu options
+            lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+
+            // Enable search on all columns
+            searching: true,
+
+            // Language settings
+            language: {
+                emptyTable: "No data available",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                infoEmpty: "No entries found",
+                search: "Search:",
+                paginate: {
+                    first: "First",
+                    last: "Last",
+                    next: "Next",
+                    previous: "Previous"
+                }
+            }
+        });
+    });
+</script>
+
 </body>
 
 </html>

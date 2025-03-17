@@ -7,15 +7,61 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use Yajra\DataTables\Facades\DataTables;
 
 class VehicleTypeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = DB::table('tbl_vehicletypes')->where('bit_Deleted_Flag', 0)->paginate(10);
-        return view('admin.managevehicles.manageVehicleType', ['vehicletypes' => $data]);
-    }
+        if ($request->ajax()) {
+            $data = DB::table('tbl_vehicletypes')
+                ->where('bit_Deleted_Flag', 0);
 
+            return DataTables::of($data)
+                ->addColumn('status', function ($row) {
+                    $btnClass = $row->status == 1 ? 'btn-outline-success' : 'btn-outline-dark';
+                    $label = $row->status == 1 ? 'Active' : 'Inactive';
+
+                    return '
+                        <form action="'.route('admin.manageVehicletype.activeVehicleType', ['id' => $row->vehicleid]).'" 
+                            method="POST" onsubmit="return confirm(\'Are you sure you want to change the status?\')">
+                            '.csrf_field().'
+                            <button type="submit" class="btn '.$btnClass.' btn-sm">
+                                <span class="label-custom label">'.$label.'</span>
+                            </button>
+                        </form>';
+                })
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('admin.manageVehicletype.editVehicleType', ['id' => $row->vehicleid]);
+                    $deleteUrl = route('admin.manageVehicletype.deleteVehicleType', ['id' => $row->vehicleid]);
+
+                    $buttons = '
+                        <div class="d-flex gap-1">
+                            <a href="'.$editUrl.'" class="btn btn-success btn-sm" title="Edit">
+                                <i class="fa fa-pencil"></i>
+                            </a>';
+                    
+                    if (session('user')->admin_type == 1) {
+                        $buttons .= '
+                            <form action="'.$deleteUrl.'" method="POST" 
+                                onsubmit="return confirm(\'Are you sure you want to delete this vehicle?\')">
+                                '.csrf_field().'
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+
+                    $buttons .= '</div>';
+
+                    return $buttons;
+                })
+                ->rawColumns(['status', 'action'])
+                ->make(true);
+        }
+
+        return view('admin.managevehicles.manageVehicleType');
+    }
     public function addVehicleType(Request $request)
     {
         if ($request->isMethod('post')) {

@@ -20,7 +20,7 @@
                     <div class="inner-layout">
                         <div class="container-fluid px-4 pt-3">
                             <nav class="tab-menu">
-                                <a href="{{ route('admin.manageHoteltype.addHotelType') }}" class="tab-menu__item active">
+                                <a href="{{ route('admin.manageHoteltype.editHotelType',['id' => $hoteltype->hotel_type_id]) }}" class="tab-menu__item active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l2.0 2.0a.5.5 0 0 1 0 .708L5.207 13.5H3v-2.207L12.146.146zM11.207 2L4 9.207V10h.793L13 3.793 11.207 2z"/>
                                     </svg>
                                     Edit
@@ -85,14 +85,14 @@
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
 
-    <<script>
+    <script>
         function validator(){
         if(!blankCheck('hotelType','Hotel Type cannot be Blank'))
         return false;
         }
         </script>
 
-        <script src="{{ asset('assets/js/validation.js') }}"></script>
+        
 
 </body>
 

@@ -93,7 +93,7 @@
         <!-- FooterJs End-->
 
         <!-- validation js -->
-        <script src="{{ asset('assets/js/validation.js') }}"></script>
+        
         <!-- DataTables CSS -->
         <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">
 
