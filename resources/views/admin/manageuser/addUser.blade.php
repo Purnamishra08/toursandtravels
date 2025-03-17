@@ -120,36 +120,59 @@
                                                                 </div>
                                                             </div>
                                                             @endif
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Modules</label>
-                                                                    <div class="chkbx-inner">
-                                                                        @php 
-                                                                            $cnt = 0; 
-                                                                            $isAdminTypeOne = isset($user) && $user->admin_type == 1; 
-                                                                        @endphp
 
-                                                                        <div class="row">
-                                                                            @foreach ($modules as $module)
-                                                                                @php $cnt++; @endphp
-                                                                                <div class="col-md-6">
-                                                                                    <div class="checkbox checkbox-info">
-                                                                                        <input type="checkbox" name="modules[]" id="modules_{{ $cnt }}" value="{{ $module->moduleid }}"
-                                                                                            {{ in_array($module->moduleid, old('modules', $selectedModules ?? [])) ? 'checked' : '' }}
-                                                                                            {{ $isAdminTypeOne ? 'disabled' : '' }}> {{-- Disable if admin_type == 1 --}}
-                                                                                        <label for="modules_{{ $cnt }}">{{ $module->module }}</label>
-                                                                                    </div>
-                                                                                </div>
+                                                            <div class="col-md-12">
+                                                                <table id="modulesTable" class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>SL No</th>
+                                                                            <th>Module Name</th>
+                                                                            <th>Module Access</th>
+                                                                            <th>Module Delete Access</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @php $cnt = 0; @endphp
+                                                                        @foreach ($modules as $module)
+                                                                            @php 
+                                                                                $cnt++; 
+                                                                                $isChecked = in_array($module->moduleid, old('modules', $selectedModules ?? [])) ? 'checked' : '';
+                                                                                $isDisabled = isset($user) && $user->admin_type == 1 ? 'disabled' : '';
+                                                                                $accessValue = $moduleAccess[$module->moduleid] ?? 0;
+                                                                                if (isset($user) && $user->admin_type == 1) {
+                                                                                    $accessValue = 1;
+                                                                                    $accessDisabled = 'disabled';
+                                                                                } else {
+                                                                                    $accessDisabled = $isChecked ? '' : 'disabled';
+                                                                                }
+                                                                            @endphp
+                                                                            <tr>
+                                                                                <td>{{ $cnt }}</td>
+                                                                                <td>{{ $module->module }}</td>
+                                                                                <td>
+                                                                                    <input type="checkbox" name="modules[]" value="{{ $module->moduleid }}"
+                                                                                        id="module_{{ $module->moduleid }}"
+                                                                                        {{ $isChecked }}
+                                                                                        {{ $isDisabled }}
+                                                                                        onchange="toggleAccess({{ $module->moduleid }})">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="radio" name="access[{{ $module->moduleid }}]" value="1"
+                                                                                        id="access_yes_{{ $module->moduleid }}"
+                                                                                        {{ $accessValue == 1 ? 'checked' : '' }}
+                                                                                        {{ $accessDisabled }}>
+                                                                                    <label for="access_yes_{{ $module->moduleid }}">Yes</label>
 
-                                                                                @if ($cnt % 2 == 0)
-                                                                                    <div class="clearfix"></div>
-                                                                                @endif
-                                                                            @endforeach
-                                                                        </div>
-
-                                                                        <div style="margin-left: 15px;" id="modules_errorloc"></div>
-                                                                    </div>
-                                                                </div>
+                                                                                    <input type="radio" name="access[{{ $module->moduleid }}]" value="0"
+                                                                                        id="access_no_{{ $module->moduleid }}"
+                                                                                        {{ $accessValue == 0 ? 'checked' : '' }}
+                                                                                        {{ $accessDisabled }}>
+                                                                                    <label for="access_no_{{ $module->moduleid }}">No</label>
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
                                                             </div>
 
                                                         </div>
@@ -157,7 +180,9 @@
                                                         <div class="col-md-6">
                                                             <div class="reset-button">
                                                                 <button type="submit" class="btn btn-primary">{{ isset($user) ? 'Update' : 'Save' }}</button>
-                                                                <button type="reset" class="btn btn-danger">Reset</button>
+                                                                @if(!isset($user))
+                                                                    <button type="reset" class="btn btn-danger">Reset</button>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </form>
@@ -182,6 +207,22 @@
         <!-- FooterJs End--> 
         
         <script src="{{ asset('assets/js/validation.js') }}"></script>
+        <script>
+            function toggleAccess(moduleId) {
+                let checkbox = document.getElementById('module_' + moduleId);
+                let yesRadio = document.getElementById('access_yes_' + moduleId);
+                let noRadio = document.getElementById('access_no_' + moduleId);
+
+                if (checkbox.checked) {
+                    yesRadio.removeAttribute('disabled');
+                    noRadio.removeAttribute('disabled');
+                } else {
+                    yesRadio.setAttribute('disabled', 'disabled');
+                    noRadio.setAttribute('disabled', 'disabled');
+                    noRadio.checked = true; // Default to "No" when unchecked
+                }
+            }
+        </script>
 
     </body>
 </html>

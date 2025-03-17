@@ -110,20 +110,38 @@ class DestinationController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    return '
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                
+                    // Edit button (always visible)
+                    $editButton = '
                         <a href="' . route('admin.destination.editdestination', $row->destination_id) . '" class="btn btn-primary btn-sm" title="Edit">
                             <i class="fa fa-pencil"></i>
-                        </a>
-                        <form action="' . route('admin.destination.deletedestination', $row->destination_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this destination?\')">
-                            ' . csrf_field() . '
-                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                <i class="fa-regular fa-trash-can"></i>
-                            </button>
-                        </form>';
+                        </a>';
+                
+                    // Define module ID required for delete access (adjust if needed)
+                    $requiredModuleId = 6;
+                
+                    // Check if the user has delete permission
+                    $canDelete = $user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1);
+                
+                    // Delete button (visible only if allowed)
+                    $deleteButton = '';
+                    if ($canDelete) {
+                        $deleteButton = '
+                            <form action="' . route('admin.destination.deletedestination', $row->destination_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this destination?\')">
+                                ' . csrf_field() . '
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+                
+                    return $editButton . $deleteButton;
                 })
                 ->rawColumns(['destiimg', 'destiimg_thumb', 'status', 'action']) // Allow HTML rendering
                 ->make(true);
-        }    
+        }
     }
 
     public function adddestination(Request $request){

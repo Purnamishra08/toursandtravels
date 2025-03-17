@@ -200,17 +200,25 @@ class ManageUserController extends Controller
                 // If not Super Admin (utype != 1 && utype != 2)
                 if ($utype != 1) {
                     $modules = $request->input('modules', []); // Default to an empty array if no modules selected
+                    $access = $request->input('access', []); // Access values for all modules
                     $sess_userid = session('user')->adminid ?? 0; // Get logged-in user's ID
+
+                    // Filter only selected modules
+                    $filteredAccess = array_filter($access, function ($key) use ($modules) {
+                        return in_array($key, $modules);
+                    }, ARRAY_FILTER_USE_KEY);
+
                     $date = now(); // Get current timestamp
 
                     $insertData = [];
 
-                    foreach ($modules as $moduleid) {
+                    foreach ($filteredAccess as $moduleid => $accessValue) {
                         $insertData[] = [
-                            'adminid'      => $lastInsertedId,
-                            'moduleid'     => $moduleid,
-                            'created_by'   => $sess_userid,
-                            'created_date' => $date
+                            'adminid'                   => $lastInsertedId,
+                            'moduleid'                  => $moduleid,
+                            'moduleDeleteAccess'        => (int)$accessValue,
+                            'created_by'                => $sess_userid,
+                            'created_date'              => $date
                         ];
                     }
 
@@ -263,16 +271,23 @@ class ManageUserController extends Controller
                 $utype = $request->input('utype');
                 if ($utype != 1) { // If not Super Admin
                     $modules = $request->input('modules', []); // Get selected modules
+                    $access = $request->input('access', []); // Access values for all modules
                     $sess_userid = session('user')->adminid ?? 0;
                     $date = now();
         
+                    // Filter only selected modules
+                    $filteredAccess = array_filter($access, function ($key) use ($modules) {
+                        return in_array($key, $modules);
+                    }, ARRAY_FILTER_USE_KEY);
+
                     $insertData = [];
-                    foreach ($modules as $moduleid) {
+                     foreach ($filteredAccess as $moduleid => $accessValue) {
                         $insertData[] = [
-                            'adminid'      => $id,  // Use $id instead of last inserted ID
-                            'moduleid'     => $moduleid,
-                            'created_by'   => $sess_userid,
-                            'created_date' => $date
+                            'adminid'                   => $id,
+                            'moduleid'                  => $moduleid,
+                            'moduleDeleteAccess'        => (int)$accessValue,
+                            'created_by'                => $sess_userid,
+                            'created_date'              => $date
                         ];
                     }
         
@@ -289,14 +304,21 @@ class ManageUserController extends Controller
                         ->orderBy('moduleid', 'ASC')
                         ->pluck('moduleid')
                         ->toArray();
+                    $moduleAccess = [];   
                 } else {
                     $selectedModules = DB::table('tbl_admin_modules')
                         ->where('adminid', $user->adminid)
                         ->orderBy('moduleid', 'ASC')
                         ->pluck('moduleid')
                         ->toArray();
+
+                    // Fetch moduleDeleteAccess values for selected modules
+                    $moduleAccess = DB::table('tbl_admin_modules')
+                    ->where('adminid', $user->adminid)
+                    ->pluck('moduleDeleteAccess', 'moduleid') // Fetch moduleDeleteAccess as key-value pairs
+                    ->toArray();
                 }
-                return view('admin.manageUser.addUser', ['user' => $user, 'modules' => $modules, 'selectedModules' => $selectedModules]);
+                return view('admin.manageUser.addUser', ['user' => $user, 'modules' => $modules, 'selectedModules' => $selectedModules, 'moduleAccess' => $moduleAccess]);
             }
         }
         

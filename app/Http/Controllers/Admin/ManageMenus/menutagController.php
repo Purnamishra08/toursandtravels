@@ -57,16 +57,34 @@ class MenutagController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    return '
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                
+                    // Edit button (always visible)
+                    $editButton = '
                         <a href="' . route('admin.category.editmenutag', $row->menuid) . '" class="btn btn-primary btn-sm" title="Edit">
                             <i class="fa fa-pencil"></i>
-                        </a>
-                        <form action="' . route('admin.category.deletemenutag', $row->menuid) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this menu tag?\')">
-                            ' . csrf_field() . '
-                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                <i class="fa-regular fa-trash-can"></i>
-                            </button>
-                        </form>';
+                        </a>';
+                
+                    // Define module ID required for delete access (adjust if needed)
+                    $requiredModuleId = 8; // Change this to the correct module ID for menu tag
+                
+                    // Check if the user has delete permission
+                    $canDelete = $user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1);
+                
+                    // Delete button (visible only if allowed)
+                    $deleteButton = '';
+                    if ($canDelete) {
+                        $deleteButton = '
+                            <form action="' . route('admin.category.deletemenutag', $row->menuid) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this menu tag?\')">
+                                ' . csrf_field() . '
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+                
+                    return $editButton . $deleteButton;
                 })
                 ->rawColumns(['status', 'action']) // Allow HTML rendering
                 ->make(true);

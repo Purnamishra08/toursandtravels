@@ -56,16 +56,34 @@ class DestinationTypeController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    return '
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                
+                    // Edit button (always visible)
+                    $editButton = '
                         <a href="' . route('admin.destinationtype.editdestinationtype', $row->destination_type_id) . '" class="btn btn-primary btn-sm" title="Edit">
                             <i class="fa fa-pencil"></i>
-                        </a>
-                        <form action="' . route('admin.destinationtype.deletedestinationtype', $row->destination_type_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this destination type?\')">
-                            ' . csrf_field() . '
-                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                <i class="fa-regular fa-trash-can"></i>
-                            </button>
-                        </form>';
+                        </a>';
+                
+                    // Define the required module ID for delete permission (change 6 if needed)
+                    $requiredModuleId = 6;
+                
+                    // Check if user has permission to delete
+                    $canDelete = $user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1);
+                
+                    // Delete button (visible only if allowed)
+                    $deleteButton = '';
+                    if ($canDelete) {
+                        $deleteButton = '
+                            <form action="' . route('admin.destinationtype.deletedestinationtype', $row->destination_type_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this destination type?\')">
+                                ' . csrf_field() . '
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+                
+                    return $editButton . $deleteButton;
                 })
                 ->rawColumns(['status', 'action']) // Allow HTML rendering
                 ->make(true);
