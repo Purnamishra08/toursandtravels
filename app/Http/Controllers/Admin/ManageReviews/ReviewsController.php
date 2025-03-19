@@ -109,19 +109,40 @@ class ReviewsController extends Controller
                     }
                 })
                 ->addColumn('action', function ($row) {
-                    return '
+                    $moduleAccess = session('moduleAccess', []);
+                    $user = session('user');
+                
+                    // Edit button (always visible)
+                    $editButton = '
                         <a href="' . route('admin.managereviews.editreviews', $row->review_id) . '" class="btn btn-primary btn-sm" title="Edit">
                             <i class="fa fa-pencil"></i>
-                        </a>
+                        </a>';
+                
+                    // View button (always visible)
+                    $viewButton = '
                         <a href="javascript:void(0);" class="btn btn-primary btn-sm view" title="View" onclick="loadReviewDetails(' . $row->review_id . ')">
                             <i class="fa fa-eye"></i>
-                        </a>
-                        <form action="' . route('admin.managereviews.deletereviews', $row->review_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this review?\')">
-                            ' . csrf_field() . '
-                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
-                                <i class="fa-regular fa-trash-can"></i>
-                            </button>
-                        </form>';
+                        </a>';
+                
+                    // Define the module ID required for delete access (adjust as needed)
+                    $requiredModuleId = 13;
+                
+                    // Check if the user has delete permission
+                    $canDelete = $user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1);
+                
+                    // Delete button (visible only if allowed)
+                    $deleteButton = '';
+                    if ($canDelete) {
+                        $deleteButton = '
+                            <form action="' . route('admin.managereviews.deletereviews', $row->review_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this review?\')">
+                                ' . csrf_field() . '
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+                
+                    return $editButton . $viewButton . $deleteButton;
                 })
                 ->rawColumns(['status', 'action']) // Allow HTML rendering
                 ->make(true);

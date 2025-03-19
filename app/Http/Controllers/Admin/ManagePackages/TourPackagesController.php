@@ -90,12 +90,15 @@ class TourPackagesController extends Controller
                     $editUrl = route('admin.managetourpackages.editTourPackages', ['id' => $row->tourpackageid]);
                     $viewUrl = route('admin.managetourpackages.viewTourPackages', ['id' => $row->tourpackageid]);
                     $deleteUrl = route('admin.managetourpackages.deleteTourPackages', ['id' => $row->tourpackageid]);
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                    $requiredModuleId = 10;
 
                     $buttons = '<div class="d-flex gap-1">
                                     <a href="' . $editUrl . '" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></a>
                                     <a href="' . $viewUrl . '" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>';
 
-                    if (session('user')->admin_type == 1) {
+                    if ($user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1)) {
                         $buttons .= '<form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this package?\')">
                                         ' . csrf_field() . '
                                         <button type="submit" class="btn btn-danger btn-sm">

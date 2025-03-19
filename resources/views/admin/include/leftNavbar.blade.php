@@ -19,11 +19,9 @@
                 @endif
                 @php
                     $currentRoute = request()->route()->getName();
-                    
                 @endphp
-                
                 @if(
-                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(5, session('moduleAccess')))
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[5]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
                     <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageVehicletype', 'admin.manageVehicleprice']) ? '' : 'collapsed' }}"
@@ -51,7 +49,7 @@
                 </div>
 
                 @if(
-                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(12, session('moduleAccess')))
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[12]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
                     <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.manageHoteltype','admin.manageSeasontype','admin.manageHotels']) ? '' : 'collapsed' }}"
@@ -84,7 +82,7 @@
                 </div>
                 
                 @if(
-                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(6, session('moduleAccess')))
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[6]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
                     <a class="nav-link dropdown {{ Str::startsWith($currentRoute, ['admin.state','admin.destinationtype']) ? '' : 'collapsed' }}"
@@ -122,7 +120,7 @@
                 </div>
 
                 @if(
-                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(8, session('moduleAccess')))
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[8]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
                     <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.category', 'admin.categorytags']) ? '' : 'collapsed' }}"
@@ -154,7 +152,7 @@
                 </div>
 
                 @if(
-                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(10, session('moduleAccess')))
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[10]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
                     <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.managetourpackages']) ? '' : 'collapsed' }}"
@@ -182,7 +180,7 @@
                 </div>
 
                 @if(
-                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(4, session('moduleAccess')))
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[4]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
                     <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.manageenquiry','admin.manageitineraryenquiry','admin.managepackageenquiry']) ? '' : 'collapsed' }}"
@@ -214,7 +212,7 @@
                 </div>
 
                 @if(
-                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(2, session('moduleAccess')))
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[2]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
                     <a class="nav-link {{ request()->routeIs('admin.generalsettings*') ? 'active' : '' }}"
@@ -225,7 +223,7 @@
                 @endif
 
                 @if(
-                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(13, session('moduleAccess')))
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[13]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
                     <a class="nav-link {{ request()->routeIs('admin.managereviews*') ? 'active' : '' }}"
@@ -236,7 +234,7 @@
                 @endif
 
                 @if(
-                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && in_array(16, session('moduleAccess')))
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[16]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
                     <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.commonfaqs', 'admin.packagefaqs']) ? '' : 'collapsed' }}"

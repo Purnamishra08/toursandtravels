@@ -15,6 +15,8 @@ CREATE TABLE `tbl_admin_modules` (
   CONSTRAINT `tbl_admin_modules_ibfk_1` FOREIGN KEY (`moduleid`) REFERENCES `tbl_modules` (`moduleid`),
   CONSTRAINT `tbl_admin_modules_ibfk_2` FOREIGN KEY (`adminid`) REFERENCES `tbl_admin` (`adminid`)
 );
+ALTER TABLE `toursandtravels`.`tbl_admin_modules` 
+ADD COLUMN `moduleDeleteAccess` BIT(1) NOT NULL DEFAULT b'0' COMMENT '0 = NO\n1 = YES' AFTER `moduleid`;
 
 #Manage Vehicles
 CREATE TABLE `tbl_vehicletypes` (

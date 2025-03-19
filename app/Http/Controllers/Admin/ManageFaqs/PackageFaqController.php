@@ -85,16 +85,34 @@ class PackageFaqController extends Controller
                 }
             })
             ->addColumn('action', function ($row) {
-                return '
-                    <a href="' . route('admin.packagefaqs.editpackagefaqs', $row->faq_id) . '" class="btn btn-primary btn-sm">
+                $moduleAccess = session('moduleAccess', []);
+                $user = session('user');
+            
+                // Edit button (always visible)
+                $editButton = '
+                    <a href="' . route('admin.packagefaqs.editpackagefaqs', $row->faq_id) . '" class="btn btn-primary btn-sm" title="Edit">
                         <i class="fa fa-pencil"></i>
-                    </a>
-                    <form action="' . route('admin.packagefaqs.deletepackagefaqs', $row->faq_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this faq?\')">
-                        ' . csrf_field() . '
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            <i class="fa-regular fa-trash-can"></i>
-                        </button>
-                    </form>';
+                    </a>';
+            
+                // Define the module ID required for delete access (adjust as needed)
+                $requiredModuleId = 16;
+            
+                // Check if the user has delete permission
+                $canDelete = $user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1);
+            
+                // Delete button (visible only if allowed)
+                $deleteButton = '';
+                if ($canDelete) {
+                    $deleteButton = '
+                        <form action="' . route('admin.packagefaqs.deletepackagefaqs', $row->faq_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this FAQ?\')">
+                            ' . csrf_field() . '
+                            <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </form>';
+                }
+            
+                return $editButton . $deleteButton;
             })
             ->rawColumns(['status', 'action']) // Allow HTML rendering
             ->make(true);

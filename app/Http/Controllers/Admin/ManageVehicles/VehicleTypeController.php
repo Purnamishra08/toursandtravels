@@ -34,14 +34,17 @@ class VehicleTypeController extends Controller
                 ->addColumn('action', function ($row) {
                     $editUrl = route('admin.manageVehicletype.editVehicleType', ['id' => $row->vehicleid]);
                     $deleteUrl = route('admin.manageVehicletype.deleteVehicleType', ['id' => $row->vehicleid]);
-
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                    $requiredModuleId = 5;
+                    
                     $buttons = '
                         <div class="d-flex gap-1">
                             <a href="'.$editUrl.'" class="btn btn-success btn-sm" title="Edit">
                                 <i class="fa fa-pencil"></i>
                             </a>';
                     
-                    if (session('user')->admin_type == 1) {
+                    if ($user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1)) {
                         $buttons .= '
                             <form action="'.$deleteUrl.'" method="POST" 
                                 onsubmit="return confirm(\'Are you sure you want to delete this vehicle?\')">
