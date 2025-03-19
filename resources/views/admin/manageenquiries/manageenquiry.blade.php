@@ -1,7 +1,6 @@
 <!-- Metaheader Section-->
 @include('Admin.include.metaheader')
 <!-- Metaheader Section End -->
-
 <body>
     <div id="layoutSidenav">
         <!-- Left Navbar Start-->
@@ -63,13 +62,13 @@
                                         </div>
                                         <div class="col-sm-4 form-group mb-sm-0">
                                             <label class="control-label">From Date</label>
-                                            <input type="text" class="form-control" id="from_date" name="from_date" 
-                                                value="{{ request('from_date') }}">
+                                            <input type="text" data-date-format="dd-mm-yyyy" class="form-control date-picker" id="from_date" name="from_date" 
+                                                value="{{ request('from_date') }}" autocomplete="off" readonly>
                                         </div>
                                         <div class="col-sm-4 form-group mb-sm-0">
                                             <label class="control-label">To Date</label>
-                                            <input type="text" class="form-control" id="to_date" name="to_date" 
-                                                value="{{ request('to_date') }}">
+                                            <input type="text" data-date-format="dd-mm-yyyy" class="form-control date-picker" id="to_date" name="to_date" 
+                                                value="{{ request('to_date') }}" autocomplete="off" readonly>
                                         </div>
                                         <!-- Submit and Reset Buttons -->
                                         <div class="col-sm-4 form-group mb-sm-0 align-self-end">
@@ -93,72 +92,21 @@
                                         <div class="panel panel-bd lobidrag">
                                             <div class="panel-body">
                                                 <div class="table-responsive">
-                                                    <table id="example"
-                                                        class="table table-bordered table-striped table-hover">
+                                                    <table id="enquiryTable" class="table table-bordered table-striped table-hover">
                                                         <thead>
                                                             <tr class="info">
-                                                                <th width="2%">Sl #</th>
-                                                                <th width="13%">Name</th>
-                                                                <th width="13%">Email Id</th>
-                                                                <th width="13%">Contact No</th>
-                                                                <th width="13%">Page Name</th>
-                                                                <th width="13%">Enquiry Details</th>
-                                                                <th width="13%">Enquiry Date</th>
-                                                                <th width="12%">Action</th>
+                                                                <th>Sl #</th>
+                                                                <th>Name</th>
+                                                                <th>Email Id</th>
+                                                                <th>Contact No</th>
+                                                                <th>Page Name</th>
+                                                                <th>Enquiry Details</th>
+                                                                <th>Enquiry Date</th>
+                                                                <th>Action</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            @forelse ($enquirys as $key => $enquiry)
-                                                            <tr>
-                                                                <td>{{ ($enquirys->currentPage() - 1) *
-                                                                    $enquirys->perPage() + $loop->iteration }}</td>
-                                                                <td>{{ $enquiry->cont_name }}</td>
-                                                                <td>{{ $enquiry->cont_email }}</td>
-                                                                <td>{{ $enquiry->cont_phone }}</td>
-                                                                <td>{{ $enquiry->page_name }}</td>
-                                                                <td>{{ $enquiry->cont_enquiry_details }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($enquiry->cont_date)->format('jS M Y') }}</td>
-                                                                <td>
-                                                                    <div class="d-flex gap-1">
-                                                                    <a href="{{ route('admin.manageenquiry.viewEnquiry', ['id' => $enquiry->enq_id]) }}"
-                                                                        class="btn btn-primary btn-sm" title="View">
-                                                                        <i class="fa fa-eye"></i>
-                                                                    </a>
-                                                                    @if(session('user')->admin_type == 1)
-                                                                    <form
-                                                                        action="{{ route('admin.manageenquiry.deleteEnquiry', ['id' => $enquiry->enq_id]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to delete this enquiry?')">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-danger btn-sm"
-                                                                            title="Delete">
-                                                                            <i class="fa-regular fa-trash-can"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                    @endif
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            @empty
-                                                            <tr>
-                                                                <td class="text-center" colspan="9">No data available
-                                                                </td>
-                                                            </tr>
-                                                            @endforelse
-                                                        </tbody>
+                                                        <tbody></tbody>
                                                     </table>
-                                                    {{-- Pagination Links --}}
-                                                    <div
-                                                        class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">
-                                                            Showing {{ $enquirys->firstItem() }} to {{
-                                                            $enquirys->lastItem() }} of {{ $enquirys->total() }}
-                                                            entries
-                                                        </p>
-                                                        {{ $enquirys->links('pagination::bootstrap-4') }}
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -184,6 +132,56 @@
     <!-- FooterJs Start-->
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
+     <script>
+    $(document).ready(function () {
+        // Initialize Datepicker
+        // $('.datepicker').datepicker({
+        //     format: 'yyyy-mm-dd',
+        //     autoclose: true,
+        //     todayHighlight: true
+        // });
+
+        let table = $('#enquiryTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('admin.manageenquiry') }}",
+                data: function (d) {
+                    d.cont_name = $('#cont_name').val();
+                    d.cont_email = $('#cont_email').val();
+                    d.cont_phone = $('#cont_phone').val();
+                    d.from_date = $('#from_date').val();
+                    d.to_date = $('#to_date').val();
+                }
+            },
+            columns: [
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                { data: 'cont_name', name: 'cont_name' },
+                { data: 'cont_email', name: 'cont_email' },
+                { data: 'cont_phone', name: 'cont_phone' },
+                { data: 'page_name', name: 'page_name' },
+                { data: 'cont_enquiry_details', name: 'cont_enquiry_details' },
+                { data: 'cont_date', name: 'cont_date' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ],
+            order: [[6, 'desc']],
+            pageLength: 10,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+
+        // Filter Button
+        $('#filterBtn').click(function () {
+            table.ajax.reload();
+        });
+
+        // Reset Button
+        $('#resetBtn').click(function () {
+            $('#filterForm')[0].reset();
+            table.ajax.reload();
+        });
+    });
+</script>
+
 </body>
 
 </html>

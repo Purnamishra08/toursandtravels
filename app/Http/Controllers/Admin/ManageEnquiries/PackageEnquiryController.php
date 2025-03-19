@@ -7,64 +7,100 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 use Exception;
 
 class PackageEnquiryController extends Controller
 {
     public function index(Request $request)
     {
-        // Retrieve filter inputs (supports GET or POST) with default empty string
-        $package_name   = $request->input('package_name', '');
-        $traveller_name   = $request->input('traveller_name', '');
-        $cont_email = $request->input('cont_email', '');
-        $cont_phone   = $request->input('cont_phone', '');
-        $from_date       = $request->input('from_date', '');
-        $to_date       = $request->input('to_date', '');
+        if ($request->ajax()) {
+            $query = DB::table('tbl_package_inquiry as a')
+                ->join('tbl_tourpackages as b', 'a.packageid', '=', 'b.tourpackageid')
+                ->where('a.bit_Deleted_Flag', 0)
+                ->select(
+                    'a.enq_id',
+                    'a.first_name',
+                    'a.last_name',
+                    DB::raw("CONCAT(a.first_name, ' ', a.last_name) as traveller_name"), // Combine as a single column
+                    'a.emailid',
+                    'a.phone',
+                    'a.message',
+                    'a.noof_adult',
+                    'a.noof_child',
+                    'a.tour_date',
+                    'a.accomodation',
+                    'a.packageid',
+                    'a.inquiry_date',
+                    'b.tpackage_name'
+                );
 
+            // Apply filters
+            if (!empty($request->package_name)) {
+                $query->where('b.tpackage_name', 'like', '%' . $request->package_name . '%');
+            }
 
-        // Build the base query for hotels with required joins
-        $query = DB::table('tbl_package_inquiry as a')
-            ->where('a.bit_Deleted_Flag', 0)
-            ->select(
-                'a.enq_id',
-                'a.first_name',
-                'a.last_name',
-                'a.emailid',
-                'a.phone',
-                'a.message',
-                'a.noof_adult',
-                'a.noof_child',
-                'a.tour_date',
-                'a.accomodation',
-                'a.packageid',
-                'a.inquiry_date'
-            );
+            if (!empty($traveller_name)) {
+                $query->where(function ($q) use ($traveller_name) {
+                    $q->where('a.first_name', 'like', '%' . $traveller_name . '%')
+                    ->orWhere('a.last_name', 'like', '%' . $traveller_name . '%');
+                });
+            }
+            if (!empty($request->cont_email)) {
+                $query->where('a.emailid', 'like', '%' . $request->cont_email . '%');
+            }
+            if (!empty($request->cont_phone)) {
+                $query->where('a.phone', 'like', '%' . $request->cont_phone . '%');
+            }
 
-        // Apply filters if provided
-        if (!empty($package_name)) {
-            $query->where('a.packageid', 'like', '%' . $package_name . '%');
-        }
-        if (!empty($traveller_name)) {
-            $query->where('a.first_name', 'like', '%' . $traveller_name . '%')->orWhere('a.last_name', 'like', '%' . $traveller_name . '%');
-        }
-        if (!empty($cont_email)) {
-            $query->where('a.emailid', 'like', '%' . $cont_email . '%');
-        }
-        if (!empty($cont_phone)) {
-            $query->where('a.phone', 'like', '%' . $cont_phone . '%');
-        }
-        if (!empty($from_date)) {
-            $query->where('a.tour_date', $from_date);
+            // Handle date range filter
+            if (!empty($request->from_date) && !empty($request->to_date)) {
+                $query->whereBetween('a.tour_date', [\Carbon\Carbon::parse($request->from_date)->format('Y-m-j'), \Carbon\Carbon::parse($request->to_date)->format('Y-m-j')]);
+            } elseif (!empty($request->from_date)) {
+                $query->whereDate('a.tour_date', '>=', \Carbon\Carbon::parse($request->from_date)->format('Y-m-j'));
+            } elseif (!empty($request->to_date)) {
+                $query->whereDate('a.tour_date', '<=', \Carbon\Carbon::parse($request->to_date)->format('Y-m-j'));
+            }
+
+            return datatables()->of($query)
+                ->addIndexColumn()
+                ->addColumn('traveller_name', function ($row) {
+                    return $row->first_name . ' ' . $row->last_name;
+                })
+                ->filterColumn('traveller_name', function ($query, $keyword) {
+                    $query->whereRaw("CONCAT(a.first_name, ' ', a.last_name) LIKE ?", ["%{$keyword}%"]);
+                })
+                ->orderColumn('traveller_name', function ($query, $direction) {
+                    $query->orderByRaw("CONCAT(a.first_name, ' ', a.last_name) {$direction}");
+                })
+                ->addColumn('action', function ($row) {
+                    $viewBtn = '<a href="' . route('admin.managepackageenquiry.viewPackageEnquiry', ['id' => $row->enq_id]) . '" class="btn btn-primary btn-sm" title="View">
+                                    <i class="fa fa-eye"></i>
+                                </a>';
+                    $deleteBtn = '';
+                    if (session('user')->admin_type == 1) {
+                        $deleteBtn = '<form action="' . route('admin.managepackageenquiry.deletePackageEnquiry', ['id' => $row->enq_id]) . '" method="POST" onsubmit="return confirm(\'Are you sure?\')">
+                                        ' . csrf_field() . '
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                            <i class="fa-regular fa-trash-can"></i>
+                                        </button>
+                                    </form>';
+                    }
+                    return '<div class="d-flex gap-1">' . $viewBtn . $deleteBtn . '</div>';
+                })
+                ->editColumn('tour_date', function ($row) {
+                    return \Carbon\Carbon::parse($row->tour_date)->format('jS M Y');
+                })
+                ->editColumn('inquiry_date', function ($row) {
+                    return \Carbon\Carbon::parse($row->inquiry_date)->format('jS M Y');
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
 
-        // Paginate the results
-        $enquiry = $query->paginate(10);
-
-        // Return the view with the Package Enquiry data and dropdowns
-        return view('admin.manageenquiries.managePackageEnquiry', [
-            'packageEnquirys'       => $enquiry
-        ]);
+        return view('admin.manageenquiries.managePackageEnquiry');
     }
+
 
     public function viewPackageEnquiry(Request $request, $id)
     {
@@ -72,6 +108,7 @@ class PackageEnquiryController extends Controller
             // Fetch enquiry data
             $enquiry = DB::table('tbl_package_inquiry as a')
                 ->join('tbl_hotel_type as b', 'a.accomodation', '=', 'b.hotel_type_id')
+                ->join('tbl_tourpackages as c', 'a.packageid', '=', 'c.tourpackageid')
                 ->where('a.bit_Deleted_Flag', 0)
                 ->where('a.enq_id', $id)
                 ->select(
@@ -87,7 +124,8 @@ class PackageEnquiryController extends Controller
                 'a.accomodation',
                 'a.packageid',
                 'a.inquiry_date',
-                'b.hotel_type_name'
+                'b.hotel_type_name',
+                'c.tpackage_name'
                 )
                 ->first();
 

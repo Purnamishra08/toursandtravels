@@ -48,7 +48,7 @@ use Carbon\Carbon;
                                                     <div class="col-md-6">
                                                         <div class="gap row">
                                                             <div class="col-md-4"> <label>Package Name</label></div>
-                                                            <div class="col-md-8">{{$enquirys->packageid}}</div>
+                                                            <div class="col-md-8">{{$enquirys->tpackage_name}}</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">

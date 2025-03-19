@@ -9,6 +9,7 @@
 
 <!-- jQuery (Required for DataTables) -->
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
 
 <!-- DataTables JS -->
 <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>

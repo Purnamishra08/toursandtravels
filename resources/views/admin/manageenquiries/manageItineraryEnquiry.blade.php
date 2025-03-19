@@ -52,7 +52,7 @@
                                             <input type="text" class="form-control" id="package_name" name="package_name" 
                                                 value="{{ request('package_name') }}">
                                         </div>
-                                       <div class="col-sm-4 form-group mb-sm-0">
+                                        <div class="col-sm-4 form-group mb-sm-0">
                                             <label class="control-label">Email</label>
                                             <input type="text" class="form-control" id="cont_email" name="cont_email" 
                                                 value="{{ request('cont_email') }}">
@@ -63,13 +63,13 @@
                                         </div>
                                         <div class="col-sm-4 form-group mb-sm-0">
                                             <label class="control-label">From Date</label>
-                                            <input type="text" class="form-control" id="from_date" name="from_date" 
-                                                value="{{ request('from_date') }}">
+                                            <input type="text" data-date-format="dd-mm-yyyy" class="form-control date-picker" id="from_date" name="from_date" 
+                                                value="{{ request('from_date') }}" autocomplete="off" readonly>
                                         </div>
                                         <div class="col-sm-4 form-group mb-sm-0">
                                             <label class="control-label">To Date</label>
-                                            <input type="text" class="form-control" id="to_date" name="to_date" 
-                                                value="{{ request('to_date') }}">
+                                            <input type="text" data-date-format="dd-mm-yyyy" class="form-control date-picker" id="to_date" name="to_date" 
+                                                value="{{ request('to_date') }}" autocomplete="off" readonly>
                                         </div>
                                         <!-- Submit and Reset Buttons -->
                                         <div class="col-sm-4 form-group mb-sm-0 align-self-end">
@@ -93,70 +93,19 @@
                                         <div class="panel panel-bd lobidrag">
                                             <div class="panel-body">
                                                 <div class="table-responsive">
-                                                    <table id="example"
-                                                        class="table table-bordered table-striped table-hover">
+                                                    <table id="itineraryEnquiryTable" class="table table-bordered table-striped table-hover">
                                                         <thead>
-                                                            <tr class="info">
-                                                                <th width="2%">Sl #</th>
-                                                                <th width="13%">Package Name</th>
-                                                                <th width="13%">Email Id</th>
-                                                                <th width="13%">Contact No</th>
-                                                                <th width="13%">Trip Start Date</th>
-                                                                <th width="13%">Enquiry Details</th>
-                                                                <th width="12%">Action</th>
+                                                            <tr>
+                                                                <th>Sl #</th>
+                                                                <th>Package Name</th>
+                                                                <th>Email</th>
+                                                                <th>Contact No</th>
+                                                                <th>Trip Start Date</th>
+                                                                <th>Enquiry Details</th>
+                                                                <th>Action</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            @forelse ($itineraryEnquirys as $key => $itineraryEnquiry)
-                                                            <tr>
-                                                                <td>{{ ($itineraryEnquirys->currentPage() - 1) *
-                                                                    $itineraryEnquirys->perPage() + $loop->iteration }}</td>
-                                                                <td>{{ $itineraryEnquiry->package_id }}</td>
-                                                                <td>{{ $itineraryEnquiry->email }}</td>
-                                                                <td>{{ $itineraryEnquiry->phone }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($itineraryEnquiry->tsdate)->format('jS M Y') }}</td>
-                                                                <td>{{ $itineraryEnquiry->tnote }}</td>
-                                                                <td>
-                                                                    <div class="d-flex gap-1">
-                                                                    <a href="{{ route('admin.manageitineraryenquiry.viewItineraryEnquiry', ['id' => $itineraryEnquiry->tripcust_id]) }}"
-                                                                        class="btn btn-primary btn-sm" title="View">
-                                                                        <i class="fa fa-eye"></i>
-                                                                    </a>
-                                                                    @if(session('user')->admin_type == 1)
-                                                                    <form
-                                                                        action="{{ route('admin.manageitineraryenquiry.deleteItineraryEnquiry', ['id' => $itineraryEnquiry->tripcust_id]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to delete this Itinerary Enquiry?')">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-danger btn-sm"
-                                                                            title="Delete">
-                                                                            <i class="fa-regular fa-trash-can"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                    @endif
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            @empty
-                                                            <tr>
-                                                                <td class="text-center" colspan="9">No data available
-                                                                </td>
-                                                            </tr>
-                                                            @endforelse
-                                                        </tbody>
                                                     </table>
-                                                    {{-- Pagination Links --}}
-                                                    <div
-                                                        class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">
-                                                            Showing {{ $itineraryEnquirys->firstItem() }} to {{
-                                                            $itineraryEnquirys->lastItem() }} of {{ $itineraryEnquirys->total() }}
-                                                            entries
-                                                        </p>
-                                                        {{ $itineraryEnquirys->links('pagination::bootstrap-4') }}
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -183,5 +132,52 @@
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
 </body>
+
+<script>
+    $(document).ready(function () {
+        // Load DataTable
+        loadDataTable();
+
+        function loadDataTable() {
+            $('#itineraryEnquiryTable').DataTable({
+                processing: true,
+                serverSide: true,
+                destroy: true, // destroy previous instance
+                ajax: {
+                    url: "{{ route('admin.manageitineraryenquiry') }}",
+                    type: "POST",
+                    data: function (d) {
+                        d._token = $('input[name="_token"]').val();
+                        d.package_name = $('#package_name').val();
+                        d.cont_email = $('#cont_email').val();
+                        d.cont_phone = $('#cont_phone').val();
+                        d.from_date = $('#from_date').val();
+                        d.to_date = $('#to_date').val();
+                    }
+                },
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'tpackage_name', name: 'b.tpackage_name' },
+                    { data: 'email', name: 'a.email' },
+                    { data: 'phone', name: 'a.phone' },
+                    { data: 'tsdate', name: 'a.tsdate' },
+                    { data: 'tnote', name: 'a.tnote' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false }
+                ]
+            });
+        }
+
+        // Filter Button Click
+        $('#filterBtn').on('click', function () {
+            $('#itineraryEnquiryTable').DataTable().ajax.reload();
+        });
+
+        // Reset Button
+        $('#resetBtn').on('click', function () {
+            $('#filterForm')[0].reset();
+            $('#itineraryEnquiryTable').DataTable().ajax.reload();
+        });
+    });
+</script>
 
 </html>

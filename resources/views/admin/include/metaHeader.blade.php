@@ -19,6 +19,7 @@
         <link href="{{asset('assets/css/all.min.css')}}" rel="stylesheet" />
         <link href="{{asset('assets/css/chosen.css')}}" rel="stylesheet" />
         <link href="{{asset('assets/css/bootstrap-icons.css')}}" rel="stylesheet" />
+        <link href="{{asset('assets/css/jquery-ui.css')}}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="{{asset('assets/js/all.min.js')}}"></script>

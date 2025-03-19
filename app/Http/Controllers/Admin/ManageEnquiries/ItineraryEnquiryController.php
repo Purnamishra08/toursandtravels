@@ -7,53 +7,73 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 use Exception;
 
 class ItineraryEnquiryController extends Controller
 {
     public function index(Request $request)
     {
-        // Retrieve filter inputs (supports GET or POST) with default empty string
-        $package_name   = $request->input('package_name', '');
-        $email = $request->input('cont_email', '');
-        $phone   = $request->input('cont_phone', '');
-        $from_date       = $request->input('from_date', '');
-        $to_date       = $request->input('to_date', '');
+        if ($request->ajax()) {
+            $query = DB::table('tbl_tripcustomize as a')
+                ->join('tbl_tourpackages as b', 'a.package_id', '=', 'b.tourpackageid')
+                ->where('a.bit_Deleted_Flag', 0)
+                ->select(
+                    'a.tripcust_id',
+                    'a.email', 
+                    'a.phone', 
+                    'a.tsdate', 
+                    'a.duration', 
+                    'a.tnote',
+                    'a.package_id',
+                    'b.tpackage_name'
+                );
 
-        // Build the base query for hotels with required joins
-        $query = DB::table('tbl_tripcustomize as a')
-            ->where('a.bit_Deleted_Flag', 0)
-            ->select(
-                'a.tripcust_id',
-                'a.email', 
-                'a.phone', 
-                'a.tsdate', 
-                'a.duration', 
-                'a.tnote',
-                'a.package_id'
-            );
+            // Apply filters if provided
+            if (!empty($request->package_name)) {
+                $query->where('b.tpackage_name', 'like', '%' . $request->package_name . '%');
+            }
+            if (!empty($request->cont_email)) {
+                $query->where('a.email', 'like', '%' . $request->cont_email . '%');
+            }
+            if (!empty($request->cont_phone)) {
+                $query->where('a.phone', 'like', '%' . $request->cont_phone . '%');
+            }
 
-        // Apply filters if provided
-        if (!empty($package_name)) {
-            $query->where('a.package_id', 'like', '%' . $package_name . '%');
-        }
-        if (!empty($email)) {
-            $query->where('a.email', 'like', '%' . $email . '%');
-        }
-        if (!empty($phone)) {
-            $query->where('a.phone', 'like', '%' . $phone . '%');
-        }
-        if (!empty($from_date)) {
-            $query->where('a.tsdate', $from_date);
+            // Handle date range filter
+            if (!empty($request->from_date) && !empty($request->to_date)) {
+                $query->whereBetween('a.tsdate', [\Carbon\Carbon::parse($request->from_date)->format('Y-m-j'), \Carbon\Carbon::parse($request->to_date)->format('Y-m-j')]);
+            } elseif (!empty($request->from_date)) {
+                $query->whereDate('a.tsdate', '>=', \Carbon\Carbon::parse($request->from_date)->format('Y-m-j'));
+            } elseif (!empty($request->to_date)) {
+                $query->whereDate('a.tsdate', '<=', \Carbon\Carbon::parse($request->to_date)->format('Y-m-j'));
+            }
+
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->editColumn('tsdate', function ($row) {
+                    return \Carbon\Carbon::parse($row->tsdate)->format('jS M Y');
+                })
+                ->addColumn('action', function ($row) {
+                    $viewUrl = route('admin.manageitineraryenquiry.viewItineraryEnquiry', ['id' => $row->tripcust_id]);
+                    $deleteUrl = route('admin.manageitineraryenquiry.deleteItineraryEnquiry', ['id' => $row->tripcust_id]);
+
+                    $buttons = '<a href="' . $viewUrl . '" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>';
+                    if (session('user')->admin_type == 1) {
+                        $buttons .= '<form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this Itinerary Enquiry?\')" style="display:inline-block;">
+                                        ' . csrf_field() . '
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>';
+                    }
+                    return $buttons;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
 
-        // Paginate the results
-        $itineraryEnquirys = $query->paginate(10);
-
-        // Return the view with the Itinerary Enquiry data and dropdowns
-        return view('admin.manageenquiries.manageItineraryEnquiry', [
-            'itineraryEnquirys'       => $itineraryEnquirys
-        ]);
+        return view('admin.manageenquiries.manageItineraryEnquiry');
     }
 
     public function viewItineraryEnquiry(Request $request, $id)
@@ -63,6 +83,7 @@ class ItineraryEnquiryController extends Controller
             // Fetch enquiry data
             $itineraryEnquirys = DB::table('tbl_tripcustomize as a')
                 ->join('tbl_package_duration as b', 'a.duration', '=', 'b.durationid')
+                ->join('tbl_tourpackages as c', 'a.package_id', '=', 'c.tourpackageid')
                 ->where('a.bit_Deleted_Flag', 0)
                 ->where('a.tripcust_id', $id)
                 ->select(
@@ -73,7 +94,8 @@ class ItineraryEnquiryController extends Controller
                     'a.duration', 
                     'a.tnote',
                     'a.package_id',
-                    'b.duration_name'
+                    'b.duration_name',
+                    'c.tpackage_name'
                 )
                 ->first();
 

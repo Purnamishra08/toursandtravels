@@ -66,15 +66,15 @@
                                             <input type="text" class="form-control" id="cont_phone" name="cont_phone" 
                                                 value="{{ request('cont_phone') }}">
                                         </div>
-                                        <div class="col-sm-3 form-group mb-sm-0">
+                                        <div class="col-sm-4 form-group mb-sm-0">
                                             <label class="control-label">From Date</label>
-                                            <input type="text" class="form-control" id="from_date" name="from_date" 
-                                                value="{{ request('from_date') }}">
+                                            <input type="text" data-date-format="dd-mm-yyyy" class="form-control date-picker" id="from_date" name="from_date" 
+                                                value="{{ request('from_date') }}" autocomplete="off" readonly>
                                         </div>
-                                        <div class="col-sm-3 form-group mb-sm-0">
+                                        <div class="col-sm-4 form-group mb-sm-0">
                                             <label class="control-label">To Date</label>
-                                            <input type="text" class="form-control" id="to_date" name="to_date" 
-                                                value="{{ request('to_date') }}">
+                                            <input type="text" data-date-format="dd-mm-yyyy" class="form-control date-picker" id="to_date" name="to_date" 
+                                                value="{{ request('to_date') }}" autocomplete="off" readonly>
                                         </div>
                                         <!-- Submit and Reset Buttons -->
                                         <div class="col-sm-3 form-group mb-sm-0 align-self-end">
@@ -98,72 +98,20 @@
                                         <div class="panel panel-bd lobidrag">
                                             <div class="panel-body">
                                                 <div class="table-responsive">
-                                                    <table id="example"
-                                                        class="table table-bordered table-striped table-hover">
+                                                    <table id="packageEnquiryTable" class="table table-bordered table-striped table-hover">
                                                         <thead>
                                                             <tr class="info">
-                                                                <th width="2%">Sl #</th>
-                                                                <th width="13%">Package Name</th>
-                                                                <th width="13%">Traveller Name</th>
-                                                                <th width="13%">Email Id</th>
-                                                                <th width="13%">Contact No</th>
-                                                                <th width="13%">Travel Date</th>
-                                                                <th width="13%">Enquiry Date</th>
-                                                                <th width="12%">Action</th>
+                                                                <th width="5%">Sl #</th>
+                                                                <th width="15%">Package Name</th>
+                                                                <th width="15%">Traveller Name</th>
+                                                                <th width="15%">Email Id</th>
+                                                                <th width="15%">Contact No</th>
+                                                                <th width="15%">Travel Date</th>
+                                                                <th width="15%">Enquiry Date</th>
+                                                                <th width="10%">Action</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            @forelse ($packageEnquirys as $key => $packageEnquiry)
-                                                            <tr>
-                                                                <td>{{ ($packageEnquirys->currentPage() - 1) *
-                                                                    $packageEnquirys->perPage() + $loop->iteration }}</td>
-                                                                <td>{{ $packageEnquiry->packageid }}</td>
-                                                                <td>{{ $packageEnquiry->first_name }} {{ $packageEnquiry->last_name }}</td>
-                                                                <td>{{ $packageEnquiry->emailid }}</td>
-                                                                <td>{{ $packageEnquiry->phone }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($packageEnquiry->tour_date)->format('jS M Y') }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($packageEnquiry->inquiry_date)->format('jS M Y') }}</td>
-                                                                <td>
-                                                                    <div class="d-flex gap-1">
-                                                                    <a href="{{ route('admin.managepackageenquiry.viewPackageEnquiry', ['id' => $packageEnquiry->enq_id]) }}"
-                                                                        class="btn btn-primary btn-sm" title="View">
-                                                                        <i class="fa fa-eye"></i>
-                                                                    </a>
-                                                                    @if(session('user')->admin_type == 1)
-                                                                    <form
-                                                                        action="{{ route('admin.managepackageenquiry.deletePackageEnquiry', ['id' => $packageEnquiry->enq_id]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to delete this Package Enquiry?')">
-                                                                        @csrf
-                                                                        <button type="submit"
-                                                                            class="btn btn-danger btn-sm"
-                                                                            title="Delete">
-                                                                            <i class="fa-regular fa-trash-can"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                    @endif
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            @empty
-                                                            <tr>
-                                                                <td class="text-center" colspan="9">No data available
-                                                                </td>
-                                                            </tr>
-                                                            @endforelse
-                                                        </tbody>
                                                     </table>
-                                                    {{-- Pagination Links --}}
-                                                    <div
-                                                        class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">
-                                                            Showing {{ $packageEnquirys->firstItem() }} to {{
-                                                            $packageEnquirys->lastItem() }} of {{ $packageEnquirys->total() }}
-                                                            entries
-                                                        </p>
-                                                        {{ $packageEnquirys->links('pagination::bootstrap-4') }}
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -190,7 +138,62 @@
     @include('Admin.include.footerJs')
     <!-- FooterJs End-->
     
-    <script>
+<script>
+    $(document).ready(function () {
+    loadTable();
+
+    // Load DataTable with filters
+    function loadTable() {
+        $('#packageEnquiryTable').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            ajax: {
+                url: "{{ route('admin.managepackageenquiry') }}",
+                type: 'GET',
+                data: function (d) {
+                    d.package_name = $('#package_name').val();
+                    d.traveller_name = $('#traveller_name').val();
+                    d.cont_email = $('#cont_email').val();
+                    d.cont_phone = $('#cont_phone').val();
+                    d.from_date = $('#from_date').val();
+                    d.to_date = $('#to_date').val();
+                }
+            },
+            columns: [
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                { data: 'tpackage_name', name: 'b.tpackage_name' },
+                {
+                    data: 'traveller_name',
+                    name: 'traveller_name', // Now this will work correctly for sorting/searching
+                    render: function (data) {
+                        return data; // Directly use the concatenated column
+                    }
+                },
+                { data: 'emailid', name: 'a.emailid' },
+                { data: 'phone', name: 'a.phone' },
+                { data: 'tour_date', name: 'a.tour_date' },
+                { data: 'inquiry_date', name: 'a.inquiry_date' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
+        });
+    }
+
+    // Handle filter submission
+    $('#filterForm').on('submit', function (e) {
+        e.preventDefault();
+        $('#packageEnquiryTable').DataTable().destroy();
+        loadTable();
+    });
+
+    // Reset filter
+    $('#resetBtn').click(function () {
+        $('#filterForm')[0].reset();
+        $('#packageEnquiryTable').DataTable().destroy();
+        loadTable();
+    });
+});
+
 </script>
 </body>
 

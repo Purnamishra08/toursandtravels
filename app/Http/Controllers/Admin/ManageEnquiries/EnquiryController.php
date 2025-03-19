@@ -7,55 +7,74 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 use Exception;
 
 class EnquiryController extends Controller
 {
     public function index(Request $request)
     {
-        // Retrieve filter inputs (supports GET or POST) with default empty string
-        $cont_name   = $request->input('cont_name', '');
-        $cont_email = $request->input('cont_email', '');
-        $cont_phone   = $request->input('cont_phone', '');
-        $from_date       = $request->input('from_date', '');
-        $to_date       = $request->input('to_date', '');
+        if ($request->ajax()) {
+            $query = DB::table('tbl_contact as a')
+                ->where('a.bit_Deleted_Flag', 0)
+                ->select(
+                    'a.enq_id', 
+                    'a.cont_name', 
+                    'a.cont_email', 
+                    'a.cont_phone', 
+                    'a.cont_enquiry_details', 
+                    'a.page_name', 
+                    'a.cont_date'
+                );
 
+            if (!empty($request->cont_name)) {
+                $query->where('a.cont_name', 'like', '%' . $request->cont_name . '%');
+            }
+            if (!empty($request->cont_email)) {
+                $query->where('a.cont_email', 'like', '%' . $request->cont_email . '%');
+            }
+            if (!empty($request->cont_phone)) {
+                $query->where('a.cont_phone', 'like', '%' . $request->cont_phone . '%');
+            }
 
-        // Build the base query for hotels with required joins
-        $query = DB::table('tbl_contact as a')
-            ->where('a.bit_Deleted_Flag', 0)
-            ->select(
-                'a.enq_id', 
-                'a.cont_name', 
-                'a.cont_email', 
-                'a.cont_phone', 
-                'a.cont_enquiry_details', 
-                'a.page_name', 
-                'a.cont_date'
-            );
+            // Handle date range filter
+            if (!empty($request->from_date) && !empty($request->to_date)) {
+                $query->whereBetween('a.cont_date', [\Carbon\Carbon::parse($request->from_date)->format('Y-m-j'), \Carbon\Carbon::parse($request->to_date)->format('Y-m-j')]);
+            } elseif (!empty($request->from_date)) {
+                $query->whereDate('a.cont_date', '>=', \Carbon\Carbon::parse($request->from_date)->format('Y-m-j'));
+            } elseif (!empty($request->to_date)) {
+                $query->whereDate('a.cont_date', '<=', \Carbon\Carbon::parse($request->to_date)->format('Y-m-j'));
+            }
 
-        // Apply filters if provided
-        if (!empty($cont_name)) {
-            $query->where('a.cont_name', 'like', '%' . $cont_name . '%');
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->editColumn('cont_date', function ($row) {
+                    // Format date to 'jS M Y'
+                    return \Carbon\Carbon::parse($row->cont_date)->format('jS M Y');
+                })
+                ->addColumn('action', function ($row) {
+                    $viewUrl = route('admin.manageenquiry.viewEnquiry', $row->enq_id);
+                    $deleteUrl = route('admin.manageenquiry.deleteEnquiry', $row->enq_id);
+
+                    $buttons = '<a href="' . $viewUrl . '" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>';
+                    if (session('user')->admin_type == 1) {
+                        $buttons .= '<form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Are you sure?\')" style="display:inline-block;">
+                                        ' . csrf_field() . '
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>';
+                    }
+                    return $buttons;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
         }
-        if (!empty($cont_email)) {
-            $query->where('a.cont_email', 'like', '%' . $cont_email . '%');
-        }
-        if (!empty($cont_phone)) {
-            $query->where('a.cont_phone', 'like', '%' . $cont_phone . '%');
-        }
-        if (!empty($from_date)) {
-            $query->where('a.cont_date', $from_date);
-        }
 
-        // Paginate the results
-        $enquiry = $query->paginate(10);
-
-        // Return the view with the Enquiry data and dropdowns
-        return view('admin.manageenquiries.manageEnquiry', [
-            'enquirys'       => $enquiry
-        ]);
+        return view('admin.manageenquiries.manageEnquiry');
     }
+
+
 
     public function viewEnquiry(Request $request, $id)
     {
