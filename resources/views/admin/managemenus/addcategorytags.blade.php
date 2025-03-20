@@ -100,7 +100,7 @@
                                                                     src="{{ isset($Categorytags->menutag_img) ? asset('storage/category_tags_images/'.$Categorytags->menutag_img) : '' }}" 
                                                                     alt="Banner Preview" 
                                                                     class="img-fluid rounded border" 
-                                                                    style="max-width: 300px; display: {{ isset($Categorytags->menutag_img) ? 'block' : 'none' }};">
+                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($Categorytags->menutag_img) ? 'block' : 'none' }};">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -115,7 +115,7 @@
                                                                     src="{{ isset($Categorytags->menutagthumb_img) ? asset('storage/category_tags_images/'.$Categorytags->menutagthumb_img) : '' }}" 
                                                                     alt="Banner Preview" 
                                                                     class="img-fluid rounded border" 
-                                                                    style="max-width: 300px; display: {{ isset($Categorytags->menutagthumb_img) ? 'block' : 'none' }};">
+                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($Categorytags->menutagthumb_img) ? 'block' : 'none' }};">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -260,7 +260,7 @@
             var reader = new FileReader();
             reader.onload = function () {
                 var output = document.getElementById(previewId);
-                output.innerHTML = '<img src="' + reader.result + '" alt="Preview" style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px; margin-top: 10px;">';
+                output.innerHTML = '<img src="' + reader.result + '" alt="Preview" style="width: 400px; height: 200px; object-fit: cover; border: 1px solid #ddd; padding: 5px; margin-top: 10px;">';
             };
             reader.readAsDataURL(event.target.files[0]);
         }

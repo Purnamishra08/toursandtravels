@@ -219,10 +219,7 @@ class DestinationController extends Controller
                     'updated_date'              => now(),
                     'place_meta_title'          => $request->input('place_meta_title'),
                     'place_meta_keywords'       => $request->input('place_meta_keywords'),
-                    'place_meta_description'    => $request->input('place_meta_description'),
-                    'package_meta_title'        => $request->input('pckg_meta_title'),
-                    'package_meta_keywords'     => $request->input('pckg_meta_keywords'),
-                    'package_meta_description'  => $request->input('pckg_meta_description')
+                    'place_meta_description'    => $request->input('place_meta_description')
                 ];
 
                 // Insert into database
@@ -403,10 +400,7 @@ class DestinationController extends Controller
                     'updated_date'              => now(),
                     'place_meta_title'          => $request->input('place_meta_title'),
                     'place_meta_keywords'       => $request->input('place_meta_keywords'),
-                    'place_meta_description'    => $request->input('place_meta_description'),
-                    'package_meta_title'        => $request->input('pckg_meta_title'),
-                    'package_meta_keywords'     => $request->input('pckg_meta_keywords'),
-                    'package_meta_description'  => $request->input('pckg_meta_description')
+                    'place_meta_description'    => $request->input('place_meta_description')
                 ];
 
                 DB::table('tbl_destination')->where('destination_id', $id)->update($data);

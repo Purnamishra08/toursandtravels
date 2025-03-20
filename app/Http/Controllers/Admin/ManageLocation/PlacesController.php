@@ -190,7 +190,6 @@ class PlacesController extends Controller
                     'placethumbimg'                 => $placeThumbImageName,
                     'alttag_banner'                 => Str::slug($request->input('alttag_banner')),
                     'alttag_thumb'                  => Str::slug($request->input('alttag_thumb')),
-                    'trip_duration'                 => $request->input('trip_duration'),
                     'travel_tips'                   => $request->input('travel_tips'),
                     'google_map'                    => $request->input('google_map'),
                     'entry_fee'			            => $request->input('entry_fee'),
@@ -223,31 +222,6 @@ class PlacesController extends Controller
                             ];
                         }
                         DB::table('tbl_multdest_type')->insert($locationTypes);
-                    }
-
-                    // Insert tags
-                    if (!empty($request->input('getatagid'))) {
-                        $tags = [];
-                        foreach ($request->input('getatagid') as $tagid) {
-                            $tags[] = [
-                                'type'    => 2,
-                                'type_id' => $inserted,
-                                'tagid'   => $tagid,
-                            ];
-                        }
-                        DB::table('tbl_tags')->insert($tags);
-                    }
-
-                    // Insert similar destinations (nearby places)
-                    if (!empty($request->input('transport'))) {
-                        $nearPlaces = [];
-                        foreach ($request->input('transport') as $transport) {
-                            $nearPlaces[] = [
-                                'place_id'		=> $inserted,
-                                'transport_id'  => $transport
-                            ];
-                        }
-                        DB::table('tbl_place_transport')->insert($nearPlaces);
                     }
 
                     DB::commit(); // Commit transaction

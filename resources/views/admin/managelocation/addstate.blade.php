@@ -92,7 +92,7 @@
                                                     src="{{ isset($state->bannerimg) ? asset('storage/banner_images/'.$state->bannerimg) : '' }}" 
                                                     alt="Banner Preview" 
                                                     class="img-fluid rounded border" 
-                                                    style="max-width: 300px; display: {{ isset($state->bannerimg) ? 'block' : 'none' }};">
+                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($state->bannerimg) ? 'block' : 'none' }};">
                                             </div>
                                         </div>
 
