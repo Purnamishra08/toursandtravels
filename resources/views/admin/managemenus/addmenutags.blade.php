@@ -53,7 +53,9 @@
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary">{{ isset($menutags) ? 'Update' : 'Save' }}</button>
-                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                            @if(!isset($menutags))
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </form>
@@ -77,7 +79,7 @@
             if(!blankCheck('menu_name','Menu tag cannot be blank'))
                 return false;
         }
-    </script>   
+    </script>
 </body>
 
 </html>

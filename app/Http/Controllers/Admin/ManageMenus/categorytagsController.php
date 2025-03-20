@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use DB;
 
 class CategoryTagsController extends Controller
@@ -150,14 +151,38 @@ class CategoryTagsController extends Controller
             DB::beginTransaction(); // Start transaction
 
             try {
+                $duplicateCount = DB::table('tbl_menutags')->Where('tag_url', $request->input('tag_url'))->count();
+
+                if ($duplicateCount > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this category tag, URL must be unique.']);
+                }
+                // Handle image file uploads and store only image names in the database
+                $bannerImageName = null;
+                if ($request->hasFile('menutag_img')) {
+                    $file = $request->file('menutag_img');
+                    $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
+                }
+
+                $getawayImageName = null;
+                if ($request->hasFile('menutagthumb_img')) {
+                    $file = $request->file('menutagthumb_img');
+                    $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
+                }
+
                 // Prepare data for insertion
                 $data = [
                     'tag_name'              => $request->tag_name,
                     'tag_url'               => $request->tag_url,
                     'menuid'                => $request->menuid,
                     'cat_id'                => $request->catId,
-                    'alttag_banner'         => $request->alttag_banner ?? '',
-                    'alttag_thumb'          => $request->alttag_thumb ?? '',
+                    'menutag_img'           => $bannerImageName,
+                    'menutagthumb_img'      => $getawayImageName,
+                    'alttag_banner'         => Str::slug($request->input('alttag_banner')),
+                    'alttag_thumb'          => Str::slug($request->input('alttag_thumb')),
                     'show_on_home'          => $request->show_on_home ?? 0,
                     'show_on_footer'        => $request->show_on_footer ?? 0,
                     'about_tag'             => $request->about_tag,
@@ -170,23 +195,6 @@ class CategoryTagsController extends Controller
                     'updated_date'          => now(),
                     'updated_by'            => isset(session('user')->adminid) ? session('user')->adminid : 0
                 ];
-
-                // Handle image file uploads and store only image names in the database
-                $bannerImageName = null;
-                if ($request->hasFile('menutag_img')) {
-                    $file = $request->file('menutag_img');
-                    $bannerImageName = time() . '_' . $file->getClientOriginalName(); // Unique Name
-                    $file->storeAs('category_tags_images', $bannerImageName, 'public'); // Store in Storage
-                    $data['menutag_img'] = $bannerImageName; // Store only the name in DB
-                }
-
-                $getawayImageName = null;
-                if ($request->hasFile('menutagthumb_img')) {
-                    $file = $request->file('menutagthumb_img');
-                    $getawayImageName = time() . '_' . $file->getClientOriginalName(); // Unique Name
-                    $file->storeAs('category_tags_images', $getawayImageName, 'public'); // Store in Storage
-                    $data['menutagthumb_img'] = $getawayImageName; // Store only the name in DB
-                }
 
                 // Insert data into the database table
                 DB::table('tbl_menutags')->insert($data);
@@ -242,13 +250,47 @@ class CategoryTagsController extends Controller
 
                 DB::beginTransaction(); // Start transaction
                 try {
+                    $duplicateCount = DB::table('tbl_menutags')->Where('tag_url', $request->input('tag_url'))->where('tagid','!=', $id)->count();
+
+                    if ($duplicateCount > 0) {
+                        return redirect()->back()
+                            ->withInput()
+                            ->withErrors(['error' => 'You have already added this category tag, URL must be unique.']);
+                    }
+
+                    if ($request->hasFile('menutag_img')) {
+                        $file = $request->file('menutag_img');
+                        $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
+                        $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
+                        
+                        if ($categorytags->menutag_img) {
+                            Storage::disk('public')->delete('category_tags_images/BannerImages/' . $categorytags->menutag_img);
+                        }
+                    } else {
+                        $bannerImageName = $categorytags->placeimg;
+                    }
+    
+                    if ($request->hasFile('menutagthumb_img')) {
+                        $file = $request->file('menutagthumb_img');
+                        $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
+                        $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
+                        
+                        if ($categorytags->menutagthumb_img) {
+                            Storage::disk('public')->delete('category_tags_images/GetawaysImages/' . $categorytags->menutagthumb_img);
+                        }
+                    } else {
+                        $getawayImageName = $categorytags->menutagthumb_img;
+                    }
+
                     $data = [
                         'tag_name'              => $request->tag_name,
                         'tag_url'               => $request->tag_url,
                         'menuid'                => $request->menuid,
                         'cat_id'                => $request->catId,
-                        'alttag_banner'         => $request->alttag_banner ?? '',
-                        'alttag_thumb'          => $request->alttag_thumb ?? '',
+                        'menutag_img'           => $bannerImageName,
+                        'menutagthumb_img'      => $getawayImageName,
+                        'alttag_banner'         => Str::slug($request->input('alttag_banner')),
+                        'alttag_thumb'          => Str::slug($request->input('alttag_thumb')),
                         'show_on_home'          => $request->show_on_home ?? 0,
                         'show_on_footer'        => $request->show_on_footer ?? 0,
                         'about_tag'             => $request->about_tag,
@@ -259,32 +301,6 @@ class CategoryTagsController extends Controller
                         'updated_date'          => now(),
                         'updated_by'            => isset(session('user')->adminid) ? session('user')->adminid : 0
                     ];
-                
-                    // Handle banner image file upload
-                    if ($request->hasFile('menutag_img')) {
-                        if (!empty($categorytags->menutag_img) && file_exists(public_path('storage/category_tags_images/' . $categorytags->menutag_img))) {
-                            unlink(public_path('storage/category_tags_images/' . $categorytags->menutag_img));
-                        }
-                
-                        // Store the new image
-                        $file = $request->file('menutag_img');
-                        $bannerImageName = time() . '_' . $file->getClientOriginalName(); // Unique Name
-                        $file->storeAs('category_tags_images', $bannerImageName, 'public'); // Store in Storage
-                        $data['menutag_img'] = $bannerImageName; // Store only the name in DB
-                    }
-                
-                    // Handle getaway image file upload
-                    if ($request->hasFile('menutagthumb_img')) {
-                        if (!empty($categorytags->menutagthumb_img) && file_exists(public_path('storage/category_tags_images/' . $categorytags->menutagthumb_img))) {
-                            unlink(public_path('storage/category_tags_images/' . $categorytags->menutagthumb_img));
-                        }
-                
-                        // Store the new image
-                        $file = $request->file('menutagthumb_img');
-                        $getawayImageName = time() . '_' . $file->getClientOriginalName(); // Unique Name
-                        $file->storeAs('category_tags_images', $getawayImageName, 'public'); // Store in Storage
-                        $data['menutagthumb_img'] = $getawayImageName; // Store only the name in DB
-                    }
                 
                     // Update the data in the database (assuming you're updating an existing record)
                     DB::table('tbl_menutags')

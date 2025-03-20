@@ -91,7 +91,9 @@
                                                 <div class="col-md-6 mb-3">
                                                     <div class="reset-button">
                                                         <button type="submit" class="btn btn-primary" name="btnSubmit" id="btnSubmit">{{ isset($packagefaq) ? 'Update' : 'Save' }}</button>
-                                                        <button name='reset' type="reset" value='Reset' class="btn btn-secondary">Reset</button>
+                                                        @if(!isset($packagefaq))
+                                                            <button name='reset' type="reset" value='Reset' class="btn btn-secondary">Reset</button>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </form>

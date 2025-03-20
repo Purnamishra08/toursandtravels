@@ -161,11 +161,18 @@ class PlacesController extends Controller
             DB::beginTransaction(); // Start transaction
 
             try {
+                $duplicateCount = DB::table('tbl_places')->Where('place_url', $request->input('place_url'))->count();
+
+                if ($duplicateCount > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this place, URL must be unique.']);
+                }
                 // Handle Image Upload
                 $place_imageName = null;
                 if ($request->hasFile('placeimg')) {
                     $file = $request->file('placeimg');
-                    $place_imageName = time() . '_' . $file->getClientOriginalName();
+                    $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('place_images', $place_imageName, 'public');
                 }
 
@@ -173,7 +180,7 @@ class PlacesController extends Controller
                 $placeThumbImageName = null;
                 if ($request->hasFile('placethumbimg')) {
                     $file = $request->file('placethumbimg');
-                    $placeThumbImageName = time() . '_' . $file->getClientOriginalName();
+                    $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
                 }
 
@@ -272,9 +279,16 @@ class PlacesController extends Controller
 
             DB::beginTransaction();
             try {
+                $duplicateCount = DB::table('tbl_places')->Where('place_url', $request->input('place_url'))->where('placeid','!=', $id)->count();
+
+                if ($duplicateCount > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this place, URL must be unique.']);
+                }
                 if ($request->hasFile('placeimg')) {
                     $file = $request->file('placeimg');
-                    $place_imageName = time() . '_' . $file->getClientOriginalName();
+                    $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('place_images', $place_imageName, 'public');
                     
                     if ($place->placeimg) {
@@ -286,7 +300,7 @@ class PlacesController extends Controller
 
                 if ($request->hasFile('placethumbimg')) {
                     $file = $request->file('placethumbimg');
-                    $placeThumbImageName = time() . '_' . $file->getClientOriginalName();
+                    $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
                     
                     if ($place->placethumbimg) {

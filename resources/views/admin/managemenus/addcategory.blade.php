@@ -68,8 +68,10 @@
                                         <!-- Reset and Submit Buttons -->
                                         <div class="clearfix"></div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-primary">{{ isset($state) ? 'Update' : 'Save' }}</button>
-                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                            <button type="submit" class="btn btn-primary">{{ isset($Category) ? 'Update' : 'Save' }}</button>
+                                            @if(!isset($Category))
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                            @endif
                                         </div>
 
                                     </form>

@@ -97,7 +97,7 @@
                                                             <span>Image size should be 1920px X 488px</span>
                                                             <div id="banner_preview" style="margin-top: 10px;">
                                                                 <img id="bannerPreview" 
-                                                                    src="{{ isset($Categorytags->menutag_img) ? asset('storage/category_tags_images/'.$Categorytags->menutag_img) : '' }}" 
+                                                                    src="{{ isset($Categorytags->menutag_img) ? asset('storage/category_tags_images/BannerImages/'.$Categorytags->menutag_img) : '' }}" 
                                                                     alt="Banner Preview" 
                                                                     class="img-fluid rounded border" 
                                                                     style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($Categorytags->menutag_img) ? 'block' : 'none' }};">
@@ -112,7 +112,7 @@
                                                             <span>Image size should be 500px X 350px</span>
                                                             <div id="getaway_preview" style="margin-top: 10px;">
                                                                 <img id="getaway_preview" 
-                                                                    src="{{ isset($Categorytags->menutagthumb_img) ? asset('storage/category_tags_images/'.$Categorytags->menutagthumb_img) : '' }}" 
+                                                                    src="{{ isset($Categorytags->menutagthumb_img) ? asset('storage/category_tags_images/GetawaysImages/'.$Categorytags->menutagthumb_img) : '' }}" 
                                                                     alt="Banner Preview" 
                                                                     class="img-fluid rounded border" 
                                                                     style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($Categorytags->menutagthumb_img) ? 'block' : 'none' }};">
@@ -205,9 +205,11 @@
                                                 <div class="clearfix"></div>
 
                                                 <div class="col-md-6">
-                                                    <div class="reset-button">
-                                                        <button type="submit" class="btn btn-primary" name="btnSubmitcats" id="btnSubmitcats">Save</button>
-                                                        <button name="reset" type="reset" value="Reset" class="btn btn-secondary">Reset</button>
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-primary">{{ isset($Categorytags) ? 'Update' : 'Save' }}</button>
+                                                        @if(!isset($Categorytags))
+                                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>

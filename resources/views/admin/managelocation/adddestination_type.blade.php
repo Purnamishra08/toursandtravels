@@ -52,8 +52,10 @@
                                                 value="{{ old('destinationtype', $destinationtype->destination_type_name ?? '') }}">
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-primary">{{ isset($state) ? 'Update' : 'Save' }}</button>
-                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                            <button type="submit" class="btn btn-primary">{{ isset($destinationtype) ? 'Update' : 'Save' }}</button>
+                                            @if(!isset($destinationtype))
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </form>

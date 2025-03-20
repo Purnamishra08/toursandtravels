@@ -166,11 +166,18 @@ class DestinationController extends Controller
             DB::beginTransaction(); // Start transaction
 
             try {
+                $duplicateCount = DB::table('tbl_destination')->Where('destination_url', $request->input('destination_url'))->count();
+
+                if ($duplicateCount > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this destination, URL must be unique.']);
+                }
                 // Handle Image Upload
                 $destination_imageName = null;
                 if ($request->hasFile('destiimg')) {
                     $file = $request->file('destiimg');
-                    $destination_imageName = time() . '_' . $file->getClientOriginalName();
+                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('destination_images', $destination_imageName, 'public');
                 }
 
@@ -178,7 +185,7 @@ class DestinationController extends Controller
                 $destinationThumbImageName = null;
                 if ($request->hasFile('destismallimg')) {
                     $file = $request->file('destismallimg');
-                    $destinationThumbImageName = time() . '_' . $file->getClientOriginalName();
+                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('destination_images/thumbs', $destinationThumbImageName, 'public');
                 }
 
@@ -340,9 +347,17 @@ class DestinationController extends Controller
 
             DB::beginTransaction();
             try {
+                $duplicateCount = DB::table('tbl_destination')->Where('destination_url', $request->input('destination_url'))->where('destination_id','!=', $id)->count();
+
+                if ($duplicateCount > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this destination, URL must be unique.']);
+                }
+            
                 if ($request->hasFile('destiimg')) {
                     $file = $request->file('destiimg');
-                    $destination_imageName = time() . '_' . $file->getClientOriginalName();
+                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('destination_images', $destination_imageName, 'public');
                     
                     if ($destination->destiimg) {
@@ -354,7 +369,7 @@ class DestinationController extends Controller
 
                 if ($request->hasFile('destismallimg')) {
                     $file = $request->file('destismallimg');
-                    $destinationThumbImageName = time() . '_' . $file->getClientOriginalName();
+                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('destination_images/thumbs', $destinationThumbImageName, 'public');
                     
                     if ($destination->destiimg_thumb) {
