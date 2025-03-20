@@ -260,6 +260,17 @@
                         </a>
                     </nav>
                 </div>
+
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[3]))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link {{ request()->routeIs('admin.managecms*') ? 'active' : '' }}"
+                        href="{{ route('admin.managecms', ['id' => $id ?? 1]) }}">
+                        <div class="sb-nav-link-icon"><i class="fa fa-tasks"></i></div>
+                        Manage CMS
+                    </a>
+                @endif
             </div>
         </div>
     </nav>

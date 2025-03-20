@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ManageEnquiries\ItineraryEnquiryController;
 use App\Http\Controllers\Admin\ManageEnquiries\PackageEnquiryController;
 use App\Http\Controllers\Admin\ManageFaqs\CommonFaqController;
 use App\Http\Controllers\Admin\ManageFaqs\PackageFaqController;
+use App\Http\Controllers\Admin\ManageCms\ManageCmsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -253,4 +254,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/deletepackagefaqs/{id}', [PackageFaqController::class, 'deletepackagefaqs'])->name('admin.packagefaqs.deletepackagefaqs');
     //Package faqs
     //Manage Faqs
+
+    //Manage CMS
+    Route::match(['get', 'post'], '/managecms/{id}', [ManageCmsController::class, 'index'])->name('admin.managecms');
+    
 });

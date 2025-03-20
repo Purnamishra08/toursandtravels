@@ -519,3 +519,24 @@ CREATE TABLE `tbl_package_faqs` (
 ALTER TABLE `toursandtravels`.`tbl_hotel` 
 CHANGE COLUMN `destination_name` `destination_name` INT(11) NOT NULL ,
 CHANGE COLUMN `hotel_type` `hotel_type` INT(11) NOT NULL ;
+
+
+
+#CMS
+CREATE TABLE `tbl_contents` (
+  `content_id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_name` varchar(50) DEFAULT NULL,
+  `page_content` text DEFAULT NULL,
+  `seo_title` text DEFAULT NULL,
+  `seo_description` text DEFAULT NULL,
+  `seo_keywords` text DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`content_id`),
+  KEY `INX_TBL_CONTENTS 2024-05-25 11:08` (`content_id`)
+);
+INSERT INTO `tbl_contents` (`page_name`, `page_content`, `seo_title`, `seo_description`, `seo_keywords`, `updated_date`, `updated_by`, `bit_Deleted_Flag`) VALUES ('Home Page', '<div class="container">\r\n<div class="row">\r\n<div class="col-md-4">\r\n<div class="featuredbox-top"><img alt="guide" height="64" src="https://myholidayhappiness.com/assets/images/guide.png" width="64" />\r\n<div class="featuredbox-title"><span>1,000+</span> local guides</div>\r\n\r\n<div class="featuredbox-title">&nbsp;</div>\r\n</div>\r\n</div>\r\n\r\n<div class="col-md-4">\r\n<div class="featuredbox-top"><img alt="experience" height="64" src="https://myholidayhappiness.com/assets/images/experience.png" width="64" />\r\n<div class="featuredbox-title"><span>Handcrafted</span> experiences</div>\r\n</div>\r\n</div>\r\n\r\n<div class="col-md-4">\r\n<div class="featuredbox-top"><img alt="traveller" height="64" src="https://myholidayhappiness.com/assets/images/traveller.png" width="64" />\r\n<div class="featuredbox-title"><span>100% </span> happy travellers</div>\r\n</div>\r\n</div>\r\n\r\n<div class="clearfix">&nbsp;</div>\r\n</div>\r\n</div>', 'My Holiday Happiness - Package Tours & Travels', 'Search holiday Ideas, Plan Your Trip, Get multiple free itineraries with a price calculator. Explore multiple destinations & tour packages in India.', 'India Travel, Tour Packages, India Destinations, Travel Guide, India Destination Guide, Travel Itinerary, Build Itinerary, India Trip Planning, India Tourism, Travel India, Places to visit in India, Tourist Places in India, Things to do, plan your trips', '2025-03-20 20:26:34', 18, b'0');
+INSERT INTO `tbl_contents` (`content_id`, `page_name`, `page_content`, `seo_title`, `seo_description`, `seo_keywords`, `updated_date`, `updated_by`, `bit_Deleted_Flag`) VALUES (3, 'Contact Page', '<div class="col-md-8 text-center">\r\n<h3 class="mb-2">If you need furthur details - <em><strong>Please to write us for more information</strong></em></h3>\r\n\r\n<h5 class="mb-3">You need help ?</h5>\r\n\r\n<div class="clearfix">&nbsp;</div>\r\n\r\n<p>We would be more happy to help you.Our team advisor are 24/7 at your service to help you..For any support on ongoing trips, please call Tour Manager assigned to your trip.</p>\r\n</div>', 'Contact Us - My Holiday Happiness', 'Contact My Holiday Happiness for your travel needs like package tours, Trip itineraries, Weekend getaways, Travel guide and Travel startup', 'My Holiday Happiness contact us page, Contact us, Contact My Holiday Happiness', '2025-03-20 20:27:08', 18, b'0');
+
+

@@ -394,13 +394,13 @@ class DestinationController extends Controller
                     'meta_title'                => $request->input('meta_title'),
                     'meta_keywords'             => $request->input('meta_keywords'),
                     'meta_description'          => $request->input('meta_description'),
+                    'place_meta_title'          => $request->input('place_meta_title'),
+                    'place_meta_keywords'       => $request->input('place_meta_keywords'),
+                    'place_meta_description'    => $request->input('place_meta_description'),
                     'created_by'                => session('user')->adminid ?? 0,
                     'created_date'              => now(),
                     'updated_by'                => session('user')->adminid ?? 0,
-                    'updated_date'              => now(),
-                    'place_meta_title'          => $request->input('place_meta_title'),
-                    'place_meta_keywords'       => $request->input('place_meta_keywords'),
-                    'place_meta_description'    => $request->input('place_meta_description')
+                    'updated_date'              => now()
                 ];
 
                 DB::table('tbl_destination')->where('destination_id', $id)->update($data);

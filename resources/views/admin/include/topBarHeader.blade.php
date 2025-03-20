@@ -85,7 +85,9 @@
 
             'admin.packagefaqs' => ['Manage Faqs', 'Package Faqs', 'fa fa-question', 'fa fa-question-circle'],
             'admin.packagefaqs.addpackagefaqs' => ['Manage Faqs', 'Package Faqs', 'fa fa-question', 'fa fa-question-circle'],
-            'admin.packagefaqs.editpackagefaqs' => ['Manage Faqs', 'Package Faqs', 'fa fa-question', 'fa fa-question-circle']
+            'admin.packagefaqs.editpackagefaqs' => ['Manage Faqs', 'Package Faqs', 'fa fa-question', 'fa fa-question-circle'],
+
+            'admin.managecms' => ['Manage CMS', 'Manage CMS', 'fa fa-tasks', 'fa fa-tasks'],
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '',    'fa-line-chart', ''];
