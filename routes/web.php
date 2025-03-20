@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\ManageEnquiries\PackageEnquiryController;
 use App\Http\Controllers\Admin\ManageFaqs\CommonFaqController;
 use App\Http\Controllers\Admin\ManageFaqs\PackageFaqController;
 use App\Http\Controllers\Admin\ManageCms\ManageCmsController;
+use App\Http\Controllers\Admin\ManageFooter\FooterLinksController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -257,5 +258,16 @@ Route::middleware('auth')->group(function () {
 
     //Manage CMS
     Route::match(['get', 'post'], '/managecms/{id}', [ManageCmsController::class, 'index'])->name('admin.managecms');
+    //Manage CMS
+
+    //Manage Footer Links
+    Route::match(['get', 'post'], '/footerlinks', [FooterLinksController::class, 'index'])->name('admin.footerlinks');
+    Route::get('/footerlinks/data', [FooterLinksController::class, 'getData'])->name('admin.footerlinks.data');
+    Route::match(['get', 'post'], '/addfooterlinks', [FooterLinksController::class, 'addfooterlinks'])->name('admin.footerlinks.addfooterlinks');
+    Route::match(['get', 'post'], '/editfooterlinks/{id}', [FooterLinksController::class, 'editfooterlinks'])->name('admin.footerlinks.editfooterlinks');
+    Route::post('/activefooterlinks/{id}', [FooterLinksController::class, 'activefooterlinks'])->name('admin.footerlinks.activefooterlinks');
+    Route::post('/deletefooterlinks/{id}', [FooterLinksController::class, 'deletefooterlinks'])->name('admin.footerlinks.deletefooterlinks');
+    //Manage Footer Links
+
     
 });

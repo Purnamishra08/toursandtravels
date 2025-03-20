@@ -187,7 +187,7 @@ class ReviewsController extends Controller
                 } else {
                     throw new \Exception('Review could not be added.');
                 }
-            } catch (\Exception $e) {dd($e);
+            } catch (\Exception $e) {
                 DB::rollBack(); // Rollback transaction on error
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }
@@ -237,7 +237,7 @@ class ReviewsController extends Controller
                 } else {
                     throw new \Exception('Review could not be updated.');
                 }
-            } catch (\Exception $e) {dd($e);
+            } catch (\Exception $e) {
                 DB::rollBack(); // Rollback transaction on error
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }

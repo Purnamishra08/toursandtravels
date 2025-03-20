@@ -271,6 +271,17 @@
                         Manage CMS
                     </a>
                 @endif
+
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[11]))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link {{ request()->routeIs('admin.footerlinks*') ? 'active' : '' }}"
+                        href="{{ route('admin.footerlinks') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-circle-down"></i></div>
+                        Manage Footer Links
+                    </a>
+                @endif
             </div>
         </div>
     </nav>
