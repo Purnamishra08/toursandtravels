@@ -282,6 +282,34 @@
                         Manage Footer Links
                     </a>
                 @endif
+
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[14]))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.manageblogs']) ? '' : 'collapsed' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#blogs"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageblogs']) ? 'true' : 'false' }}"
+                        aria-controls="blogs">
+                        <div class="sb-nav-link-icon"><i class="fa-brands fa-blogger"></i></div>
+                        Manage Blogs
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+                @endif
+
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageblogs']) ? 'show' : '' }}"
+                    id="blogs" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.manageblogs']) ? 'active' : ''}}"
+                            href="{{ route('admin.manageblogs') }}">
+                            <i class="fa-solid fa-closed-captioning mt-1 me-2"></i> Blogs
+                        </a>
+                        <a class="nav-link {{ Str::startsWith($currentRoute, []) ? 'active' : ''}}"
+                            href="">
+                            <i class="fa fa-question-circle mt-1 me-2"></i> Comments
+                        </a>
+                    </nav>
+                </div>
             </div>
         </div>
     </nav>

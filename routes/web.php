@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\ManageFaqs\CommonFaqController;
 use App\Http\Controllers\Admin\ManageFaqs\PackageFaqController;
 use App\Http\Controllers\Admin\ManageCms\ManageCmsController;
 use App\Http\Controllers\Admin\ManageFooter\FooterLinksController;
+use App\Http\Controllers\Admin\ManageBlogs\ManageBlogsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -268,6 +269,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/activefooterlinks/{id}', [FooterLinksController::class, 'activefooterlinks'])->name('admin.footerlinks.activefooterlinks');
     Route::post('/deletefooterlinks/{id}', [FooterLinksController::class, 'deletefooterlinks'])->name('admin.footerlinks.deletefooterlinks');
     //Manage Footer Links
+
+    //Blogs
+    Route::match(['get', 'post'], '/manageblogs', [ManageBlogsController::class, 'index'])->name('admin.manageblogs');
+    Route::get('/manageblogs/data', [ManageBlogsController::class, 'getData'])->name('admin.manageblogs.data');
+    Route::match(['get', 'post'], '/addmanageblogs', [ManageBlogsController::class, 'addmanageblogs'])->name('admin.manageblogs.addmanageblogs');
+    Route::match(['get', 'post'], '/editmanageblogs/{id}', [ManageBlogsController::class, 'editmanageblogs'])->name('admin.manageblogs.editmanageblogs');
+    Route::post('/activemanageblogs/{id}', [ManageBlogsController::class, 'activemanageblogs'])->name('admin.manageblogs.activemanageblogs');
+    Route::post('/deletemanageblogs/{id}', [ManageBlogsController::class, 'deletemanageblogs'])->name('admin.manageblogs.deletemanageblogs');
+    //Blogs
 
     
 });

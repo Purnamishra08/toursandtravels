@@ -558,4 +558,28 @@ UPDATE `toursandtravels`.`tbl_modules` SET `module` = 'Manage Footer Links' WHER
 
 #footer links
 
+#Blogs
+CREATE TABLE `tbl_blog` (
+  `blogid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(500) DEFAULT NULL,
+  `blog_url` varchar(300) DEFAULT NULL,
+  `image` varchar(200) DEFAULT NULL,
+  `alttag_image` varchar(64) DEFAULT NULL,
+  `show_in_home` tinyint(4) DEFAULT NULL COMMENT 'show = 1',
+  `show_comment` tinyint(4) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `blog_meta_title` text DEFAULT NULL,
+  `blog_meta_keywords` text DEFAULT NULL,
+  `blog_meta_description` text DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`blogid`)
+);
+
+#Blogs
+
 
