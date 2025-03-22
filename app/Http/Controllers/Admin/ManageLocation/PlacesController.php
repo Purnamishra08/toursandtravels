@@ -148,8 +148,10 @@ class PlacesController extends Controller
                 'short_desc'          => 'required|string',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'placethumbimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1140,height=350',
+                'placethumbimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=300',
+                'alttag_banner'       => 'required|string|max:60|unique:tbl_places,alttag_banner',
+                'alttag_thumb'        => 'required|string|max:60|unique:tbl_places,alttag_thumb'
             ]);
 
             if ($validator->fails()) {
@@ -265,14 +267,16 @@ class PlacesController extends Controller
 
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
-                'place_name'          => 'required|string|max:255',
+                'place_name'          => "required|string|max:255|unique:tbl_places,place_name,$id,placeid",
                 'place_url'           => 'required|string|max:255',
                 'destination_id'      => 'required|numeric',
                 'short_desc'          => 'required|string',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'placethumbimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1140,height=350',
+                'placethumbimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=300',
+                'alttag_banner'       => "required|string|max:60|unique:tbl_places,alttag_banner,$id,placeid",
+                'alttag_thumb'        => "required|string|max:60|unique:tbl_places,alttag_thumb,$id,placeid"
             ]);
 
             if ($validator->fails()) {
@@ -293,7 +297,7 @@ class PlacesController extends Controller
                     $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('place_images', $place_imageName, 'public');
                     
-                    if ($place->placeimg) {
+                    if ($place->placeimg && ($place->placeimg != $place_imageName)) {
                         Storage::disk('public')->delete('place_images/' . $place->placeimg);
                     }
                 } else {
@@ -305,7 +309,7 @@ class PlacesController extends Controller
                     $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
                     
-                    if ($place->placethumbimg) {
+                    if ($place->placethumbimg && ($place->placethumbimg != $placeThumbImageName)) {
                         Storage::disk('public')->delete('place_images/thumbs/' . $place->placethumbimg);
                     }
                 } else {

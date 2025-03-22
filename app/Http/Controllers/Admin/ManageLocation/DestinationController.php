@@ -153,8 +153,10 @@ class DestinationController extends Controller
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=2000,height=350',
+                'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=300,height=225',
+                'alttag_banner'       => 'required|string|max:60|unique:tbl_destination,alttag_banner',
+                'alttag_thumb'        => 'required|string|max:60|unique:tbl_destination,alttag_thumb'
             ]);
 
             if ($validator->fails()) {
@@ -337,8 +339,10 @@ class DestinationController extends Controller
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=2000,height=350',
+                'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=300,height=225',
+                'alttag_banner'       => "required|string|max:60|unique:tbl_destination,alttag_banner,$id,destination_id",
+                'alttag_thumb'        => "required|string|max:60|unique:tbl_destination,alttag_thumb,$id,destination_id"
             ]);
 
             if ($validator->fails()) {
@@ -360,7 +364,7 @@ class DestinationController extends Controller
                     $destination_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('destination_images', $destination_imageName, 'public');
                     
-                    if ($destination->destiimg) {
+                    if ($destination->destiimg && $destination->destiimg != $destination_imageName) {
                         Storage::disk('public')->delete('destination_images/' . $destination->destiimg);
                     }
                 } else {
@@ -372,7 +376,7 @@ class DestinationController extends Controller
                     $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('destination_images/thumbs', $destinationThumbImageName, 'public');
                     
-                    if ($destination->destiimg_thumb) {
+                    if ($destination->destiimg_thumb && $destination->destiimg_thumb != $destinationThumbImageName) {
                         Storage::disk('public')->delete('destination_images/thumbs/' . $destination->destiimg_thumb);
                     }
                 } else {

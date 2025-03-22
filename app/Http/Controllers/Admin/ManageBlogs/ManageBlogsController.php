@@ -117,7 +117,7 @@ class ManageBlogsController extends Controller
                 'title'                 => 'required|string|max:255|unique:tbl_blog,title',
                 'blog_url'              => 'required|string|max:255',
                 'image'                 => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1140,height=350',
-                'alttag_image'          => 'required|string|max:60',
+                'alttag_image'          => 'required|string|max:60|unique:tbl_blog,alttag_image',
                 'content'               => 'required|string'
             ]);
             if ($validator->fails()) {
@@ -190,7 +190,7 @@ class ManageBlogsController extends Controller
                 'title'                 => ['required','string','max:255',Rule::unique('tbl_blog', 'title')->ignore($id, 'blogid')],
                 'blog_url'              => 'required|string|max:255',
                 'image'                 => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1140,height=350',
-                'alttag_image'          => 'required|string|max:60',
+                'alttag_image'          => "required|string|max:255|unique:tbl_blog,alttag_image,$id,blogid",
                 'content'               => 'required|string'
             ]);
             if ($validator->fails()) {
