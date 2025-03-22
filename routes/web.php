@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\ManageFollowUpEnquiries\SourcesController;
 use App\Http\Controllers\Admin\ManageFollowUpEnquiries\StatusListController;
 use App\Http\Controllers\Admin\ManageFollowUpEnquiries\EnquiriesEntryController;
 use App\Http\Controllers\Admin\ManageFollowUpEnquiries\EnquiriesReportController;
+use App\Http\Controllers\Admin\ManageBlogs\ManageBlogsController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -303,5 +304,14 @@ Route::middleware('auth')->group(function () {
     // Status List
 
     //Manage Follow Enquiries 
+    //Blogs
+    Route::match(['get', 'post'], '/manageblogs', [ManageBlogsController::class, 'index'])->name('admin.manageblogs');
+    Route::get('/manageblogs/data', [ManageBlogsController::class, 'getData'])->name('admin.manageblogs.data');
+    Route::match(['get', 'post'], '/addmanageblogs', [ManageBlogsController::class, 'addmanageblogs'])->name('admin.manageblogs.addmanageblogs');
+    Route::match(['get', 'post'], '/editmanageblogs/{id}', [ManageBlogsController::class, 'editmanageblogs'])->name('admin.manageblogs.editmanageblogs');
+    Route::post('/activemanageblogs/{id}', [ManageBlogsController::class, 'activemanageblogs'])->name('admin.manageblogs.activemanageblogs');
+    Route::post('/deletemanageblogs/{id}', [ManageBlogsController::class, 'deletemanageblogs'])->name('admin.manageblogs.deletemanageblogs');
+    //Blogs
+
     
 });

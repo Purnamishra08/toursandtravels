@@ -94,6 +94,10 @@
             'admin.footerlinks' => ['Manage Footer Links', 'View Footer Links', 'fa-solid fa-circle-down', 'fa-solid fa-circle-down'],
             'admin.footerlinks.addfooterlinks' => ['Manage Footer Links', 'Add Footer Links', 'fa-solid fa-circle-down', 'fa-solid fa-circle-down'],
             'admin.footerlinks.editfooterlinks' => ['Manage Footer Links', 'Edit Footer Links', 'fa-solid fa-circle-down', 'fa-solid fa-circle-down'],
+
+            'admin.manageblogs' => ['Manage Blogs', 'View Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
+            'admin.manageblogs.addmanageblogs' => ['Manage Blogs', 'Add Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
+            'admin.manageblogs.editmanageblogs' => ['Manage Blogs', 'Edit Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '',    'fa-line-chart', ''];

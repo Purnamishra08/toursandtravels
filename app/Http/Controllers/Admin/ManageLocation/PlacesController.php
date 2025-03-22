@@ -158,7 +158,7 @@ class PlacesController extends Controller
                     ->withInput();
             }
 
-            DB::beginTransaction(); // Start transaction
+            
 
             try {
                 $duplicateCount = DB::table('tbl_places')->Where('place_url', $request->input('place_url'))->count();
@@ -168,6 +168,8 @@ class PlacesController extends Controller
                         ->withInput()
                         ->withErrors(['error' => 'You have already added this place, URL must be unique.']);
                 }
+
+                DB::beginTransaction(); // Start transaction
                 // Handle Image Upload
                 $place_imageName = null;
                 if ($request->hasFile('placeimg')) {
@@ -236,7 +238,7 @@ class PlacesController extends Controller
                 } else {
                     throw new \Exception('Place could not be added.');
                 }
-            } catch (\Exception $e) {dd($e);
+            } catch (\Exception $e) {
                 DB::rollBack(); // Rollback transaction on error
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }
