@@ -554,8 +554,41 @@ CREATE TABLE `tbl_footer` (
   `bit_Deleted_Flag` bit(1) DEFAULT b'0',
   PRIMARY KEY (`int_footer_id`)
 );
+SET SQL_SAFE_UPDATES=0;
 UPDATE `toursandtravels`.`tbl_modules` SET `module` = 'Manage Footer Links' WHERE (`moduleid` = '11');
 
 #footer links
 
+#FOLLOWUPENQUIRY
+
+select * from tbl_sources;
+select * from tbl_statuses;
+CREATE TABLE `tbl_sources` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `status` tinyint(1) DEFAULT 1,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `tbl_statuses` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `status` tinyint(1) DEFAULT 1,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`id`)
+);
+#FOLLOWUPENQUIRY
+
+select * from tbl_admin;
+
+update tbl_admin set password='$2y$10$6NY3d1MbfEr7WCXO7ff/huVSTq3YMGXVube9/sGU2eKw24u4LDiaq' where adminid>0;
 

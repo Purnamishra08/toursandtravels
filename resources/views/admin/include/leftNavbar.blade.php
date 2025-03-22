@@ -210,6 +210,37 @@
                         </a>
                     </nav>
                 </div>
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[20]))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.sources','admin.manageitineraryenquiry','admin.managepackageenquiry']) ? '' : 'collapsed' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#managefollowenquiries"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.sources','admin.manageitineraryenquiry','admin.managepackageenquiry']) ? 'true' : 'false' }}"
+                        aria-controls="managefollowenquiries">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-phone"></i></div>
+                        Follow Up Enquiries
+                        <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                    </a>
+                @endif
+
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.sources','admin.statuslist','admin.managepackageenquiry']) ? 'show' : '' }}"
+                    id="managefollowenquiries" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.sources']) ? 'active' : ''}}"
+                            href="{{ route('admin.sources') }}">
+                            <i class="fa-solid fa-s mt-1 me-2"></i> Sources
+                        </a>
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.statuslist']) ? 'active' : ''}}"
+                            href="{{ route('admin.statuslist') }}">
+                            <i class="fa-solid fa-comment-dots mt-1 me-2"></i>Status List
+                        </a>
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.managepackageenquiry']) ? 'active' : ''}}"
+                            href="{{ route('admin.managepackageenquiry') }}">
+                            <i class="fa-solid fa-clipboard-question mt-1 me-2"></i>Enquiries Entry
+                        </a>
+                    </nav>
+                </div>
 
                 @if(
                         (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[2]))

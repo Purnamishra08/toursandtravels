@@ -24,6 +24,10 @@ use App\Http\Controllers\Admin\ManageFaqs\CommonFaqController;
 use App\Http\Controllers\Admin\ManageFaqs\PackageFaqController;
 use App\Http\Controllers\Admin\ManageCms\ManageCmsController;
 use App\Http\Controllers\Admin\ManageFooter\FooterLinksController;
+use App\Http\Controllers\Admin\ManageFollowUpEnquiries\SourcesController;
+use App\Http\Controllers\Admin\ManageFollowUpEnquiries\StatusListController;
+use App\Http\Controllers\Admin\ManageFollowUpEnquiries\EnquiriesEntryController;
+use App\Http\Controllers\Admin\ManageFollowUpEnquiries\EnquiriesReportController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -269,5 +273,35 @@ Route::middleware('auth')->group(function () {
     Route::post('/deletefooterlinks/{id}', [FooterLinksController::class, 'deletefooterlinks'])->name('admin.footerlinks.deletefooterlinks');
     //Manage Footer Links
 
+
+    //Manage Follow Enquiries
+    // Sources
+    Route::match(['get', 'post'], '/sources', [SourcesController::class, 'index'])->name('admin.sources');
+    Route::match(['get', 'post'], '/addSources', [SourcesController::class, 'addSources'])->name('admin.sources.addSources');
+    Route::post('/deleteSources/{id}', [SourcesController::class, 'deleteSources'])->name('admin.sources.deleteSources');
+    Route::post('/activeSources/{id}', [SourcesController::class, 'activeSources'])->name('admin.sources.activeSources');
+    Route::get('/sources/edit/{id}', [SourcesController::class, 'editSources'])->name('admin.sources.editSources');
+    Route::post('/sources/update', [SourcesController::class, 'updateSources'])->name('admin.sources.updateSources');
+    // Sources
+
+    // Sources
+    Route::match(['get', 'post'], '/sources', [SourcesController::class, 'index'])->name('admin.sources');
+    Route::match(['get', 'post'], '/addSources', [SourcesController::class, 'addSources'])->name('admin.sources.addSources');
+    Route::post('/deleteSources/{id}', [SourcesController::class, 'deleteSources'])->name('admin.sources.deleteSources');
+    Route::post('/activeSources/{id}', [SourcesController::class, 'activeSources'])->name('admin.sources.activeSources');
+    Route::get('/sources/edit/{id}', [SourcesController::class, 'editSources'])->name('admin.sources.editSources');
+    Route::post('/sources/update', [SourcesController::class, 'updateSources'])->name('admin.sources.updateSources');
+    // Sources
+
+    // Status List
+    Route::match(['get', 'post'], '/statuslist', [StatusListController::class, 'index'])->name('admin.statuslist');
+    Route::match(['get', 'post'], '/addStatusList', [StatusListController::class, 'addStatusList'])->name('admin.statuslist.addStatusList');
+    Route::post('/deleteStatusList/{id}', [StatusListController::class, 'deleteStatusList'])->name('admin.statuslist.deleteStatusList');
+    Route::post('/activestatuslist/{id}', [StatusListController::class, 'activeStatusList'])->name('admin.statuslist.activeStatusList');
+    Route::get('/statuslist/edit/{id}', [StatusListController::class, 'editStatusList'])->name('admin.statuslist.editStatusList');
+    Route::post('/statuslist/update', [StatusListController::class, 'updateStatusList'])->name('admin.statuslist.updateStatusList');
+    // Status List
+
+    //Manage Follow Enquiries 
     
 });
