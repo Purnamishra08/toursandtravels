@@ -613,6 +613,22 @@ CREATE TABLE `tbl_blog` (
   PRIMARY KEY (`blogid`)
 );
 
+CREATE TABLE `tbl_comments` (
+  `commentid` int(11) NOT NULL AUTO_INCREMENT,
+  `blogid` int(11) NOT NULL,
+  `parentid` int(11) DEFAULT NULL,
+  `user_name` varchar(250) DEFAULT NULL,
+  `email_id` varchar(250) DEFAULT NULL,
+  `comments` varchar(1200) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`commentid`)
+) ;
+
 #Blogs
 
 #EnquiryEntry

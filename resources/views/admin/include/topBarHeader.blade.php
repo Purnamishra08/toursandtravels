@@ -110,6 +110,9 @@
             
             'admin.manageenquiriesreport' => ['Follow Up Enquiries', 'Enquiries Report', 'fa fa-phone', 'fa fa-receipt'],
             'admin.manageenquiriesreport.editEnquiriesReport' => ['Follow Up Enquiries', 'Enquiries Report', 'fa fa-phone', 'fa fa-receipt'],
+            
+            'admin.manageblogscomments' => ['Manage Blogs', 'View Blogs Comment', 'fa-brands fa-blogger', 'fa fa-question-circle'],
+            'admin.manageblogscomments.editmanageblogscomments' => ['Manage Blogs', 'Edit Blogs Comment', 'fa-brands fa-blogger', 'fa fa-question-circle'],
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '',    'fa-line-chart', ''];

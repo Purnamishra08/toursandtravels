@@ -322,9 +322,9 @@
                         (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[14]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
-                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.manageblogs']) ? '' : 'collapsed' }}"
+                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.manageblogs', 'admin.manageblogscomments']) ? '' : 'collapsed' }}"
                         href="#" data-bs-toggle="collapse" data-bs-target="#blogs"
-                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageblogs']) ? 'true' : 'false' }}"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.manageblogs', 'admin.manageblogscomments']) ? 'true' : 'false' }}"
                         aria-controls="blogs">
                         <div class="sb-nav-link-icon"><i class="fa-brands fa-blogger"></i></div>
                         Manage Blogs
@@ -332,15 +332,16 @@
                     </a>
                 @endif
 
-                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageblogs']) ? 'show' : '' }}"
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.manageblogs', 'admin.manageblogscomments']) ? 'show' : '' }}"
                     id="blogs" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.manageblogs']) ? 'active' : ''}}"
+                        <a class="nav-link {{ Route::is('admin.manageblogs') ? 'active' : '' }}" 
                             href="{{ route('admin.manageblogs') }}">
                             <i class="fa-solid fa-closed-captioning mt-1 me-2"></i> Blogs
                         </a>
-                        <a class="nav-link {{ Str::startsWith($currentRoute, []) ? 'active' : ''}}"
-                            href="">
+
+                        <a class="nav-link {{ Route::is('admin.manageblogscomments') ? 'active' : '' }}" 
+                            href="{{ route('admin.manageblogscomments') }}">
                             <i class="fa fa-question-circle mt-1 me-2"></i> Comments
                         </a>
                     </nav>

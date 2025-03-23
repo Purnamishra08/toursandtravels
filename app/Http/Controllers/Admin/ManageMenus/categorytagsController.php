@@ -127,20 +127,20 @@ class CategoryTagsController extends Controller
         if ($request->isMethod('post')) {
             // Validation using Validator::make
             $validator = Validator::make($request->all(), [
-                'tag_name' => 'required|string|max:255',
-                'tag_url' => 'required|max:255',
-                'menuid' => 'required',
-                'catId' => 'required',
-                'menutag_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Image validation
-                'menutagthumb_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Image validation
-                'alttag_banner' => 'nullable|string|max:60',
-                'alttag_thumb' => 'nullable|string|max:60',
-                'show_on_home' => 'nullable|boolean',
-                'show_on_footer' => 'nullable|boolean',
-                'about_tag' => 'required|string',
-                'meta_title' => 'nullable|string|max:255',
-                'meta_keywords' => 'nullable|string|max:255',
-                'meta_description' => 'nullable|string|max:255',
+                'tag_name'                  => 'required|string|max:255',
+                'tag_url'                   => 'required|max:255',
+                'menuid'                    => 'required',
+                'catId'                     => 'required',
+                'menutag_img'               => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=488',
+                'menutagthumb_img'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=350',
+                'alttag_banner'             => 'required|string|max:60|unique:tbl_menutags,alttag_banner',
+                'alttag_thumb'              => 'required|string|max:60|unique:tbl_menutags,alttag_thumb',
+                'show_on_home'              => 'nullable|boolean',
+                'show_on_footer'            => 'nullable|boolean',
+                'about_tag'                 => 'required|string',
+                'meta_title'                => 'nullable|string|max:255',
+                'meta_keywords'             => 'nullable|string|max:255',
+                'meta_description'          => 'nullable|string|max:255',
             ]);
 
             // If validation fails, redirect back with errors and old input
@@ -227,20 +227,20 @@ class CategoryTagsController extends Controller
             if ($request->isMethod('post')) {
                 // Validation using Validator::make
                 $validator = Validator::make($request->all(), [
-                    'tag_name' => 'required|string|max:255',
-                    'tag_url' => 'required|max:255',
-                    'menuid' => 'required',
-                    'catId' => 'required',
-                    'menutag_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Image validation
-                    'menutagthumb_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Image validation
-                    'alttag_banner' => 'nullable|string|max:60',
-                    'alttag_thumb' => 'nullable|string|max:60',
-                    'show_on_home' => 'nullable|boolean',
-                    'show_on_footer' => 'nullable|boolean',
-                    'about_tag' => 'required|string',
-                    'meta_title' => 'nullable|string|max:255',
-                    'meta_keywords' => 'nullable|string|max:255',
-                    'meta_description' => 'nullable|string|max:255',
+                    'tag_name'              => 'required|string|max:255',
+                    'tag_url'               => 'required|max:255',
+                    'menuid'                => 'required',
+                    'catId'                 => 'required',
+                    'menutag_img'           => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=488',
+                    'menutagthumb_img'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=350',
+                    'alttag_banner'         => "required|string|max:60|unique:tbl_menutags,alttag_banner,$id,tagid",
+                    'alttag_thumb'          => "required|string|max:60|unique:tbl_menutags,alttag_thumb,$id,tagid",
+                    'show_on_home'          => 'nullable|boolean',
+                    'show_on_footer'        => 'nullable|boolean',
+                    'about_tag'             => 'required|string',
+                    'meta_title'            => 'nullable|string|max:255',
+                    'meta_keywords'         => 'nullable|string|max:255',
+                    'meta_description'      => 'nullable|string|max:255',
                 ]);
 
                 // If validation fails, redirect back with errors and old input
@@ -263,7 +263,7 @@ class CategoryTagsController extends Controller
                         $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                         $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
                         
-                        if ($categorytags->menutag_img) {
+                        if ($categorytags->menutag_img && ($categorytags->menutag_img != $bannerImageName)) {
                             Storage::disk('public')->delete('category_tags_images/BannerImages/' . $categorytags->menutag_img);
                         }
                     } else {
@@ -275,7 +275,7 @@ class CategoryTagsController extends Controller
                         $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                         $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
                         
-                        if ($categorytags->menutagthumb_img) {
+                        if ($categorytags->menutagthumb_img && ($categorytags->menutagthumb_img != $getawayImageName)) {
                             Storage::disk('public')->delete('category_tags_images/GetawaysImages/' . $categorytags->menutagthumb_img);
                         }
                     } else {
