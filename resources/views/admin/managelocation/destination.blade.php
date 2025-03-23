@@ -1,18 +1,18 @@
 <!-- Metaheader Section-->
-@include('Admin.include.metaheader')
+@include('admin.include.metaheader')
 <!-- Metaheader Section End -->
 
 <body>
     <div id="layoutSidenav">
         <!-- Left Navbar Start-->
-        @include('Admin.include.leftNavbar')
+        @include('admin.include.leftNavbar')
         <!-- Left Navbar End-->
 
         <div id="layoutSidenav_content">
             <div class="content-body">
 
                 <!-- TopBar header Start-->
-                @include('Admin.include.topBarHeader')
+                @include('admin.include.topBarHeader')
                 <!--TopBar header end -->
 
                 <!-- Main Content Start-->
@@ -88,7 +88,7 @@
                                         data-bs-target="#filterBox"><i class="fa fa-search"></i> Search</button>
                                 </div>
                                 <!--Filter Box End-->
-                            @include('Admin.include.sweetaleart')
+                            @include('admin.include.sweetaleart')
                             <section class="content">
                                 <div class="panel">
                                     <div class="panel-body">
@@ -116,13 +116,13 @@
                 </main>
 
                 <!-- Footer Start-->
-                @include('Admin.include.footer')
+                @include('admin.include.footer')
                 <!-- Footer End-->
             </div>
         </div>
     </div>
     <!-- FooterJs Start-->
-    @include('Admin.include.footerJs')
+    @include('admin.include.footerJs')
     <!-- FooterJs End-->
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/dataTables.bootstrap5.min.css') }}">

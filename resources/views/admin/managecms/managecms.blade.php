@@ -1,24 +1,24 @@
 <!-- Metaheader Section-->
-@include('Admin.include.metaheader')
+@include('admin.include.metaheader')
 <!-- Metaheader Section End -->
 <body>
     <div id="layoutSidenav">
         <!-- Left Navbar Start-->
-        @include('Admin.include.leftNavbar')
+        @include('admin.include.leftNavbar')
         <!-- Left Navbar End-->
 
         <div id="layoutSidenav_content">
             <div class="content-body">
 
                 <!-- TopBar header Start-->
-                @include('Admin.include.topBarHeader')
+                @include('admin.include.topBarHeader')
                 <!-- TopBar header End -->
 
                 <!-- Main Content Start-->
                 <main>
                     <div class="inner-layout">
                         <div class="container-fluid px-4 pt-3">
-                            @include('Admin.include.sweetaleart')
+                            @include('admin.include.sweetaleart')
                             <section class="content">
                                 <div class="form-container">
                                     <div class="panel-body">
@@ -117,13 +117,13 @@
                 </main>
 
                 <!-- Footer Start-->
-                @include('Admin.include.footer')
+                @include('admin.include.footer')
                 <!-- Footer End-->
             </div>
         </div>
     </div>
     <!-- FooterJs Start-->
-    @include('Admin.include.footerJs')
+    @include('admin.include.footerJs')
     <!-- FooterJs End-->
     
     <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
