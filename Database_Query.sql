@@ -615,4 +615,54 @@ CREATE TABLE `tbl_blog` (
 
 #Blogs
 
+#EnquiryEntry
+select * from tbl_inquiries;
+CREATE TABLE `tbl_inquiries` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `customer_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `source_id` int(11) NOT NULL DEFAULT 0,
+  `trip_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `trip_start_date` timestamp NULL DEFAULT NULL,
+  `followup_date` timestamp NULL DEFAULT NULL,
+  `travellers_count` int(11) NOT NULL DEFAULT 0,
+  `comments` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `inquiry_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status_id` int(11) NOT NULL DEFAULT 0,
+  `assign_to` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(11) NOT NULL DEFAULT 0,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `updated_by` int(11) DEFAULT 0,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`id`)
+);
 
+CREATE TABLE `tbl_inquiries_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `inquiries_id` int(10) NOT NULL,
+  `customer_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `source_id` int(11) NOT NULL DEFAULT 0,
+  `trip_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `trip_start_date` timestamp NULL DEFAULT NULL,
+  `followup_date` timestamp NULL DEFAULT NULL,
+  `travellers_count` int(11) NOT NULL DEFAULT 0,
+  `comments` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `inquiry_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status_id` int(11) NOT NULL DEFAULT 0,
+  `assign_to` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(11) NOT NULL DEFAULT 0,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `updated_by` int(11) DEFAULT 0,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`id`)
+);
+
+
+#EnquiryEntry

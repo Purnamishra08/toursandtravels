@@ -98,6 +98,18 @@
             'admin.manageblogs' => ['Manage Blogs', 'View Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
             'admin.manageblogs.addmanageblogs' => ['Manage Blogs', 'Add Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
             'admin.manageblogs.editmanageblogs' => ['Manage Blogs', 'Edit Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
+
+            
+            'admin.sources' => ['Follow Up Enquiries', 'Sources', 'fa fa-phone', 'fa fa-s'],
+            'admin.statuslist' => ['Follow Up Enquiries', 'Status List', 'fa fa-phone', 'fa fa-comment-dots'],
+
+            'admin.manageenquiriesentry' => ['Follow Up Enquiries', 'Enquiries Entry', 'fa fa-phone', 'fa fa-keyboard'],
+            'admin.manageenquiriesentry.addEnquiriesEntry' => ['Follow Up Enquiries', 'Enquiries Entry', 'fa fa-phone', 'fa fa-keyboard'],
+            'admin.manageenquiriesentry.editEnquiriesEntry' => ['Follow Up Enquiries', 'Enquiries Entry', 'fa fa-phone', 'fa fa-keyboard'],
+
+            
+            'admin.manageenquiriesreport' => ['Follow Up Enquiries', 'Enquiries Report', 'fa fa-phone', 'fa fa-receipt'],
+            'admin.manageenquiriesreport.editEnquiriesReport' => ['Follow Up Enquiries', 'Enquiries Report', 'fa fa-phone', 'fa fa-receipt'],
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '',    'fa-line-chart', ''];

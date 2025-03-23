@@ -230,15 +230,15 @@ Route::middleware('auth')->group(function () {
     //Package Enquiry
     //Manage Enquiries
 
-     //Manage Reviews
-     Route::get('/managereviews', [ReviewsController::class, 'index'])->name('admin.managereviews');
-     Route::get('/managereviews/data', [ReviewsController::class, 'getData'])->name('admin.managereviews.data');
-     Route::match(['get', 'post'], '/addreviews', [ReviewsController::class, 'addreviews'])->name('admin.managereviews.addreviews');
-     Route::match(['get', 'post'], '/editreviews/{id}', [ReviewsController::class, 'editreviews'])->name('admin.managereviews.editreviews');
-     Route::post('/activereviews/{id}', [ReviewsController::class, 'activereviews'])->name('admin.managereviews.activereviews');
-     Route::post('/deletereviews/{id}', [ReviewsController::class, 'deletereviews'])->name('admin.managereviews.deletereviews');
-     Route::post('/managereviews/viewpop', [ReviewsController::class, 'viewPop'])->name('admin.managereviews.viewPop');
-     //Manage Reviews
+    //Manage Reviews
+    Route::get('/managereviews', [ReviewsController::class, 'index'])->name('admin.managereviews');
+    Route::get('/managereviews/data', [ReviewsController::class, 'getData'])->name('admin.managereviews.data');
+    Route::match(['get', 'post'], '/addreviews', [ReviewsController::class, 'addreviews'])->name('admin.managereviews.addreviews');
+    Route::match(['get', 'post'], '/editreviews/{id}', [ReviewsController::class, 'editreviews'])->name('admin.managereviews.editreviews');
+    Route::post('/activereviews/{id}', [ReviewsController::class, 'activereviews'])->name('admin.managereviews.activereviews');
+    Route::post('/deletereviews/{id}', [ReviewsController::class, 'deletereviews'])->name('admin.managereviews.deletereviews');
+    Route::post('/managereviews/viewpop', [ReviewsController::class, 'viewPop'])->name('admin.managereviews.viewPop');
+    //Manage Reviews
 
     //Manage Faqs
 
@@ -302,6 +302,25 @@ Route::middleware('auth')->group(function () {
     Route::get('/statuslist/edit/{id}', [StatusListController::class, 'editStatusList'])->name('admin.statuslist.editStatusList');
     Route::post('/statuslist/update', [StatusListController::class, 'updateStatusList'])->name('admin.statuslist.updateStatusList');
     // Status List
+    // Enquiries Entry
+    Route::match(['get', 'post'], '/enquiries-entry', [EnquiriesEntryController::class, 'index'])->name('admin.manageenquiriesentry');
+    Route::match(['get', 'post'], '/addEnquiriesEntry', [EnquiriesEntryController::class, 'addEnquiriesEntry'])->name('admin.manageenquiriesentry.addEnquiriesEntry');
+    Route::match(['get', 'post'], '/editEnquiriesEntry/{id}', [EnquiriesEntryController::class, 'editEnquiriesEntry'])->name('admin.manageenquiriesentry.editEnquiriesEntry');
+    Route::post('/deleteEnquiriesEntry/{id}', [EnquiriesEntryController::class, 'deleteEnquiriesEntry'])->name('admin.manageenquiriesentry.deleteEnquiriesEntry');
+    Route::get('/viewEnquiriesEntry/{id}', [EnquiriesEntryController::class, 'viewEnquiriesEntry'])->name('admin.manageenquiriesentry.viewEnquiriesEntry');
+    // Enquiries Entry
+    
+    // Enquiries Report
+    Route::match(['get', 'post'], '/enquiries-report', [EnquiriesReportController::class, 'index'])->name('admin.manageenquiriesreport');
+    Route::match(['get', 'post'], '/addEnquiriesReport', [EnquiriesReportController::class, 'addEnquiriesReport'])->name('admin.manageenquiriesreport.addEnquiriesReport');
+    Route::match(['get', 'post'], '/editEnquiriesReport/{id}', [EnquiriesReportController::class, 'editEnquiriesReport'])->name('admin.manageenquiriesreport.editEnquiriesReport');
+    Route::get('/assignEnquiriesReport/{id}', [EnquiriesReportController::class, 'assignEnquiriesReport'])->name('admin.manageenquiriesreport.assignEnquiriesReport');
+    Route::post('/update-assign-to', [EnquiriesReportController::class, 'updateAssignTo'])->name('admin.manageenquiriesreport.updateAssignTo');
+    Route::get('/viewEnquiriesReport/{id}', [EnquiriesReportController::class, 'viewEnquiriesReport'])->name('admin.manageenquiriesreport.viewEnquiriesReport');
+    Route::get('export-enquiries', [EnquiriesReportController::class, 'exportEnquiries'])->name('admin.exportEnquiries');
+
+    // Enquiries Report
+
 
     //Manage Follow Enquiries 
     //Blogs

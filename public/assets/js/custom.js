@@ -32,6 +32,15 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $(".date-picker-no-validation").datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        changeMonth: true, // Allow month selection
+        changeYear: true, // Allow year selection
+    });
+});
+
 
 
 

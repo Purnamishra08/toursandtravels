@@ -224,7 +224,7 @@
                     </a>
                 @endif
 
-                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.sources','admin.statuslist','admin.managepackageenquiry']) ? 'show' : '' }}"
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.sources','admin.statuslist','admin.manageenquiriesentry','admin.manageenquiriesreport']) ? 'show' : '' }}"
                     id="managefollowenquiries" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.sources']) ? 'active' : ''}}"
@@ -235,9 +235,13 @@
                             href="{{ route('admin.statuslist') }}">
                             <i class="fa-solid fa-comment-dots mt-1 me-2"></i>Status List
                         </a>
-                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.managepackageenquiry']) ? 'active' : ''}}"
-                            href="{{ route('admin.managepackageenquiry') }}">
-                            <i class="fa-solid fa-clipboard-question mt-1 me-2"></i>Enquiries Entry
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.manageenquiriesentry']) ? 'active' : ''}}"
+                            href="{{ route('admin.manageenquiriesentry') }}">
+                            <i class="fa-solid fa-keyboard mt-1 me-2"></i>Enquiries Entry
+                        </a>
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.manageenquiriesreport']) ? 'active' : ''}}"
+                            href="{{ route('admin.manageenquiriesreport') }}">
+                            <i class="fa-solid fa-receipt mt-1 me-2"></i>Enquiries Report
                         </a>
                     </nav>
                 </div>
