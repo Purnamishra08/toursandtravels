@@ -70,6 +70,11 @@ Route::get('/optimize', function() {
 Route::view('/', 'website.index');
 Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
+Route::view('/faq', 'website.faq');
+Route::view('/tourlisting', 'website.tourlisting');
+Route::view('/tourdetails', 'website.tourdetails');
+Route::view('/bloglisting', 'website.bloglisting');
+Route::view('/blogdetails', 'website.blogdetails');
 Route::get('/admin', [LoginController::class, 'index'])->name('admin.login');
 Route::post('/admin/login', [LoginController::class, 'login'])->name('admin.processLogin');
 Route::get('/admin/forgot-password', [LoginController::class, 'forgotPassword'])->name('admin.forgot-password');
