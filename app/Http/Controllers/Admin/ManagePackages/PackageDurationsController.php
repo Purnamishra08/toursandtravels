@@ -7,15 +7,76 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\Facades\DataTables;
 use Exception;
 
 class PackageDurationsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = DB::table('tbl_package_duration')->where('bit_Deleted_Flag', 0)->orderByDesc('durationid')->paginate(10);
-        return view('admin.managepackages.managePackageDurations', ['packageDurations' => $data]);
+        if ($request->ajax()) {
+            $data = DB::table('tbl_package_duration')
+                ->where('bit_Deleted_Flag', 0);
+
+            // 👉 Handle ordering explicitly
+            if ($request->has('order')) {
+                $columnIndex = $request->input('order')[0]['column']; // Get the column index
+                $columnName = $request->input('columns')[$columnIndex]['data']; // Get column name
+                $sortDirection = $request->input('order')[0]['dir']; // Get sorting direction
+                $data->orderBy($columnName, $sortDirection);
+            } else {
+                $data->orderByDesc('durationid'); // Default sorting
+            }
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('status', function ($row) {
+                    $btnClass = $row->status == 1 ? 'btn-outline-success' : 'btn-outline-dark';
+                    $label = $row->status == 1 ? 'Active' : 'Inactive';
+
+                    return '
+                        <form action="'.route('admin.managepackagedurations.activePackageDurations', ['id' => $row->durationid]).'" method="POST" onsubmit="return confirm(\'Are you sure you want to change the status?\')">
+                            '.csrf_field().'
+                            <button type="submit" class="btn '.$btnClass.' btn-sm">
+                                <span class="label-custom label">'.$label.'</span>
+                            </button>
+                        </form>';
+                })
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('admin.managepackagedurations.editPackageDurations', ['id' => $row->durationid]);
+                    $deleteUrl = route('admin.managepackagedurations.deletePackageDurations', ['id' => $row->durationid]);
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                    $requiredModuleId = 10;
+                    
+                    $buttons = '
+                        <div class="d-flex gap-1">
+                            <a href="'.$editUrl.'" class="btn btn-success btn-sm" title="Edit">
+                                <i class="fa fa-pencil"></i>
+                            </a>';
+                            
+                    if ($user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1)) {
+                        $buttons .= '
+                            <form action="'.$deleteUrl.'" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this package duration?\')">
+                                '.csrf_field().'
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+
+                    $buttons .= '</div>';
+
+                    return $buttons;
+                })
+                ->rawColumns(['status', 'action'])
+                ->make(true);
+        }
+
+        return view('admin.managepackages.managePackageDurations');
     }
+
+
 
     public function addPackageDurations(Request $request)
     {

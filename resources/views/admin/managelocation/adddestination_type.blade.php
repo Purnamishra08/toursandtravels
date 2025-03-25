@@ -1,17 +1,17 @@
 <!-- Metaheader Section-->
-@include('Admin.include.metaheader')
+@include('admin.include.metaheader')
 <!-- Metaheader Section End -->
 <body>
     <div id="layoutSidenav">
         <!-- Left Navbar Start-->
-        @include('Admin.include.leftNavbar')
+        @include('admin.include.leftNavbar')
         <!-- Left Navbar End-->
 
         <div id="layoutSidenav_content">
             <div class="content-body">
 
                 <!-- TopBar header Start-->
-                @include('Admin.include.topBarHeader')
+                @include('admin.include.topBarHeader')
                 <!--TopBar header end -->
 
                 <!-- Main Content Start-->
@@ -41,7 +41,7 @@
                             <!-- <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item active">Manage State</li>
                             </ol> -->
-                            @include('Admin.include.sweetaleart')
+                            @include('admin.include.sweetaleart')
                             <section class="content">
                                 <form action="{{ isset($destinationtype) ? route('admin.destinationtype.editdestinationtype', $destinationtype->destination_type_id) : route('admin.destinationtype.adddestinationtype') }}" method="POST" id="destinationtypeform"  name="destinationtypeform" class="add-destinationtype" onsubmit="return validator()"  enctype="multipart/form-data">
                                     @csrf
@@ -52,8 +52,10 @@
                                                 value="{{ old('destinationtype', $destinationtype->destination_type_name ?? '') }}">
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-primary">{{ isset($state) ? 'Update' : 'Save' }}</button>
-                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                            <button type="submit" class="btn btn-primary">{{ isset($destinationtype) ? 'Update' : 'Save' }}</button>
+                                            @if(!isset($destinationtype))
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </form>
@@ -63,15 +65,15 @@
                 </main>
 
                 <!-- Footer Start-->
-                @include('Admin.include.footer')
+                @include('admin.include.footer')
                 <!-- Footer End-->
             </div>
         </div>
     </div>
     <!-- FooterJs Start-->
-    @include('Admin.include.footerJs')
+    @include('admin.include.footerJs')
     <!-- FooterJs End-->
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
     <script>
         function validator(){
             if(!blankCheck('destinationtype','Destination type cannot be blank'))

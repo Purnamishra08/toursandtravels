@@ -7,34 +7,135 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class PlacesController extends Controller
 {
     public function index(Request $request)
     {
-        $place_name         = $request->input('place_name', '');
-        $destination_id     = $request->input('destination_id', '');
-        $status             = $request->input('status', '');
-
-        $query = DB::table('tbl_places as p')
-                       ->select('p.placeimg', 'p.placethumbimg', 'p.placeid', 'p.place_name','d.destination_id', 'd.destination_name', 'p.status')
-                       ->leftJoin('tbl_destination as d', 'p.destination_id', '=', 'd.destination_id')
-                       ->where('p.bit_Deleted_Flag', 0)
-                       ->where('d.bit_Deleted_Flag',0);
-        if (!empty($place_name)) {
-            $query->where('p.place_name', 'like', '%' . $place_name . '%');
-        }
-        if (!empty($destination_id)) {
-            $query->where('p.destination_id', $destination_id);
-        }
-        if (!empty($status)) {
-            $query->where('p.status', $status);
-        }
-        $places = $query->paginate(10);
-
         $destinations = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
 
-        return view('admin.managelocation.places', ['places' => $places, 'destinations' => $destinations]);
+        return view('admin.managelocation.places', ['destinations' => $destinations]);
+    }
+
+    public function getData(Request $request){
+        if ($request->ajax()) {
+            // Fetch places for DataTables
+            $query = DB::table('tbl_places as p')
+                ->select('p.placeimg', 'p.placethumbimg', 'p.placeid', 'p.place_name', 'd.destination_id', 'd.destination_name', 'p.status')
+                ->leftJoin('tbl_destination as d', 'p.destination_id', '=', 'd.destination_id')
+                ->where('p.bit_Deleted_Flag', 0)
+                ->where('d.bit_Deleted_Flag', 0);
+
+            $place_name         = $request->input('place_name', '');
+            $destination_id     = $request->input('destination_id', '');
+            $status             = $request->input('status', '');
+
+            if (!empty($place_name)) {
+                $query->where('p.place_name', 'like', '%' . $place_name . '%');
+            }
+            if (!empty($destination_id)) {
+                $query->where('p.destination_id', $destination_id);
+            }
+            if (!empty($status)) {
+                $query->where('p.status', $status);
+            }
+
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('p.place_name', 'like', '%' . $search . '%')
+                      ->orWhere('d.destination_name', 'like', '%' . $search . '%');
+                });
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('place_name', function ($row) {
+                    return $row->place_name;
+                })
+                ->addColumn('destination_name', function ($row) {
+                    return $row->destination_name;
+                })
+                ->addColumn('placeimg', function ($row) {
+                    if (!empty($row->placeimg)) {
+                        return '<a href="' . asset('storage/place_images/' . $row->placeimg) . '" target="_blank">
+                                    <img id="destinationBannerPreview"
+                                        src="' . asset('storage/place_images/' . $row->placeimg) . '"
+                                        alt="Destination Banner Preview"
+                                        class="img-fluid rounded border"
+                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                </a>';
+                    }
+                    return '';
+                })
+                ->addColumn('placethumbimg', function ($row) {
+                    if (!empty($row->placethumbimg)) {
+                        return '<a href="' . asset('storage/place_images/thumbs/' . $row->placethumbimg) . '" target="_blank">
+                                    <img id="destinationImagePreview" 
+                                        src="' . asset('storage/place_images/thumbs/' . $row->placethumbimg) . '"
+                                        alt="Destination Image"
+                                        class="img-fluid rounded border"
+                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                </a>';
+                    }
+                    return '';
+                })
+                ->addColumn('status', function ($row) {
+                    $csrf = csrf_field();
+                    $route = route('admin.places.activeplaces', ['id' => $row->placeid]);
+                    $confirmMessage = "return confirm('Are you sure you want to change the status?')";
+    
+                    if ($row->status == 1) {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-success" title="Active. Click to deactivate.">
+                                        <span class="label-custom label label-success">Active</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-dark" title="Inactive. Click to activate.">
+                                        <span class="label-custom label label-danger">Inactive</span>
+                                    </button>
+                                </form>';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                
+                    // Edit button (always visible)
+                    $editButton = '
+                        <a href="' . route('admin.places.editplaces', $row->placeid) . '" class="btn btn-primary btn-sm" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>';
+                
+                    // Define module ID required for delete access (adjust if needed)
+                    $requiredModuleId = 6; // Change this to the correct module ID for places
+                
+                    // Check if the user has delete permission
+                    $canDelete = $user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1);
+                
+                    // Delete button (visible only if allowed)
+                    $deleteButton = '';
+                    if ($canDelete) {
+                        $deleteButton = '
+                            <form action="' . route('admin.places.deleteplaces', $row->placeid) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this place?\')">
+                                ' . csrf_field() . '
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+                
+                    return $editButton . $deleteButton;
+                })
+                ->rawColumns(['placeimg', 'placethumbimg', 'status', 'action']) // Allow HTML rendering
+                ->make(true);
+        }
     }
 
     public function addplaces(Request $request){
@@ -47,8 +148,10 @@ class PlacesController extends Controller
                 'short_desc'          => 'required|string',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'placethumbimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1140,height=350',
+                'placethumbimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=300',
+                'alttag_banner'       => 'required|string|max:60|unique:tbl_places,alttag_banner',
+                'alttag_thumb'        => 'required|string|max:60|unique:tbl_places,alttag_thumb'
             ]);
 
             if ($validator->fails()) {
@@ -57,14 +160,23 @@ class PlacesController extends Controller
                     ->withInput();
             }
 
-            DB::beginTransaction(); // Start transaction
+            
 
             try {
+                $duplicateCount = DB::table('tbl_places')->Where('place_url', $request->input('place_url'))->count();
+
+                if ($duplicateCount > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this place, URL must be unique.']);
+                }
+
+                DB::beginTransaction(); // Start transaction
                 // Handle Image Upload
                 $place_imageName = null;
                 if ($request->hasFile('placeimg')) {
                     $file = $request->file('placeimg');
-                    $place_imageName = time() . '_' . $file->getClientOriginalName();
+                    $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('place_images', $place_imageName, 'public');
                 }
 
@@ -72,7 +184,7 @@ class PlacesController extends Controller
                 $placeThumbImageName = null;
                 if ($request->hasFile('placethumbimg')) {
                     $file = $request->file('placethumbimg');
-                    $placeThumbImageName = time() . '_' . $file->getClientOriginalName();
+                    $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
                 }
 
@@ -89,7 +201,6 @@ class PlacesController extends Controller
                     'placethumbimg'                 => $placeThumbImageName,
                     'alttag_banner'                 => Str::slug($request->input('alttag_banner')),
                     'alttag_thumb'                  => Str::slug($request->input('alttag_thumb')),
-                    'trip_duration'                 => $request->input('trip_duration'),
                     'travel_tips'                   => $request->input('travel_tips'),
                     'google_map'                    => $request->input('google_map'),
                     'entry_fee'			            => $request->input('entry_fee'),
@@ -124,37 +235,12 @@ class PlacesController extends Controller
                         DB::table('tbl_multdest_type')->insert($locationTypes);
                     }
 
-                    // Insert tags
-                    if (!empty($request->input('getatagid'))) {
-                        $tags = [];
-                        foreach ($request->input('getatagid') as $tagid) {
-                            $tags[] = [
-                                'type'    => 2,
-                                'type_id' => $inserted,
-                                'tagid'   => $tagid,
-                            ];
-                        }
-                        DB::table('tbl_tags')->insert($tags);
-                    }
-
-                    // Insert similar destinations (nearby places)
-                    if (!empty($request->input('transport'))) {
-                        $nearPlaces = [];
-                        foreach ($request->input('transport') as $transport) {
-                            $nearPlaces[] = [
-                                'place_id'		=> $inserted,
-                                'transport_id'  => $transport
-                            ];
-                        }
-                        DB::table('tbl_place_transport')->insert($nearPlaces);
-                    }
-
                     DB::commit(); // Commit transaction
                     return redirect()->back()->with('success', 'Place added successfully.');
                 } else {
                     throw new \Exception('Place could not be added.');
                 }
-            } catch (\Exception $e) {dd($e);
+            } catch (\Exception $e) {
                 DB::rollBack(); // Rollback transaction on error
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }
@@ -181,14 +267,16 @@ class PlacesController extends Controller
 
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
-                'place_name'          => 'required|string|max:255',
+                'place_name'          => "required|string|max:255|unique:tbl_places,place_name,$id,placeid",
                 'place_url'           => 'required|string|max:255',
                 'destination_id'      => 'required|numeric',
                 'short_desc'          => 'required|string',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'placethumbimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1140,height=350',
+                'placethumbimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=300',
+                'alttag_banner'       => "required|string|max:60|unique:tbl_places,alttag_banner,$id,placeid",
+                'alttag_thumb'        => "required|string|max:60|unique:tbl_places,alttag_thumb,$id,placeid"
             ]);
 
             if ($validator->fails()) {
@@ -197,12 +285,19 @@ class PlacesController extends Controller
 
             DB::beginTransaction();
             try {
+                $duplicateCount = DB::table('tbl_places')->Where('place_url', $request->input('place_url'))->where('placeid','!=', $id)->count();
+
+                if ($duplicateCount > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this place, URL must be unique.']);
+                }
                 if ($request->hasFile('placeimg')) {
                     $file = $request->file('placeimg');
-                    $place_imageName = time() . '_' . $file->getClientOriginalName();
+                    $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('place_images', $place_imageName, 'public');
                     
-                    if ($place->placeimg) {
+                    if ($place->placeimg && ($place->placeimg != $place_imageName)) {
                         Storage::disk('public')->delete('place_images/' . $place->placeimg);
                     }
                 } else {
@@ -211,10 +306,10 @@ class PlacesController extends Controller
 
                 if ($request->hasFile('placethumbimg')) {
                     $file = $request->file('placethumbimg');
-                    $placeThumbImageName = time() . '_' . $file->getClientOriginalName();
+                    $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
                     
-                    if ($place->placethumbimg) {
+                    if ($place->placethumbimg && ($place->placethumbimg != $placeThumbImageName)) {
                         Storage::disk('public')->delete('place_images/thumbs/' . $place->placethumbimg);
                     }
                 } else {

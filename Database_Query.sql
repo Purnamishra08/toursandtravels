@@ -15,6 +15,8 @@ CREATE TABLE `tbl_admin_modules` (
   CONSTRAINT `tbl_admin_modules_ibfk_1` FOREIGN KEY (`moduleid`) REFERENCES `tbl_modules` (`moduleid`),
   CONSTRAINT `tbl_admin_modules_ibfk_2` FOREIGN KEY (`adminid`) REFERENCES `tbl_admin` (`adminid`)
 );
+ALTER TABLE `toursandtravels`.`tbl_admin_modules` 
+ADD COLUMN `moduleDeleteAccess` BIT(1) NOT NULL DEFAULT b'0' COMMENT '0 = NO\n1 = YES' AFTER `moduleid`;
 
 #Manage Vehicles
 CREATE TABLE `tbl_vehicletypes` (
@@ -390,8 +392,293 @@ CREATE TABLE `tbl_itinerary` (
 );
 
 
-
-
-
-
 #ManagePackages
+
+select * from tbl_contact;
+#Enquiry
+CREATE TABLE `tbl_contact` (
+  `enq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cont_name` varchar(100) DEFAULT NULL,
+  `cont_email` varchar(150) DEFAULT NULL,
+  `cont_phone` varchar(20) DEFAULT NULL,
+  `cont_enquiry_details` varchar(1200) DEFAULT NULL,
+  `page_name` varchar(100) DEFAULT NULL,
+  `cont_date` datetime DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`enq_id`)
+);
+INSERT INTO `toursandtravels`.`tbl_contact` (`cont_name`, `cont_email`, `cont_phone`, `cont_enquiry_details`, `page_name`, `cont_date`, `bit_Deleted_Flag`) VALUES ('Rohan Agarwal', 'agarwalrohan132@gmail.com', '7790058321', 'qwertyuioplkjhgfdsazxcvbnm', 'Contact Us', '2019-10-14 10:33:48', b'0');
+
+CREATE TABLE `tbl_reply_enquiry` (
+  `reply_id` int(11) NOT NULL AUTO_INCREMENT,
+  `adminid` int(11) NOT NULL,
+  `type` tinyint(4) DEFAULT NULL COMMENT '1=enqid, 2= itinerary enquiry  id, , 3= package enquiry',
+  `enq_id` int(11) NOT NULL,
+  `message` text DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`reply_id`),
+  KEY `adminid` (`adminid`),
+  KEY `enquiry_id` (`enq_id`)
+);
+select * from tbl_reply_enquiry;
+
+#ItineraryEnquiry
+use toursandtravels;
+CREATE TABLE `tbl_tripcustomize` (
+  `tripcust_id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(150) DEFAULT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `tsdate` datetime DEFAULT NULL,
+  `duration` int(100) DEFAULT NULL,
+  `tnote` varchar(1200) DEFAULT NULL,
+  `itinerary_id` int(11) DEFAULT NULL,
+  `package_id` int(11) DEFAULT NULL,
+  `created_date` timestamp NULL DEFAULT current_timestamp(),
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`tripcust_id`)
+) ;
+INSERT INTO `toursandtravels`.`tbl_tripcustomize` (`email`, `phone`, `tsdate`, `duration`, `tnote`, `package_id`) VALUES ('agarwalrohan132@gmail.com', '7790058321', '2019-11-21 00:00:00', '2', 'Interested', '1');
+
+#ItineraryEnquiry
+
+#Package Enquiry
+use toursandtravels;
+CREATE TABLE `tbl_package_inquiry` (
+  `enq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(200) DEFAULT NULL,
+  `last_name` varchar(200) DEFAULT NULL,
+  `emailid` varchar(250) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `message` text DEFAULT NULL,
+  `noof_adult` int(5) DEFAULT NULL,
+  `noof_child` int(5) DEFAULT NULL,
+  `tour_date` date DEFAULT NULL,
+  `accomodation` int(11) DEFAULT NULL,
+  `packageid` int(11) DEFAULT NULL,
+  `inquiry_date` datetime DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`enq_id`)
+);
+select * from tbl_package_inquiry;
+INSERT INTO `toursandtravels`.`tbl_package_inquiry` (`first_name`, `last_name`, `emailid`, `phone`, `message`, `noof_adult`, `noof_child`, `tour_date`, `accomodation`, `packageid`, `inquiry_date`) VALUES ('Rohan', 'Agarwal', 'agarwalrohan132@gmail.com', '7790058321', 'we have our personal travel vehicle so excluding the vehicle charges can i know the estimate', '4', '2', '2021-02-02', '2', '1', '2021-01-25 17:55:49');
+#Package Enquiry
+
+
+#Enquiry
+
+
+#Reviews
+CREATE TABLE `tbl_reviews` (
+  `review_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tourtagid` text DEFAULT NULL,
+  `reviewer_name` varchar(100) DEFAULT NULL,
+  `reviewer_loc` varchar(150) DEFAULT NULL,
+  `no_of_star` varchar(100) DEFAULT NULL,
+  `feedback_msg` text DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL,
+  `created_date` datetime DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`review_id`)
+);
+
+
+#FAQ
+CREATE TABLE `tbl_faqs` (
+  `faq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `faq_question` varchar(400) DEFAULT NULL,
+  `faq_answer` text DEFAULT NULL,
+  `faq_order` smallint(6) DEFAULT 0,
+  `status` tinyint(4) DEFAULT 1,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`faq_id`)
+);
+
+CREATE TABLE `tbl_package_faqs` (
+  `faq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tag_id` int(11) DEFAULT 0,
+  `faq_question` varchar(400) DEFAULT NULL,
+  `faq_answer` text DEFAULT NULL,
+  `faq_order` smallint(6) DEFAULT 0,
+  `status` tinyint(4) DEFAULT 1,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`faq_id`)
+);
+
+ALTER TABLE `toursandtravels`.`tbl_hotel` 
+CHANGE COLUMN `destination_name` `destination_name` INT(11) NOT NULL ,
+CHANGE COLUMN `hotel_type` `hotel_type` INT(11) NOT NULL ;
+
+
+
+#CMS
+CREATE TABLE `tbl_contents` (
+  `content_id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_name` varchar(50) DEFAULT NULL,
+  `page_content` text DEFAULT NULL,
+  `seo_title` text DEFAULT NULL,
+  `seo_description` text DEFAULT NULL,
+  `seo_keywords` text DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`content_id`),
+  KEY `INX_TBL_CONTENTS 2024-05-25 11:08` (`content_id`)
+);
+INSERT INTO `tbl_contents` (`page_name`, `page_content`, `seo_title`, `seo_description`, `seo_keywords`, `updated_date`, `updated_by`, `bit_Deleted_Flag`) VALUES ('Home Page', '<div class="container">\r\n<div class="row">\r\n<div class="col-md-4">\r\n<div class="featuredbox-top"><img alt="guide" height="64" src="https://myholidayhappiness.com/assets/images/guide.png" width="64" />\r\n<div class="featuredbox-title"><span>1,000+</span> local guides</div>\r\n\r\n<div class="featuredbox-title">&nbsp;</div>\r\n</div>\r\n</div>\r\n\r\n<div class="col-md-4">\r\n<div class="featuredbox-top"><img alt="experience" height="64" src="https://myholidayhappiness.com/assets/images/experience.png" width="64" />\r\n<div class="featuredbox-title"><span>Handcrafted</span> experiences</div>\r\n</div>\r\n</div>\r\n\r\n<div class="col-md-4">\r\n<div class="featuredbox-top"><img alt="traveller" height="64" src="https://myholidayhappiness.com/assets/images/traveller.png" width="64" />\r\n<div class="featuredbox-title"><span>100% </span> happy travellers</div>\r\n</div>\r\n</div>\r\n\r\n<div class="clearfix">&nbsp;</div>\r\n</div>\r\n</div>', 'My Holiday Happiness - Package Tours & Travels', 'Search holiday Ideas, Plan Your Trip, Get multiple free itineraries with a price calculator. Explore multiple destinations & tour packages in India.', 'India Travel, Tour Packages, India Destinations, Travel Guide, India Destination Guide, Travel Itinerary, Build Itinerary, India Trip Planning, India Tourism, Travel India, Places to visit in India, Tourist Places in India, Things to do, plan your trips', '2025-03-20 20:26:34', 18, b'0');
+INSERT INTO `tbl_contents` (`content_id`, `page_name`, `page_content`, `seo_title`, `seo_description`, `seo_keywords`, `updated_date`, `updated_by`, `bit_Deleted_Flag`) VALUES (3, 'Contact Page', '<div class="col-md-8 text-center">\r\n<h3 class="mb-2">If you need furthur details - <em><strong>Please to write us for more information</strong></em></h3>\r\n\r\n<h5 class="mb-3">You need help ?</h5>\r\n\r\n<div class="clearfix">&nbsp;</div>\r\n\r\n<p>We would be more happy to help you.Our team advisor are 24/7 at your service to help you..For any support on ongoing trips, please call Tour Manager assigned to your trip.</p>\r\n</div>', 'Contact Us - My Holiday Happiness', 'Contact My Holiday Happiness for your travel needs like package tours, Trip itineraries, Weekend getaways, Travel guide and Travel startup', 'My Holiday Happiness contact us page, Contact us, Contact My Holiday Happiness', '2025-03-20 20:27:08', 18, b'0');
+
+#footer links
+CREATE TABLE `tbl_footer` (
+  `int_footer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `vch_Footer_Name` varchar(255) NOT NULL,
+  `vch_Footer_URL` varchar(255) NOT NULL,
+  `vch_Footer_Desc` text DEFAULT NULL,
+  `tourpackageid` text DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`int_footer_id`)
+);
+SET SQL_SAFE_UPDATES=0;
+UPDATE `toursandtravels`.`tbl_modules` SET `module` = 'Manage Footer Links' WHERE (`moduleid` = '11');
+
+#footer links
+
+#FOLLOWUPENQUIRY
+
+select * from tbl_sources;
+select * from tbl_statuses;
+CREATE TABLE `tbl_sources` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `status` tinyint(1) DEFAULT 1,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `tbl_statuses` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `status` tinyint(1) DEFAULT 1,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`id`)
+);
+#FOLLOWUPENQUIRY
+
+select * from tbl_admin;
+
+update tbl_admin set password='$2y$10$6NY3d1MbfEr7WCXO7ff/huVSTq3YMGXVube9/sGU2eKw24u4LDiaq' where adminid>0;
+#Blogs
+CREATE TABLE `tbl_blog` (
+  `blogid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(500) DEFAULT NULL,
+  `blog_url` varchar(300) DEFAULT NULL,
+  `image` varchar(200) DEFAULT NULL,
+  `alttag_image` varchar(64) DEFAULT NULL,
+  `show_in_home` tinyint(4) DEFAULT NULL COMMENT 'show = 1',
+  `show_comment` tinyint(4) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `blog_meta_title` text DEFAULT NULL,
+  `blog_meta_keywords` text DEFAULT NULL,
+  `blog_meta_description` text DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`blogid`)
+);
+
+CREATE TABLE `tbl_comments` (
+  `commentid` int(11) NOT NULL AUTO_INCREMENT,
+  `blogid` int(11) NOT NULL,
+  `parentid` int(11) DEFAULT NULL,
+  `user_name` varchar(250) DEFAULT NULL,
+  `email_id` varchar(250) DEFAULT NULL,
+  `comments` varchar(1200) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`commentid`)
+) ;
+
+#Blogs
+
+#EnquiryEntry
+select * from tbl_inquiries;
+CREATE TABLE `tbl_inquiries` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `customer_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `source_id` int(11) NOT NULL DEFAULT 0,
+  `trip_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `trip_start_date` timestamp NULL DEFAULT NULL,
+  `followup_date` timestamp NULL DEFAULT NULL,
+  `travellers_count` int(11) NOT NULL DEFAULT 0,
+  `comments` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `inquiry_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status_id` int(11) NOT NULL DEFAULT 0,
+  `assign_to` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(11) NOT NULL DEFAULT 0,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `updated_by` int(11) DEFAULT 0,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `tbl_inquiries_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `inquiries_id` int(10) NOT NULL,
+  `customer_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `source_id` int(11) NOT NULL DEFAULT 0,
+  `trip_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `trip_start_date` timestamp NULL DEFAULT NULL,
+  `followup_date` timestamp NULL DEFAULT NULL,
+  `travellers_count` int(11) NOT NULL DEFAULT 0,
+  `comments` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `inquiry_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status_id` int(11) NOT NULL DEFAULT 0,
+  `assign_to` int(11) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `created_by` int(11) NOT NULL DEFAULT 0,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `updated_by` int(11) DEFAULT 0,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`id`)
+);
+
+
+#EnquiryEntry

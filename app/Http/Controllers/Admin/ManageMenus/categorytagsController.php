@@ -3,23 +3,104 @@ namespace App\Http\Controllers\Admin\ManageMenus;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use DB;
 
 class CategoryTagsController extends Controller
 {
     public function index(Request $request){
-        $perPage = $request->get('perPage', 10);
-        $category_tags = DB::table('tbl_menutags as a')
-                      ->select('a.tagid', 'a.cat_id', 'a.menuid', 'm.menu_name','c.cat_name', 'a.tag_name', 'a.status', 'a.bit_Deleted_Flag')
-                      ->leftJoin('tbl_menus as m', 'a.menuid', '=', 'm.menuid')
-                      ->leftJoin('tbl_menucategories as c', 'a.cat_id', '=', 'c.catid')
-                      ->where('a.bit_Deleted_Flag',0)
-                      ->where('m.bit_Deleted_Flag',0)
-                      ->where('c.bit_Deleted_Flag',0)
-                      ->paginate($perPage);
-        return view('admin.managemenus.categorytags', ['category_tags' => $category_tags]);
+        return view('admin.managemenus.categorytags');
+    }
+
+    public function getData(Request $request){
+        if ($request->ajax()) {
+            // Fetch category tags for DataTables
+            $query = DB::table('tbl_menutags as a')
+                ->select('a.tagid', 'a.cat_id', 'a.menuid', 'm.menu_name', 'c.cat_name', 'a.tag_name', 'a.status', 'a.bit_Deleted_Flag')
+                ->leftJoin('tbl_menus as m', 'a.menuid', '=', 'm.menuid')
+                ->leftJoin('tbl_menucategories as c', 'a.cat_id', '=', 'c.catid')
+                ->where('a.bit_Deleted_Flag', 0)
+                ->where('m.bit_Deleted_Flag', 0)
+                ->where('c.bit_Deleted_Flag', 0);
+    
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('m.menu_name', 'like', '%' . $search . '%')
+                      ->orWhere('c.cat_name', 'like', '%' . $search . '%')
+                      ->orWhere('a.tag_name', 'like', '%' . $search . '%');
+                });
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('menu_name', function ($row) {
+                    return $row->menu_name;
+                })
+                ->addColumn('cat_name', function ($row) {
+                    return $row->cat_name;
+                })
+                ->addColumn('tag_name', function ($row) {
+                    return $row->tag_name;
+                })
+                ->addColumn('status', function ($row) {
+                    $csrf = csrf_field();
+                    $route = route('admin.categorytags.activecategorytags', ['id' => $row->tagid]);
+                    $confirmMessage = "return confirm('Are you sure you want to change the status?')";
+    
+                    if ($row->status == 1) {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-success" title="Active. Click to deactivate.">
+                                        <span class="label-custom label label-success">Active</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-dark" title="Inactive. Click to activate.">
+                                        <span class="label-custom label label-danger">Inactive</span>
+                                    </button>
+                                </form>';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                
+                    // Edit button (always visible)
+                    $editButton = '
+                        <a href="' . route('admin.categorytags.editcategorytags', $row->tagid) . '" class="btn btn-primary btn-sm" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>';
+                
+                    // Define the module ID required for delete access (adjust as needed)
+                    $requiredModuleId = 8; // Change this to the correct module ID for category tags
+                
+                    // Check if the user has delete permission
+                    $canDelete = $user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1);
+                
+                    // Delete button (visible only if allowed)
+                    $deleteButton = '';
+                    if ($canDelete) {
+                        $deleteButton = '
+                            <form action="' . route('admin.categorytags.deletecategorytags', $row->tagid) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this category tag?\')">
+                                ' . csrf_field() . '
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+                
+                    return $editButton . $deleteButton;
+                })
+                ->rawColumns(['status', 'action']) // Allow HTML rendering
+                ->make(true);
+        }
     }
 
     public function getCategoryMenuWise(Request $request){
@@ -46,20 +127,20 @@ class CategoryTagsController extends Controller
         if ($request->isMethod('post')) {
             // Validation using Validator::make
             $validator = Validator::make($request->all(), [
-                'tag_name' => 'required|string|max:255',
-                'tag_url' => 'required|max:255',
-                'menuid' => 'required',
-                'catId' => 'required',
-                'menutag_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Image validation
-                'menutagthumb_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Image validation
-                'alttag_banner' => 'nullable|string|max:60',
-                'alttag_thumb' => 'nullable|string|max:60',
-                'show_on_home' => 'nullable|boolean',
-                'show_on_footer' => 'nullable|boolean',
-                'about_tag' => 'required|string',
-                'meta_title' => 'nullable|string|max:255',
-                'meta_keywords' => 'nullable|string|max:255',
-                'meta_description' => 'nullable|string|max:255',
+                'tag_name'                  => 'required|string|max:255',
+                'tag_url'                   => 'required|max:255',
+                'menuid'                    => 'required',
+                'catId'                     => 'required',
+                'menutag_img'               => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=488',
+                'menutagthumb_img'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=350',
+                'alttag_banner'             => 'required|string|max:60|unique:tbl_menutags,alttag_banner',
+                'alttag_thumb'              => 'required|string|max:60|unique:tbl_menutags,alttag_thumb',
+                'show_on_home'              => 'nullable|boolean',
+                'show_on_footer'            => 'nullable|boolean',
+                'about_tag'                 => 'required|string',
+                'meta_title'                => 'nullable|string|max:255',
+                'meta_keywords'             => 'nullable|string|max:255',
+                'meta_description'          => 'nullable|string|max:255',
             ]);
 
             // If validation fails, redirect back with errors and old input
@@ -70,14 +151,38 @@ class CategoryTagsController extends Controller
             DB::beginTransaction(); // Start transaction
 
             try {
+                $duplicateCount = DB::table('tbl_menutags')->Where('tag_url', $request->input('tag_url'))->count();
+
+                if ($duplicateCount > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this category tag, URL must be unique.']);
+                }
+                // Handle image file uploads and store only image names in the database
+                $bannerImageName = null;
+                if ($request->hasFile('menutag_img')) {
+                    $file = $request->file('menutag_img');
+                    $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
+                }
+
+                $getawayImageName = null;
+                if ($request->hasFile('menutagthumb_img')) {
+                    $file = $request->file('menutagthumb_img');
+                    $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
+                }
+
                 // Prepare data for insertion
                 $data = [
                     'tag_name'              => $request->tag_name,
                     'tag_url'               => $request->tag_url,
                     'menuid'                => $request->menuid,
                     'cat_id'                => $request->catId,
-                    'alttag_banner'         => $request->alttag_banner ?? '',
-                    'alttag_thumb'          => $request->alttag_thumb ?? '',
+                    'menutag_img'           => $bannerImageName,
+                    'menutagthumb_img'      => $getawayImageName,
+                    'alttag_banner'         => Str::slug($request->input('alttag_banner')),
+                    'alttag_thumb'          => Str::slug($request->input('alttag_thumb')),
                     'show_on_home'          => $request->show_on_home ?? 0,
                     'show_on_footer'        => $request->show_on_footer ?? 0,
                     'about_tag'             => $request->about_tag,
@@ -90,23 +195,6 @@ class CategoryTagsController extends Controller
                     'updated_date'          => now(),
                     'updated_by'            => isset(session('user')->adminid) ? session('user')->adminid : 0
                 ];
-
-                // Handle image file uploads and store only image names in the database
-                $bannerImageName = null;
-                if ($request->hasFile('menutag_img')) {
-                    $file = $request->file('menutag_img');
-                    $bannerImageName = time() . '_' . $file->getClientOriginalName(); // Unique Name
-                    $file->storeAs('category_tags_images', $bannerImageName, 'public'); // Store in Storage
-                    $data['menutag_img'] = $bannerImageName; // Store only the name in DB
-                }
-
-                $getawayImageName = null;
-                if ($request->hasFile('menutagthumb_img')) {
-                    $file = $request->file('menutagthumb_img');
-                    $getawayImageName = time() . '_' . $file->getClientOriginalName(); // Unique Name
-                    $file->storeAs('category_tags_images', $getawayImageName, 'public'); // Store in Storage
-                    $data['menutagthumb_img'] = $getawayImageName; // Store only the name in DB
-                }
 
                 // Insert data into the database table
                 DB::table('tbl_menutags')->insert($data);
@@ -139,20 +227,20 @@ class CategoryTagsController extends Controller
             if ($request->isMethod('post')) {
                 // Validation using Validator::make
                 $validator = Validator::make($request->all(), [
-                    'tag_name' => 'required|string|max:255',
-                    'tag_url' => 'required|max:255',
-                    'menuid' => 'required',
-                    'catId' => 'required',
-                    'menutag_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Image validation
-                    'menutagthumb_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',  // Image validation
-                    'alttag_banner' => 'nullable|string|max:60',
-                    'alttag_thumb' => 'nullable|string|max:60',
-                    'show_on_home' => 'nullable|boolean',
-                    'show_on_footer' => 'nullable|boolean',
-                    'about_tag' => 'required|string',
-                    'meta_title' => 'nullable|string|max:255',
-                    'meta_keywords' => 'nullable|string|max:255',
-                    'meta_description' => 'nullable|string|max:255',
+                    'tag_name'              => 'required|string|max:255',
+                    'tag_url'               => 'required|max:255',
+                    'menuid'                => 'required',
+                    'catId'                 => 'required',
+                    'menutag_img'           => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=488',
+                    'menutagthumb_img'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=350',
+                    'alttag_banner'         => "required|string|max:60|unique:tbl_menutags,alttag_banner,$id,tagid",
+                    'alttag_thumb'          => "required|string|max:60|unique:tbl_menutags,alttag_thumb,$id,tagid",
+                    'show_on_home'          => 'nullable|boolean',
+                    'show_on_footer'        => 'nullable|boolean',
+                    'about_tag'             => 'required|string',
+                    'meta_title'            => 'nullable|string|max:255',
+                    'meta_keywords'         => 'nullable|string|max:255',
+                    'meta_description'      => 'nullable|string|max:255',
                 ]);
 
                 // If validation fails, redirect back with errors and old input
@@ -162,13 +250,47 @@ class CategoryTagsController extends Controller
 
                 DB::beginTransaction(); // Start transaction
                 try {
+                    $duplicateCount = DB::table('tbl_menutags')->Where('tag_url', $request->input('tag_url'))->where('tagid','!=', $id)->count();
+
+                    if ($duplicateCount > 0) {
+                        return redirect()->back()
+                            ->withInput()
+                            ->withErrors(['error' => 'You have already added this category tag, URL must be unique.']);
+                    }
+
+                    if ($request->hasFile('menutag_img')) {
+                        $file = $request->file('menutag_img');
+                        $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
+                        $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
+                        
+                        if ($categorytags->menutag_img && ($categorytags->menutag_img != $bannerImageName)) {
+                            Storage::disk('public')->delete('category_tags_images/BannerImages/' . $categorytags->menutag_img);
+                        }
+                    } else {
+                        $bannerImageName = $categorytags->placeimg;
+                    }
+    
+                    if ($request->hasFile('menutagthumb_img')) {
+                        $file = $request->file('menutagthumb_img');
+                        $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
+                        $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
+                        
+                        if ($categorytags->menutagthumb_img && ($categorytags->menutagthumb_img != $getawayImageName)) {
+                            Storage::disk('public')->delete('category_tags_images/GetawaysImages/' . $categorytags->menutagthumb_img);
+                        }
+                    } else {
+                        $getawayImageName = $categorytags->menutagthumb_img;
+                    }
+
                     $data = [
                         'tag_name'              => $request->tag_name,
                         'tag_url'               => $request->tag_url,
                         'menuid'                => $request->menuid,
                         'cat_id'                => $request->catId,
-                        'alttag_banner'         => $request->alttag_banner ?? '',
-                        'alttag_thumb'          => $request->alttag_thumb ?? '',
+                        'menutag_img'           => $bannerImageName,
+                        'menutagthumb_img'      => $getawayImageName,
+                        'alttag_banner'         => Str::slug($request->input('alttag_banner')),
+                        'alttag_thumb'          => Str::slug($request->input('alttag_thumb')),
                         'show_on_home'          => $request->show_on_home ?? 0,
                         'show_on_footer'        => $request->show_on_footer ?? 0,
                         'about_tag'             => $request->about_tag,
@@ -179,32 +301,6 @@ class CategoryTagsController extends Controller
                         'updated_date'          => now(),
                         'updated_by'            => isset(session('user')->adminid) ? session('user')->adminid : 0
                     ];
-                
-                    // Handle banner image file upload
-                    if ($request->hasFile('menutag_img')) {
-                        if (!empty($categorytags->menutag_img) && file_exists(public_path('storage/category_tags_images/' . $categorytags->menutag_img))) {
-                            unlink(public_path('storage/category_tags_images/' . $categorytags->menutag_img));
-                        }
-                
-                        // Store the new image
-                        $file = $request->file('menutag_img');
-                        $bannerImageName = time() . '_' . $file->getClientOriginalName(); // Unique Name
-                        $file->storeAs('category_tags_images', $bannerImageName, 'public'); // Store in Storage
-                        $data['menutag_img'] = $bannerImageName; // Store only the name in DB
-                    }
-                
-                    // Handle getaway image file upload
-                    if ($request->hasFile('menutagthumb_img')) {
-                        if (!empty($categorytags->menutagthumb_img) && file_exists(public_path('storage/category_tags_images/' . $categorytags->menutagthumb_img))) {
-                            unlink(public_path('storage/category_tags_images/' . $categorytags->menutagthumb_img));
-                        }
-                
-                        // Store the new image
-                        $file = $request->file('menutagthumb_img');
-                        $getawayImageName = time() . '_' . $file->getClientOriginalName(); // Unique Name
-                        $file->storeAs('category_tags_images', $getawayImageName, 'public'); // Store in Storage
-                        $data['menutagthumb_img'] = $getawayImageName; // Store only the name in DB
-                    }
                 
                     // Update the data in the database (assuming you're updating an existing record)
                     DB::table('tbl_menutags')

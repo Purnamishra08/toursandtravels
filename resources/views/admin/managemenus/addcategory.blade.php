@@ -1,18 +1,18 @@
 <!-- Metaheader Section-->
-@include('Admin.include.metaheader')
+@include('admin.include.metaheader')
 <!-- Metaheader Section End -->
 
 <body>
     <div id="layoutSidenav">
         <!-- Left Navbar Start-->
-        @include('Admin.include.leftNavbar')
+        @include('admin.include.leftNavbar')
         <!-- Left Navbar End-->
 
         <div id="layoutSidenav_content">
             <div class="content-body">
 
                 <!-- TopBar header Start-->
-                @include('Admin.include.topBarHeader')
+                @include('admin.include.topBarHeader')
                 <!-- TopBar header End -->
 
                 <!-- Main Content Start-->
@@ -39,7 +39,7 @@
                                 </div>
                                 <!-- table-utilities end-->
                             </nav>
-                            @include('Admin.include.sweetaleart')
+                            @include('admin.include.sweetaleart')
 
                             <section class="content">
                                 <div class="form-container" style="margin-bottom: 25px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); background-color:#fff; padding:25px; border-radius: 4px;">
@@ -68,8 +68,10 @@
                                         <!-- Reset and Submit Buttons -->
                                         <div class="clearfix"></div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-primary">{{ isset($state) ? 'Update' : 'Save' }}</button>
-                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                            <button type="submit" class="btn btn-primary">{{ isset($Category) ? 'Update' : 'Save' }}</button>
+                                            @if(!isset($Category))
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                            @endif
                                         </div>
 
                                     </form>
@@ -81,16 +83,16 @@
                 </main>
 
                 <!-- Footer Start-->
-                @include('Admin.include.footer')
+                @include('admin.include.footer')
                 <!-- Footer End-->
             </div>
         </div>
     </div>
     
     <!-- FooterJs Start-->
-    @include('Admin.include.footerJs')
+    @include('admin.include.footerJs')
     <!-- FooterJs End-->
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
     <script>
         function validator() {
             if(!selectDropdown('menuid', 'Menu is required')) return false;

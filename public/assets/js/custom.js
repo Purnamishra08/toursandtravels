@@ -22,12 +22,24 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl)
 })
 
-// $(document).ready(function () {
-//     $('.date-picker').datepicker({
-//        autoclose: true,
-//        todayHighlight: true
-//    });
-// });
+$(document).ready(function () {
+    $(".date-picker").datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        changeMonth: true, // Allow month selection
+        changeYear: true, // Allow year selection
+        maxDate: 0, // Restrict to current date and earlier
+    });
+});
+
+$(document).ready(function () {
+    $(".date-picker-no-validation").datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        changeMonth: true, // Allow month selection
+        changeYear: true, // Allow year selection
+    });
+});
 
 
 

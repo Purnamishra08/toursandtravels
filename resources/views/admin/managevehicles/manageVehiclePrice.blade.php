@@ -1,18 +1,18 @@
 <!-- Metaheader Section-->
-@include('Admin.include.metaheader')
+@include('admin.include.metaheader')
 <!-- Metaheader Section End -->
 
 <body>
     <div id="layoutSidenav">
         <!-- Left Navbar Start-->
-        @include('Admin.include.leftNavbar')
+        @include('admin.include.leftNavbar')
         <!-- Left Navbar End-->
 
         <div id="layoutSidenav_content">
             <div class="content-body">
 
                 <!-- TopBar header Start-->
-                @include('Admin.include.topBarHeader')
+                @include('admin.include.topBarHeader')
                 <!--TopBar header end -->
 
                 <!-- Main Content Start-->
@@ -34,7 +34,7 @@
         								View
         							</a>
         						</nav>
-                            @include('Admin.include.sweetaleart')
+                            @include('admin.include.sweetaleart')
                             <section class="content">
                                 <div class="row">
                                     <!-- @if (session('success'))
@@ -51,92 +51,19 @@
                                             </div> -->
                                             <div class="panel-body">
                                                 <div class="table-responsive">
-                                                    <table id="example"
-                                                        class="table table-bordered table-striped table-hover">
+                                                    <table id="vehiclePriceTable" class="table table-bordered table-striped table-hover">
                                                         <thead>
-                                                            <tr >
-                                                                <th width="6%">Sl #</th>
-                                                                <th width="13%">Vehicles</th>
-                                                                <th width="9%">Destinations</th>
-                                                                <th width="9%">Vehicle Price/Day (₹)</th>
-                                                                <th width="7%">Status</th>
-                                                                <th width="12%">Action</th>
+                                                            <tr>
+                                                                <th>Sl #</th>
+                                                                <th>Vehicles</th>
+                                                                <th>Destinations</th>
+                                                                <th>Vehicle Price/Day (₹)</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
-                                                            @forelse ($vehiclePrices as $key => $vehiclePrice)
-                                                            <tr>
-                                                                <td>{{ ($vehiclePrices->currentPage() - 1) *
-                                                                    $vehiclePrices->perPage() + $loop->iteration }}</td>
-                                                                <td>{{ $vehiclePrice->vehicle_name }}</td>
-                                                                <td>{{ $vehiclePrice->destination_name }}</td>
-                                                                <td>{{ $vehiclePrice->price }}</td>
-                                                                <td>
-                                                                    @if ($vehiclePrice->status == 1)
-                                                                    <form
-                                                                        action="{{ route('admin.manageVehicleprice.activeVehiclePrice', ['id' => $vehiclePrice->priceid]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                        @csrf
-                                                                        <button type="submit" class="btn btn-outline-success"
-                                                                            title="Active. Click to deactivate.">
-                                                                            <span class="label-custom label label-success">Active</span>
-                                                                        </button>
-                                                                    </form>
-                                                                    @else
-                                                                    <form
-                                                                        action="{{ route('admin.manageVehicleprice.activeVehiclePrice', ['id' => $vehiclePrice->priceid]) }}"
-                                                                        method="POST"
-                                                                        onsubmit="return confirm('Are you sure you want to change the status?')">
-                                                                        @csrf
-                                                                        <button type="submit" class="btn btn-outline-dark"
-                                                                            title="Inactive. Click to activate.">
-                                                                            <span class="label-custom label label-danger">Inactive</span>
-                                                                        </button>
-                                                                    </form>
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    <div class="d-flex gap-1">
-                                                                        <a href="{{ route('admin.manageVehicleprice.editVehiclePrice', ['id' => $vehiclePrice->priceid]) }}"
-                                                                            class="btn btn-success btn-sm" title="Edit">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>
-                                                                        @if(session('user')->admin_type == 1)
-                                                                        <form
-                                                                            action="{{ route('admin.manageVehicleprice.deleteVehiclePrice', ['id' => $vehiclePrice->priceid]) }}"
-                                                                            method="POST"
-                                                                            onsubmit="return confirm('Are you sure you want to delete this vehicle?')">
-                                                                            @csrf
-                                                                            <button type="submit"
-                                                                                class="btn btn-danger btn-sm"
-                                                                                title="Delete">
-                                                                                <i class="fa-regular fa-trash-can"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                        @endif
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            @empty
-                                                            <tr>
-                                                                <td class="text-center" colspan="8">No data available
-                                                                </td>
-                                                            </tr>
-                                                            @endforelse
-                                                        </tbody>
+                                                        <tbody></tbody>
                                                     </table>
-                                                    {{-- Pagination Links --}}
-                                                    <div
-                                                        class="pagination-wrapper d-flex justify-content-between align-items-center">
-                                                        <p class="mb-0">
-                                                            Showing {{ $vehiclePrices->firstItem() }} to {{
-                                                            $vehiclePrices->lastItem() }} of {{ $vehiclePrices->total()
-                                                            }} entries
-                                                        </p>
-                                                        {{ $vehiclePrices->links('pagination::bootstrap-4') }}
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -154,16 +81,67 @@
                 </div>
 
                 <!-- Footer Start-->
-                @include('Admin.include.footer')
+                @include('admin.include.footer')
                 <!-- Footer End-->
             </div>
         </div>
     </div>
     <!-- FooterJs Start-->
-    @include('Admin.include.footerJs')
+    @include('admin.include.footerJs')
     <!-- FooterJs End-->
 
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
+    <script>
+    $(document).ready(function () {
+        $('#vehiclePriceTable').DataTable({
+            processing: true, // Show loading indicator
+            serverSide: true, // Use server-side processing
+            ajax: '{{ route('admin.manageVehicleprice') }}', // Fetch data from controller
+            
+            columns: [
+                { 
+                    data: null, 
+                    orderable: false, 
+                    searchable: false, 
+                    render: (data, type, row, meta) => meta.row + 1 
+                },
+                { data: 'vehicle_name', name: 'vehicle_name' },
+                { data: 'destination_name', name: 'destination_name' },
+                { 
+                    data: 'price', 
+                    name: 'price', 
+                    render: (data) => `₹${data}` 
+                },
+                { data: 'status', name: 'status', orderable: false, searchable: true },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ],
+
+            order: [[1, 'asc']], // Default order by Vehicle Name (2nd column)
+
+            // Length menu options
+            lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
+
+            // Enable search on all columns
+            searching: true,
+
+            // Language settings
+            language: {
+                emptyTable: "No data available",
+                lengthMenu: "Show _MENU_ entries",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                infoEmpty: "No entries found",
+                search: "Search:",
+                paginate: {
+                    first: "First",
+                    last: "Last",
+                    next: "Next",
+                    previous: "Previous"
+                }
+            }
+        });
+    });
+</script>
+
 </body>
 
 </html>

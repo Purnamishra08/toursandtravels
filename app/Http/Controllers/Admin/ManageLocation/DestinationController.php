@@ -7,34 +7,141 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Str;
+use Yajra\DataTables\Facades\DataTables;
 
 class DestinationController extends Controller
 {
     public function index(Request $request)
     {
-        $destination_name   = $request->input('destination_name', '');
-        $desttype_for_home  = $request->input('desttype_for_home', '');
-        $status             = $request->input('status', '');
-        
-        $query = DB::table('tbl_destination as d')
-                       ->select('d.destiimg', 'd.destiimg_thumb', 'd.destination_id', 'd.destination_name', 'p.par_value', 'd.status')
-                       ->leftJoin('tbl_parameters as p', 'd.desttype_for_home', '=', 'p.parid')
-                       ->where('p.bit_Deleted_Flag', 0)
-                       ->where('d.bit_Deleted_Flag',0);
+        // For initial page load, return the view
+        $parameters = DB::table('tbl_parameters')
+        ->select('parid', 'par_value')
+        ->where('status', 1)
+        ->where('param_type', 'TD')
+        ->where('bit_Deleted_Flag', 0)
+        ->get();
 
-        if (!empty($destination_name)) {
-            $query->where('d.destination_name', 'like', '%' . $destination_name . '%');
-        }
-        if (!empty($desttype_for_home)) {
-            $query->where('d.desttype_for_home', $desttype_for_home);
-        }
-        if (!empty($status)) {
-            $query->where('d.status', $status);
-        }
-        $destination = $query->paginate(10);
+        return view('admin.managelocation.destination', ['parameters' => $parameters]);
+    }
 
-        $parameters  = DB::table('tbl_parameters')->select('parid','par_value')->where('status', 1)->where('param_type', 'TD')->where('bit_Deleted_Flag', 0)->get();
-        return view('admin.managelocation.destination', ['destination' => $destination, 'parameters' => $parameters]);
+    public function getData(Request $request){
+        if ($request->ajax()) {
+            // Fetch destinations for DataTables
+            $query = DB::table('tbl_destination as d')
+                ->select('d.destiimg', 'd.destiimg_thumb', 'd.destination_id', 'd.destination_name', 'p.par_value', 'd.status')
+                ->leftJoin('tbl_parameters as p', 'd.desttype_for_home', '=', 'p.parid')
+                ->where('p.bit_Deleted_Flag', 0)
+                ->where('d.bit_Deleted_Flag', 0);
+
+            $destination_name   = $request->input('destination_name', '');
+            $desttype_for_home  = $request->input('desttype_for_home', '');
+            $status             = $request->input('status', '');
+
+            if (!empty($destination_name)) {
+                $query->where('d.destination_name', 'like', '%' . $destination_name . '%');
+            }
+            if (!empty($desttype_for_home)) {
+                $query->where('d.desttype_for_home', $desttype_for_home);
+            }
+            if (!empty($status)) {
+                $query->where('d.status', $status);
+            }
+
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('d.destination_name', 'like', '%' . $search . '%')
+                      ->orWhere('p.par_value', 'like', '%' . $search . '%');
+                });
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('destination_name', function ($row) {
+                    return $row->destination_name;
+                })
+                ->addColumn('destiimg', function ($row) {
+                    if (!empty($row->destiimg)) {
+                        return '<a href="' . asset('storage/destination_images/' . $row->destiimg) . '" target="_blank">
+                                    <img id="destinationBannerPreview" 
+                                        src="' . asset('storage/destination_images/' . $row->destiimg) . '"
+                                        alt="Destination Banner Preview"
+                                        class="img-fluid rounded border"
+                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                </a>';
+                    }
+                    return '';
+                })
+                ->addColumn('destiimg_thumb', function ($row) {
+                    if (!empty($row->destiimg_thumb)) {
+                        return '<a href="' . asset('storage/destination_images/thumbs/' . $row->destiimg_thumb) . '" target="_blank">
+                                    <img id="destinationImagePreview" 
+                                        src="' . asset('storage/destination_images/thumbs/' . $row->destiimg_thumb) . '"
+                                        alt="Destination Image"
+                                        class="img-fluid rounded border"
+                                        style="width: 150px; height: 80px; object-fit: cover;">
+                                </a>';
+                    }
+                    return '';
+                })
+                ->addColumn('par_value', function ($row) {
+                    return $row->par_value;
+                })
+                ->addColumn('status', function ($row) {
+                    $csrf = csrf_field();
+                    $route = route('admin.destination.activeDestination', ['id' => $row->destination_id]);
+                    $confirmMessage = "return confirm('Are you sure you want to change the status?')";
+    
+                    if ($row->status == 1) {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-success" title="Active. Click to deactivate.">
+                                        <span class="label-custom label label-success">Active</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-dark" title="Inactive. Click to activate.">
+                                        <span class="label-custom label label-danger">Inactive</span>
+                                    </button>
+                                </form>';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                
+                    // Edit button (always visible)
+                    $editButton = '
+                        <a href="' . route('admin.destination.editdestination', $row->destination_id) . '" class="btn btn-primary btn-sm" title="Edit">
+                            <i class="fa fa-pencil"></i>
+                        </a>';
+                
+                    // Define module ID required for delete access (adjust if needed)
+                    $requiredModuleId = 6;
+                
+                    // Check if the user has delete permission
+                    $canDelete = $user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1);
+                
+                    // Delete button (visible only if allowed)
+                    $deleteButton = '';
+                    if ($canDelete) {
+                        $deleteButton = '
+                            <form action="' . route('admin.destination.deletedestination', $row->destination_id) . '" method="POST" class="d-inline-block" onsubmit="return confirm(\'Are you sure to delete this destination?\')">
+                                ' . csrf_field() . '
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+                
+                    return $editButton . $deleteButton;
+                })
+                ->rawColumns(['destiimg', 'destiimg_thumb', 'status', 'action']) // Allow HTML rendering
+                ->make(true);
+        }
     }
 
     public function adddestination(Request $request){
@@ -46,8 +153,10 @@ class DestinationController extends Controller
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=2000,height=350',
+                'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=300,height=225',
+                'alttag_banner'       => 'required|string|max:60|unique:tbl_destination,alttag_banner',
+                'alttag_thumb'        => 'required|string|max:60|unique:tbl_destination,alttag_thumb'
             ]);
 
             if ($validator->fails()) {
@@ -59,11 +168,18 @@ class DestinationController extends Controller
             DB::beginTransaction(); // Start transaction
 
             try {
+                $duplicateCount = DB::table('tbl_destination')->Where('destination_url', $request->input('destination_url'))->count();
+
+                if ($duplicateCount > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this destination, URL must be unique.']);
+                }
                 // Handle Image Upload
                 $destination_imageName = null;
                 if ($request->hasFile('destiimg')) {
                     $file = $request->file('destiimg');
-                    $destination_imageName = time() . '_' . $file->getClientOriginalName();
+                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('destination_images', $destination_imageName, 'public');
                 }
 
@@ -71,7 +187,7 @@ class DestinationController extends Controller
                 $destinationThumbImageName = null;
                 if ($request->hasFile('destismallimg')) {
                     $file = $request->file('destismallimg');
-                    $destinationThumbImageName = time() . '_' . $file->getClientOriginalName();
+                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('destination_images/thumbs', $destinationThumbImageName, 'public');
                 }
 
@@ -112,10 +228,7 @@ class DestinationController extends Controller
                     'updated_date'              => now(),
                     'place_meta_title'          => $request->input('place_meta_title'),
                     'place_meta_keywords'       => $request->input('place_meta_keywords'),
-                    'place_meta_description'    => $request->input('place_meta_description'),
-                    'package_meta_title'        => $request->input('pckg_meta_title'),
-                    'package_meta_keywords'     => $request->input('pckg_meta_keywords'),
-                    'package_meta_description'  => $request->input('pckg_meta_description')
+                    'place_meta_description'    => $request->input('place_meta_description')
                 ];
 
                 // Insert into database
@@ -190,7 +303,7 @@ class DestinationController extends Controller
                 } else {
                     throw new \Exception('Destination could not be added.');
                 }
-            } catch (\Exception $e) {dd($e);
+            } catch (\Exception $e) {
                 DB::rollBack(); // Rollback transaction on error
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }
@@ -226,8 +339,10 @@ class DestinationController extends Controller
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=2000,height=350',
+                'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=300,height=225',
+                'alttag_banner'       => "required|string|max:60|unique:tbl_destination,alttag_banner,$id,destination_id",
+                'alttag_thumb'        => "required|string|max:60|unique:tbl_destination,alttag_thumb,$id,destination_id"
             ]);
 
             if ($validator->fails()) {
@@ -236,12 +351,20 @@ class DestinationController extends Controller
 
             DB::beginTransaction();
             try {
+                $duplicateCount = DB::table('tbl_destination')->Where('destination_url', $request->input('destination_url'))->where('destination_id','!=', $id)->count();
+
+                if ($duplicateCount > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this destination, URL must be unique.']);
+                }
+            
                 if ($request->hasFile('destiimg')) {
                     $file = $request->file('destiimg');
-                    $destination_imageName = time() . '_' . $file->getClientOriginalName();
+                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('destination_images', $destination_imageName, 'public');
                     
-                    if ($destination->destiimg) {
+                    if ($destination->destiimg && $destination->destiimg != $destination_imageName) {
                         Storage::disk('public')->delete('destination_images/' . $destination->destiimg);
                     }
                 } else {
@@ -250,10 +373,10 @@ class DestinationController extends Controller
 
                 if ($request->hasFile('destismallimg')) {
                     $file = $request->file('destismallimg');
-                    $destinationThumbImageName = time() . '_' . $file->getClientOriginalName();
+                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('destination_images/thumbs', $destinationThumbImageName, 'public');
                     
-                    if ($destination->destiimg_thumb) {
+                    if ($destination->destiimg_thumb && $destination->destiimg_thumb != $destinationThumbImageName) {
                         Storage::disk('public')->delete('destination_images/thumbs/' . $destination->destiimg_thumb);
                     }
                 } else {
@@ -290,16 +413,13 @@ class DestinationController extends Controller
                     'meta_title'                => $request->input('meta_title'),
                     'meta_keywords'             => $request->input('meta_keywords'),
                     'meta_description'          => $request->input('meta_description'),
-                    'created_by'                => session('user')->adminid ?? 0,
-                    'created_date'              => now(),
-                    'updated_by'                => session('user')->adminid ?? 0,
-                    'updated_date'              => now(),
                     'place_meta_title'          => $request->input('place_meta_title'),
                     'place_meta_keywords'       => $request->input('place_meta_keywords'),
                     'place_meta_description'    => $request->input('place_meta_description'),
-                    'package_meta_title'        => $request->input('pckg_meta_title'),
-                    'package_meta_keywords'     => $request->input('pckg_meta_keywords'),
-                    'package_meta_description'  => $request->input('pckg_meta_description')
+                    'created_by'                => session('user')->adminid ?? 0,
+                    'created_date'              => now(),
+                    'updated_by'                => session('user')->adminid ?? 0,
+                    'updated_date'              => now()
                 ];
 
                 DB::table('tbl_destination')->where('destination_id', $id)->update($data);

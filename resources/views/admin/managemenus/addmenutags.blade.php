@@ -1,17 +1,17 @@
 <!-- Metaheader Section-->
-@include('Admin.include.metaheader')
+@include('admin.include.metaheader')
 <!-- Metaheader Section End -->
 <body>
     <div id="layoutSidenav">
         <!-- Left Navbar Start-->
-        @include('Admin.include.leftNavbar')
+        @include('admin.include.leftNavbar')
         <!-- Left Navbar End-->
 
         <div id="layoutSidenav_content">
             <div class="content-body">
 
                 <!-- TopBar header Start-->
-                @include('Admin.include.topBarHeader')
+                @include('admin.include.topBarHeader')
                 <!--TopBar header end -->
 
                 <!-- Main Content Start-->
@@ -41,7 +41,7 @@
                             <!-- <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item active">Manage State</li>
                             </ol> -->
-                            @include('Admin.include.sweetaleart')
+                            @include('admin.include.sweetaleart')
                             <section class="content">
                                 <form action="{{ isset($menutags) ? route('admin.category.editmenutag', $menutags->menuid) : route('admin.category.addmenutag') }}" method="POST" id="menutagform"  name="menutagform" class="add-menutag" onsubmit="return validator()"  enctype="multipart/form-data">
                                     @csrf
@@ -53,7 +53,9 @@
                                         </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary">{{ isset($menutags) ? 'Update' : 'Save' }}</button>
-                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                            @if(!isset($menutags))
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                            @endif
                                         </div>
                                     </div>
                                 </form>
@@ -63,21 +65,21 @@
                 </main>
 
                 <!-- Footer Start-->
-                @include('Admin.include.footer')
+                @include('admin.include.footer')
                 <!-- Footer End-->
             </div>
         </div>
     </div>
     <!-- FooterJs Start-->
-    @include('Admin.include.footerJs')
+    @include('admin.include.footerJs')
     <!-- FooterJs End-->
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
     <script>
         function validator(){
             if(!blankCheck('menu_name','Menu tag cannot be blank'))
                 return false;
         }
-    </script>   
+    </script>
 </body>
 
 </html>

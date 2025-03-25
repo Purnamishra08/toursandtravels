@@ -6,15 +6,70 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\Facades\DataTables;
 use Exception;
 
 class SeasonTypeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = DB::table('tbl_season_type')->where('bit_Deleted_Flag', 0)->paginate(10);
-        return view('admin.managehotels.manageSeasontype', ['seasontypes' => $data]);
+        if ($request->ajax()) {
+            $data = DB::table('tbl_season_type')
+                ->select('season_type_id', 'season_type_name', 'status')
+                ->where('bit_Deleted_Flag', 0);
+
+            return DataTables::of($data)
+                ->filterColumn('season_type_name', function($query, $keyword) {
+                    $query->where('season_type_name', 'like', "%{$keyword}%");
+                })
+                ->addColumn('status', function ($row) {
+                    $btnClass = $row->status == 1 ? 'btn-outline-success' : 'btn-outline-dark';
+                    $label = $row->status == 1 ? 'Active' : 'Inactive';
+
+                    return '
+                        <form action="'.route('admin.manageSeasontype.activeSeasonType', ['id' => $row->season_type_id]).'"
+                            method="POST" onsubmit="return confirm(\'Are you sure you want to change the status?\')">
+                            '.csrf_field().'
+                            <button type="submit" class="btn '.$btnClass.' btn-sm">
+                                <span class="label-custom label">'.$label.'</span>
+                            </button>
+                        </form>';
+                })
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('admin.manageSeasontype.editSeasonType', ['id' => $row->season_type_id]);
+                    $deleteUrl = route('admin.manageSeasontype.deleteSeasonType', ['id' => $row->season_type_id]);
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                    $requiredModuleId = 12;
+
+                    $buttons = '
+                        <div class="d-flex gap-1">
+                            <a href="'.$editUrl.'" class="btn btn-success btn-sm" title="Edit">
+                                <i class="fa fa-pencil"></i>
+                            </a>';
+                    
+                    if ($user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1)) {
+                        $buttons .= '
+                            <form action="'.$deleteUrl.'" method="POST" 
+                                onsubmit="return confirm(\'Are you sure you want to delete this season?\')">
+                                '.csrf_field().'
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+
+                    $buttons .= '</div>';
+
+                    return $buttons;
+                })
+                ->rawColumns(['status', 'action'])
+                ->make(true);
+        }
+
+        return view('admin.managehotels.manageSeasontype');
     }
+
 
      public function addSeasonType(Request $request)
     {

@@ -1,17 +1,17 @@
 <!-- Metaheader Section-->
-@include('Admin.include.metaheader')
+@include('admin.include.metaheader')
 <!-- Metaheader Section End -->
 <body>
     <div id="layoutSidenav">
         <!-- Left Navbar Start-->
-        @include('Admin.include.leftNavbar')
+        @include('admin.include.leftNavbar')
         <!-- Left Navbar End-->
 
         <div id="layoutSidenav_content">
             <div class="content-body">
 
                 <!-- TopBar header Start-->
-                @include('Admin.include.topBarHeader')
+                @include('admin.include.topBarHeader')
                 <!-- TopBar header End -->
 
                 <!-- Main Content Start-->
@@ -38,7 +38,7 @@
                                 </div>
                                 <!-- table-utilities end-->
                             </nav>
-                            @include('Admin.include.sweetaleart')
+                            @include('admin.include.sweetaleart')
 
                             <section class="content">
                                 <div class="form-container" style="margin-bottom: 25px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); background-color:#fff; padding:25px; border-radius: 4px;">
@@ -97,10 +97,10 @@
                                                             <span>Image size should be 1920px X 488px</span>
                                                             <div id="banner_preview" style="margin-top: 10px;">
                                                                 <img id="bannerPreview" 
-                                                                    src="{{ isset($Categorytags->menutag_img) ? asset('storage/category_tags_images/'.$Categorytags->menutag_img) : '' }}" 
+                                                                    src="{{ isset($Categorytags->menutag_img) ? asset('storage/category_tags_images/BannerImages/'.$Categorytags->menutag_img) : '' }}" 
                                                                     alt="Banner Preview" 
                                                                     class="img-fluid rounded border" 
-                                                                    style="max-width: 300px; display: {{ isset($Categorytags->menutag_img) ? 'block' : 'none' }};">
+                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($Categorytags->menutag_img) ? 'block' : 'none' }};">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -112,10 +112,10 @@
                                                             <span>Image size should be 500px X 350px</span>
                                                             <div id="getaway_preview" style="margin-top: 10px;">
                                                                 <img id="getaway_preview" 
-                                                                    src="{{ isset($Categorytags->menutagthumb_img) ? asset('storage/category_tags_images/'.$Categorytags->menutagthumb_img) : '' }}" 
+                                                                    src="{{ isset($Categorytags->menutagthumb_img) ? asset('storage/category_tags_images/GetawaysImages/'.$Categorytags->menutagthumb_img) : '' }}" 
                                                                     alt="Banner Preview" 
                                                                     class="img-fluid rounded border" 
-                                                                    style="max-width: 300px; display: {{ isset($Categorytags->menutagthumb_img) ? 'block' : 'none' }};">
+                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($Categorytags->menutagthumb_img) ? 'block' : 'none' }};">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -205,9 +205,11 @@
                                                 <div class="clearfix"></div>
 
                                                 <div class="col-md-6">
-                                                    <div class="reset-button">
-                                                        <button type="submit" class="btn btn-primary" name="btnSubmitcats" id="btnSubmitcats">Save</button>
-                                                        <button name="reset" type="reset" value="Reset" class="btn btn-secondary">Reset</button>
+                                                    <div class="form-group">
+                                                        <button type="submit" class="btn btn-primary">{{ isset($Categorytags) ? 'Update' : 'Save' }}</button>
+                                                        @if(!isset($Categorytags))
+                                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -220,16 +222,16 @@
                 </main>
 
                 <!-- Footer Start-->
-                @include('Admin.include.footer')
+                @include('admin.include.footer')
                 <!-- Footer End-->
             </div>
         </div>
     </div>
     
     <!-- FooterJs Start-->
-    @include('Admin.include.footerJs')
+    @include('admin.include.footerJs')
     <!-- FooterJs End-->
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
     <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
     <!-- JavaScript for Image Preview -->
     <script>
@@ -260,7 +262,7 @@
             var reader = new FileReader();
             reader.onload = function () {
                 var output = document.getElementById(previewId);
-                output.innerHTML = '<img src="' + reader.result + '" alt="Preview" style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px; margin-top: 10px;">';
+                output.innerHTML = '<img src="' + reader.result + '" alt="Preview" style="width: 400px; height: 200px; object-fit: cover; border: 1px solid #ddd; padding: 5px; margin-top: 10px;">';
             };
             reader.readAsDataURL(event.target.files[0]);
         }

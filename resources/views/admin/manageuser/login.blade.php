@@ -22,7 +22,7 @@
                     <img src="{{ asset('assets/img/logo.png') }}" alt="logo" >
                 </h1>
                 <h2 class="login-title">Admin Login</h2>
-                @include('Admin.include.sweetaleart')
+                @include('admin.include.sweetaleart')
                 <form action="{{ route('admin.processLogin') }}" method="POST" onsubmit="return validator()">
                     @csrf
                 <div class="icon-input-control">

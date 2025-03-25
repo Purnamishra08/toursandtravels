@@ -1,18 +1,18 @@
 <!-- Metaheader Section-->
-@include('Admin.include.metaheader')
+@include('admin.include.metaheader')
 <!-- Metaheader Section End -->
 
 <body>
     <div id="layoutSidenav">
         <!-- Left Navbar Start-->
-        @include('Admin.include.leftNavbar')
+        @include('admin.include.leftNavbar')
         <!-- Left Navbar End-->
 
         <div id="layoutSidenav_content">
             <div class="content-body">
 
                 <!-- TopBar header Start-->
-                @include('Admin.include.topBarHeader')
+                @include('admin.include.topBarHeader')
                 <!--TopBar header end -->
 
                 <!-- Main Content Start-->
@@ -20,7 +20,7 @@
                     <div class="inner-layout">
                         <div class="container-fluid px-4 pt-3">
                             <nav class="tab-menu">
-                                <a href="{{ route('admin.manageHotels.addHotel') }}" class="tab-menu__item active">
+                                <a href="{{ route('admin.manageHotels.editHotel', ['id' => $hotel->hotel_id]) }}" class="tab-menu__item active">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l2.0 2.0a.5.5 0 0 1 0 .708L5.207 13.5H3v-2.207L12.146.146zM11.207 2L4 9.207V10h.793L13 3.793 11.207 2z"/>
                                     </svg>
                                     Edit
@@ -43,7 +43,7 @@
                                 </div>
                                 <!-- table-utilities end-->
                             </nav>
-                            @include('Admin.include.sweetaleart')
+                            @include('admin.include.sweetaleart')
                             <section class="content">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -322,7 +322,7 @@
                                                     <div class="col-md-6">
                                                         <div class="reset-button">
                                                             <button type="submit" class="btn btn-primary">Update</button>
-                                                            <button type="reset" class="btn btn-danger">Reset</button>
+                                                            <!-- <button type="reset" class="btn btn-danger">Reset</button> -->
                                                         </div>
                                                     </div>
                                                 </form>
@@ -337,13 +337,13 @@
                 <!-- Main Content End -->
 
                 <!-- Footer Start-->
-                @include('Admin.include.footer')
+                @include('admin.include.footer')
                 <!-- Footer End-->
             </div>
         </div>
     </div>
     <!-- FooterJs Start-->
-    @include('Admin.include.footerJs')
+    @include('admin.include.footerJs')
     <!-- FooterJs End-->
 
     <script>
@@ -394,7 +394,7 @@
 
     </script>
 
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
 
 </body>
 

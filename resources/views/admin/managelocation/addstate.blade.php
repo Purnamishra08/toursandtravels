@@ -1,5 +1,5 @@
 <!-- Metaheader Section-->
-@include('Admin.include.metaheader')
+@include('admin.include.metaheader')
 <!-- Metaheader Section End -->
 <style>
     .form-container, .table-container {
@@ -27,14 +27,14 @@
 <body>
     <div id="layoutSidenav">
         <!-- Left Navbar Start-->
-        @include('Admin.include.leftNavbar')
+        @include('admin.include.leftNavbar')
         <!-- Left Navbar End-->
 
         <div id="layoutSidenav_content">
             <div class="content-body">
 
                 <!-- TopBar header Start-->
-                @include('Admin.include.topBarHeader')
+                @include('admin.include.topBarHeader')
                 <!--TopBar header end -->
 
                 <!-- Main Content Start-->
@@ -64,7 +64,7 @@
                             <!-- <ol class="breadcrumb mb-4">
                                 <li class="breadcrumb-item active">Manage State</li>
                             </ol> -->
-                            @include('Admin.include.sweetaleart')
+                            @include('admin.include.sweetaleart')
                             <section class="content">
                                 <form action="{{ isset($state) ? route('admin.state.editState', $state->state_id) : route('admin.state.addState') }}" method="POST" id="stateform"  name="stateform" class="add-state" onsubmit="return validator()"  enctype="multipart/form-data">
                                     @csrf
@@ -92,7 +92,7 @@
                                                     src="{{ isset($state->bannerimg) ? asset('storage/banner_images/'.$state->bannerimg) : '' }}" 
                                                     alt="Banner Preview" 
                                                     class="img-fluid rounded border" 
-                                                    style="max-width: 300px; display: {{ isset($state->bannerimg) ? 'block' : 'none' }};">
+                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($state->bannerimg) ? 'block' : 'none' }};">
                                             </div>
                                         </div>
 
@@ -136,13 +136,13 @@
                 </main>
 
                 <!-- Footer Start-->
-                @include('Admin.include.footer')
+                @include('admin.include.footer')
                 <!-- Footer End-->
             </div>
         </div>
     </div>
     <!-- FooterJs Start-->
-    @include('Admin.include.footerJs')
+    @include('admin.include.footerJs')
     <!-- FooterJs End-->
      
     <script>
@@ -171,7 +171,7 @@
         }
     </script>
 
-    <script src="{{ asset('assets/js/validation.js') }}"></script>
+    
 </body>
 
 </html>

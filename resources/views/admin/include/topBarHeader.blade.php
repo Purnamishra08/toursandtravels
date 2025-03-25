@@ -12,56 +12,107 @@
             'admin.manageUser'        => ['Manage User', '', 'fa-user', ''],
             'admin.manageUser.addUser'=> ['Manage User', '', 'fa-user', ''],
 
-            'admin.manageVehicletype' => ['Manage Vehicles', 'Vehicle Type', 'fa-truck', 'fa fa-car'],
-            'admin.manageVehicletype.addVehicleType' => ['Manage Vehicles', 'Vehicle Type', 'fa-truck', 'fa fa-car'],
-            'admin.manageVehicletype.editVehicleType' => ['Manage Vehicles', 'Vehicle Type', 'fa-truck', 'fa fa-car'],
+            'admin.manageVehicletype' => ['Manage Vehicles', 'View Vehicle Type', 'fa-truck', 'fa fa-car'],
+            'admin.manageVehicletype.addVehicleType' => ['Manage Vehicles', 'Add Vehicle Type', 'fa-truck', 'fa fa-car'],
+            'admin.manageVehicletype.editVehicleType' => ['Manage Vehicles', 'Edit Vehicle Type', 'fa-truck', 'fa fa-car'],
 
-            'admin.manageVehicleprice' => ['Manage Vehicles', 'Vehicle Price', 'fa-truck', 'fa-regular fa-money-bill-1'],
-            'admin.manageVehicleprice.addVehiclePrice' => ['Manage Vehicles', 'Vehicle Price', 'fa-truck', 'fa-regular fa-money-bill-1'],
-            'admin.manageVehicleprice.editVehiclePrice' => ['Manage Vehicles', 'Vehicle Price', 'fa-truck', 'fa-regular fa-money-bill-1'],
+            'admin.manageVehicleprice' => ['Manage Vehicles', 'View Vehicle Price', 'fa-truck', 'fa-regular fa-money-bill-1'],
+            'admin.manageVehicleprice.addVehiclePrice' => ['Manage Vehicles', 'Add Vehicle Price', 'fa-truck', 'fa-regular fa-money-bill-1'],
+            'admin.manageVehicleprice.editVehiclePrice' => ['Manage Vehicles', 'Edit Vehicle Price', 'fa-truck', 'fa-regular fa-money-bill-1'],
 
-            'admin.manageHoteltype'   => ['Manage Hotels', 'Hotel Type','fa-building','fa fa-hotel'],
-            'admin.manageHoteltype.addHotelType'   => ['Manage Hotels', 'Hotel Type','fa-building','fa fa-hotel'],
-            'admin.manageHoteltype.editHotelType'   => ['Manage Hotels', 'Hotel Type','fa-building','fa fa-hotel'],
+            'admin.manageHoteltype'   => ['Manage Hotels', 'View Hotel Type','fa-building','fa fa-hotel'],
+            'admin.manageHoteltype.addHotelType'   => ['Manage Hotels', 'Add Hotel Type','fa-building','fa fa-hotel'],
+            'admin.manageHoteltype.editHotelType'   => ['Manage Hotels', 'Edit Hotel Type','fa-building','fa fa-hotel'],
 
             'admin.manageSeasontype'   => ['Manage Hotels', 'Season Type','fa-building','fa-regular fa-sun'],
             'admin.manageSeasontype.addSeasonType'   => ['Manage Hotels', 'Season Type','fa-building','fa-regular fa-sun'],
             'admin.manageSeasontype.editSeasonType'   => ['Manage Hotels', 'Season Type','fa-building','fa-regular fa-sun'],
 
-            'admin.manageHotels'   => ['Manage Hotels', 'Hotel','fa-building','fa fa-hotel'],
-            'admin.manageHotels.addHotel'   => ['Manage Hotels', 'Hotel','fa-building','fa fa-hotel'],
-            'admin.manageHotels.editHotel'   => ['Manage Hotels', 'Hotel','fa-building','fa fa-hotel'],
-            'admin.manageHotels.viewHotel'   => ['Manage Hotels', 'Hotel','fa-building','fa fa-hotel'],
+            'admin.manageHotels'   => ['Manage Hotels', 'View Hotel','fa-building','fa fa-hotel'],
+            'admin.manageHotels.addHotel'   => ['Manage Hotels', 'Add Hotel','fa-building','fa fa-hotel'],
+            'admin.manageHotels.editHotel'   => ['Manage Hotels', 'Edit Hotel','fa-building','fa fa-hotel'],
+            'admin.manageHotels.viewHotel'   => ['Manage Hotels', 'View Hotel','fa-building','fa fa-hotel'],
 
             'admin.state'             => ['Location', 'State', 'fa-globe', 'fa fa-flag'],
 
-            'admin.destinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa fa-map-marker'],
-            'admin.destinationtype.adddestinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa fa-map-marker'],
-            'admin.destinationtype.editdestinationtype'   => ['Location', 'Destination Type', 'fa-globe', 'fa fa-map-marker'],
+            'admin.destinationtype'   => ['Location', 'View Destination Type', 'fa-globe', 'fa fa-map-marker'],
+            'admin.destinationtype.adddestinationtype'   => ['Location', 'Add Destination Type', 'fa-globe', 'fa fa-map-marker'],
+            'admin.destinationtype.editdestinationtype'   => ['Location', 'Edit Destination Type', 'fa-globe', 'fa fa-map-marker'],
 
-            'admin.destination'   => ['Location', 'Destinations', 'fa-globe', 'fa fa-location-dot'],
-            'admin.destination.adddestination'   => ['Location', 'Destinations', 'fa-globe', 'fa fa-location-dot'],
-            'admin.destination.editdestination'   => ['Location', 'Destinations', 'fa-globe', 'fa fa-location-dot'],
+            'admin.destination'   => ['Location', 'View Destinations', 'fa-globe', 'fa fa-location-dot'],
+            'admin.destination.adddestination'   => ['Location', 'Add Destinations', 'fa-globe', 'fa fa-location-dot'],
+            'admin.destination.editdestination'   => ['Location', 'Edit Destinations', 'fa-globe', 'fa fa-location-dot'],
 
-            'admin.places'   => ['Location', 'Places', 'fa-globe', 'fa fa fa-bookmark'],
-            'admin.places.addplaces'   => ['Location', 'Places', 'fa-globe', 'fa fa fa-bookmark'],
-            'admin.places.editplaces'   => ['Location', 'Places', 'fa-globe', 'fa fa fa-bookmark'],
+            'admin.places'   => ['Location', 'View Places', 'fa-globe', 'fa fa fa-bookmark'],
+            'admin.places.addplaces'   => ['Location', 'Add Places', 'fa-globe', 'fa fa fa-bookmark'],
+            'admin.places.editplaces'   => ['Location', 'Edit Places', 'fa-globe', 'fa fa fa-bookmark'],
 
-            'admin.category'   => ['Menus', 'Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
-            'admin.category.addcategory'   => ['Menus', 'Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
-            'admin.category.editcategory'   => ['Menus', 'Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
+            'admin.category'   => ['Menus', 'View Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
+            'admin.category.addcategory'   => ['Menus', 'Add Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
+            'admin.category.editcategory'   => ['Menus', 'Edit Category', 'fa fa-th-list', 'fa-brands fa fa-gg'],
 
-            'admin.categorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
-            'admin.categorytags.addcategorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
-            'admin.categorytags.editcategorytags'   => ['Menus', 'Category Tags', 'fa fa-th-list', 'fa fa-tag'],
+            'admin.categorytags'   => ['Menus', 'View Category Tags', 'fa fa-th-list', 'fa fa-tag'],
+            'admin.categorytags.addcategorytags'   => ['Menus', 'Add Category Tags', 'fa fa-th-list', 'fa fa-tag'],
+            'admin.categorytags.editcategorytags'   => ['Menus', 'Edit Category Tags', 'fa fa-th-list', 'fa fa-tag'],
 
-            'admin.managepackagedurations'   => ['Manage Packages', 'Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
-            'admin.managepackagedurations.addPackageDurations'   => ['Manage Packages', 'Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
-            'admin.managepackagedurations.editPackageDurations'   => ['Manage Packages', 'Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
+            'admin.managepackagedurations'   => ['Manage Packages', 'View Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
+            'admin.managepackagedurations.addPackageDurations'   => ['Manage Packages', 'Add Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
+            'admin.managepackagedurations.editPackageDurations'   => ['Manage Packages', 'Edit Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
 
-            'admin.menutag' => ['Menus', 'Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
-            'admin.category.addmenutag' => ['Menus', 'Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
-            'admin.category.editmenutag' => ['Menus', 'Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
+            'admin.managetourpackages'   => ['Manage Packages', 'Tour Packages', 'View fa-person-walking-luggage', 'fa fa-route'],
+            'admin.managetourpackages.addTourPackages'   => ['Manage Packages', 'Add Tour Packages', 'fa-person-walking-luggage', 'fa fa-route'],
+            'admin.managetourpackages.editTourPackages'   => ['Manage Packages', 'Edit Tour Packages', 'fa-person-walking-luggage', 'fa fa-route'],
+            'admin.managetourpackages.viewTourPackages'   => ['Manage Packages', 'View Tour Packages', 'fa-person-walking-luggage', 'fa fa-route'],
+
+            'admin.menutag' => ['Menus', 'View Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
+            'admin.category.addmenutag' => ['Menus', 'Add Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
+            'admin.category.editmenutag' => ['Menus', 'View Menu Tags', 'fa fa-th-list', 'fa-solid fa-tags'],
+
+            'admin.manageenquiry' => ['Manage Enquiries','View Enquiry','fa-person-circle-question','fa-solid fa-question'],
+            'admin.manageenquiry.viewEnquiry' => ['Manage Enquiries','View Enquiry','fa-person-circle-question','fa-solid fa-question'],
+
+            'admin.manageitineraryenquiry' => ['Manage Enquiries','View Itinerary Enquiry','fa-person-circle-question','fa-solid fa-circle-question'],
+            'admin.manageitineraryenquiry.viewItineraryEnquiry' => ['Manage Enquiries','View Itinerary Enquiry','fa-person-circle-question','fa-solid fa-circle-question'],
+
+            'admin.managepackageenquiry' => ['Manage Enquiries','View Package Enquiry','fa-person-circle-question','fa-solid fa-clipboard-question'],
+            'admin.managepackageenquiry.viewPackageEnquiry' => ['Manage Enquiries','View Package Enquiry','fa-person-circle-question','fa-solid fa-clipboard-question'],
+
+            'admin.managereviews' => ['Manage Reviews', 'View Manage Reviews', 'fa fa-comment', 'fa fa-comment'],
+            'admin.managereviews.addreviews' => ['Manage Reviews', 'Add Manage Reviews', 'fa fa-comment', 'fa fa-comment'],
+            'admin.managereviews.editreviews' => ['Manage Reviews', 'Edit Manage Reviews', 'fa fa-comment', 'fa fa-comment'],
+
+            'admin.commonfaqs' => ['Manage Faqs', 'View Common Faqs', 'fa fa-question', 'fa fa-question'],
+            'admin.commonfaqs.addcommonfaqs' => ['Manage Faqs', 'Add Common Faqs', 'fa fa-question', 'fa fa-question'],
+            'admin.commonfaqs.editcommonfaqs' => ['Manage Faqs', 'Edit Common Faqs', 'fa fa-question', 'fa fa-question'],
+
+            'admin.packagefaqs' => ['Manage Faqs', 'View Package Faqs', 'fa fa-question', 'fa fa-question-circle'],
+            'admin.packagefaqs.addpackagefaqs' => ['Manage Faqs', 'Add Package Faqs', 'fa fa-question', 'fa fa-question-circle'],
+            'admin.packagefaqs.editpackagefaqs' => ['Manage Faqs', 'Edit Package Faqs', 'fa fa-question', 'fa fa-question-circle'],
+
+            'admin.managecms' => ['Manage CMS', 'View CMS', 'fa fa-tasks', 'fa fa-tasks'],
+
+            'admin.footerlinks' => ['Manage Footer Links', 'View Footer Links', 'fa-solid fa-circle-down', 'fa-solid fa-circle-down'],
+            'admin.footerlinks.addfooterlinks' => ['Manage Footer Links', 'Add Footer Links', 'fa-solid fa-circle-down', 'fa-solid fa-circle-down'],
+            'admin.footerlinks.editfooterlinks' => ['Manage Footer Links', 'Edit Footer Links', 'fa-solid fa-circle-down', 'fa-solid fa-circle-down'],
+
+            'admin.manageblogs' => ['Manage Blogs', 'View Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
+            'admin.manageblogs.addmanageblogs' => ['Manage Blogs', 'Add Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
+            'admin.manageblogs.editmanageblogs' => ['Manage Blogs', 'Edit Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
+
+            
+            'admin.sources' => ['Follow Up Enquiries', 'Sources', 'fa fa-phone', 'fa fa-s'],
+            'admin.statuslist' => ['Follow Up Enquiries', 'Status List', 'fa fa-phone', 'fa fa-comment-dots'],
+
+            'admin.manageenquiriesentry' => ['Follow Up Enquiries', 'Enquiries Entry', 'fa fa-phone', 'fa fa-keyboard'],
+            'admin.manageenquiriesentry.addEnquiriesEntry' => ['Follow Up Enquiries', 'Enquiries Entry', 'fa fa-phone', 'fa fa-keyboard'],
+            'admin.manageenquiriesentry.editEnquiriesEntry' => ['Follow Up Enquiries', 'Enquiries Entry', 'fa fa-phone', 'fa fa-keyboard'],
+
+            
+            'admin.manageenquiriesreport' => ['Follow Up Enquiries', 'Enquiries Report', 'fa fa-phone', 'fa fa-receipt'],
+            'admin.manageenquiriesreport.editEnquiriesReport' => ['Follow Up Enquiries', 'Enquiries Report', 'fa fa-phone', 'fa fa-receipt'],
+            
+            'admin.manageblogscomments' => ['Manage Blogs', 'View Blogs Comment', 'fa-brands fa-blogger', 'fa fa-question-circle'],
+            'admin.manageblogscomments.editmanageblogscomments' => ['Manage Blogs', 'Edit Blogs Comment', 'fa-brands fa-blogger', 'fa fa-question-circle'],
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '',    'fa-line-chart', ''];

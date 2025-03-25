@@ -4,19 +4,81 @@ namespace App\Http\Controllers\Admin\ManageVehicles;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 use DB;
 class VehiclePriceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = DB::table('tbl_vehicleprices as a')
-                ->leftjoin('tbl_vehicletypes as b', 'a.vehicle_name', '=', 'b.vehicleid') // Join to get vehicle name
-                ->leftjoin('tbl_destination as c', 'c.destination_id', '=', 'a.destination') // Join to get destination name
-                ->select('b.vehicle_name','a.priceid','c.destination_id','c.destination_name','a.price','a.status') // Select required columns
-                ->where('a.bit_Deleted_Flag', 0)
-                ->paginate(10);
-        return view('admin.managevehicles.manageVehiclePrice', ['vehiclePrices' => $data]);
+        if ($request->ajax()) {
+            $data = DB::table('tbl_vehicleprices as a')
+                ->leftJoin('tbl_vehicletypes as b', 'a.vehicle_name', '=', 'b.vehicleid')
+                ->leftJoin('tbl_destination as c', 'c.destination_id', '=', 'a.destination')
+                ->select(
+                    'a.priceid',
+                    'b.vehicle_name',
+                    'c.destination_name',
+                    'a.price',
+                    'a.status'
+                )
+                ->where('a.bit_Deleted_Flag', 0);
+
+            return DataTables::of($data)
+                // Fix for searching the alias column `destination_name`
+                ->filterColumn('destination_name', function($query, $keyword) {
+                    $query->where('c.destination_name', 'like', "%{$keyword}%");
+                })
+                ->filterColumn('vehicle_name', function($query, $keyword) {
+                    $query->where('b.vehicle_name', 'like', "%{$keyword}%");
+                })
+                ->addColumn('status', function ($row) {
+                    $btnClass = $row->status == 1 ? 'btn-outline-success' : 'btn-outline-dark';
+                    $label = $row->status == 1 ? 'Active' : 'Inactive';
+
+                    return '
+                        <form action="'.route('admin.manageVehicleprice.activeVehiclePrice', ['id' => $row->priceid]).'"
+                            method="POST" onsubmit="return confirm(\'Are you sure you want to change the status?\')">
+                            '.csrf_field().'
+                            <button type="submit" class="btn '.$btnClass.' btn-sm">
+                                <span class="label-custom label">'.$label.'</span>
+                            </button>
+                        </form>';
+                })
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('admin.manageVehicleprice.editVehiclePrice', ['id' => $row->priceid]);
+                    $deleteUrl = route('admin.manageVehicleprice.deleteVehiclePrice', ['id' => $row->priceid]);
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                    $requiredModuleId = 5;
+
+                    $buttons = '
+                        <div class="d-flex gap-1">
+                            <a href="'.$editUrl.'" class="btn btn-success btn-sm" title="Edit">
+                                <i class="fa fa-pencil"></i>
+                            </a>';
+                    
+                    if ($user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1)) {
+                        $buttons .= '
+                            <form action="'.$deleteUrl.'" method="POST" 
+                                onsubmit="return confirm(\'Are you sure you want to delete this vehicle?\')">
+                                '.csrf_field().'
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+
+                    $buttons .= '</div>';
+
+                    return $buttons;
+                })
+                ->rawColumns(['status', 'action'])
+                ->make(true);
+        }
+
+        return view('admin.managevehicles.manageVehiclePrice');
     }
+
 
     public function addVehiclePrice(Request $request)
     {
