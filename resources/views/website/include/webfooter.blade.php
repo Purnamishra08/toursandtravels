@@ -96,6 +96,25 @@
             <a href="javascript:void(0)" class="back-to-top" id="up">
                 <i class="bi bi-chevron-up"></i>
             </a>
+            <a href="https://api.whatsapp.com/send?phone=+919886525253&text=Hi%20there%2E" class="whats-app"><i class="bi bi-whatsapp"></i></a>
+            <div class="google-review">
+                <div class="wrapper">
+                    <span class="review-close-btn"><i class="bi bi-x"></i></span>
+                    <img src="{{ asset('assets/img/web-img/google-logo.png') }}" alt="logo" />
+                    <h4>My Holiday Happiness </h4>
+                    <span>  
+                        5.0 
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>				
+                    </span>
+                    <span>1032 reviews</span>
+                </div>
+
+
+            </div>
         </div>
         <div class="bottom-footer">
             <div class="container">
@@ -116,11 +135,12 @@
                     </div>
                     <div class="col-lg-6 order-first order-lg-2">
                         <ul class="link-wrapper">
-                            <li><a href="#">Home </a></li>
+                            
                             <li><a href="#"> About Us</a></li>
-                            <li><a href="#">Destinations</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Contact us</a></li>
+                            <li><a href="#">Faq</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="#">Booking Policy</a></li>
                         </ul>
                     </div>
                 </div>
@@ -138,10 +158,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"
     integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="{{asset('assets/js/web-common.js')}}"></script>
     <script>
         new WOW().init();
+    </script>
+    <script>
+        $(document).ready(function(){
+        $('.date').datepicker({
+            format: 'dd-mm-yyyy',  // ✅ Correct format for Bootstrap Datepicker
+            autoclose: true,       // ✅ Close when date is selected
+            todayHighlight: true   // ✅ Highlight today's date
+        });
+    });
+    </script>
+    <script>
+          $(document).ready(function() {
+        // Show the review section on page load
+        $(".google-review").fadeIn();
+
+        // Hide the review section when close button is clicked
+        $(".review-close-btn").click(function() {
+            $(".google-review").fadeOut();
+        });
+    });
     </script>
 </body>
 

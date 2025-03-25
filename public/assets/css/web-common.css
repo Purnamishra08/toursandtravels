@@ -17,7 +17,7 @@
     --text-col:#666565;
     --light: #c5c5c5;
    
-    --blue:#115DE1;
+    --blue:#3d8cc0;
     
     
     --radious-5:5px;
@@ -63,11 +63,31 @@ ul,ol{
 h1,h2,h3,h4,h5{
     font-weight: 600;
 }
+.card{
+    box-shadow: 3px 5px 35px rgba(86, 68, 169, 0.1);
+}
 p{
     margin-bottom: 0;
 }
 .card{
     border: 0;
+}
+.btn-primary{
+    background-color: #03787a;
+    border-color: #03787a;
+}
+.btn-primary:hover{
+    background-color: #1a7b7d;
+    border-color: #1a7b7d;
+}
+.btn-outline-primary{
+    border-color: #03787a;
+    color: #03787a;
+}
+.btn-outline-primary:hover{
+    border-color: #03787a;
+    background-color: #03787a;
+    color: #fff;
 }
 section{
     padding: 3rem 0;
@@ -188,6 +208,10 @@ border: none;
 }
 .bg-header .navbar-nav .nav-link{
     padding: 1rem 0;
+    color: #000;
+}
+.bg-header .navbar-nav .nav-link:hover{
+    color: #f8bd04;
 }
 .navbar-nav .nav-link:hover{
    color: #fff;
@@ -200,7 +224,8 @@ border: none;
  }
 
 .bg-header nav{
-    background-color: #03787a;
+    /* background-color: #03787a; */
+    background-color: #fff;
     transition: background-color 0.3s ease-in-out;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 }
@@ -302,7 +327,7 @@ border: none;
 .submenu-container a:hover{
     color: #f8bd04;
 }
-.accordion-button, .accordion-body{
+.mob-menu .accordion-button, .mob-menu .accordion-body{
     padding: .5rem 0;
 }
 .accordion-button:focus{
@@ -360,6 +385,9 @@ border: none;
 .offcanvas-top{
     min-height: 210px;
 }
+.nav-link.mob-menu{
+    color: #fff;
+}
 @media (max-width: 1024px) {
     .desktop-menu {
         display: none; /* Hide on smaller screens */
@@ -387,8 +415,8 @@ border: none;
     background-color: #115DE1;
     color: #eaeaea;
     position: fixed;
-    bottom: 4rem;
-    right: 1rem;
+    bottom: 7rem;
+    right: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -461,6 +489,45 @@ border: none;
     top: 4px;
     left: 0;
 }
+/* } google-review */
+.google-review{
+    position: fixed;
+    bottom: 205px;
+    background: #f1f2f7;
+    right: 14px;
+  
+    color: #000;
+    display: none;
+
+}
+.google-review .wrapper{
+    position: relative;
+    padding: 1rem;
+
+}
+.google-review .wrapper h4{
+    font-size: 1.1rem;
+}
+.google-review .wrapper i{
+    color: #eab306;
+}
+.review-close-btn{
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+.google-review .wrapper .review-close-btn i{
+    color:#fff
+}
 /* breard-crumb-css start */
 .breadcrumb-section{
     height: 250px;
@@ -470,8 +537,9 @@ border: none;
     background-repeat: no-repeat;
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: flex-start;
+    padding-bottom: 2rem;
 }
 .breadcrumb-section:before{
     content: "";
@@ -483,12 +551,36 @@ border: none;
     right: 0;
     bottom: 0;
 }
+.breadcrumb-section .container{
+    
+}
 .breadcrumb-section .page-name{
     
     font-size: 2rem;
     color: #fff;
     position: relative;
     z-index: 22;
+    text-align: center;
+}
+.breadcrumb-list{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 22;
+    position: relative;
+}
+
+.breadcrumb-link{
+    color: #acacac;
+    padding: .5rem;
+    text-decoration: none;
+    font-family: .9rem;
+}
+.breadcrumb-link.active{
+    color: #eab306;
+}
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #acacac;
 }
 
 
@@ -548,6 +640,23 @@ border: none;
 .bottom-footer .link-wrapper li:not(:last-child) a{
     border-right: 1px solid #dedede;
 }
+.whats-app{
+    display: inline-block;
+    height: 60px;
+    width: 60px;
+    background-color: #25d366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 2rem;
+    right: 1rem;
+}
+.whats-app i{
+    color: #fff;
+    font-size: 1.5rem;
+}
 @media(max-width:991.99px){
     .footer-title{
         margin-top: 1rem;
@@ -576,3 +685,69 @@ border: none;
     }
 }
 
+
+/* common card design */
+.card-wrapper{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1.5rem;
+}
+.tour-card{
+    box-shadow: 3px 5px 35px rgba(86, 68, 169, 0.1);
+}
+.tour-card .card-body{
+    position: relative;
+    padding: 2rem 1.5rem 1.5rem;
+}
+.tour-card .card-lavel{
+    font-weight: 600;
+    text-transform: capitalize;
+    color: #ffffff;
+    background: #34bdb2;
+    border-radius: 3px;
+    position: absolute;
+    padding: 9px 32px;
+    top: -43px;
+    left: 20px;
+    transform: translateY(50%);
+    clip-path: polygon(9% 0, 90% 3%, 100% 100%, 0 100%);
+}
+.p-card-info h6{
+    color: #34bdb2;
+    font-weight: 600;
+    line-height: 1;
+}
+.p-card-info h6 span{
+    font-weight: 500;
+    text-transform: capitalize;
+    color: #2d373c;
+}
+@media(max-width:1024px){
+    .card-wrapper{
+        grid-template-columns: repeat(2,1fr);
+        gap: 1rem;
+    }
+}
+@media(max-width:680px){
+    .card-wrapper{
+        grid-template-columns: repeat(1,1fr);
+    }
+}
+/* modal css */
+.modal-header{
+    background-color: #03787a;
+    color: #fff;
+}
+/* date-picker */
+.datepicker{
+    padding: 10px;
+}
+.datepicker th,.datepicker td{
+    padding: 5px;
+    text-align: center;
+}
+.datepicker table tr td.today{
+    background-color: #03787a;
+    background-image: none;
+    color: #fff;
+}

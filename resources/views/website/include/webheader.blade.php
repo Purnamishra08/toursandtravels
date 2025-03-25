@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-xl fixed-top">
             <div class="container">
                 <a href="#" class="navbar-brand"><img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" /></a>
-                <a class="nav-link ms-auto me-3 mob-menu mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" aria-current="page" href="#"><i class="bi bi-search text-white fs-5"></i></a>
+                <a class="nav-link ms-auto me-3 mob-menu mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" aria-current="page" href="#"><i class="bi bi-search  fs-5"></i></a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#navbarOffcanvas" aria-controls="navbarOffcanvas" aria-expanded="false"
@@ -25,7 +25,7 @@
                                 <a class="nav-link active" aria-current="page" href="../website">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="aboutus">About Us</a>
+                                <a class="nav-link" aria-current="page" href="aboutus">Tours</a>
                             </li>
 
                             <!-- Below Destination is only show in desktop -->

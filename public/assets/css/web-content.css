@@ -123,3 +123,58 @@ width: 100%;
         font-size: 1rem;
         flex: 0 0 1.2rem;
     }
+
+    /* faq page css */
+    .faq-accordion .accordion-item:not(:last-child){
+        margin-bottom: .5rem;
+
+    }
+    .faq-accordion .accordion-item {
+        border-radius: .25rem !important;
+      }
+    .faq-accordion .accordion-item:first-of-type {
+      border-radius: .25rem !important;
+    }
+    .faq-accordion .accordion-item:last-of-type {
+        border-radius: .25rem !important;
+      }
+    .faq-accordion .accordion-item{
+        border: 1px solid #d4e8f5;
+        overflow: hidden;
+    }
+    .faq-accordion .accordion-item h6{
+        margin-bottom: 0;
+        font-size: 1.2rem;
+
+    }
+    .faq-accordion .accordion-button:not(.collapsed) {
+        color: #3a596d;
+    background-color: #d4e8f5;
+    box-shadow: none;
+    }
+    .faq-accordion .accordion-button{
+        padding-block: .75rem;
+    }
+    .accordion-body ol{
+        list-style: auto;
+        padding-left: 1rem;
+    }
+    .accordion-body ul{
+        padding-left: 1rem;
+        list-style: disc;
+
+    }
+    .contact-card{
+        background: linear-gradient(127deg, rgb(4 22 44 / 85%) 0%, rgb(45 106 147) 100%);    }
+    .contact-card li{
+        align-items: flex-start;
+
+    }
+    .contact-card li i{
+        font-size: 1.5rem;
+        color: #699a96;
+    }
+    .contact-card li a,.contact-card li p{
+        font-size: 1rem;
+        color: #dcdcdc;
+    }
