@@ -207,7 +207,7 @@
                                             </span>
                                             <p>Five Star Hotel</p>
                                             <small class="d-block">(Deluxe Room)</small>
-                                            <img src="{{ asset('assets/img/web-img/trip-adviser.png') }}" alt="img">
+                                            <img src="{{ asset('assets/img/web-img/trip-adviser.png') }}" alt="img">    
                                         </div>
                                     </div>
                                     

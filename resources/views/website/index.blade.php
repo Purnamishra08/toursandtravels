@@ -220,16 +220,16 @@
     </section> -->
 <section>
     <div class="container">
-        <div class="section-title-container">
+        <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
 
             <div>
                 <p class="section-title-small">Feature tours</p>
                 <h2 class="section-title">Most Popular Tour</h2>
             </div>
-            <a href="#" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+            <a href="../tourdetails" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
         </div>
         <div class="card-wrapper">
-            <div class="card tour-card">
+            <div class="card tour-card  wow animate__fadeInUp  " data-wow-delay="200ms">
 
                 <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-2.png') }}" alt="img">
                 <div class="card-body">
@@ -247,11 +247,11 @@
                             <span>From</span>
                             <h6>$91.00 <span>Per Person</span></h6>
                         </div>
-                        <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="card tour-card">
+            <div class="card tour-card  wow animate__fadeInUp  " data-wow-delay="200ms">
 
                 <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-21.png') }}" alt="img">
                 <div class="card-body">
@@ -269,11 +269,11 @@
                             <span>From</span>
                             <h6>$91.00 <span>Per Person</span></h6>
                         </div>
-                        <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="card tour-card">
+            <div class="card tour-card wow animate__fadeInUp  " data-wow-delay="200ms">
 
                 <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-22.png') }}" alt="img">
                 <div class="card-body">
@@ -291,11 +291,11 @@
                             <span>From</span>
                             <h6>$91.00 <span>Per Person</span></h6>
                         </div>
-                        <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="card tour-card">
+            <div class="card tour-card wow animate__fadeInUp  " data-wow-delay="200ms">
 
                 <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-23.png') }}" alt="img">
                 <div class="card-body">
@@ -313,11 +313,11 @@
                             <span>From</span>
                             <h6>$91.00 <span>Per Person</span></h6>
                         </div>
-                        <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="card tour-card">
+            <div class="card tour-card wow animate__fadeInUp  " data-wow-delay="200ms">
 
                 <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-24.png') }}" alt="img">
                 <div class="card-body">
@@ -335,11 +335,11 @@
                             <span>From</span>
                             <h6>$91.00 <span>Per Person</span></h6>
                         </div>
-                        <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="card tour-card">
+            <div class="card tour-card wow animate__fadeInUp  " data-wow-delay="200ms">
 
                 <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-25.png') }}" alt="img">
                 <div class="card-body">
@@ -357,7 +357,7 @@
                             <span>From</span>
                             <h6>$91.00 <span>Per Person</span></h6>
                         </div>
-                        <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>
@@ -554,7 +554,7 @@
                     </h5>
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
                     <div class="text-end mt-2">
-                    <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>
@@ -573,27 +573,7 @@
                     </h5>
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
                     <div class="text-end mt-2">
-                    <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
-                <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                <p class="tour-badge">Travel</p>
-                <div class="card-body">
-                    <ul>
-                        <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                        <li class="separator-bar"></li>
-                        <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                    </ul>
-                    <h5 class="card-title mt-3">
-                        Life is a beautiful journey not a destination
-                    </h5>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
-                    <div class="text-end mt-2">
-                    <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>
@@ -613,7 +593,7 @@
                     </h5>
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
                     <div class="text-end mt-2">
-                    <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>
@@ -633,7 +613,7 @@
                     </h5>
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
                     <div class="text-end mt-2">
-                    <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>
@@ -653,7 +633,27 @@
                     </h5>
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
                     <div class="text-end mt-2">
-                    <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
+                <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
+                <p class="tour-badge">Travel</p>
+                <div class="card-body">
+                    <ul>
+                        <li><i class="bi bi-person-circle"></i> By John Smith </li>
+                        <li class="separator-bar"></li>
+                        <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
+
+                    </ul>
+                    <h5 class="card-title mt-3">
+                        Life is a beautiful journey not a destination
+                    </h5>
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
+                    <div class="text-end mt-2">
+                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>

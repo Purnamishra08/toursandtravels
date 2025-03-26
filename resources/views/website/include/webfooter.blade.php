@@ -4,7 +4,7 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <h1 class="mb-3">
-                            <a href="../index.blade.php">
+                            <a href="">
                                 <img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" />
                             </a>
                                 
@@ -137,7 +137,7 @@
                         <ul class="link-wrapper">
                             
                             <li><a href="#"> About Us</a></li>
-                            <li><a href="#">Faq</a></li>
+                            <li><a href="../faq">Faq</a></li>
                             <li><a href="#">Privacy Policy</a></li>
                             <li><a href="#">Terms & Conditions</a></li>
                             <li><a href="#">Booking Policy</a></li>

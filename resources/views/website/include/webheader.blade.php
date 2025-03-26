@@ -2,7 +2,7 @@
     <header id="header">
         <nav class="navbar navbar-expand-xl fixed-top">
             <div class="container">
-                <a href="#" class="navbar-brand"><img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" /></a>
+                <a href="" class="navbar-brand"><img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" /></a>
                 <a class="nav-link ms-auto me-3 mob-menu mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" aria-current="page" href="#"><i class="bi bi-search  fs-5"></i></a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -14,7 +14,7 @@
                     aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title text-light" id="offcanvasNavbarLabel">
-                            <a href="#" class="navbar-brand"><img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" /></a>
+                            <a href="" class="navbar-brand"><img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" /></a>
                         </h5>
                         <button type="button" class="btn-close btn-close-dark text-reset me-3"
                             data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -22,10 +22,10 @@
                     <div class="offcanvas-body">
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="../website">Home</a>
+                                <a class="nav-link active" aria-current="page" href="">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="aboutus">Tours</a>
+                                <a class="nav-link" aria-current="page" href="../tourlisting">Tours</a>
                             </li>
 
                             <!-- Below Destination is only show in desktop -->
@@ -257,7 +257,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#">Blogs</a>
+                                <a class="nav-link" aria-current="page" href="../bloglisting">Blogs</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="../contactus">Contact</a>
