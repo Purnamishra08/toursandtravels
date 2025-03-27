@@ -44,7 +44,7 @@
                             </nav>
                             <!--Filter Box Start-->
                             <div class="filterBox collapse bg-light p-3" id="filterBox">
-                                <form action="{{ route('admin.manageitineraryenquiry') }}" method="POST" onsubmit="return validator()">
+                                <form id="filterForm" method="GET">
                                     @csrf
                                     <div class="row">
                                         <div class="col-sm-4 form-group mb-sm-0">
@@ -73,9 +73,8 @@
                                         </div>
                                         <!-- Submit and Reset Buttons -->
                                         <div class="col-sm-4 form-group mb-sm-0 align-self-end">
-                                            <button class="btn btn-success mr-2" type="submit">Submit</button>
-                                            <!-- <button class="btn btn-warning" type="reset" id="resetBtn">Reset</button> -->
-                                            <a href="{{ route('admin.manageitineraryenquiry') }}" class="btn btn-warning">Reset</a>
+                                            <button class="btn btn-success mr-2" type="submit" id="filterBoxBtn">Submit</button>
+                                            <button class="btn btn-warning" type="reset" id="resetFilterBtn">Reset</button>
                                         </div>
                                     </div>
                                 </form>
@@ -168,12 +167,13 @@
         }
 
         // Filter Button Click
-        $('#filterBtn').on('click', function () {
+        $('#filterBoxBtn').on('click', function (e) { 
+            e.preventDefault(); // Prevent form submission
             $('#itineraryEnquiryTable').DataTable().ajax.reload();
         });
 
         // Reset Button
-        $('#resetBtn').on('click', function () {
+        $('#resetFilterBtn').on('click', function () {
             $('#filterForm')[0].reset();
             $('#itineraryEnquiryTable').DataTable().ajax.reload();
         });

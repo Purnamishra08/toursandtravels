@@ -36,7 +36,7 @@
                             </nav>
                             <!--Filter Box Start-->
                             <div class="filterBox collapse bg-light p-3" id="filterBox">
-                                <form action="{{ route('admin.managetourpackages') }}" method="GET">
+                                <form id="filterForm" method="GET">
                                     <div class="row">
                                         <div class="col-sm-4 form-group mb-sm-0">
                                             <label class="control-label">Packages</label>
@@ -79,9 +79,8 @@
                                         </div>
                                         <!-- Submit and Reset Buttons -->
                                         <div class="col-sm-4 form-group mb-sm-0 align-self-end">
-                                            <button class="btn btn-success mr-2" type="submit">Submit</button>
-                                            <!-- <button class="btn btn-warning" type="reset" id="resetBtn">Reset</button> -->
-                                            <a href="{{ route('admin.managetourpackages') }}" class="btn btn-warning">Reset</a>
+                                            <button class="btn btn-success mr-2" type="submit" id="filterBoxBtn">Submit</button>
+                                            <button class="btn btn-warning" type="reset" id="resetFilterBtn">Reset</button>
                                         </div>
                                     </div>
                                 </form>
@@ -178,13 +177,13 @@ $(document).ready(function () {
     });
 
     // Filter Form Submission
-    $('#filterForm').on('submit', function (e) {
+    $('#filterBoxBtn').on('click', function (e) {
         e.preventDefault(); // Prevent form submission
         table.draw(); // Reload table with filter values
     });
 
     // Reset Button
-    $('#resetBtn').on('click', function () {
+    $('#resetFilterBtn').on('click', function () {
         $('#filterForm')[0].reset(); // Reset form fields
         table.draw(); // Reload table with reset values
     });

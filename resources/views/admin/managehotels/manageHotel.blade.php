@@ -44,7 +44,7 @@
                             </nav>
                             <!--Filter Box Start-->
                             <div class="filterBox collapse bg-light p-3" id="filterBox">
-                                <form action="{{ route('admin.manageHotels') }}" method="GET" onsubmit="return validator()">
+                                <form method="GET" id="filterForm">
                                     @csrf
                                     <div class="row">
                                         <!-- Hotel Name -->
@@ -94,9 +94,9 @@
                                         </div>
                                         <!-- Submit and Reset Buttons -->
                                         <div class="col-sm-4 form-group mb-sm-0 align-self-end">
-                                            <button class="btn btn-success mr-2" type="submit">Submit</button>
+                                            <button class="btn btn-success mr-2" type="submit" id="filterBoxBtn">Submit</button>
+                                            <button class="btn btn-warning" type="reset" id="resetFilterBtn">Reset</button>
                                             <!-- <button class="btn btn-warning" type="reset" id="resetBtn">Reset</button> -->
-                                            <a href="{{ route('admin.manageHotels') }}" class="btn btn-warning">Reset</a>
                                         </div>
                                     </div>
                                 </form>
@@ -197,12 +197,12 @@
         });
     }
 
-    $('#filterForm').on('submit', function (e) {
+    $('#filterBoxBtn').on('click', function (e) {
         e.preventDefault();
         $('#hotelTable').DataTable().ajax.reload(); // ✅ Reload DataTable after form submit
     });
 
-    $('#resetFilter').click(function () {
+    $('#resetFilterBtn').on('click', function (e) {
         $('#filterForm')[0].reset();
         $('#hotelTable').DataTable().ajax.reload();
     });

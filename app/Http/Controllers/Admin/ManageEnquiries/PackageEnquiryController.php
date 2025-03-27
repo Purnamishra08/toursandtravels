@@ -40,7 +40,8 @@ class PackageEnquiryController extends Controller
                 $query->where('b.tpackage_name', 'like', '%' . $request->package_name . '%');
             }
 
-            if (!empty($traveller_name)) {
+            if (!empty($request->traveller_name)) {
+                $traveller_name=$request->traveller_name;
                 $query->where(function ($q) use ($traveller_name) {
                     $q->where('a.first_name', 'like', '%' . $traveller_name . '%')
                     ->orWhere('a.last_name', 'like', '%' . $traveller_name . '%');
