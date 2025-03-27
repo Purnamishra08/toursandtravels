@@ -42,7 +42,7 @@
                         </h5>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
                         <div class="text-end mt-2">
-                        <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../blogdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -61,27 +61,7 @@
                         </h5>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
                         <div class="text-end mt-2">
-                        <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
-                    <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                    <p class="tour-badge">Travel</p>
-                    <div class="card-body">
-                        <ul>
-                            <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                            <li class="separator-bar"></li>
-                            <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-    
-                        </ul>
-                        <h5 class="card-title mt-3">
-                            Life is a beautiful journey not a destination
-                        </h5>
-                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
-                        <div class="text-end mt-2">
-                        <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../blogdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -101,7 +81,7 @@
                         </h5>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
                         <div class="text-end mt-2">
-                        <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../blogdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -121,7 +101,7 @@
                         </h5>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
                         <div class="text-end mt-2">
-                        <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../blogdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -141,7 +121,27 @@
                         </h5>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
                         <div class="text-end mt-2">
-                        <a href="#" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../blogdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
+                    <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
+                    <p class="tour-badge">Travel</p>
+                    <div class="card-body">
+                        <ul>
+                            <li><i class="bi bi-person-circle"></i> By John Smith </li>
+                            <li class="separator-bar"></li>
+                            <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
+    
+                        </ul>
+                        <h5 class="card-title mt-3">
+                            Life is a beautiful journey not a destination
+                        </h5>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
+                        <div class="text-end mt-2">
+                        <a href="../blogdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>

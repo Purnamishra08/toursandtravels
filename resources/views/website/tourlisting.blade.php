@@ -45,7 +45,7 @@ l@include('website.include.webmeta')
                                 <span>From</span>
                                 <h6>$91.00 <span>Per Person</span></h6>
                             </div>
-                            <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@ l@include('website.include.webmeta')
                                 <span>From</span>
                                 <h6>$91.00 <span>Per Person</span></h6>
                             </div>
-                            <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@ l@include('website.include.webmeta')
                                 <span>From</span>
                                 <h6>$91.00 <span>Per Person</span></h6>
                             </div>
-                            <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -111,7 +111,7 @@ l@include('website.include.webmeta')
                                 <span>From</span>
                                 <h6>$91.00 <span>Per Person</span></h6>
                             </div>
-                            <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@ l@include('website.include.webmeta')
                                 <span>From</span>
                                 <h6>$91.00 <span>Per Person</span></h6>
                             </div>
-                            <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -155,7 +155,7 @@ l@include('website.include.webmeta')
                                 <span>From</span>
                                 <h6>$91.00 <span>Per Person</span></h6>
                             </div>
-                            <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -177,7 +177,7 @@ l@include('website.include.webmeta')
                                 <span>From</span>
                                 <h6>$91.00 <span>Per Person</span></h6>
                             </div>
-                            <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -199,7 +199,7 @@ l@include('website.include.webmeta')
                                 <span>From</span>
                                 <h6>$91.00 <span>Per Person</span></h6>
                             </div>
-                            <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
@@ -221,7 +221,7 @@ l@include('website.include.webmeta')
                                 <span>From</span>
                                 <h6>$91.00 <span>Per Person</span></h6>
                             </div>
-                            <a href="#" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
                     </div>
                 </div>
