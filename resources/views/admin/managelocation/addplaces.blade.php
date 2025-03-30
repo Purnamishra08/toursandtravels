@@ -105,11 +105,15 @@
                                                                 <input name="placeimg" id="placeimg" class="form-control" type="file" onchange="previewImage(event, 'banner_preview')">
                                                                 <span>Image size should be 1140px X 350px</span>
                                                                 <div id="banner_preview" style="margin-top: 10px;">
-                                                                    <img id="bannerPreview"
-                                                                    src="{{ isset($placesData->placeimg) ? asset('storage/place_images/'.$placesData->placeimg) : '' }}"
-                                                                    alt="Banner Preview"
-                                                                    class="img-fluid rounded border"
-                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($placesData->placeimg) ? 'block' : 'none' }};">
+                                                                    @if(isset($placesData->placeimg))
+                                                                        <a href="{{ asset('storage/place_images/'.$placesData->placeimg) }}" target="_blank">
+                                                                            <img id="bannerPreview"
+                                                                                src="{{ asset('storage/place_images/'.$placesData->placeimg) }}"
+                                                                                alt="Banner Preview"
+                                                                                class="img-fluid rounded border"
+                                                                                style="width: 400px; height: 200px; object-fit: cover;">
+                                                                        </a>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -121,11 +125,15 @@
                                                                 <input name="placethumbimg" id="placethumbimg" class="form-control" type="file" onchange="previewImage(event, 'banner_preview_dest')">
                                                                 <span>Image size should be 500px X 300px</span>
                                                                 <div id="banner_preview_dest" style="margin-top: 10px;">
-                                                                    <img id="bannerPreviewDest" 
-                                                                    src="{{ isset($placesData->placethumbimg) ? asset('storage/place_images/thumbs/'.$placesData->placethumbimg) : '' }}" 
-                                                                    alt="Banner Preview Destination" 
-                                                                    class="img-fluid rounded border" 
-                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($placesData->placethumbimg) ? 'block' : 'none' }};">
+                                                                    @if(isset($placesData->placethumbimg))
+                                                                        <a href="{{ asset('storage/place_images/thumbs/'.$placesData->placethumbimg) }}" target="_blank">
+                                                                            <img id="bannerPreviewDest"
+                                                                                src="{{ asset('storage/place_images/thumbs/'.$placesData->placethumbimg) }}"
+                                                                                alt="Banner Preview Destination"
+                                                                                class="img-fluid rounded border"
+                                                                                style="width: 400px; height: 200px; object-fit: cover;">
+                                                                        </a>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>

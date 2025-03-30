@@ -96,11 +96,15 @@
                                                             <input name="menutag_img" id="menutag_img" type="file" onchange="previewImage(event, 'banner_preview')">
                                                             <span>Image size should be 1920px X 488px</span>
                                                             <div id="banner_preview" style="margin-top: 10px;">
-                                                                <img id="bannerPreview" 
-                                                                    src="{{ isset($Categorytags->menutag_img) ? asset('storage/category_tags_images/BannerImages/'.$Categorytags->menutag_img) : '' }}" 
-                                                                    alt="Banner Preview" 
-                                                                    class="img-fluid rounded border" 
-                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($Categorytags->menutag_img) ? 'block' : 'none' }};">
+                                                                @if(isset($Categorytags->menutag_img))
+                                                                    <a href="{{ asset('storage/category_tags_images/BannerImages/'.$Categorytags->menutag_img) }}" target="_blank">
+                                                                        <img id="bannerPreview"
+                                                                            src="{{ asset('storage/category_tags_images/BannerImages/'.$Categorytags->menutag_img) }}"
+                                                                            alt="Banner Preview"
+                                                                            class="img-fluid rounded border"
+                                                                            style="width: 400px; height: 200px; object-fit: cover;">
+                                                                    </a>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -111,11 +115,15 @@
                                                             <input name="menutagthumb_img" id="menutagthumb_img" type="file" onchange="previewImage(event, 'getaway_preview')">
                                                             <span>Image size should be 500px X 350px</span>
                                                             <div id="getaway_preview" style="margin-top: 10px;">
-                                                                <img id="getaway_preview" 
-                                                                    src="{{ isset($Categorytags->menutagthumb_img) ? asset('storage/category_tags_images/GetawaysImages/'.$Categorytags->menutagthumb_img) : '' }}" 
-                                                                    alt="Banner Preview" 
-                                                                    class="img-fluid rounded border" 
-                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($Categorytags->menutagthumb_img) ? 'block' : 'none' }};">
+                                                                @if(isset($Categorytags->menutagthumb_img))
+                                                                    <a href="{{ asset('storage/category_tags_images/GetawaysImages/'.$Categorytags->menutagthumb_img) }}" target="_blank">
+                                                                        <img id="getaway_preview"
+                                                                            src="{{ asset('storage/category_tags_images/GetawaysImages/'.$Categorytags->menutagthumb_img) }}"
+                                                                            alt="Banner Preview"
+                                                                            class="img-fluid rounded border"
+                                                                            style="width: 400px; height: 200px; object-fit: cover;">
+                                                                    </a>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>

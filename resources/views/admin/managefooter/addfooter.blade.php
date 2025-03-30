@@ -88,7 +88,36 @@
                                                 </fieldset>
                                             </div>
                                             <div class="clearfix"></div>
+                                            <!-- Meta Tags Section -->
+                                            <div class="box-main">
+                                                <fieldset>
+                                                    <legend>Footer Meta Tags</legend>
+                                                        <div class="row">
+                                                            <!-- Footer Meta Tags -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Footer Meta Title</label>
+                                                                    <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="footer_meta_title" id="footer_meta_title">{{ old('footer_meta_title', $footerData->footer_meta_title ?? '') }}</textarea>
+                                                                </div>
+                                                            </div>
 
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Footer Meta Keyword</label>
+                                                                    <textarea name="footer_meta_keywords" id="footer_meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('footer_meta_keywords', $footerData->footer_meta_keywords ?? '') }}</textarea>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Footer Meta Description</label>
+                                                                    <textarea name="footer_meta_description" id="footer_meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('footer_meta_description', $footerData->footer_meta_description ?? '') }}</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </fieldset>
+                                            </div>
+                                            <div class="clearfix"></div>
                                             <div class="col-md-6 mb-3">
                                                 <div class="reset-button">
                                                     <button type="submit" class="btn btn-primary" name="btnSubmit" id="btnSubmit">{{ isset($footerData) ? 'Update' : 'Save' }}</button>
