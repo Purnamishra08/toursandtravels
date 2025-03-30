@@ -582,7 +582,11 @@ class EnquiriesReportController extends Controller
 
             // Apply filters dynamically
             if (!empty($request->from_date) && !empty($request->to_date)) {
-                $query->whereBetween('a.followup_date', [\Carbon\Carbon::parse($request->from_date)->format('Y-m-d'), \Carbon\Carbon::parse($request->to_date)->format('Y-m-d')]);
+                $query->whereBetween('a.followup_date', [\Carbon\Carbon::parse($request->from_date)->startOfDay(), \Carbon\Carbon::parse($request->to_date)->endOfDay()]);
+            } elseif (!empty($request->from_date)) {
+                $query->whereDate('a.followup_date', '>=', \Carbon\Carbon::parse($request->from_date)->startOfDay());
+            } elseif (!empty($request->to_date)) {
+                $query->whereDate('a.followup_date', '<=', \Carbon\Carbon::parse($request->to_date)->endOfDay());
             }
             if (!empty($request->customer_name)) {
                 $query->where('a.customer_name', 'LIKE', "%{$request->customer_name}%");
@@ -615,7 +619,7 @@ class EnquiriesReportController extends Controller
 
         return $response;
     }
-    
+
     public function exportEnquiriesExcel(Request $request)
     {
         $fileName = 'enquiries_' . \Carbon\Carbon::parse($request->to_date)->format('Y-m-d') . '.xlsx';
@@ -659,10 +663,11 @@ class EnquiriesReportController extends Controller
 
             // Apply filters dynamically
             if (!empty($request->from_date) && !empty($request->to_date)) {
-                $query->whereBetween('a.followup_date', [
-                    Carbon::parse($request->from_date)->format('Y-m-d'),
-                    Carbon::parse($request->to_date)->format('Y-m-d')
-                ]);
+                $query->whereBetween('a.followup_date', [\Carbon\Carbon::parse($request->from_date)->startOfDay(), \Carbon\Carbon::parse($request->to_date)->endOfDay()]);
+            } elseif (!empty($request->from_date)) {
+                $query->whereDate('a.followup_date', '>=', \Carbon\Carbon::parse($request->from_date)->startOfDay());
+            } elseif (!empty($request->to_date)) {
+                $query->whereDate('a.followup_date', '<=', \Carbon\Carbon::parse($request->to_date)->endOfDay());
             }
             if (!empty($request->customer_name)) {
                 $query->where('a.customer_name', 'LIKE', "%{$request->customer_name}%");
