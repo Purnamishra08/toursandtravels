@@ -169,7 +169,8 @@ class TourPackagesController extends Controller
                 if ($i == 1) {
                     $html .= '<label>Itinerary Title</label>';
                 }
-                $html .= '<input type="text" class="form-control" placeholder="Itinerary Title" name="title[]">';
+                $html .= '<input type="text" class="form-control mb-2" placeholder="Itinerary Title" name="title[]">';
+                $html .= '<textarea name="itineraryDesc['.$i.']" id="itineraryDesc_'.$i.'" class="form-control mb-2" placeholder="Itinerary Description..."></textarea>';
                 $html .= '</div>';
 
                 // Itinerary Places (Dropdown)
@@ -193,10 +194,15 @@ class TourPackagesController extends Controller
             $html .= '</div>'; // Close col-md-12
             $html .= '</fieldset></div>'; // Close box-main
 
-            $html .= <<<SCRIPT
+           $html .= <<<SCRIPT
             <script>
                 $(document).ready(function() {
                     $('.chosen-select').chosen();
+                    
+                    // Initialize CKEditor for each textarea dynamically
+                    $('textarea[name^="itineraryDesc"]').each(function() {
+                        CKEDITOR.replace($(this).attr('id'));
+                    });
                 });
             </script>
             SCRIPT;
@@ -367,14 +373,15 @@ class TourPackagesController extends Controller
             }
 
             $title = $request->input('title') ?? [];
+            $itineraryDesc = $request->input('itineraryDesc') ?? [];
             $place_id = $request->input('getplaceid') ?? [];
             $otherItineraryPlaces = $request->input('otherItineraryPlaces') ?? [];
-
             if (count($title) > 0) {
                 for ($k = 0; $k < count($title); $k++) {
                     DB::table('tbl_itinerary_daywise')->insert([
                         'package_id' => $lastId,
                         'title' => $title[$k],
+                        'itinerary_desc' => $itineraryDesc[$k+1],
                         'place_id' => implode(",", $place_id[$k+1] ?? []),
                         'other_iternary_places' => $otherItineraryPlaces[$k],
                         'created_date' => now(),
@@ -585,6 +592,7 @@ class TourPackagesController extends Controller
         
         // ✅ Update itinerary
         $titles = $request->input('title') ?? [];
+        $itineraryDesc = $request->input('itineraryDesc') ?? [];
         $place_ids = $request->input('getplaceid') ?? [];
         $otherPlaces = $request->input('otherIternaryPlaces') ?? [];
         if (!empty($titles)) {
@@ -598,6 +606,7 @@ class TourPackagesController extends Controller
                 DB::table('tbl_itinerary_daywise')->insert([
                     'package_id' => $id,
                     'title' => $titles[$k],
+                    'itinerary_desc' => $itineraryDesc[$k+1],
                     'place_id' => implode(",", $place_ids[$k] ?? []),
                     'other_iternary_places' => $otherPlaces[$k],
                     'created_date' => now(),
@@ -669,6 +678,7 @@ class TourPackagesController extends Controller
         $arr = 0;
         for ($i = 1; $i <= $noOfDays; $i++) {
             $itineraryTitle = $editItinerary[$arr]->title ?? '';
+            $itineraryDesc = $editItinerary[$arr]->itinerary_desc ?? '';
             $otherPlaces = $editItinerary[$arr]->other_iternary_places ?? '';
             $itineraryPlace = $editItinerary[$arr]->place_id ?? '';
 
@@ -682,7 +692,8 @@ class TourPackagesController extends Controller
             if ($i == 1) {
                 $html .= '<label>Itinerary Title</label>';
             }
-            $html .= '<input type="text" class="form-control" placeholder="Itinerary Title" name="title[]" value="' . htmlspecialchars($itineraryTitle) . '">
+            $html .= '<input type="text" class="form-control mb-2" placeholder="Itinerary Title" name="title[]" value="' . htmlspecialchars($itineraryTitle) . '">
+                        <textarea name="itineraryDesc['.$i.']" id="itineraryDesc_'.$i.'" class="form-control mb-2" placeholder="Itinerary Description...">' . htmlspecialchars($itineraryDesc) . '</textarea>
                         </div>
 
                         <div class="col-md-5">';
@@ -719,6 +730,7 @@ class TourPackagesController extends Controller
             $itineraryPlace = $editItinerary[$arr1]->place_id ?? '';
             if ($itineraryPlace != '') {
                 $tagArray = explode(',', $itineraryPlace);
+                $html .= 'CKEDITOR.replace("itineraryDesc_'.$i.'");';
                 $html .= 'var tagArray = ' . json_encode($tagArray) . ';
                         $.each(tagArray, function (index, value) {
                             $("#getplaceid_' . $i . ' option[value=\'" + value + "\']").attr("selected", "selected");
@@ -896,6 +908,7 @@ class TourPackagesController extends Controller
             $itineraryDetails = DB::table('tbl_itinerary_daywise as a')
                 ->select(
                     'a.title',
+                    'a.itinerary_desc',
                     'a.other_iternary_places',
                     DB::raw('(
                         SELECT GROUP_CONCAT(b.place_name) 

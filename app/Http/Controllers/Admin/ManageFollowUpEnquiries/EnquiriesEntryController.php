@@ -24,13 +24,12 @@ class EnquiriesEntryController extends Controller
                 ->where('a.bit_Deleted_Flag', 0);
 
             // Apply filters if present
-            // Handle date range filter
             if (!empty($request->from_date) && !empty($request->to_date)) {
-                $query->whereBetween('a.created_at', [\Carbon\Carbon::parse($request->from_date)->format('Y-m-j'), \Carbon\Carbon::parse($request->to_date)->format('Y-m-j')]);
+                $query->whereBetween('a.created_at', [\Carbon\Carbon::parse($request->from_date)->startOfDay(),\Carbon\Carbon::parse($request->to_date)->endOfDay()]);
             } elseif (!empty($request->from_date)) {
-                $query->whereDate('a.created_at', '>=', \Carbon\Carbon::parse($request->from_date)->format('Y-m-j'));
+                $query->where('a.created_at', '>=', \Carbon\Carbon::parse($request->from_date)->startOfDay());
             } elseif (!empty($request->to_date)) {
-                $query->whereDate('a.created_at', '<=', \Carbon\Carbon::parse($request->to_date)->format('Y-m-j'));
+                $query->where('a.created_at', '<=', \Carbon\Carbon::parse($request->to_date)->endOfDay());
             }
             if (!empty($request->customer_name)) {
                 $query->where('a.customer_name', 'LIKE', "%{$request->customer_name}%");
@@ -51,6 +50,7 @@ class EnquiriesEntryController extends Controller
                 $query->where('a.assign_to', $request->assign_to);
             }
 
+            // dd($query->toSql());
             return DataTables::of($query)
             ->addIndexColumn()
             ->editColumn('created_at', function ($row) {

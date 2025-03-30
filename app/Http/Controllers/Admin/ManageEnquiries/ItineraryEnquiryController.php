@@ -42,11 +42,11 @@ class ItineraryEnquiryController extends Controller
 
             // Handle date range filter
             if (!empty($request->from_date) && !empty($request->to_date)) {
-                $query->whereBetween('a.tsdate', [\Carbon\Carbon::parse($request->from_date)->format('Y-m-j'), \Carbon\Carbon::parse($request->to_date)->format('Y-m-j')]);
+                $query->whereBetween('a.tsdate', [\Carbon\Carbon::parse($request->from_date)->startOfDay(), \Carbon\Carbon::parse($request->to_date)->endOfDay()]);
             } elseif (!empty($request->from_date)) {
-                $query->whereDate('a.tsdate', '>=', \Carbon\Carbon::parse($request->from_date)->format('Y-m-j'));
+                $query->whereDate('a.tsdate', '>=', \Carbon\Carbon::parse($request->from_date)->startOfDay());
             } elseif (!empty($request->to_date)) {
-                $query->whereDate('a.tsdate', '<=', \Carbon\Carbon::parse($request->to_date)->format('Y-m-j'));
+                $query->whereDate('a.tsdate', '<=', \Carbon\Carbon::parse($request->to_date)->endOfDay());
             }
 
             return DataTables::of($query)
