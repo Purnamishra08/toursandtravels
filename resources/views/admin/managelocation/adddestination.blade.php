@@ -133,12 +133,16 @@
                                                                 <label>Banner Image <span class="manadatory">*</span></label>
                                                                 <input name="destiimg" id="destiimg" class="form-control" type="file" onchange="previewImage(event, 'banner_preview')">
                                                                 <span>Image size should be 2000px X 350px</span>
-                                                                <div id="banner_preview" style="margin-top: 10px;">
-                                                                    <img id="bannerPreview"
-                                                                    src="{{ isset($destinationData->destiimg) ? asset('storage/destination_images/'.$destinationData->destiimg) : '' }}"
-                                                                    alt="Banner Preview"
-                                                                    class="img-fluid rounded border"
-                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($destinationData->destiimg) ? 'block' : 'none' }};">
+                                                                <div id="banner_preview" style="margin-top: 10px;"> 
+                                                                    @if(isset($destinationData->destiimg))
+                                                                        <a href="{{ asset('storage/destination_images/'.$destinationData->destiimg) }}" target="_blank">
+                                                                            <img id="bannerPreview"
+                                                                                src="{{ asset('storage/destination_images/'.$destinationData->destiimg) }}"
+                                                                                alt="Banner Preview"
+                                                                                class="img-fluid rounded border"
+                                                                                style="width: 400px; height: 200px; object-fit: cover;">
+                                                                        </a>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -149,12 +153,16 @@
                                                                 <label>Destination Image <span class="manadatory">*</span></label>
                                                                 <input name="destismallimg" id="destismallimg" class="form-control" type="file" onchange="previewImage(event, 'banner_preview_dest')">
                                                                 <span>Image size should be 300px X 225px</span>
-                                                                <div id="banner_preview_dest" style="margin-top: 10px;">
-                                                                    <img id="bannerPreviewDest" 
-                                                                    src="{{ isset($destinationData->destiimg_thumb) ? asset('storage/destination_images/thumbs/'.$destinationData->destiimg_thumb) : '' }}" 
-                                                                    alt="Banner Preview Destination" 
-                                                                    class="img-fluid rounded border" 
-                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($destinationData->destiimg_thumb) ? 'block' : 'none' }};">
+                                                                <div id="banner_preview" style="margin-top: 10px;"> 
+                                                                    @if(isset($destinationData->destiimg_thumb))
+                                                                        <a href="{{ asset('storage/destination_images/thumbs/'.$destinationData->destiimg_thumb) }}" target="_blank">
+                                                                            <img id="bannerPreviewDest"
+                                                                                src="{{ asset('storage/destination_images/thumbs/'.$destinationData->destiimg_thumb) }}"
+                                                                                alt="Banner Preview Destination"
+                                                                                class="img-fluid rounded border"
+                                                                                style="width: 400px; height: 200px; object-fit: cover;">
+                                                                        </a>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
