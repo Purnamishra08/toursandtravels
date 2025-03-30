@@ -71,11 +71,15 @@
                                                                 <input name="image" id="image" class="form-control" type="file" onchange="previewImage(event, 'banner_preview')">
                                                                 <span>Image size should be 1140px X 350px</span>
                                                                 <div id="banner_preview" style="margin-top: 10px;">
-                                                                    <img id="bannerPreview"
-                                                                    src="{{ isset($BlogData->image) ? asset('storage/blog_images/'.$BlogData->image) : '' }}"
-                                                                    alt="Banner Preview"
-                                                                    class="img-fluid rounded border"
-                                                                    style="width: 400px; height: 200px; object-fit: cover; display: {{ isset($BlogData->image) ? 'block' : 'none' }};">
+                                                                    @if(isset($BlogData->image))
+                                                                        <a href="{{ asset('storage/blog_images/'.$BlogData->image) }}" target="_blank">
+                                                                            <img id="bannerPreview"
+                                                                                src="{{ asset('storage/blog_images/'.$BlogData->image) }}"
+                                                                                alt="Banner Preview"
+                                                                                class="img-fluid rounded border"
+                                                                                style="width: 400px; height: 200px; object-fit: cover;">
+                                                                        </a>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
