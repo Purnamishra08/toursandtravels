@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
-use Intervention\Image\Facades\Image;
 
 class DestinationController extends Controller
 {
