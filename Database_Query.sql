@@ -686,3 +686,18 @@ CREATE TABLE `tbl_inquiries_log` (
 
 
 #EnquiryEntry
+
+CREATE TABLE `tbl_itinerary_daywise` (
+  `itinerary_daywiseid` int(11) NOT NULL AUTO_INCREMENT,
+  `package_id` int(11) DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `itinerary_desc` text DEFAULT NULL,
+  `place_id` varchar(100) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `other_iternary_places` longtext DEFAULT NULL,
+  `updated_date` datetime DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`itinerary_daywiseid`)
+);
