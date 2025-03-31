@@ -346,47 +346,47 @@
                                                     <legend>Other Information</legend>
                                                     <div class="row">
                                                         <!-- Internet Availability -->
-                                                        <div class="col-md-6">
+                                                        <!-- <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Internet Availability</label>
                                                                 <input type="text" class="form-control" placeholder="Enter Internet Availability" name="internet_avl" id="internet_avl" value="{{ old('internet_avl' , $destinationData->internet_availability ?? '') }}">
                                                             </div>
-                                                        </div>
+                                                        </div> -->
 
                                                         <!-- Std Code -->
-                                                        <div class="col-md-6">
+                                                        <!-- <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Std Code</label>
                                                                 <input type="text" class="form-control" placeholder="Enter Std Code" name="std_code" id="std_code" value="{{ old('std_code', $destinationData->std_code ?? '') }}">
                                                             </div>
-                                                        </div>
+                                                        </div> -->
 
                                                         <!-- Languages Spoken -->
-                                                        <div class="col-md-6">
+                                                        <!-- <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Languages Spoken</label>
                                                                 <input type="text" class="form-control" placeholder="Enter Languages Spoken" name="lng_spk" id="lng_spk" value="{{ old('lng_spk', $destinationData->language_spoken ?? '') }}">
                                                             </div>
-                                                        </div>
+                                                        </div> -->
 
                                                         <!-- Major Festivals -->
-                                                        <div class="col-md-6">
+                                                        <!-- <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Major Festivals</label>
                                                                 <input type="text" class="form-control" placeholder="Enter Major Festivals" name="mjr_fest" id="mjr_fest" value="{{ old('mjr_fest', $destinationData->major_festivals ?? '') }}">
                                                             </div>
-                                                        </div>
+                                                        </div> -->
 
                                                         <!-- Notes/Tips -->
-                                                        <div class="col-md-6">
+                                                        <!-- <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Notes/Tips</label>
                                                                 <textarea class="form-control" placeholder="Notes/Tips..." name="note_tips" id="note_tips">{{ old('note_tips', $destinationData->note_tips ?? '') }}</textarea>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
 
                                                         <!-- Google Map -->
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label>Google Map</label>
                                                                 <textarea class="form-control" placeholder="Enter Google Map" name="google_map" id="google_map">{{ old('google_map', $destinationData->google_map ?? '') }}</textarea>

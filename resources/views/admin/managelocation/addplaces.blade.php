@@ -221,43 +221,6 @@
                                                 </fieldset>
                                             </div>
 
-                                            <!-- Other Information Section -->
-                                            <div class="box-main">
-                                            
-                                                <fieldset>
-                                                    <legend>Other Information</legend>
-                                                    <div class="row">
-                                                        <div class="col-md-6"> 
-                                                            <div class="form-group">
-                                                                <label>Entry Fee (<i class="fa-solid fa-indian-rupee-sign"></i>)</label>
-                                                                <input type="text" class="form-control" placeholder="Entry Fee" name="entry_fee" id="entry_fee" value="{{ old('entry_fee', $placesData->entry_fee ?? '') }}">
-                                                            </div>   
-                                                        </div>
-
-                                                        <div class="col-md-6"> 
-                                                            <div class="form-group">
-                                                                <label>Timing</label>
-                                                                <input type="text" class="form-control" placeholder="Timing" name="timing" id="timing" value="{{ old('timing', $placesData->timing ?? '') }}">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="clearfix"></div>
-
-                                                        <div class="col-md-6"> 
-                                                            <div class="form-group">
-                                                                <label>Rating</label>                                                    
-                                                                <select class="form-control" name="rating" id="rating">
-                                                                    <option value="0">Select Rating</option>
-                                                                    @foreach ([1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5] as $rate)
-                                                                        <option value="{{ $rate }}" {{ old('rating', $placesData->rating ?? '') == $rate ? 'selected' : '' }}>{{ $rate }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </fieldset>
-                                            </div>
-
                                             <!-- Meta Tags Section -->
                                             <div class="box-main">
                                                 <fieldset>
