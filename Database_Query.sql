@@ -682,3 +682,6 @@ CREATE TABLE `tbl_inquiries_log` (
 
 
 #EnquiryEntry
+
+
+alter table tbl_itinerary_daywise add column itinerary_desc text default NULL after title;
