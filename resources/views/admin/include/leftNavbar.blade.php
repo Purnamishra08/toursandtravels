@@ -107,7 +107,7 @@
                             <i class="fa fa-map-marker mt-1 me-2"></i> Destination Type
                         </a>
                         
-                        <a class="nav-link {{ (Route::currentRouteName() == 'admin.destination' || Route::currentRouteName() == 'admin.destination.adddestination' || Route::currentRouteName() == 'admin.destination.editdestination') ? 'active' : '' }}"
+                        <a class="nav-link {{ (Route::currentRouteName() == 'admin.destination' || Route::currentRouteName() == 'admin.destination.adddestination' || Route::currentRouteName() == 'admin.destination.editdestination' || Route::currentRouteName() == 'admin.destination.addpickupdestination') ? 'active' : '' }}"
                         href="{{ route('admin.destination') }}">
                             <i class="fa fa-location-dot mt-1 me-2"></i> Destinations
                         </a>

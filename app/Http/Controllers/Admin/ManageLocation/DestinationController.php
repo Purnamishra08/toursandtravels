@@ -30,6 +30,7 @@ class DestinationController extends Controller
             $query = DB::table('tbl_destination as d')
                 ->select('d.destiimg', 'd.destiimg_thumb', 'd.destination_id', 'd.destination_name', 'p.par_value', 'd.status')
                 ->leftJoin('tbl_parameters as p', 'd.desttype_for_home', '=', 'p.parid')
+                ->where('d.destinationType', 1)
                 ->where('p.bit_Deleted_Flag', 0)
                 ->where('d.bit_Deleted_Flag', 0);
 
@@ -216,6 +217,7 @@ class DestinationController extends Controller
                     'note_tips'                 => $request->input('note_tips'),
                     'show_on_footer'            => $request->input('show_on_footer'),
                     'desttype_for_home'         => $request->input('desttype_for_home'),
+                    'destinationType'           => 1,
                     'status'                    => 1,
                     'pick_drop_price'           => $request->input('pick_drop_price'),
                     'accomodation_price'        => $request->input('accomodation_price'),
@@ -422,7 +424,7 @@ class DestinationController extends Controller
                     'updated_date'              => now()
                 ];
 
-                DB::table('tbl_destination')->where('destination_id', $id)->update($data);
+                DB::table('tbl_destination')->where('destination_id', $id)->where('destinationType', 1)->update($data);
 
                 DB::table('tbl_destination_cats')->where('destination_id', $id)->delete();
                 if (!empty($request->input('edesti'))) {
@@ -566,5 +568,184 @@ class DestinationController extends Controller
 
             return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to delete destination.']);
         }
+    }
+
+    public function pickupdestinationdata(Request $request){
+        if ($request->ajax()) {
+            // Fetch destinations for DataTables
+            $query = DB::table('tbl_destination')
+                ->select('destination_id', 'destination_name','status','destinationType')
+                ->where('destinationType', 2)
+                ->where('bit_Deleted_Flag', 0);
+
+            $destination_name   = $request->input('destination_name', '');
+            $status             = $request->input('status', '');
+
+            if (!empty($destination_name)) {
+                $query->where('destination_name', 'like', '%' . $destination_name . '%');
+            }
+            if (!empty($status)) {
+                $query->where('status', $status);
+            }
+
+            // Handle global search
+            if ($request->has('search') && !empty($request->input('search'))) {
+                $search = $request->input('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('destination_name', 'like', '%' . $search . '%');
+                });
+            }
+    
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('destination_name', function ($row) {
+                    return $row->destination_name;
+                })
+                ->addColumn('status', function ($row) {
+                    $csrf = csrf_field();
+                    $route = route('admin.destination.activeDestination', ['id' => $row->destination_id]);
+                    $confirmMessage = "return confirm('Are you sure you want to change the status?')";
+    
+                    if ($row->status == 1) {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-success" title="Active. Click to deactivate.">
+                                        <span class="label-custom label label-success">Active</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . $route . '" method="POST" onsubmit="' . $confirmMessage . '">
+                                    ' . $csrf . '
+                                    <button type="submit" class="btn btn-outline-dark" title="Inactive. Click to activate.">
+                                        <span class="label-custom label label-danger">Inactive</span>
+                                    </button>
+                                </form>';
+                    }
+                })
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('admin.destination.editpickupdestination', ['id' => $row->destination_id]);
+                    $deleteUrl = route('admin.destination.deletedestination', ['id' => $row->destination_id]);
+                    $moduleAccess = session('moduleAccess', []); // Get module access from session
+                    $user = session('user'); // Get user session
+                    $requiredModuleId = 20;
+                    
+                    $buttons = '
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-success btn-sm edit-btn" data-id="'.$row->destination_id.'" title="Edit">
+                                <i class="fa fa-pencil"></i>
+                            </button>';
+                    
+                    if ($user->admin_type == 1 || (isset($moduleAccess[$requiredModuleId]) && $moduleAccess[$requiredModuleId] == 1)) {
+                        $buttons .= '
+                            <form action="'.$deleteUrl.'" method="POST" 
+                                onsubmit="return confirm(\'Are you sure you want to delete this Pickup destination.?\')">
+                                '.csrf_field().'
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>';
+                    }
+
+                    $buttons .= '</div>';
+
+                    return $buttons;
+                })
+                ->rawColumns(['status', 'action']) // Allow HTML rendering
+                ->make(true);
+        }
+    }
+    
+    public function addpickupdestination(Request $request){
+        if ($request->isMethod('post')) {
+            // Start validation
+            $validator = Validator::make($request->all(), [
+                'destination_name'    => 'required|string|max:255|unique:tbl_destination,destination_name',
+            ]);
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+
+            DB::beginTransaction(); // Start transaction
+
+            try {
+                // Prepare data
+                $data = [
+                    'destination_name'          => $request->input('destination_name'),
+                    'destinationType'           => 2
+                ];
+                $inserted = DB::table('tbl_destination')->insert($data);
+                if ($inserted) {
+                    DB::commit(); // Commit transaction
+                    return redirect()->back()->with('success', 'Pickup destination added successfully.');
+                } else {
+                    throw new \Exception('Pickup destination could not be added.');
+                }
+            } catch (\Exception $e) {
+                dd($e);
+                DB::rollBack(); // Rollback transaction on error
+                return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
+            }
+        }else{
+            return view('admin.managelocation.addpickupdestination');
+        }
+    }
+
+    public function updatepickupdestination(Request $request)
+    {
+        $request->validate([
+            'destination_id' => 'required|integer',
+            'destination_name' => 'required|string|max:255'
+        ]);
+
+        try {
+            $updated = DB::table('tbl_destination')
+                ->where('destination_id', $request->destination_id)
+                ->where('destinationType', 2)
+                ->update([
+                    'destination_name' => $request->input('destination_name'),
+                    'updated_date' => now(),
+                    'updated_by' => isset(session('user')->adminid) ? session('user')->adminid : 0
+                ]);
+
+            if ($updated) {
+                return response()->json(['success' => 'Pickup destionation updated successfully!']);
+            } else {
+                return response()->json(['error' => 'No changes made!'], 400);
+            }
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Error updating Pickup destionation: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function editpickupdestination($id)
+    {
+        $destination = DB::table('tbl_destination')->where('destination_id', $id)->first();
+
+        if (!$destination) {
+            return response()->json(['error' => 'Destination not found!'], 404);
+        }
+
+        // Modal HTML
+        $modalHtml = '
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Pickup Destination</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form id="editDestinationForm">
+            '.csrf_field().'
+                <input type="hidden" name="destination_id" id="destination_id" value="' . $destination->destination_id . '" />
+                
+                <div class="form-group">
+                    <label>Pickup Destination Name</label>
+                    <input type="text" class="form-control" name="destination_name" id="destination_name" value="' . $destination->destination_name . '" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>';
+
+        return response()->json(['html' => $modalHtml]);
     }
 }

@@ -156,6 +156,11 @@ Route::middleware('auth')->group(function () {
     Route::match(['get', 'post'], '/editdestination/{id}', [DestinationController::class, 'editdestination'])->name('admin.destination.editdestination');
     Route::post('/deletedestination/{id}', [DestinationController::class, 'deletedestination'])->name('admin.destination.deletedestination');
     Route::post('/activeDestination/{id}', [DestinationController::class, 'activeDestination'])->name('admin.destination.activeDestination');
+    Route::get('/destination/pickupdestinationdata', [DestinationController::class, 'pickupdestinationdata'])->name('admin.destination.pickupdestinationdata');
+    Route::match(['get', 'post'], '/addpickupdestination', [DestinationController::class, 'addpickupdestination'])->name('admin.destination.addpickupdestination');
+    Route::get('/editpickupdestination/edit/{id}', [DestinationController::class, 'editpickupdestination'])->name('admin.destination.editpickupdestination');
+    Route::post('/updatepickupdestination/update', [DestinationController::class, 'updatepickupdestination'])->name('admin.destination.updatepickupdestination');
+    
     //Places
     Route::get('/places', [PlacesController::class, 'index'])->name('admin.places');
     Route::get('/places/data', [PlacesController::class, 'getData'])->name('admin.places.data');

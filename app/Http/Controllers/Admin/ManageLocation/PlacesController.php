@@ -245,7 +245,7 @@ class PlacesController extends Controller
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }
         }else{
-            $destinations = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
+            $destinations = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('destinationType', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
             $vehicleType = DB::table('tbl_vehicletypes')->select('vehicleid','vehicle_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('vehicle_name', 'ASC')->get();
             $destinationTypes = DB::table('tbl_destination_type')->select('destination_type_id','destination_type_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_type_name', 'ASC')->get();
             $tags = DB::table('tbl_menutags')->select('tagid','tag_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->orderBy('tag_name', 'ASC')->get();
@@ -391,7 +391,7 @@ class PlacesController extends Controller
                                 ->where('place_id', $place->placeid ?? 0)
                                 ->pluck('transport_id')
                                 ->toArray();
-            $destinations = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
+            $destinations = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('destinationType', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
             $vehicleType = DB::table('tbl_vehicletypes')->select('vehicleid','vehicle_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('vehicle_name', 'ASC')->get();
             $destinationTypes = DB::table('tbl_destination_type')->select('destination_type_id','destination_type_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_type_name', 'ASC')->get();
             $tags = DB::table('tbl_menutags')->select('tagid','tag_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->orderBy('tag_name', 'ASC')->get();

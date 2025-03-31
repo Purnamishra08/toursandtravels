@@ -43,6 +43,8 @@
             'admin.destination.adddestination'   => ['Location', 'Add Destinations', 'fa-globe', 'fa fa-location-dot'],
             'admin.destination.editdestination'   => ['Location', 'Edit Destinations', 'fa-globe', 'fa fa-location-dot'],
 
+            'admin.destination.addpickupdestination'   => ['Location', 'Pickup Destinations', 'fa-globe', 'fa fa-location-dot'],
+
             'admin.places'   => ['Location', 'View Places', 'fa-globe', 'fa fa fa-bookmark'],
             'admin.places.addplaces'   => ['Location', 'Add Places', 'fa-globe', 'fa fa fa-bookmark'],
             'admin.places.editplaces'   => ['Location', 'Edit Places', 'fa-globe', 'fa fa fa-bookmark'],
