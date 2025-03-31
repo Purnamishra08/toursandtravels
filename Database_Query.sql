@@ -135,6 +135,7 @@ CREATE TABLE `tbl_destination_type` (
   `bit_Deleted_Flag` bit(1) DEFAULT b'0',
   PRIMARY KEY (`destination_type_id`)
 );
+
 CREATE TABLE `tbl_destination` (
   `destination_id` int(11) NOT NULL AUTO_INCREMENT,
   `destination_name` varchar(500) DEFAULT NULL,
@@ -154,11 +155,12 @@ CREATE TABLE `tbl_destination` (
   `google_map` text DEFAULT NULL,
   `about_destination` text DEFAULT NULL,
   `places_visit_desc` text DEFAULT NULL,
-  `internet_availability` varchar(500) NOT NULL,
-  `std_code` varchar(500) NOT NULL,
-  `language_spoken` varchar(500) NOT NULL,
-  `major_festivals` varchar(500) NOT NULL,
-  `note_tips` varchar(500) NOT NULL,
+  `internet_availability` varchar(500) DEFAULT NULL,
+  `std_code` varchar(500) DEFAULT NULL,
+  `language_spoken` varchar(500) DEFAULT NULL,
+  `major_festivals` varchar(500) DEFAULT NULL,
+  `note_tips` varchar(500) DEFAULT NULL,
+  `destinationType` tinyint(1) DEFAULT 1,
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `desttype_for_home` int(11) DEFAULT NULL,
   `show_on_footer` tinyint(4) DEFAULT NULL,
@@ -179,9 +181,8 @@ CREATE TABLE `tbl_destination` (
   `package_meta_description` text DEFAULT NULL,
   `bit_Deleted_Flag` bit(1) DEFAULT b'0',
   PRIMARY KEY (`destination_id`)
-);
-ALTER TABLE `tbl_destination`
-CHANGE COLUMN `destinationType` `destinationType` TINYINT(1) NULL DEFAULT '1' AFTER `note_tips`;
+) ;
+
 
 CREATE TABLE `tbl_destination_places` (
   `dest_placeid` int(11) NOT NULL AUTO_INCREMENT,
