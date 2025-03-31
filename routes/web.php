@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\ManageFollowUpEnquiries\EnquiriesEntryController;
 use App\Http\Controllers\Admin\ManageFollowUpEnquiries\EnquiriesReportController;
 use App\Http\Controllers\Admin\ManageBlogs\ManageBlogsController;
 use App\Http\Controllers\Admin\ManageBlogs\ManageBlogsCommentsController;
+use App\Http\Controllers\Admin\ManagePackages\PackagePdfController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -323,7 +324,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/assignEnquiriesReport/{id}', [EnquiriesReportController::class, 'assignEnquiriesReport'])->name('admin.manageenquiriesreport.assignEnquiriesReport');
     Route::post('/update-assign-to', [EnquiriesReportController::class, 'updateAssignTo'])->name('admin.manageenquiriesreport.updateAssignTo');
     Route::get('/viewEnquiriesReport/{id}', [EnquiriesReportController::class, 'viewEnquiriesReport'])->name('admin.manageenquiriesreport.viewEnquiriesReport');
-    Route::get('export-enquiries', [EnquiriesReportController::class, 'exportEnquiries'])->name('admin.exportEnquiries');
+    Route::get('export-enquiriesCsv', [EnquiriesReportController::class, 'exportEnquiriesCsv'])->name('admin.exportEnquiriesCsv');
+    Route::get('export-enquiriesExcel', [EnquiriesReportController::class, 'exportEnquiriesExcel'])->name('admin.exportEnquiriesExcel');
 
     // Enquiries Report
 
@@ -351,5 +353,10 @@ Route::middleware('auth')->group(function () {
     
     //Manage Blogs
 
+
+    //Generate pdf or word doc
+    Route::match(['get', 'post'], '/generatePackageDoc', [PackagePdfController::class, 'index'])->name('admin.generatePackageDoc');
+    
+    //Generate pdf or word doc
     
 });

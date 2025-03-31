@@ -11,6 +11,8 @@ use Yajra\DataTables\Facades\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Exception;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 
 class EnquiriesReportController extends Controller
@@ -28,11 +30,11 @@ class EnquiriesReportController extends Controller
             // Apply filters if present
             // Handle date range filter
             if (!empty($request->from_date) && !empty($request->to_date)) {
-                $query->whereBetween('a.followup_date', [\Carbon\Carbon::parse($request->from_date)->format('Y-m-j'), \Carbon\Carbon::parse($request->to_date)->format('Y-m-j')]);
+                $query->whereBetween('a.followup_date', [\Carbon\Carbon::parse($request->from_date)->startOfDay(), \Carbon\Carbon::parse($request->to_date)->endOfDay()]);
             } elseif (!empty($request->from_date)) {
-                $query->whereDate('a.followup_date', '>=', \Carbon\Carbon::parse($request->from_date)->format('Y-m-j'));
+                $query->whereDate('a.followup_date', '>=', \Carbon\Carbon::parse($request->from_date)->startOfDay());
             } elseif (!empty($request->to_date)) {
-                $query->whereDate('a.followup_date', '<=', \Carbon\Carbon::parse($request->to_date)->format('Y-m-j'));
+                $query->whereDate('a.followup_date', '<=', \Carbon\Carbon::parse($request->to_date)->endOfDay());
             }
             if (!empty($request->customer_name)) {
                 $query->where('a.customer_name', 'LIKE', "%{$request->customer_name}%");
@@ -561,7 +563,7 @@ class EnquiriesReportController extends Controller
         return response()->json(['message' => 'Assign To updated successfully']);
     }
 
-    public function exportEnquiries(Request $request)
+    public function exportEnquiriesCsv(Request $request)
     {
         $fileName = 'enquiries'.\Carbon\Carbon::parse($request->to_date)->format('Y-m-d').'.csv';
         
@@ -573,14 +575,18 @@ class EnquiriesReportController extends Controller
             
             $query = DB::table('tbl_inquiries as a')
                 ->select('a.id', 'a.inquiry_number', 'a.customer_name', 'a.email_address', 'a.phone_number', 'd.admin_name', 'a.followup_date', 'c.name as status')
-                ->join('tbl_sources as b', 'a.source_id', '=', 'b.id')
-                ->join('tbl_statuses as c', 'a.status_id', '=', 'c.id')
-                ->join('tbl_admin as d', 'a.assign_to', '=', 'd.adminid')
+                ->leftJoin('tbl_sources as b', 'a.source_id', '=', 'b.id')
+                ->leftJoin('tbl_statuses as c', 'a.status_id', '=', 'c.id')
+                ->leftJoin('tbl_admin as d', 'a.assign_to', '=', 'd.adminid')
                 ->where('a.bit_Deleted_Flag', 0);
 
             // Apply filters dynamically
             if (!empty($request->from_date) && !empty($request->to_date)) {
-                $query->whereBetween('a.followup_date', [\Carbon\Carbon::parse($request->from_date)->format('Y-m-d'), \Carbon\Carbon::parse($request->to_date)->format('Y-m-d')]);
+                $query->whereBetween('a.followup_date', [\Carbon\Carbon::parse($request->from_date)->startOfDay(), \Carbon\Carbon::parse($request->to_date)->endOfDay()]);
+            } elseif (!empty($request->from_date)) {
+                $query->whereDate('a.followup_date', '>=', \Carbon\Carbon::parse($request->from_date)->startOfDay());
+            } elseif (!empty($request->to_date)) {
+                $query->whereDate('a.followup_date', '<=', \Carbon\Carbon::parse($request->to_date)->endOfDay());
             }
             if (!empty($request->customer_name)) {
                 $query->where('a.customer_name', 'LIKE', "%{$request->customer_name}%");
@@ -598,7 +604,8 @@ class EnquiriesReportController extends Controller
                     $enquiry->customer_name,
                     $enquiry->email_address,
                     $enquiry->phone_number,
-                    \Carbon\Carbon::parse($enquiry->followup_date)->format('d-M-Y'),
+                    // \Carbon\Carbon::parse($enquiry->followup_date)->format('d-M-Y'),
+                    !empty($enquiry->followup_date) ? \Carbon\Carbon::parse($enquiry->followup_date)->format('d-M-Y') : '',
                     $enquiry->admin_name,
                     $enquiry->status,
                 ]);
@@ -607,9 +614,110 @@ class EnquiriesReportController extends Controller
             fclose($handle);
         });
 
-        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
         $response->headers->set('Content-Disposition', 'attachment; filename="' . $fileName . '"');
 
         return $response;
+    }
+
+    public function exportEnquiriesExcel(Request $request)
+    {
+        $fileName = 'enquiries_' . \Carbon\Carbon::parse($request->to_date)->format('Y-m-d') . '.xlsx';
+
+        return new StreamedResponse(function () use ($request, $fileName) {
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+
+            // Excel Headers
+            $headers = ['Sl #', 'Enquiry Number', 'Customer Name', 'Email Address', 'Phone Number', 'Follow Up Date', 'Follow Up By', 'Status'];
+            $sheet->fromArray([$headers], null, 'A1');
+
+            // Apply bold, background color, and borders to header row
+            $styleArray = [
+                'font' => [
+                    'bold' => true,
+                    'color' => ['rgb' => 'FFFFFF']
+                ],
+                'fill' => [
+                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                    'startColor' => ['rgb' => '4F81BD'] // Blue background
+                ],
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['rgb' => '000000']
+                    ]
+                ],
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+                ]
+            ];
+            $sheet->getStyle('A1:H1')->applyFromArray($styleArray);
+
+            $query = DB::table('tbl_inquiries as a')
+                ->select('a.id', 'a.inquiry_number', 'a.customer_name', 'a.email_address', 'a.phone_number', 'd.admin_name', 'a.followup_date', 'c.name as status')
+                ->leftJoin('tbl_sources as b', 'a.source_id', '=', 'b.id')
+                ->leftJoin('tbl_statuses as c', 'a.status_id', '=', 'c.id')
+                ->leftJoin('tbl_admin as d', 'a.assign_to', '=', 'd.adminid')
+                ->where('a.bit_Deleted_Flag', 0);
+
+            // Apply filters dynamically
+            if (!empty($request->from_date) && !empty($request->to_date)) {
+                $query->whereBetween('a.followup_date', [\Carbon\Carbon::parse($request->from_date)->startOfDay(), \Carbon\Carbon::parse($request->to_date)->endOfDay()]);
+            } elseif (!empty($request->from_date)) {
+                $query->whereDate('a.followup_date', '>=', \Carbon\Carbon::parse($request->from_date)->startOfDay());
+            } elseif (!empty($request->to_date)) {
+                $query->whereDate('a.followup_date', '<=', \Carbon\Carbon::parse($request->to_date)->endOfDay());
+            }
+            if (!empty($request->customer_name)) {
+                $query->where('a.customer_name', 'LIKE', "%{$request->customer_name}%");
+            }
+            if (!empty($request->assign_to)) {
+                $query->where('a.assign_to', $request->assign_to);
+            }
+
+            $enquiries = $query->get();
+
+            // Populate Excel Rows
+            $rowNumber = 2;
+            foreach ($enquiries as $key => $enquiry) {
+                $sheet->fromArray([
+                    $key + 1,
+                    $enquiry->inquiry_number,
+                    $enquiry->customer_name,
+                    $enquiry->email_address,
+                    $enquiry->phone_number,
+                    !empty($enquiry->followup_date) ? \Carbon\Carbon::parse($enquiry->followup_date)->format('d-M-Y') : '',
+                    $enquiry->admin_name,
+                    $enquiry->status,
+                ], null, "A$rowNumber");
+
+                // Apply border style to each row
+                $sheet->getStyle("A$rowNumber:H$rowNumber")->applyFromArray([
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['rgb' => '000000']
+                        ]
+                    ]
+                ]);
+
+                $rowNumber++;
+            }
+
+            // Auto-size columns
+            foreach (range('A', 'H') as $col) {
+                $sheet->getColumnDimension($col)->setAutoSize(true);
+            }
+
+            $writer = new Xlsx($spreadsheet);
+            $output = fopen('php://output', 'w');
+
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment; filename="' . $fileName . '"');
+
+            $writer->save('php://output');
+            fclose($output);
+        });
     }
 }

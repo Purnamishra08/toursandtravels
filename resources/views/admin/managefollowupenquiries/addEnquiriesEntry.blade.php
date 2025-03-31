@@ -151,7 +151,7 @@
                                                                         <div class="form-group">
                                                                             <label>Trip Start Date <span
                                                                                     class="manadatory">*</span></label>
-                                                                            <input type="text" data-date-format="dd-mm-yyyy" class="form-control date-picker-no-validation" id="trip_start_date" name="trip_start_date"  autocomplete="off" readonly  placeholder="Choose Trip Start Date">
+                                                                            <input type="text" data-date-format="dd-mm-yyyy" class="form-control date-picker-min-today" id="trip_start_date" name="trip_start_date"  autocomplete="off" readonly  placeholder="Choose Trip Start Date">
                                                                                 
                                                                         </div>
                                                                     </div>
@@ -159,7 +159,7 @@
                                                                         <div class="form-group">
                                                                             <label>Follow Up Date <span
                                                                                     class="manadatory">*</span></label>
-                                                                            <input type="text" data-date-format="dd-mm-yyyy" class="form-control date-picker-no-validation" id="follow_up_date" name="follow_up_date"  autocomplete="off" readonly  placeholder="Choose Follow Up Date">
+                                                                            <input type="text" data-date-format="dd-mm-yyyy" class="form-control date-picker-min-today" id="follow_up_date" name="follow_up_date"  autocomplete="off" readonly  placeholder="Choose Follow Up Date">
                                                                                 
                                                                         </div>
                                                                     </div>

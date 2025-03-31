@@ -91,19 +91,26 @@
                                                         <div class="gap row">
                                                             <div class="col-md-4"> <label>Package Ratings </label></div>
                                                             <div class="col-md-8">
-                                                                @php
-                                                                    for ($x = 1; $x <= $tourPackage->ratings; $x++) {
-                                                                        echo '<i class="fa fa-star"></i> ';
-                                                                    }
-                                                                    if (fmod($tourPackage->ratings, 1) !== 0.00) {
-                                                                        echo '<i class="fa fa-star-half-o"></i> ';
-                                                                        $x++;
-                                                                    }
-                                                                    while ($x <= 5) {
-                                                                        echo '<i class="fa fa-star-o"></i> ';
-                                                                        $x++;
-                                                                    }
-                                                                    @endphp
+                                                            @php
+                                                                $fullStars = floor($tourPackage->ratings); // Full stars count
+                                                                $halfStar = (fmod($tourPackage->ratings, 1) !== 0.00) ? 1 : 0; // Half star check
+                                                                $emptyStars = 5 - ($fullStars + $halfStar); // Remaining empty stars
+
+                                                                // Print full stars
+                                                                for ($i = 1; $i <= $fullStars; $i++) {
+                                                                    echo '<i class="fa fa-star text-warning"></i> ';
+                                                                }
+
+                                                                // Print half star
+                                                                if ($halfStar) {
+                                                                    echo '<i class="fa fa-star-half-alt text-warning"></i> ';
+                                                                }
+
+                                                                // Print empty stars
+                                                                for ($i = 1; $i <= $emptyStars; $i++) {
+                                                                    echo '<i class="fa fa-star text-secondary"></i> ';
+                                                                }
+                                                            @endphp
                                                                     {{$tourPackage->ratings}} {{'Star'}}
                                                             </div>
                                                         </div>
@@ -201,6 +208,7 @@
                                                                     <thead>
                                                                         <th class="text-center">Day</th>
                                                                         <th>Title</th>
+                                                                        <th>Description</th>
                                                                         <th>Place</th>
                                                                         <th>Other Itinerary Places</th>
                                                                     </thead>
@@ -209,6 +217,7 @@
                                                                         <tr>
                                                                             <td class="text-center">{{ $loop->iteration }}</td>
                                                                             <td>{{$itineraryDetail->title}}</td>
+                                                                            <td>{!! $itineraryDetail->itinerary_desc !!}</td>
                                                                             <td>{{$itineraryDetail->place_names}}</td>
                                                                             <td>{{$itineraryDetail->other_iternary_places}}</td>
                                                                         </tr>

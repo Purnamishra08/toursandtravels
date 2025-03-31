@@ -190,6 +190,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
+                                                                    <div class="form-group">
                                                                         <label>Tour Image <span class="manadatory">*</span></label>
                                                                         <input class="form-control" type="file" name="tourthumb" id="tourthumb">
                                                                         <span>Image size should be 300px X 225px</span>
