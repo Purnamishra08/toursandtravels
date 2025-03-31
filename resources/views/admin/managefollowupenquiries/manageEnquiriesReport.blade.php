@@ -41,10 +41,10 @@
                                     </svg> -->
                                     Manage Enquiry Report
                                 </a>
-                                 <!-- table-utilities -->
+                                <!-- table-utilities -->
                                     <div class="table-utilities">
-                                        <a href="{{ route('admin.exportEnquiriesExcel', request()->query()) }}" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Export Excel"><i class="fa-solid fa-file-excel"></i></a>
-                                        <a href="{{ route('admin.exportEnquiriesCsv', request()->query()) }}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Export CSV"><i class="fa-solid fa-file-csv"></i></a>
+                                        <a href="#" id="exportExcelBtn" class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Export Excel"><i class="fa-solid fa-file-excel"></i></a>
+                                        <a href="#" id="exportCsvBtn" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Export CSV"><i class="fa-solid fa-file-csv"></i></a>
                                     </div>
                                     <!-- table-utilities end-->
                             </nav>
@@ -218,6 +218,52 @@ $(document).ready(function () {
     $('#resetFilterBtn').on('click', function () {
         $('form')[0].reset();
         loadTable();
+    });
+
+        $('#exportCsvBtn').on('click', function (e) {
+        e.preventDefault(); // Prevent default click behavior
+
+        let baseUrl = "{{ route('admin.exportEnquiriesCsv') }}";
+        let params = new URLSearchParams();
+
+        // Get form values and append to URL params
+        params.append('from_date', $('#from_date').val());
+        params.append('to_date', $('#to_date').val());
+        params.append('customer_name', $('#customer_name').val());
+        params.append('enquiry_number', $('#enquiry_number').val());
+        params.append('email_address', $('#email_address').val());
+        params.append('phone_number', $('#phone_number').val());
+        params.append('status', $('#status').val());
+        params.append('assign_to', $('#assign_to').val());
+
+        // Construct final URL with filters
+        let finalUrl = baseUrl + '?' + params.toString();
+
+        // Redirect to the new URL (downloads CSV)
+        window.location.href = finalUrl;
+    });
+
+        $('#exportExcelBtn').on('click', function (e) {
+        e.preventDefault(); // Prevent default click behavior
+
+        let baseUrl = "{{ route('admin.exportEnquiriesExcel') }}";
+        let params = new URLSearchParams();
+
+        // Get form values and append to URL params
+        params.append('from_date', $('#from_date').val());
+        params.append('to_date', $('#to_date').val());
+        params.append('customer_name', $('#customer_name').val());
+        params.append('enquiry_number', $('#enquiry_number').val());
+        params.append('email_address', $('#email_address').val());
+        params.append('phone_number', $('#phone_number').val());
+        params.append('status', $('#status').val());
+        params.append('assign_to', $('#assign_to').val());
+
+        // Construct final URL with filters
+        let finalUrl = baseUrl + '?' + params.toString();
+
+        // Redirect to the new URL (downloads CSV)
+        window.location.href = finalUrl;
     });
 });
 
