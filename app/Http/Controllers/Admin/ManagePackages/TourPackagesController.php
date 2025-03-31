@@ -287,21 +287,39 @@ class TourPackagesController extends Controller
 
             $show_video_itinerary = $request->has('show_video_itinerary') ? 1 : 0;
 
+            // ✅ Handle Tour Image Upload
             if ($request->hasFile('tourimg')) {
                 $tourimgFile = $request->file('tourimg');
-                $tourimgfilename = Str::slug($validated['alttag_banner']) . '.' . $tourimgFile->getClientOriginalExtension();
-                $tourimgFile->storeAs('public/tourpackages', $tourimgfilename);
-            } else {
-                $tourimgfilename = null;
+                $tourimgfilename = Str::slug($validated['alttag_banner']) . '.webp';
+
+                // Convert and Store as WebP
+                $this->convertToWebp($tourimgFile, storage_path('app/public/tourpackages/' . $tourimgfilename), 745, 450);
             }
 
+            // ✅ Handle Tour Thumbnail Upload
             if ($request->hasFile('tourthumb')) {
                 $tourthumbFile = $request->file('tourthumb');
-                $tourthumbfilename = Str::slug($validated['alttag_thumb']) . '.' . $tourthumbFile->getClientOriginalExtension();
-                $tourthumbFile->storeAs('public/tourpackages/thumbs', $tourthumbfilename);
-            } else {
-                $tourthumbfilename = null;
+                $tourthumbfilename = Str::slug($validated['alttag_thumb']) . '.webp';
+
+                // Convert and Store as WebP
+                $this->convertToWebp($tourthumbFile, storage_path('app/public/tourpackages/thumbs/' . $tourthumbfilename), 300, 225);
             }
+
+            // if ($request->hasFile('tourimg')) {
+            //     $tourimgFile = $request->file('tourimg');
+            //     $tourimgfilename = Str::slug($validated['alttag_banner']) . '.' . $tourimgFile->getClientOriginalExtension();
+            //     $tourimgFile->storeAs('public/tourpackages', $tourimgfilename);
+            // } else {
+            //     $tourimgfilename = null;
+            // }
+
+            // if ($request->hasFile('tourthumb')) {
+            //     $tourthumbFile = $request->file('tourthumb');
+            //     $tourthumbfilename = Str::slug($validated['alttag_thumb']) . '.' . $tourthumbFile->getClientOriginalExtension();
+            //     $tourthumbFile->storeAs('public/tourpackages/thumbs', $tourthumbfilename);
+            // } else {
+            //     $tourthumbfilename = null;
+            // }
 
             $duplicateCount = DB::table('tbl_tourpackages')
                 ->where(function ($query) use ($validated) {
@@ -494,23 +512,41 @@ class TourPackagesController extends Controller
             $tourthumbfilename = $tourPackage->tour_thumb;
             
             // ✅ Handle tour image
-            if ($request->hasFile('tourimg')) {
-                $tourimgFile = $request->file('tourimg');
-                $tempTourimgfilename = Str::slug($validated['alttag_banner']) . '.' . $tourimgFile->getClientOriginalExtension();
-                $tourimgFile->storeAs('public/tourpackages', $tempTourimgfilename);
+        //     if ($request->hasFile('tourimg')) {
+        //         $tourimgFile = $request->file('tourimg');
+        //         $tempTourimgfilename = Str::slug($validated['alttag_banner']) . '.' . $tourimgFile->getClientOriginalExtension();
+        //         $tourimgFile->storeAs('public/tourpackages', $tempTourimgfilename);
                 
-                // Store temporary name, will finalize if DB transaction succeeds
-                $tourimgfilename = $tempTourimgfilename;
-            }
+        //         // Store temporary name, will finalize if DB transaction succeeds
+        //         $tourimgfilename = $tempTourimgfilename;
+        //     }
             
-        // ✅ Handle tour thumb
+        // // ✅ Handle tour thumb
+        // if ($request->hasFile('tourthumb')) {
+        //     $tourthumbFile = $request->file('tourthumb');
+        //     $tempTourthumbfilename = Str::slug($validated['alttag_thumb']) . '.' . $tourthumbFile->getClientOriginalExtension();
+        //     $tourthumbFile->storeAs('public/tourpackages/thumbs', $tempTourthumbfilename);
+            
+        //     // Store temporary name, will finalize if DB transaction succeeds
+        //     $tourthumbfilename = $tempTourthumbfilename;
+        // }
+
+        // ✅ Handle Tour Image Upload
+        if ($request->hasFile('tourimg')) {
+            $tourimgFile = $request->file('tourimg');
+            $tourimgfilename = Str::slug($validated['alttag_banner']) . '.webp';
+
+            // Convert and Store as WebP
+            $this->convertToWebp($tourimgFile, storage_path('app/public/tourpackages/' . $tourimgfilename), 745, 450);
+        }
+
+        // ✅ Handle Tour Thumbnail Upload
         if ($request->hasFile('tourthumb')) {
             $tourthumbFile = $request->file('tourthumb');
-            $tempTourthumbfilename = Str::slug($validated['alttag_thumb']) . '.' . $tourthumbFile->getClientOriginalExtension();
-            $tourthumbFile->storeAs('public/tourpackages/thumbs', $tempTourthumbfilename);
-            
-            // Store temporary name, will finalize if DB transaction succeeds
-            $tourthumbfilename = $tempTourthumbfilename;
+            $tourthumbfilename = Str::slug($validated['alttag_thumb']) . '.webp';
+
+            // Convert and Store as WebP
+            $this->convertToWebp($tourthumbFile, storage_path('app/public/tourpackages/thumbs/' . $tourthumbfilename), 300, 225);
         }
         
         // ✅ Update tour package
@@ -748,106 +784,6 @@ class TourPackagesController extends Controller
         return response()->json($html);
     }
 
-
-    // public function viewTourPackages(Request $request, $id)
-    // {
-    //     if ($request->isMethod('get')) {
-    //         $tourPackage = DB::table('tbl_tourpackages as a')
-    //                 ->leftjoin('tbl_package_duration as b', 'a.package_duration', '=', 'b.durationid')
-    //                 ->leftjoin('tbl_parameters as c', 'a.pack_type', '=', 'c.parid')
-    //                 ->select('a.tourpackageid',
-    //                         'a.tpackage_name',
-    //                         'a.tpackage_url',
-    //                         'a.tpackage_code',
-    //                         'a.package_duration',
-    //                         'a.price',
-    //                         'a.fakeprice',
-    //                         'a.pmargin_perctage',
-    //                         'a.inclusion_exclusion',
-    //                         'a.tpackage_image',
-    //                         'a.tour_thumb',
-    //                         'a.alttag_banner',
-    //                         'a.alttag_thumb',
-    //                         'a.ratings',
-    //                         'a.itinerary_note',
-    //                         'a.accomodation',
-    //                         'a.tourtransport',
-    //                         'a.sightseeing',
-    //                         'a.breakfast',
-    //                         'a.waterbottle',
-    //                         'a.status',
-    //                         'a.pack_type',
-    //                         'a.starting_city',
-    //                         'a.meta_title',
-    //                         'a.meta_keywords',
-    //                         'a.meta_description',
-    //                         'a.show_video_itinerary',
-    //                         'a.video_itinerary_link',
-    //                         'b.duration_name',
-    //                         'c.par_value',
-                            
-    //                         // 'b.noof_days',
-    //                         // 'c.title',
-    //                         // 'c.place_id',
-    //                         // 'c.other_iternary_places',
-    //                         // 'e.place_name',
-    //                     )
-
-    //                 ->where('a.tourpackageid', $id)
-    //                 ->where('a.bit_Deleted_Flag', 0)
-    //                 // ->where('b.bit_Deleted_Flag', 0)
-    //                 // ->where('c.bit_Deleted_Flag', 0)
-    //                 ->first();
-    //         // dd($tourPackage);
-    //         if (!$tourPackage) {
-    //             return redirect()->back()->with('error', 'Tour package not found.');
-    //         }
-
-    //         $tourTags = DB::table('tbl_tags as a')
-    //             ->join('tbl_menutags as b', 'a.tagid', '=', 'b.tagid')
-    //             ->where('a.type_id', $id)
-    //             ->selectRaw('GROUP_CONCAT(b.tag_name) as tag_names')
-    //             ->value('tag_names');
-    //         $destinationName = DB::table('tbl_tourpackages as a')
-    //             ->join('tbl_destination as b', 'b.destination_id', '=', 'a.starting_city')
-    //             ->where('a.tourpackageid',  $id)
-    //             ->value('b.destination_name');
-
-    //         // $itineraryDetails=DB::table('tbl_itinerary_daywise as a')
-    //         //         ->join('tbl_places as b', DB::raw('FIND_IN_SET(b.placeid, a.place_id)'), '>', DB::raw('0'))
-    //         //         ->where('a.package_id', $id)
-    //         //         ->where('a.bit_Deleted_Flag', 0)
-    //         //         ->select('a.*', DB::raw('GROUP_CONCAT(b.place_name) as place_names'))
-    //         //         ->groupBy('a.itinerary_daywiseid')
-    //         //         ->get();
-    //         $itineraryDetails = DB::table('tbl_itinerary_daywise as a')
-    //                 ->select(
-    //                     'a.title',
-    //                     'a.other_iternary_places',
-    //                     DB::raw('(SELECT GROUP_CONCAT(b.place_name) 
-    //                             FROM tbl_places as b 
-    //                             WHERE FIND_IN_SET(b.placeid, a.place_id)) as place_names')
-    //                 )
-    //                 ->where('a.package_id', $id)
-    //                 ->where('a.bit_Deleted_Flag', 0)
-    //                 ->get();
-
-    //         $accomodations = DB::table('tbl_package_accomodation as a')
-    //                 ->leftJoin('tbl_destination as b', 'a.destination_id', '=', 'b.destination_id')
-    //                 ->select('b.destination_name', 'a.noof_days')
-    //                 ->where('a.package_id', $id)
-    //                 ->where('a.bit_Deleted_Flag', 0)
-    //                 ->get();
-    //         return view('admin.managepackages.viewTourPackages', [
-    //             'tourPackage' => $tourPackage,
-    //             'tourTags' => $tourTags,
-    //             'destinationName'=>$destinationName,
-    //             'itineraryDetails'=>$itineraryDetails,
-    //             'accomodations'=>$accomodations,
-    //         ]);
-    //     }
-    // }
-
     public function viewTourPackages(Request $request, $id)
     {
         if ($request->isMethod('get')) {
@@ -988,6 +924,41 @@ class TourPackagesController extends Controller
 
             return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to delete Tour Package.']);
         }
+    }
+
+    private function convertToWebp($file, $destination, $width, $height)
+    {
+        $imageType = exif_imagetype($file->getPathname());
+        $sourceImage = null;
+
+        switch ($imageType) {
+            case IMAGETYPE_JPEG:
+                $sourceImage = imagecreatefromjpeg($file->getPathname());
+                break;
+            case IMAGETYPE_PNG:
+                $sourceImage = imagecreatefrompng($file->getPathname());
+                imagepalettetotruecolor($sourceImage); // Convert PNG to TrueColor
+                imagealphablending($sourceImage, true);
+                imagesavealpha($sourceImage, true);
+                break;
+            default:
+                throw new \Exception("Unsupported image type.");
+        }
+
+        if (!$sourceImage) {
+            throw new \Exception("Failed to create image resource.");
+        }
+
+        // Resize Image
+        $resizedImage = imagecreatetruecolor($width, $height);
+        imagecopyresampled($resizedImage, $sourceImage, 0, 0, 0, 0, $width, $height, imagesx($sourceImage), imagesy($sourceImage));
+
+        // Save as WebP
+        imagewebp($resizedImage, $destination, 100); // Quality: 100
+
+        // Free memory
+        imagedestroy($sourceImage);
+        imagedestroy($resizedImage);
     }
 
 

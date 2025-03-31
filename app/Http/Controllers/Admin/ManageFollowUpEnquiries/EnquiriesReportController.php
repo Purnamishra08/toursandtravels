@@ -591,6 +591,18 @@ class EnquiriesReportController extends Controller
             if (!empty($request->customer_name)) {
                 $query->where('a.customer_name', 'LIKE', "%{$request->customer_name}%");
             }
+            if (!empty($request->enquiry_number)) {
+                $query->where('a.inquiry_number', 'LIKE', "%{$request->enquiry_number}%");
+            }
+            if (!empty($request->email_address)) {
+                $query->where('a.email_address', 'LIKE', "%{$request->email_address}%");
+            }
+            if (!empty($request->phone_number)) {
+                $query->where('a.phone_number', 'LIKE', "%{$request->phone_number}%");
+            }
+            if (!empty($request->status)) {
+                $query->where('a.status_id', $request->status);
+            }
             if (!empty($request->assign_to)) {
                 $query->where('a.assign_to', $request->assign_to);
             }
@@ -662,6 +674,7 @@ class EnquiriesReportController extends Controller
                 ->where('a.bit_Deleted_Flag', 0);
 
             // Apply filters dynamically
+            // Apply filters dynamically
             if (!empty($request->from_date) && !empty($request->to_date)) {
                 $query->whereBetween('a.followup_date', [\Carbon\Carbon::parse($request->from_date)->startOfDay(), \Carbon\Carbon::parse($request->to_date)->endOfDay()]);
             } elseif (!empty($request->from_date)) {
@@ -671,6 +684,18 @@ class EnquiriesReportController extends Controller
             }
             if (!empty($request->customer_name)) {
                 $query->where('a.customer_name', 'LIKE', "%{$request->customer_name}%");
+            }
+            if (!empty($request->enquiry_number)) {
+                $query->where('a.inquiry_number', 'LIKE', "%{$request->enquiry_number}%");
+            }
+            if (!empty($request->email_address)) {
+                $query->where('a.email_address', 'LIKE', "%{$request->email_address}%");
+            }
+            if (!empty($request->phone_number)) {
+                $query->where('a.phone_number', 'LIKE', "%{$request->phone_number}%");
+            }
+            if (!empty($request->status)) {
+                $query->where('a.status_id', $request->status);
             }
             if (!empty($request->assign_to)) {
                 $query->where('a.assign_to', $request->assign_to);
