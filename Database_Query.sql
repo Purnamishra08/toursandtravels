@@ -547,6 +547,9 @@ CREATE TABLE `tbl_footer` (
   `vch_Footer_Desc` text DEFAULT NULL,
   `tourpackageid` text DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
+  `footer_meta_title` text DEFAULT NULL,
+  `footer_meta_keywords` text DEFAULT NULL,
+  `footer_meta_description` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT current_timestamp(),
@@ -554,6 +557,7 @@ CREATE TABLE `tbl_footer` (
   `bit_Deleted_Flag` bit(1) DEFAULT b'0',
   PRIMARY KEY (`int_footer_id`)
 );
+
 SET SQL_SAFE_UPDATES=0;
 UPDATE `toursandtravels`.`tbl_modules` SET `module` = 'Manage Footer Links' WHERE (`moduleid` = '11');
 
