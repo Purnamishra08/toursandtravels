@@ -180,6 +180,8 @@ CREATE TABLE `tbl_destination` (
   `bit_Deleted_Flag` bit(1) DEFAULT b'0',
   PRIMARY KEY (`destination_id`)
 );
+ALTER TABLE `tbl_destination`
+CHANGE COLUMN `destinationType` `destinationType` TINYINT(1) NULL DEFAULT '1' AFTER `note_tips`;
 
 CREATE TABLE `tbl_destination_places` (
   `dest_placeid` int(11) NOT NULL AUTO_INCREMENT,
