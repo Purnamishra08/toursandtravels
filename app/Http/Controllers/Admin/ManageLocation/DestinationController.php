@@ -178,18 +178,32 @@ class DestinationController extends Controller
                 }
                 // Handle Image Upload
                 $destination_imageName = null;
+                // if ($request->hasFile('destiimg')) {
+                //     $file = $request->file('destiimg');
+                //     $destination_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
+                //     $file->storeAs('destination_images', $destination_imageName, 'public');
+                // }
                 if ($request->hasFile('destiimg')) {
                     $file = $request->file('destiimg');
-                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('destination_images', $destination_imageName, 'public');
+                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/destination_images/' . $destination_imageName), 2000, 350);
                 }
 
                 // Handle Thumbnail Image Upload
                 $destinationThumbImageName = null;
+                // if ($request->hasFile('destismallimg')) {
+                //     $file = $request->file('destismallimg');
+                //     $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
+                //     $file->storeAs('destination_images/thumbs', $destinationThumbImageName, 'public');
+                // }
                 if ($request->hasFile('destismallimg')) {
                     $file = $request->file('destismallimg');
-                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('destination_images/thumbs', $destinationThumbImageName, 'public');
+                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/destination_images/thumbs/' . $destinationThumbImageName), 300, 225);
                 }
 
                 // Prepare data
@@ -360,29 +374,45 @@ class DestinationController extends Controller
                         ->withInput()
                         ->withErrors(['error' => 'You have already added this destination, URL must be unique.']);
                 }
-            
+
                 if ($request->hasFile('destiimg')) {
                     $file = $request->file('destiimg');
-                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('destination_images', $destination_imageName, 'public');
-                    
-                    if ($destination->destiimg && $destination->destiimg != $destination_imageName) {
-                        Storage::disk('public')->delete('destination_images/' . $destination->destiimg);
-                    }
-                } else {
-                    $destination_imageName = $destination->destiimg;
+                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/destination_images/' . $destination_imageName), 2000, 350);
                 }
+
+                // if ($request->hasFile('destiimg')) {
+                //     $file = $request->file('destiimg');
+                //     $destination_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
+                //     $file->storeAs('destination_images', $destination_imageName, 'public');
+                    
+                //     if ($destination->destiimg && $destination->destiimg != $destination_imageName) {
+                //         Storage::disk('public')->delete('destination_images/' . $destination->destiimg);
+                //     }
+                // } else {
+                //     $destination_imageName = $destination->destiimg;
+                // }
+
+                // if ($request->hasFile('destismallimg')) {
+                //     $file = $request->file('destismallimg');
+                //     $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
+                //     $file->storeAs('destination_images/thumbs', $destinationThumbImageName, 'public');
+                    
+                //     if ($destination->destiimg_thumb && $destination->destiimg_thumb != $destinationThumbImageName) {
+                //         Storage::disk('public')->delete('destination_images/thumbs/' . $destination->destiimg_thumb);
+                //     }
+                // } else {
+                //     $destinationThumbImageName = $destination->destiimg_thumb;
+                // }
 
                 if ($request->hasFile('destismallimg')) {
                     $file = $request->file('destismallimg');
-                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('destination_images/thumbs', $destinationThumbImageName, 'public');
-                    
-                    if ($destination->destiimg_thumb && $destination->destiimg_thumb != $destinationThumbImageName) {
-                        Storage::disk('public')->delete('destination_images/thumbs/' . $destination->destiimg_thumb);
-                    }
-                } else {
-                    $destinationThumbImageName = $destination->destiimg_thumb;
+                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/destination_images/thumbs/' . $destinationThumbImageName), 300, 225);
                 }
 
                 $data = [
@@ -747,5 +777,40 @@ class DestinationController extends Controller
         </div>';
 
         return response()->json(['html' => $modalHtml]);
+    }
+
+    private function convertToWebp($file, $destination, $width, $height)
+    {
+        $imageType = exif_imagetype($file->getPathname());
+        $sourceImage = null;
+
+        switch ($imageType) {
+            case IMAGETYPE_JPEG:
+                $sourceImage = imagecreatefromjpeg($file->getPathname());
+                break;
+            case IMAGETYPE_PNG:
+                $sourceImage = imagecreatefrompng($file->getPathname());
+                imagepalettetotruecolor($sourceImage); // Convert PNG to TrueColor
+                imagealphablending($sourceImage, true);
+                imagesavealpha($sourceImage, true);
+                break;
+            default:
+                throw new \Exception("Unsupported image type.");
+        }
+
+        if (!$sourceImage) {
+            throw new \Exception("Failed to create image resource.");
+        }
+
+        // Resize Image
+        $resizedImage = imagecreatetruecolor($width, $height);
+        imagecopyresampled($resizedImage, $sourceImage, 0, 0, 0, 0, $width, $height, imagesx($sourceImage), imagesy($sourceImage));
+
+        // Save as WebP
+        imagewebp($resizedImage, $destination, 100); // Quality: 100
+
+        // Free memory
+        imagedestroy($sourceImage);
+        imagedestroy($resizedImage);
     }
 }

@@ -174,18 +174,32 @@ class PlacesController extends Controller
                 DB::beginTransaction(); // Start transaction
                 // Handle Image Upload
                 $place_imageName = null;
+                // if ($request->hasFile('placeimg')) {
+                //     $file = $request->file('placeimg');
+                //     $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
+                //     $file->storeAs('place_images', $place_imageName, 'public');
+                // }
                 if ($request->hasFile('placeimg')) {
                     $file = $request->file('placeimg');
-                    $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('place_images', $place_imageName, 'public');
+                    $place_imageName = Str::slug($request->input('alttag_banner')) . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/place_images/' . $place_imageName), 1140, 350);
                 }
 
                 // Handle Thumbnail Image Upload
                 $placeThumbImageName = null;
+                // if ($request->hasFile('placethumbimg')) {
+                //     $file = $request->file('placethumbimg');
+                //     $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
+                //     $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
+                // }
                 if ($request->hasFile('placethumbimg')) {
                     $file = $request->file('placethumbimg');
-                    $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
+                    $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/place_images/thumbs' . $placeThumbImageName), 500, 300);
                 }
 
                 // Prepare data
@@ -294,27 +308,43 @@ class PlacesController extends Controller
                 }
                 if ($request->hasFile('placeimg')) {
                     $file = $request->file('placeimg');
-                    $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('place_images', $place_imageName, 'public');
-                    
-                    if ($place->placeimg && ($place->placeimg != $place_imageName)) {
-                        Storage::disk('public')->delete('place_images/' . $place->placeimg);
-                    }
-                } else {
-                    $place_imageName = $place->placeimg;
+                    $place_imageName = Str::slug($request->input('alttag_banner')) . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/place_images/' . $place_imageName), 1140, 350);
                 }
+                // if ($request->hasFile('placeimg')) {
+                //     $file = $request->file('placeimg');
+                //     $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
+                //     $file->storeAs('place_images', $place_imageName, 'public');
+                    
+                //     if ($place->placeimg && ($place->placeimg != $place_imageName)) {
+                //         Storage::disk('public')->delete('place_images/' . $place->placeimg);
+                //     }
+                // } else {
+                //     $place_imageName = $place->placeimg;
+                // }
 
                 if ($request->hasFile('placethumbimg')) {
                     $file = $request->file('placethumbimg');
-                    $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
-                    
-                    if ($place->placethumbimg && ($place->placethumbimg != $placeThumbImageName)) {
-                        Storage::disk('public')->delete('place_images/thumbs/' . $place->placethumbimg);
-                    }
-                } else {
-                    $placeThumbImageName = $place->placethumbimg;
+                    $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/place_images/thumbs/' . $placeThumbImageName), 500, 300);
                 }
+
+                // if ($request->hasFile('placethumbimg')) {
+                //     $file = $request->file('placethumbimg');
+                //     $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
+                //     $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
+                    
+                //     if ($place->placethumbimg && ($place->placethumbimg != $placeThumbImageName)) {
+                //         Storage::disk('public')->delete('place_images/thumbs/' . $place->placethumbimg);
+                //     }
+                // } else {
+                //     $placeThumbImageName = $place->placethumbimg;
+                // }
+                
 
                 $data = [
                     'place_name'                    => $request->input('place_name'),
@@ -460,5 +490,40 @@ class PlacesController extends Controller
 
             return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to delete place.']);
         }
+    }
+
+    private function convertToWebp($file, $destination, $width, $height)
+    {
+        $imageType = exif_imagetype($file->getPathname());
+        $sourceImage = null;
+
+        switch ($imageType) {
+            case IMAGETYPE_JPEG:
+                $sourceImage = imagecreatefromjpeg($file->getPathname());
+                break;
+            case IMAGETYPE_PNG:
+                $sourceImage = imagecreatefrompng($file->getPathname());
+                imagepalettetotruecolor($sourceImage); // Convert PNG to TrueColor
+                imagealphablending($sourceImage, true);
+                imagesavealpha($sourceImage, true);
+                break;
+            default:
+                throw new \Exception("Unsupported image type.");
+        }
+
+        if (!$sourceImage) {
+            throw new \Exception("Failed to create image resource.");
+        }
+
+        // Resize Image
+        $resizedImage = imagecreatetruecolor($width, $height);
+        imagecopyresampled($resizedImage, $sourceImage, 0, 0, 0, 0, $width, $height, imagesx($sourceImage), imagesy($sourceImage));
+
+        // Save as WebP
+        imagewebp($resizedImage, $destination, 100); // Quality: 100
+
+        // Free memory
+        imagedestroy($sourceImage);
+        imagedestroy($resizedImage);
     }
 }

@@ -160,17 +160,31 @@ class CategoryTagsController extends Controller
                 }
                 // Handle image file uploads and store only image names in the database
                 $bannerImageName = null;
+                // if ($request->hasFile('menutag_img')) {
+                //     $file = $request->file('menutag_img');
+                //     $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
+                //     $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
+                // }
                 if ($request->hasFile('menutag_img')) {
                     $file = $request->file('menutag_img');
-                    $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
+                    $bannerImageName = Str::slug($request->input('alttag_banner')) . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/BannerImages/' . $bannerImageName), 1920, 488);
                 }
 
                 $getawayImageName = null;
+                // if ($request->hasFile('menutagthumb_img')) {
+                //     $file = $request->file('menutagthumb_img');
+                //     $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
+                //     $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
+                // }
                 if ($request->hasFile('menutagthumb_img')) {
                     $file = $request->file('menutagthumb_img');
-                    $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
+                    $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/GetawaysImages/' . $getawayImageName), 500, 350);
                 }
 
                 // Prepare data for insertion
@@ -258,30 +272,43 @@ class CategoryTagsController extends Controller
                             ->withErrors(['error' => 'You have already added this category tag, URL must be unique.']);
                     }
 
+                    // if ($request->hasFile('menutag_img')) {
+                    //     $file = $request->file('menutag_img');
+                    //     $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
+                    //     $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
+                        
+                    //     if ($categorytags->menutag_img && ($categorytags->menutag_img != $bannerImageName)) {
+                    //         Storage::disk('public')->delete('category_tags_images/BannerImages/' . $categorytags->menutag_img);
+                    //     }
+                    // } else {
+                    //     $bannerImageName = $categorytags->placeimg;
+                    // }
                     if ($request->hasFile('menutag_img')) {
                         $file = $request->file('menutag_img');
-                        $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
-                        $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
-                        
-                        if ($categorytags->menutag_img && ($categorytags->menutag_img != $bannerImageName)) {
-                            Storage::disk('public')->delete('category_tags_images/BannerImages/' . $categorytags->menutag_img);
-                        }
-                    } else {
-                        $bannerImageName = $categorytags->placeimg;
-                    }
-    
-                    if ($request->hasFile('menutagthumb_img')) {
-                        $file = $request->file('menutagthumb_img');
-                        $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
-                        $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
-                        
-                        if ($categorytags->menutagthumb_img && ($categorytags->menutagthumb_img != $getawayImageName)) {
-                            Storage::disk('public')->delete('category_tags_images/GetawaysImages/' . $categorytags->menutagthumb_img);
-                        }
-                    } else {
-                        $getawayImageName = $categorytags->menutagthumb_img;
+                        $bannerImageName = Str::slug($request->input('alttag_banner')) . '.webp';
+            
+                        // Convert and Store as WebP
+                        $this->convertToWebp($file, storage_path('app/public/BannerImages/' . $bannerImageName), 1920, 488);
                     }
 
+                    // if ($request->hasFile('menutagthumb_img')) {
+                    //     $file = $request->file('menutagthumb_img');
+                    //     $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
+                    //     $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
+                        
+                    //     if ($categorytags->menutagthumb_img && ($categorytags->menutagthumb_img != $getawayImageName)) {
+                    //         Storage::disk('public')->delete('category_tags_images/GetawaysImages/' . $categorytags->menutagthumb_img);
+                    //     }
+                    // } else {
+                    //     $getawayImageName = $categorytags->menutagthumb_img;
+                    // }
+                    if ($request->hasFile('menutagthumb_img')) {
+                        $file = $request->file('menutagthumb_img');
+                        $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+            
+                        // Convert and Store as WebP
+                        $this->convertToWebp($file, storage_path('app/public/GetawaysImages/' . $getawayImageName), 500, 350);
+                    }
                     $data = [
                         'tag_name'              => $request->tag_name,
                         'tag_url'               => $request->tag_url,
