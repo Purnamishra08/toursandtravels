@@ -193,6 +193,7 @@ class FooterLinksController extends Controller
                     'vch_Footer_URL'            => $request->input('vch_Footer_URL'),
                     'vch_Footer_Desc'           => $request->input('vch_Footer_Desc'),
                     'footer_meta_title'         => $request->input('footer_meta_title'),
+                    'footer_meta_keywords'      => $request->input('footer_meta_keywords'),
                     'footer_meta_description'   => $request->input('footer_meta_description'),
                     'tourpackageid' 		    => implode(',', $request->input('tourpackageid')),
                     'status'                    => 1,

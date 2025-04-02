@@ -19,7 +19,7 @@ class MenutagController extends Controller
         if ($request->ajax()) {
             // Fetch menu tags for DataTables
             $query = DB::table('tbl_menus as a')
-                ->select('a.menu_name', 'a.menuid', 'a.status', 'a.bit_Deleted_Flag')
+                ->select('a.menu_name', 'a.menuid', 'a.status', 'a.bit_Deleted_Flag','a.menu_meta_title','a.menu_meta_keywords','a.menu_meta_description')
                 ->where('a.bit_Deleted_Flag', 0);
     
             // Handle global search
@@ -105,6 +105,9 @@ class MenutagController extends Controller
                 DB::beginTransaction();
                 DB::table('tbl_menus')->insert([
                     'menu_name'                 => $request->menu_name,
+                    'menu_meta_title'           => $request->input('menu_meta_title'),
+                    'menu_meta_keywords'        => $request->input('menu_meta_keywords'),
+                    'menu_meta_description'     => $request->input('menu_meta_description'),
                     'status'                    => 1,
                     'created_by'                => isset(session('user')->adminid) ? session('user')->adminid : 0,
                     'created_date'              => now(),
@@ -154,9 +157,12 @@ class MenutagController extends Controller
                 DB::table('tbl_menus')
                     ->where('menuid', $id)
                     ->update([
-                        'menu_name'                  => $request->menu_name,
-                        'updated_by'                => session('user')->adminid ?? 0,
-                        'updated_date'              => now(),
+                        'menu_name'                     => $request->menu_name,
+                        'menu_meta_title'               => $request->input('menu_meta_title'),
+                        'menu_meta_keywords'            => $request->input('menu_meta_keywords'),
+                        'menu_meta_description'         => $request->input('menu_meta_description'),
+                        'updated_by'                    => session('user')->adminid ?? 0,
+                        'updated_date'                  => now(),
                     ]);
 
                 DB::commit();

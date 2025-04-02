@@ -162,10 +162,11 @@
                 }
             };
         });
-        
-        $(document.body).on('keyup change', '#vch_Footer_Name', function() {
-			$("#vch_Footer_URL").val(name_to_url($(this).val()));
-		});
+        @if(!isset($footerData->vch_Footer_URL))
+            $(document.body).on('keyup change', '#vch_Footer_Name', function() {
+                $("#vch_Footer_URL").val(name_to_url($(this).val()));
+            });
+        @endif
 		function name_to_url(name) {
 			name = name.toLowerCase(); // lowercase
 			name = name.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespaces

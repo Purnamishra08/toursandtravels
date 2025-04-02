@@ -51,6 +51,35 @@
                                             <input type="text" class="form-control" placeholder="Enter menu tag" name="menu_name" id="menu_name" 
                                                 value="{{ old('menu_name', $menutags->menu_name ?? '') }}">
                                         </div>
+                                        <!-- Meta Tags Section -->
+                                        <div class="box-main">
+                                            <fieldset>
+                                                <legend>Menu Meta Tags</legend>
+                                                    <div class="row">
+                                                        <!-- Menu Meta Tags -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Menu Meta Title</label>
+                                                                <textarea cols="" rows="" placeholder="Meta Title..." class="form-control textarea1" name="menu_meta_title" id="menu_meta_title">{{ old('menu_meta_title', $menutags->menu_meta_title ?? '') }}</textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Menu Meta Keyword</label>
+                                                                <textarea name="menu_meta_keywords" id="menu_meta_keywords" cols="" rows="" placeholder="Meta Keywords..." class="form-control textarea1">{{ old('menu_meta_keywords', $menutags->menu_meta_keywords ?? '') }}</textarea>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Menu Meta Description</label>
+                                                                <textarea name="menu_meta_description" id="menu_meta_description" cols="" rows="" placeholder="Meta Description here..." class="form-control textarea">{{ old('menu_meta_description', $menutags->menu_meta_description ?? '') }}</textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </fieldset>
+                                        </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-primary">{{ isset($menutags) ? 'Update' : 'Save' }}</button>
                                             @if(!isset($menutags))
