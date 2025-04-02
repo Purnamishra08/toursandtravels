@@ -499,10 +499,11 @@
                 }
             };
         });
-        
-        $(document.body).on('keyup change', '#destination_name', function() {
-			$("#destination_url").val(name_to_url($(this).val()));
-		});
+        @if(!isset($destinationData->destination_url))
+            $(document.body).on('keyup change', '#destination_name', function() {
+                $("#destination_url").val(name_to_url($(this).val()));
+            });
+        @endif
 		function name_to_url(name) {
 			name = name.toLowerCase(); // lowercase
 			name = name.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespaces
@@ -532,8 +533,10 @@
             if (!blankCheck('short_desc', 'About destination cannot be blank')) return false;
 
             // Validate file inputs
-            if (!validateFilePresence('menutag_img', 'Banner image is required.')) return false;
-            if (!validateFilePresence('menutagthumb_img', 'Getaways/Tour Image is required.')) return false;
+            @if(!isset($destinationData->destiimg) && !isset($destinationData->destismallimg))
+                if (!validateFilePresence('menutag_img', 'Banner image is required.')) return false;
+                if (!validateFilePresence('menutagthumb_img', 'Getaways/Tour Image is required.')) return false;
+            @endif
 
             // Validate numeric fields
             if (!onlyNumeric('pick_drop_price', 'Pick up drop price must be a numeric value.')) return false;

@@ -174,11 +174,6 @@ class PlacesController extends Controller
                 DB::beginTransaction(); // Start transaction
                 // Handle Image Upload
                 $place_imageName = null;
-                // if ($request->hasFile('placeimg')) {
-                //     $file = $request->file('placeimg');
-                //     $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
-                //     $file->storeAs('place_images', $place_imageName, 'public');
-                // }
                 if ($request->hasFile('placeimg')) {
                     $file = $request->file('placeimg');
                     $place_imageName = Str::slug($request->input('alttag_banner')) . '.webp';
@@ -189,11 +184,6 @@ class PlacesController extends Controller
 
                 // Handle Thumbnail Image Upload
                 $placeThumbImageName = null;
-                // if ($request->hasFile('placethumbimg')) {
-                //     $file = $request->file('placethumbimg');
-                //     $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
-                //     $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
-                // }
                 if ($request->hasFile('placethumbimg')) {
                     $file = $request->file('placethumbimg');
                     $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
@@ -306,24 +296,16 @@ class PlacesController extends Controller
                         ->withInput()
                         ->withErrors(['error' => 'You have already added this place, URL must be unique.']);
                 }
+
                 if ($request->hasFile('placeimg')) {
                     $file = $request->file('placeimg');
                     $place_imageName = Str::slug($request->input('alttag_banner')) . '.webp';
         
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/place_images/' . $place_imageName), 1140, 350);
+                }else{
+                    $place_imageName = $place->placeimg;
                 }
-                // if ($request->hasFile('placeimg')) {
-                //     $file = $request->file('placeimg');
-                //     $place_imageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
-                //     $file->storeAs('place_images', $place_imageName, 'public');
-                    
-                //     if ($place->placeimg && ($place->placeimg != $place_imageName)) {
-                //         Storage::disk('public')->delete('place_images/' . $place->placeimg);
-                //     }
-                // } else {
-                //     $place_imageName = $place->placeimg;
-                // }
 
                 if ($request->hasFile('placethumbimg')) {
                     $file = $request->file('placethumbimg');
@@ -331,19 +313,9 @@ class PlacesController extends Controller
         
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/place_images/thumbs/' . $placeThumbImageName), 500, 300);
+                }else{
+                    $placeThumbImageName = $place->placethumbimg;
                 }
-
-                // if ($request->hasFile('placethumbimg')) {
-                //     $file = $request->file('placethumbimg');
-                //     $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
-                //     $file->storeAs('place_images/thumbs', $placeThumbImageName, 'public');
-                    
-                //     if ($place->placethumbimg && ($place->placethumbimg != $placeThumbImageName)) {
-                //         Storage::disk('public')->delete('place_images/thumbs/' . $place->placethumbimg);
-                //     }
-                // } else {
-                //     $placeThumbImageName = $place->placethumbimg;
-                // }
                 
 
                 $data = [

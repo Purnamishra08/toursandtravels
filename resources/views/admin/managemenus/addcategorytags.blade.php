@@ -256,9 +256,11 @@
             var menuId = '{{isset($Categorytags->menuid) ? $Categorytags->menuid : 0 }}'; // Assuming this is a valid variable with a menuid
             getCategory({ value: menuId });
         });
-        $(document.body).on('keyup change', '#tag_name', function() {
-			$("#tag_url").val(name_to_url($(this).val()));
-		});
+        @if(!isset($Categorytags->tag_url))
+            $(document.body).on('keyup change', '#tag_name', function() {
+                $("#tag_url").val(name_to_url($(this).val()));
+            });
+        @endif
 		function name_to_url(name) {
 			name = name.toLowerCase(); // lowercase
 			name = name.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespaces
@@ -283,10 +285,12 @@
                 return false;
             if(!selectDropdown('catId', 'Category is required'))
                 return false;
-            if(!validateFilePresence('menutag_img', 'Banner image is required.'))
-                return false;
-            if(!validateFilePresence('menutagthumb_img', 'Getaways/Tour Image is required.'))
-                return false;
+            @if(!isset($Categorytags->menutag_img) && !isset($Categorytags->menutagthumb_img))
+                if(!validateFilePresence('menutag_img', 'Banner image is required.'))
+                    return false;
+                if(!validateFilePresence('menutagthumb_img', 'Getaways/Tour Image is required.'))
+                    return false;
+            @endif
             if (!blankCheck('alttag_banner', 'Banner Alt Tag cannot be blank'))
                  return false;
             if (!blankCheck('alttag_thumb', 'Alt Tag For Getaways Image cannot be blank'))

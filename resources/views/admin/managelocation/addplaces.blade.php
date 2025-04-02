@@ -325,10 +325,11 @@
                 }
             };
         });
-        
-        $(document.body).on('keyup change', '#place_name', function() {
-			$("#place_url").val(name_to_url($(this).val()));
-		});
+        @if(!isset($placesData->place_url))
+            $(document.body).on('keyup change', '#place_name', function() {
+                $("#place_url").val(name_to_url($(this).val()));
+            });
+        @endif
 		function name_to_url(name) {
 			name = name.toLowerCase(); // lowercase
 			name = name.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespaces
@@ -348,8 +349,12 @@
             if (!blankCheck('place_name', 'Place name cannot be blank')) return false;
             if (!blankCheck('place_url', 'Place URL cannot be blank')) return false;
             if (!selectDropdown('destination_id', 'Please select a Destination')) return false;
-            if (!validateFilePresence('placeimg', 'Banner image is required.')) return false;
-            if (!validateFilePresence('placethumbimg', 'Place Image is required.')) return false;
+
+            @if(!isset($placesData->placeimg) && !isset($placesData->placethumbimg))
+                if (!validateFilePresence('placeimg', 'Banner image is required.')) return false;
+                if (!validateFilePresence('placethumbimg', 'Place Image is required.')) return false;
+            @endif
+            
             if (!blankCheck('alttag_banner', 'Banner Alt Tag cannot be blank')) return false;
             if (!blankCheck('alttag_thumb', 'Alt Tag For Getaways Image cannot be blank')) return false;
             if (!blankCheck('latitude', 'Latitude cannot be blank')) return false;

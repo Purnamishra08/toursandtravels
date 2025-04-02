@@ -141,6 +141,29 @@ class CategoryTagsController extends Controller
                 'meta_title'                => 'nullable|string|max:255',
                 'meta_keywords'             => 'nullable|string|max:255',
                 'meta_description'          => 'nullable|string|max:255',
+            ], [
+                'tag_name.required' => 'The tag name field is required.',
+                'tag_url.required' => 'The tag URL field is required.',
+                'menuid.required' => 'Please select a menu ID.',
+                'catId.required' => 'Please select a category ID.',
+                'menutag_img.image' => 'The Banner image must be an image file.',
+                'menutag_img.mimes' => 'The Banner image must be in JPEG, PNG, JPG, GIF, or SVG format.',
+                'menutag_img.max' => 'The Banner image size must not exceed 2MB.',
+                'menutag_img.dimensions' => 'The Banner image must be exactly 1920x488 pixels.',
+                'menutagthumb_img.image' => 'The Getaways/Tour image must be an image file.',
+                'menutagthumb_img.mimes' => 'The Getaways/Tour image must be in JPEG, PNG, JPG, GIF, or SVG format.',
+                'menutagthumb_img.max' => 'The Getaways/Tour image size must not exceed 1MB.',
+                'menutagthumb_img.dimensions' => 'The Getaways/Tour image must be exactly 500x350 pixels.',
+                'alttag_banner.required' => 'The banner alt tag is required.',
+                'alttag_banner.unique' => 'This banner alt tag is already in use.',
+                'alttag_banner.max' => 'The banner alt tag must not exceed 60 characters.',
+                'alttag_thumb.required' => 'The gateway/tours alt tag is required.',
+                'alttag_thumb.unique' => 'This gateway/tours alt tag is already in use.',
+                'alttag_thumb.max' => 'The gateway/tours alt tag must not exceed 60 characters.',
+                'about_tag.required' => 'The about tag field is required.',
+                'meta_title.max' => 'The meta title must not exceed 255 characters.',
+                'meta_keywords.max' => 'The meta keywords must not exceed 255 characters.',
+                'meta_description.max' => 'The meta description must not exceed 255 characters.',
             ]);
 
             // If validation fails, redirect back with errors and old input
@@ -160,31 +183,21 @@ class CategoryTagsController extends Controller
                 }
                 // Handle image file uploads and store only image names in the database
                 $bannerImageName = null;
-                // if ($request->hasFile('menutag_img')) {
-                //     $file = $request->file('menutag_img');
-                //     $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
-                //     $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
-                // }
                 if ($request->hasFile('menutag_img')) {
                     $file = $request->file('menutag_img');
                     $bannerImageName = Str::slug($request->input('alttag_banner')) . '.webp';
         
                     // Convert and Store as WebP
-                    $this->convertToWebp($file, storage_path('app/public/BannerImages/' . $bannerImageName), 1920, 488);
+                    $this->convertToWebp($file, storage_path('app/public/category_tags_images/BannerImages/' . $bannerImageName), 1920, 488);
                 }
 
                 $getawayImageName = null;
-                // if ($request->hasFile('menutagthumb_img')) {
-                //     $file = $request->file('menutagthumb_img');
-                //     $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
-                //     $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
-                // }
                 if ($request->hasFile('menutagthumb_img')) {
                     $file = $request->file('menutagthumb_img');
                     $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
         
                     // Convert and Store as WebP
-                    $this->convertToWebp($file, storage_path('app/public/GetawaysImages/' . $getawayImageName), 500, 350);
+                    $this->convertToWebp($file, storage_path('app/public/category_tags_images/GetawaysImages/' . $getawayImageName), 500, 350);
                 }
 
                 // Prepare data for insertion
@@ -255,6 +268,29 @@ class CategoryTagsController extends Controller
                     'meta_title'            => 'nullable|string|max:255',
                     'meta_keywords'         => 'nullable|string|max:255',
                     'meta_description'      => 'nullable|string|max:255',
+                ], [
+                    'tag_name.required' => 'The tag name field is required.',
+                    'tag_url.required' => 'The tag URL field is required.',
+                    'menuid.required' => 'Please select a menu ID.',
+                    'catId.required' => 'Please select a category ID.',
+                    'menutag_img.image' => 'The Banner image must be an image file.',
+                    'menutag_img.mimes' => 'The Banner image must be in JPEG, PNG, JPG, GIF, or SVG format.',
+                    'menutag_img.max' => 'The Banner image size must not exceed 2MB.',
+                    'menutag_img.dimensions' => 'The Banner image must be exactly 1920x488 pixels.',
+                    'menutagthumb_img.image' => 'The Getaways/Tour image must be an image file.',
+                    'menutagthumb_img.mimes' => 'The Getaways/Tour image must be in JPEG, PNG, JPG, GIF, or SVG format.',
+                    'menutagthumb_img.max' => 'The Getaways/Tour image size must not exceed 1MB.',
+                    'menutagthumb_img.dimensions' => 'The Getaways/Tour image must be exactly 500x350 pixels.',
+                    'alttag_banner.required' => 'The banner alt tag is required.',
+                    'alttag_banner.unique' => 'This banner alt tag is already in use.',
+                    'alttag_banner.max' => 'The banner alt tag must not exceed 60 characters.',
+                    'alttag_thumb.required' => 'The gateway/tours alt tag is required.',
+                    'alttag_thumb.unique' => 'This gateway/tours alt tag is already in use.',
+                    'alttag_thumb.max' => 'The gateway/tours alt tag must not exceed 60 characters.',
+                    'about_tag.required' => 'The about tag field is required.',
+                    'meta_title.max' => 'The meta title must not exceed 255 characters.',
+                    'meta_keywords.max' => 'The meta keywords must not exceed 255 characters.',
+                    'meta_description.max' => 'The meta description must not exceed 255 characters.',
                 ]);
 
                 // If validation fails, redirect back with errors and old input
@@ -272,43 +308,26 @@ class CategoryTagsController extends Controller
                             ->withErrors(['error' => 'You have already added this category tag, URL must be unique.']);
                     }
 
-                    // if ($request->hasFile('menutag_img')) {
-                    //     $file = $request->file('menutag_img');
-                    //     $bannerImageName = Str::slug($request->input('alttag_banner')) . '.' . $file->getClientOriginalExtension();
-                    //     $file->storeAs('category_tags_images/BannerImages', $bannerImageName, 'public');
-                        
-                    //     if ($categorytags->menutag_img && ($categorytags->menutag_img != $bannerImageName)) {
-                    //         Storage::disk('public')->delete('category_tags_images/BannerImages/' . $categorytags->menutag_img);
-                    //     }
-                    // } else {
-                    //     $bannerImageName = $categorytags->placeimg;
-                    // }
                     if ($request->hasFile('menutag_img')) {
                         $file = $request->file('menutag_img');
                         $bannerImageName = Str::slug($request->input('alttag_banner')) . '.webp';
             
                         // Convert and Store as WebP
-                        $this->convertToWebp($file, storage_path('app/public/BannerImages/' . $bannerImageName), 1920, 488);
+                        $this->convertToWebp($file, storage_path('app/public/category_tags_images/BannerImages/' . $bannerImageName), 1920, 488);
+                    }else{
+                        $bannerImageName = $categorytags->menutag_img;
                     }
-
-                    // if ($request->hasFile('menutagthumb_img')) {
-                    //     $file = $request->file('menutagthumb_img');
-                    //     $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.' . $file->getClientOriginalExtension();
-                    //     $file->storeAs('category_tags_images/GetawaysImages', $getawayImageName, 'public');
-                        
-                    //     if ($categorytags->menutagthumb_img && ($categorytags->menutagthumb_img != $getawayImageName)) {
-                    //         Storage::disk('public')->delete('category_tags_images/GetawaysImages/' . $categorytags->menutagthumb_img);
-                    //     }
-                    // } else {
-                    //     $getawayImageName = $categorytags->menutagthumb_img;
-                    // }
+                    
                     if ($request->hasFile('menutagthumb_img')) {
                         $file = $request->file('menutagthumb_img');
                         $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
             
                         // Convert and Store as WebP
-                        $this->convertToWebp($file, storage_path('app/public/GetawaysImages/' . $getawayImageName), 500, 350);
+                        $this->convertToWebp($file, storage_path('app/public/category_tags_images/GetawaysImages/' . $getawayImageName), 500, 350);
+                    }else{
+                        $getawayImageName = $categorytags->menutagthumb_img;
                     }
+
                     $data = [
                         'tag_name'              => $request->tag_name,
                         'tag_url'               => $request->tag_url,
@@ -405,5 +424,40 @@ class CategoryTagsController extends Controller
 
             return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to Active/Inactive Category tag.']);
         }
+    }
+
+    private function convertToWebp($file, $destination, $width, $height)
+    {
+        $imageType = exif_imagetype($file->getPathname());
+        $sourceImage = null;
+
+        switch ($imageType) {
+            case IMAGETYPE_JPEG:
+                $sourceImage = imagecreatefromjpeg($file->getPathname());
+                break;
+            case IMAGETYPE_PNG:
+                $sourceImage = imagecreatefrompng($file->getPathname());
+                imagepalettetotruecolor($sourceImage); // Convert PNG to TrueColor
+                imagealphablending($sourceImage, true);
+                imagesavealpha($sourceImage, true);
+                break;
+            default:
+                throw new \Exception("Unsupported image type.");
+        }
+
+        if (!$sourceImage) {
+            throw new \Exception("Failed to create image resource.");
+        }
+
+        // Resize Image
+        $resizedImage = imagecreatetruecolor($width, $height);
+        imagecopyresampled($resizedImage, $sourceImage, 0, 0, 0, 0, $width, $height, imagesx($sourceImage), imagesy($sourceImage));
+
+        // Save as WebP
+        imagewebp($resizedImage, $destination, 100); // Quality: 100
+
+        // Free memory
+        imagedestroy($sourceImage);
+        imagedestroy($resizedImage);
     }
 }
