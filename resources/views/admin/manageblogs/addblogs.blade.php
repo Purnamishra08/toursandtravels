@@ -195,10 +195,11 @@
                 }
             };
         });
-        
-        $(document.body).on('keyup change', '#title', function() {
-			$("#blog_url").val(name_to_url($(this).val()));
-		});
+        @if(!isset($BlogData->blog_url))
+            $(document.body).on('keyup change', '#title', function() {
+                $("#blog_url").val(name_to_url($(this).val()));
+            });
+        @endif
 		function name_to_url(name) {
 			name = name.toLowerCase(); // lowercase
 			name = name.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespaces
@@ -216,8 +217,10 @@
         }
         function validator() {
             if (!blankCheck('title', 'Post Title cannot be blank')) return false;
-            if (!blankCheck('blog_url', 'Blog URL cannot be blank')) return false;
-            if (!validateFilePresence('image', 'Featured image is required.')) return false;
+            if (!blankCheck('blog_url', 'Blog URL cannot be blank')) return false;if
+            @if(!isset($BlogData->image))
+                if (!validateFilePresence('image', 'Featured image is required.')) return false;
+            @endif
             if (!blankCheck('alttag_image', 'Alternative taf for featured image cannot be blank')) return false;
             if (!blankCheck('content', 'Content cannot be blank')) return false;
             return true;

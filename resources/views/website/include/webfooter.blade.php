@@ -9,86 +9,50 @@
                             </a>
                                 
                         </h1>
-                        <p class="about-company">
+                        <!-- <p class="about-company">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit.
                             Repellat delectus nobis quibusdam sed optio porro. Lorem ipsum,
                             dolor sit amet consectetur adipisicing elit.
-                        </p>
+                        </p> -->
                         <ul class="contact-wrapper">
                             <li>
                                 <i class="bi bi-telephone-fill"></i>
-                                <a href="tel:+926669990000">+ 926669990000</a>
+                                <a href="tel:{{isset($parameters) ? $parameters[2]->par_value : ''}}">{{isset($parameters) ? $parameters[2]->par_value : ''}}</a>
                             </li>
                             <li>
                                 <i class="bi bi-envelope-fill"></i>
-                                <a href="mailto:needhelp@company.com">needhelp@company.com</a>
+                                <a href="mailto:{{isset($parameters) ? $parameters[3]->par_value : ''}}">{{isset($parameters) ? $parameters[3]->par_value : ''}}</a>
                             </li>
                             <li>
                                 <i class="bi bi-geo-alt-fill"></i>
-                                <p>666 road, broklyn street new york</p>
+                                <p>{{isset($parameters) ? $parameters[0]->par_value : ''}}</p></p>
                             </li>
                         </ul>
                     </div>
                     <div class="col-lg-4">
                         <h5 class="footer-title">Quick Links</h5>
                         <ul class="quick-link-wrapper">
-                            <li>
-                                <a href="#" class="quick-link">Lorem ipsum dolor sit amet.</a>
-                            </li>
-                            <li>
-                                <a href="#" class="quick-link">Lorem ipsum dolor sit amet.</a>
-                            </li>
-                            <li>
-                                <a href="#" class="quick-link">Lorem ipsum dolor sit amet.</a>
-                            </li>
-                            <li>
-                                <a href="#" class="quick-link">Lorem ipsum dolor sit amet.</a>
-                            </li>
-                            <li>
-                                <a href="#" class="quick-link">Lorem ipsum dolor sit amet.</a>
-                            </li>
-                            <li>
-                                <a href="#" class="quick-link">Lorem ipsum dolor sit amet.</a>
-                            </li>
-                            <li>
-                                <a href="#" class="quick-link">Lorem ipsum dolor sit amet.</a>
-                            </li>
+                        @if(isset($footer) && count($footer) > 0)
+                            @foreach($footer as $footers)
+                                <li>
+                                    <a href="{{$footers->vch_Footer_URL}}" class="quick-link">{{$footers->vch_Footer_Name}}</a>
+                                </li>
+                            @endforeach
+                        @endif
                         </ul>
                     </div>
                     <div class="col-lg-4">
                         <h5 class="footer-title">Blog Posts</h5>
 
                         <ul class="blog-spot-wrapper">
+                        @if(isset($blogDataFooter) && count($blogDataFooter) > 0)
+                            @foreach($blogDataFooter as $key => $values)
                             <li>
-                                <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
-                                <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
-                                    consectetur.</a>
+                                <img src="{{ asset('storage/blog_images/' . $values->image) }}" alt="blog spot" />
+                                <a href="{{$values->blog_url}}" class="blog-title stretched-link">{{$values->title}}</a>
                             </li>
-                            <li>
-                              <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
-                                <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
-                                    consectetur.</a>
-                            </li>
-                            <li>
-                              <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
-                                <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
-                                    consectetur.</a>
-                            </li>
-                            <li>
-                              <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
-                                <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
-                                    consectetur.</a>
-                            </li>
-                            <li>
-                              <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
-                                <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
-                                    consectetur.</a>
-                            </li>
-                            <li>
-                              <img src="{{ asset('assets/img/web-img/footer-blog-spot-1.png') }}" alt="blog spot" />
-                                <a href="#" class="blog-title stretched-link">Lorem ipsum dolor sit amet
-                                    consectetur.</a>
-                            </li>
+                            @endforeach
+                        @endif
                         </ul>
                     </div>
                 </div>

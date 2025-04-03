@@ -255,6 +255,10 @@ CREATE TABLE `tbl_menus` (
   PRIMARY KEY (`menuid`),
   KEY `continent_id` (`menu_name`)
 );
+ALTER TABLE `tbl_menus` 
+ADD COLUMN `menu_meta_title` TEXT DEFAULT NULL AFTER `menu_name`,
+ADD COLUMN `menu_meta_keywords` TEXT DEFAULT NULL AFTER `menu_meta_title`,
+ADD COLUMN `menu_meta_description` TEXT DEFAULT NULL AFTER `menu_meta_keywords`;
 CREATE TABLE `tbl_menutags` (
   `tagid` int(11) NOT NULL AUTO_INCREMENT,
   `menuid` int(11) DEFAULT NULL,

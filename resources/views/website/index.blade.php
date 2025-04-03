@@ -535,128 +535,33 @@
                 <p class="section-title-small">FROM OUR BLOG</p>
                 <h2 class="section-title section-title-large">OUR RECENT POSTS</h2>
             </div>
-            <a href="#" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+            <a href="{{route('admin.bloglisting')}}" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
 
         </div>
         <div class="recent-post-wrapper">
-            <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
-                <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                <p class="tour-badge">Travel</p>
-                <div class="card-body">
-                    <ul>
-                        <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                        <li class="separator-bar"></li>
-                        <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
+            @if(isset($blogDataFooter) && count($blogDataFooter) > 0)
+                @foreach($blogDataFooter as $key => $values)
+                    <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
+                        <img src="{{ asset('storage/blog_images/' . $values->image) }}" alt="{{ $values->alttag_image }}" />
+                        <p class="tour-badge">Travel</p>
+                        <div class="card-body">
+                            <ul>
+                                <li><i class="bi bi-calendar"></i> {{ date('d-M-Y', strtotime($values->created_date)) }} </li>
 
-                    </ul>
-                    <h5 class="card-title mt-3">
-                        Life is a beautiful journey not a destination
-                    </h5>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
-                    <div class="text-end mt-2">
-                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            </ul>
+                            <h5 class="card-title mt-3">
+                                {{$values->title}}
+                            </h5>
+                            <p>{!! implode(' ', array_slice(explode(' ', $values->content), 0, 30)) !!}</p>
+                            <div class="text-end mt-2">
+                            <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
-                <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                <p class="tour-badge">Travel</p>
-                <div class="card-body">
-                    <ul>
-                        <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                        <li class="separator-bar"></li>
-                        <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                    </ul>
-                    <h5 class="card-title mt-3">
-                        Life is a beautiful journey not a destination
-                    </h5>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
-                    <div class="text-end mt-2">
-                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
-                <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                <p class="tour-badge">Travel</p>
-                <div class="card-body">
-                    <ul>
-                        <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                        <li class="separator-bar"></li>
-                        <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                    </ul>
-                    <h5 class="card-title mt-3">
-                        Life is a beautiful journey not a destination
-                    </h5>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
-                    <div class="text-end mt-2">
-                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
-                <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                <p class="tour-badge">Travel</p>
-                <div class="card-body">
-                    <ul>
-                        <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                        <li class="separator-bar"></li>
-                        <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                    </ul>
-                    <h5 class="card-title mt-3">
-                        Life is a beautiful journey not a destination
-                    </h5>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
-                    <div class="text-end mt-2">
-                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
-                <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                <p class="tour-badge">Travel</p>
-                <div class="card-body">
-                    <ul>
-                        <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                        <li class="separator-bar"></li>
-                        <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                    </ul>
-                    <h5 class="card-title mt-3">
-                        Life is a beautiful journey not a destination
-                    </h5>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
-                    <div class="text-end mt-2">
-                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card recent-post-card wow animate__fadeInUp  " data-wow-delay="200ms">
-                <img src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                <p class="tour-badge">Travel</p>
-                <div class="card-body">
-                    <ul>
-                        <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                        <li class="separator-bar"></li>
-                        <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                    </ul>
-                    <h5 class="card-title mt-3">
-                        Life is a beautiful journey not a destination
-                    </h5>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid fugiat magni blanditiis incidunt asperiores praesentium culpa molestiae consequatur eligendi quos!</p>
-                    <div class="text-end mt-2">
-                    <a href="../tourdetails" class="btn btn-outline-primary">Read More <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                    </div>
-                </div>
-            </div>
+                @endforeach
+            @else
+                <span>No record found.</span>
+            @endif
 
 
 
