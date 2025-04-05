@@ -30,6 +30,7 @@ class PlacesController extends Controller
             $place_name         = $request->input('place_name', '');
             $destination_id     = $request->input('destination_id', '');
             $status             = $request->input('status', '');
+            $show_in_home       = $request->input('show_in_home', '');
 
             if (!empty($place_name)) {
                 $query->where('p.place_name', 'like', '%' . $place_name . '%');
@@ -39,6 +40,9 @@ class PlacesController extends Controller
             }
             if (!empty($status)) {
                 $query->where('p.status', $status);
+            }
+            if (!empty($show_in_home)) {
+                $query->where('p.show_in_home', $show_in_home);
             }
 
             // Handle global search
@@ -198,6 +202,7 @@ class PlacesController extends Controller
                     'place_url'                     => $request->input('place_url'),
                     'latitude'                      => $request->input('latitude'),
                     'longitude'                     => $request->input('longitude'),
+                    'show_in_home'                  => $request->input('show_in_home'),
                     'destination_id'                => $request->input('destination_id'),
                     'distance_from_nearest_city'    => $request->input('distance_from_nearest_city'),
                     'about_place'                   => $request->input('short_desc'),
@@ -323,6 +328,7 @@ class PlacesController extends Controller
                     'place_url'                     => $request->input('place_url'),
                     'latitude'                      => $request->input('latitude'),
                     'longitude'                     => $request->input('longitude'),
+                    'show_in_home'                  => $request->input('show_in_home'),
                     'destination_id'                => $request->input('destination_id'),
                     'distance_from_nearest_city'    => $request->input('distance_from_nearest_city'),
                     'about_place'                   => $request->input('short_desc'),
@@ -376,7 +382,7 @@ class PlacesController extends Controller
             }
         }else{
             $placesData = DB::table('tbl_places as d')
-                                ->selectRaw('d.placeid, d.destination_id, d.place_name, d.place_url, d.latitude, d.longitude, d.trip_duration, d.distance_from_nearest_city, d.placeimg, d.placethumbimg, d.alttag_banner, d.alttag_thumb, d.google_map, d.travel_tips , d.about_place, d.entry_fee, d.timing, d.rating, d.status, d.meta_title, d.meta_keywords, d.meta_description, d.pckg_meta_title, d.pckg_meta_keywords, d.pckg_meta_description')
+                                ->selectRaw('d.placeid, d.destination_id, d.place_name, d.place_url, d.latitude, d.longitude, d.trip_duration, d.distance_from_nearest_city, d.placeimg, d.placethumbimg, d.alttag_banner, d.alttag_thumb, d.google_map, d.travel_tips , d.about_place, d.entry_fee, d.timing, d.rating, d.status, d.meta_title, d.meta_keywords, d.meta_description, d.pckg_meta_title, d.pckg_meta_keywords, d.pckg_meta_description, d.show_in_home')
                                 ->where('d.placeid', $id)->first();
             $selectedDestinationTypes = DB::table('tbl_multdest_type')
                                 ->where('bit_Deleted_Flag', 0)

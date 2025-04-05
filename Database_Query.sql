@@ -17,7 +17,6 @@ CREATE TABLE `tbl_admin_modules` (
 );
 ALTER TABLE `toursandtravels`.`tbl_admin_modules` 
 ADD COLUMN `moduleDeleteAccess` BIT(1) NOT NULL DEFAULT b'0' COMMENT '0 = NO\n1 = YES' AFTER `moduleid`;
-
 #Manage Vehicles
 CREATE TABLE `tbl_vehicletypes` (
   `vehicleid` int(11) NOT NULL AUTO_INCREMENT,
@@ -708,3 +707,6 @@ CREATE TABLE `tbl_itinerary_daywise` (
   `bit_Deleted_Flag` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`itinerary_daywiseid`)
 );
+
+ALTER TABLE `toursandtravels`.`tbl_places` 
+ADD COLUMN `show_in_home` tinyint(4) DEFAULT NULL AFTER `longitude`;

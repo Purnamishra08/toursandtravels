@@ -6,7 +6,7 @@
         <h1 class="page-name">Contact Us</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
-                <a href="#" class="breadcrumb-link"><i class="bi bi-house"></i></a>
+                <a href="{{route('website.home')  }}" class="breadcrumb-link"><i class="bi bi-house"></i></a>
             </li>
            
             <li class="breadcrumb-item">

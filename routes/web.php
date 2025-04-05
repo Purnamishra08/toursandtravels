@@ -1,4 +1,6 @@
 <?php
+use Illuminate\Support\Facades\Route;
+/********  ADMIN ROUTING    ********/
 use App\Http\Controllers\Admin\ManageUser\LoginController;
 use App\Http\Controllers\Admin\ManageUser\ManageUserController;
 use App\Http\Controllers\Admin\manageVehicles\VehicleTypeController;
@@ -31,9 +33,15 @@ use App\Http\Controllers\Admin\ManageFollowUpEnquiries\EnquiriesReportController
 use App\Http\Controllers\Admin\ManageBlogs\ManageBlogsController;
 use App\Http\Controllers\Admin\ManageBlogs\ManageBlogsCommentsController;
 use App\Http\Controllers\Admin\ManagePackages\PackagePdfController;
-use Illuminate\Support\Facades\Route;
+/********  ADMIN ROUTING    ********/
+
+/********  WEBSITE ROUTING    ********/
 use App\Http\Controllers\Website\Blogs\BlogsController;
 use App\Http\Controllers\Website\Home\HomeController;
+use App\Http\Controllers\Website\Contact\ContactController;
+use App\Http\Controllers\Website\Footer\FooterController;
+
+/********  WEBSITE ROUTING    ********/
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -70,6 +78,9 @@ Route::get('/optimize', function() {
         'results' => $output
     ]);
 });
+
+
+/********  WEBSITE ROUTING    ********/
 Route::get('/', [HomeController::class, 'index'])->name('website.home');
 Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
@@ -78,6 +89,21 @@ Route::view('/tourlisting', 'website.tourlisting');
 Route::view('/tourdetails', 'website.tourdetails');
 Route::get('/bloglisting', [BlogsController::class, 'index'])->name('website.bloglisting');
 Route::get('blogdetails/{slug}', [BlogsController::class, 'blogdetails'])->name('website.blogdetails');
+
+//HomePage
+Route::get('/popularTour', [HomeController::class, 'popularTour'])->name('website.popularTour');
+Route::get('/destinationPlaces', [HomeController::class, 'destinationPlaces'])->name('website.destinationPlaces');
+Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('website.clientReviews');
+//HomePage
+
+
+//Footer
+Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');
+//Footer
+/********  WEBSITE ROUTING    ********/
+
+
+/********  ADMIN ROUTING    ********/
 Route::get('/admin', [LoginController::class, 'index'])->name('admin.login');
 Route::post('/admin/login', [LoginController::class, 'login'])->name('admin.processLogin');
 Route::get('/admin/forgot-password', [LoginController::class, 'forgotPassword'])->name('admin.forgot-password');
@@ -365,5 +391,5 @@ Route::middleware('auth')->group(function () {
     Route::match(['get', 'post'], '/generatePackageDoc', [PackagePdfController::class, 'index'])->name('admin.generatePackageDoc');
     
     //Generate pdf or word doc
-    
 });
+/********  ADMIN ROUTING    ********/

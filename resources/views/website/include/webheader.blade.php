@@ -1,3 +1,5 @@
+<link href="{{asset('assets/css/all.min.css')}}" rel="stylesheet" />
+<script src="{{asset('assets/js/all.min.js')}}"></script>
 <body>
     <header id="header">
         <nav class="navbar navbar-expand-xl fixed-top">
