@@ -435,9 +435,9 @@
         <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
         <script src="{{ asset('assets/js/chosen.jquery.js') }}"></script>
         <script>
-        $(document.body).on('keyup change', '#tpackage_name', function() {
-            $("#tpackage_url").val(name_to_url($(this).val()));
-        });
+        // $(document.body).on('keyup change', '#tpackage_name', function() {
+        //     $("#tpackage_url").val(name_to_url($(this).val()));
+        // });
         function name_to_url(name) {
             name = name.toLowerCase(); // lowercase
             name = name.replace(/^\s+|\s+$/g, ''); // remove leading and trailing whitespaces

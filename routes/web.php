@@ -90,6 +90,12 @@ Route::view('/tourdetails', 'website.tourdetails');
 Route::get('/bloglisting', [BlogsController::class, 'index'])->name('website.bloglisting');
 Route::get('blogdetails/{slug}', [BlogsController::class, 'blogdetails'])->name('website.blogdetails');
 
+//HomePage
+Route::get('/popularTour', [HomeController::class, 'popularTour'])->name('website.popularTour');
+Route::get('/destinationPlaces', [HomeController::class, 'destinationPlaces'])->name('website.destinationPlaces');
+Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('website.clientReviews');
+//HomePage
+
 
 //Footer
 Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');
