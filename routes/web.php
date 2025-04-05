@@ -87,8 +87,8 @@ Route::view('/aboutus', 'website.aboutus');
 Route::view('/faq', 'website.faq');
 Route::view('/tourlisting', 'website.tourlisting');
 Route::view('/tourdetails', 'website.tourdetails');
-Route::get('/bloglisting', [BlogsController::class, 'index'])->name('website.bloglisting');
-Route::get('blogdetails/{slug}', [BlogsController::class, 'blogdetails'])->name('website.blogdetails');
+Route::get('/blog', [BlogsController::class, 'index'])->name('website.bloglisting');
+Route::get('blog/{slug}', [BlogsController::class, 'blogdetails'])->name('website.blogdetails');
 
 //HomePage
 Route::get('/popularTour', [HomeController::class, 'popularTour'])->name('website.popularTour');
