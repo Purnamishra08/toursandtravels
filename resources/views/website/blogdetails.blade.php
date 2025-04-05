@@ -25,7 +25,7 @@
                     <img src="{{ asset('storage/blog_images/' . $blog->image) }}" alt="{{ $blog->alttag_image }}" />
                     <h3 class="mt-2">{{ $blog->title }}</h3>
                     <ul class="mb-3">
-                        <li><i class="bi bi-calendar"></i>{{ date('d-M-Y', strtotime($blog->created_date)) }}</li>
+                        <li><i class="bi bi-calendar"></i> {{ date('d-M-Y', strtotime($blog->created_date)) }}</li>
 
                     </ul>
                     <p>{!! $blog->content !!}</p>

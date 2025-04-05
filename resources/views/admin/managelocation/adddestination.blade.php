@@ -193,7 +193,7 @@
                                                 
 
                                                         <!-- Show on Footer Menu -->
-                                                        <div class="col-md-6">
+                                                        <!-- <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Show on footer menu</label>
                                                                 <div class="row">
@@ -203,7 +203,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
 
                                                         <!-- Pick/Drop Price -->
                                                         <div class="col-md-6">
@@ -539,8 +539,8 @@
             @endif
 
             // Validate numeric fields
-            if (!onlyNumeric('pick_drop_price', 'Pick up drop price must be a numeric value.')) return false;
-            if (!onlyNumeric('accomodation_price', 'Accomodation price must be a numeric value.')) return false;
+            if (!isDecimalUptoTwo('pick_drop_price', 'Pick up drop price must be a numeric value.')) return false;
+            if (!isDecimalUptoTwo('accomodation_price', 'Accomodation price must be a numeric value.')) return false;
             // If all validations pass
 
             return true;

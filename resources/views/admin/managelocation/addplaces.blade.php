@@ -176,6 +176,19 @@
                                                             </div>
                                                         </div>
 
+                                                        <!-- Show on Home Menu -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Show Home</label>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <input type="checkbox" name="show_in_home" id="show_in_home" value="1" {{ old('show_in_home', $placesData->show_in_home ?? '') ? 'checked' : '' }}>
+                                                                        For Home Page
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                         <!-- About Destination -->
                                                         <div class="col-md-12">
                                                             <div class="form-group">

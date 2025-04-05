@@ -73,6 +73,15 @@
                                                     <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Inactive</option>
                                                 </select>
                                             </div>
+                                            <!-- show in home -->
+                                            <div class="col-sm-4 form-group mb-sm-0">
+                                                <label class="control-label">Show Home</label>
+                                                <select class="form-select" id="show_in_home" name="show_in_home">
+                                                    <option value="">--Select--</option>
+                                                    <option value="1" {{ request('show_in_home') == '1' ? 'selected' : '' }}>Yes</option>
+                                                    <option value="0" {{ request('show_in_home') == '0' ? 'selected' : '' }}>No</option>
+                                                </select>
+                                            </div>
                                         </div><br>
                                         <div class="row">
                                             <!-- Submit and Reset Buttons -->
@@ -146,6 +155,7 @@
                             d.place_name = $('#place_name').val();
                             d.destination_id = $('#destination_id').val();
                             d.status = $('#status').val();
+                            d.show_in_home = $('#show_in_home').val();
                         }
                 },
                 columns: [
