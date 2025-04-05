@@ -70,16 +70,14 @@ Route::get('/optimize', function() {
         'results' => $output
     ]);
 });
-Route::get('/', [HomeController::class, 'index'])->name('admin.home');
-// Route::view('/', 'website.index');
+Route::get('/', [HomeController::class, 'index'])->name('website.home');
 Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
 Route::view('/faq', 'website.faq');
 Route::view('/tourlisting', 'website.tourlisting');
 Route::view('/tourdetails', 'website.tourdetails');
-Route::get('/bloglisting', [BlogsController::class, 'index'])->name('admin.bloglisting');
-// Route::view('/bloglisting', 'website.bloglisting');
-Route::view('/blogdetails', 'website.blogdetails');
+Route::get('/bloglisting', [BlogsController::class, 'index'])->name('website.bloglisting');
+Route::get('blogdetails/{slug}', [BlogsController::class, 'blogdetails'])->name('website.blogdetails');
 Route::get('/admin', [LoginController::class, 'index'])->name('admin.login');
 Route::post('/admin/login', [LoginController::class, 'login'])->name('admin.processLogin');
 Route::get('/admin/forgot-password', [LoginController::class, 'forgotPassword'])->name('admin.forgot-password');

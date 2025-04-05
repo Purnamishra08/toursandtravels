@@ -49,7 +49,7 @@
                             @foreach($blogDataFooter as $key => $values)
                             <li>
                                 <img src="{{ asset('storage/blog_images/' . $values->image) }}" alt="blog spot" />
-                                <a href="{{$values->blog_url}}" class="blog-title stretched-link">{{$values->title}}</a>
+                                <a href="{{ route('website.blogdetails', ['slug' => $values->blog_url]) }}" class="blog-title stretched-link">{{$values->title}}</a>
                             </li>
                             @endforeach
                         @endif

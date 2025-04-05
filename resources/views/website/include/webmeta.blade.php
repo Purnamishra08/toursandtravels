@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Holiday Happiness</title>
+    <title>{{ $meta_title ?? 'My Holiday Happiness' }}</title>
+    <meta name="description" content="{{ $meta_description ?? 'Default description for the website' }}">
+    <meta name="keywords" content="{{ $meta_keywords ?? 'default, keywords' }}">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/fav-icon.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="{{asset('assets/css/web-animate.css')}}"/>

@@ -6,11 +6,11 @@
         <h1 class="page-name">Blogs</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
-                <a href="#" class="breadcrumb-link"><i class="bi bi-house"></i></a>
+                <a href="{{route('website.home')}}" class="breadcrumb-link"><i class="bi bi-house"></i></a>
             </li>
           
             <li class="breadcrumb-item">
-                <a href="#" class="breadcrumb-link active">Blogs</a>
+                <a href="{{ route('website.blogdetails', ['slug' => $blog->blog_url]) }}" class="breadcrumb-link active">Blogs</a>
             </li>
         </ul>
     </div>
@@ -22,16 +22,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 blog-details-box">
-                    <img src="{{ asset('assets/img/web-img/blog-details.jpg') }}" alt="img" />
-                    <h3 class="mt-2">Discover the must-see top sightseeing attractions in Munnar that you can't miss</h3>
+                    <img src="{{ asset('storage/blog_images/' . $blog->image) }}" alt="{{ $blog->alttag_image }}" />
+                    <h3 class="mt-2">{{ $blog->title }}</h3>
                     <ul class="mb-3">
-                        <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                        <li class="separator-bar"></li>
-                        <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
+                        <li><i class="bi bi-calendar"></i>{{ date('d-M-Y', strtotime($blog->created_date)) }}</li>
 
                     </ul>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias reiciendis praesentium voluptatibus eos beatae perferendis eveniet laborum explicabo enim quam illum laboriosam dolorum molestiae, sunt omnis doloribus labore, corporis aspernatur? Cumque reprehenderit aperiam placeat qui sapiente incidunt ipsam maiores molestias laboriosam provident sequi saepe tempora accusamus porro explicabo a nemo, minus ducimus omnis. Perferendis nihil doloribus quae fugit veritatis esse culpa rerum sequi cupiditate reprehenderit minima accusantium, suscipit magni est corporis ex vitae, perspiciatis eius optio debitis quisquam nulla similique? Omnis nihil corrupti totam nam consectetur quos perferendis. Dolores tenetur nisi tempora vero nulla, aliquid at sit libero ad ea.</p>
-                    <p style="text-indent: 50px;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa reiciendis natus quam amet repudiandae quas hic, veniam ipsum eius nam fuga dolorem assumenda adipisci deserunt dicta aliquid maiores, inventore consectetur fugit, atque itaque minus sed dolores! Deserunt delectus perferendis dolore minus dolorum voluptas quaerat esse nulla explicabo odio sed, distinctio illo pariatur doloribus ullam vel tenetur alias id quod. Quaerat maiores sequi eum facilis animi consequuntur? Earum doloribus provident tenetur, sapiente perspiciatis blanditiis laborum alias saepe quasi commodi fugiat accusamus iste facilis harum ut voluptatum consequuntur culpa quibusdam doloremque, aperiam quos? Est ab cumque laudantium itaque officiis accusantium velit atque.</p>
+                    <p>{!! $blog->content !!}</p>
                 </div>
                 <div class="col-lg-4">
                     <div class="card mb-2">
@@ -55,81 +52,21 @@
                         </div>
                         <div class="card-body">
                             <ul class="m-0 p-0">
-                                <li class="d-flex gap-3 recent-blog-card ">
-                                <img class="card-img-top" src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                                <div>
-                                    <a href="#">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, dolore.</a>
-                                    <ul >
-                                            <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                                            <li class="separator-bar"></li>
-                                            <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
+                            @if(isset($blogDataRecent) && count($blogDataRecent) > 0)
+                                @foreach($blogDataRecent as $key => $values)
+                                    <li class="d-flex gap-3 recent-blog-card ">
+                                        <img class="card-img-top" src="{{ asset('storage/blog_images/' . $values->image) }}" alt="{{ $values->alttag_image }}" />
+                                        <div>
+                                            <a href="{{ route('website.blogdetails', ['slug' => $values->blog_url]) }}">{{$values->title}}</a>
+                                            <ul>
+                                                    <li><i class="bi bi-calendar"></i> {{ date('d-M-Y', strtotime($values->created_date)) }}</li>
 
-                                    </ul>
-                                </div>
-                                </li>
-                                <li class="d-flex gap-3 recent-blog-card ">
-                                <img class="card-img-top" src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                                <div>
-                                    <a href="#">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, dolore.</a>
-                                    <ul >
-                                            <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                                            <li class="separator-bar"></li>
-                                            <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                                    </ul>
-                                </div>
-                                </li>
-                                <li class="d-flex gap-3 recent-blog-card ">
-                                <img class="card-img-top" src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                                <div>
-                                    <a href="#">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, dolore.</a>
-                                    <ul >
-                                            <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                                            <li class="separator-bar"></li>
-                                            <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                                    </ul>
-                                </div>
-                                </li>
-                                <li class="d-flex gap-3 recent-blog-card ">
-                                <img class="card-img-top" src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                                <div>
-                                    <a href="#">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, dolore.</a>
-                                    <ul >
-                                            <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                                            <li class="separator-bar"></li>
-                                            <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                                    </ul>
-                                </div>
-                                </li>
-                                <li class="d-flex gap-3 recent-blog-card ">
-                                <img class="card-img-top" src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                                <div>
-                                    <a href="#">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, dolore.</a>
-                                    <ul >
-                                            <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                                            <li class="separator-bar"></li>
-                                            <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                                    </ul>
-                                </div>
-                                </li>
-                                <li class="d-flex gap-3 recent-blog-card ">
-                                <img class="card-img-top" src="{{ asset('assets/img/web-img/img17.jpg.png') }}" alt="img" />
-                                <div>
-                                    <a href="#">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, dolore.</a>
-                                    <ul >
-                                            <li><i class="bi bi-person-circle"></i> By John Smith </li>
-                                            <li class="separator-bar"></li>
-                                            <li><i class="bi bi-calendar"></i> 16-Mar-2025</li>
-
-                                    </ul>
-                                </div>
-                                </li>
-                                
-                                
-                        </ul>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            @endif
+                            </ul>
                         </div>
                     </div>
 

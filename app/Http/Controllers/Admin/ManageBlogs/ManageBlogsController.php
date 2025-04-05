@@ -213,10 +213,6 @@ class ManageBlogsController extends Controller
                     $file = $request->file('image');
                     $featured_imageName = Str::slug($request->input('alttag_image')) . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('blog_images', $featured_imageName, 'public');
-                    
-                    if ($BlogData->image && ($BlogData->image != $featured_imageName)) {
-                        Storage::disk('public')->delete('blog_images/' . $BlogData->image);
-                    }
                 } else {
                     $featured_imageName = $BlogData->image;
                 }
