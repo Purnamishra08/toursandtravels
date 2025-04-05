@@ -64,16 +64,17 @@
             <div class="google-review">
                 <div class="wrapper">
                     <span class="review-close-btn"><i class="bi bi-x"></i></span>
-                    <img src="{{ asset('assets/img/web-img/google-logo.png') }}" alt="logo" />
+                    <img src="{{ asset('assets/img/web-img/google-logo-png-transparent.png') }}" alt="logo" />
                     <h4>My Holiday Happiness </h4>
                     <span>  
-                        5.0 
+                      
                         <i class="bi bi-star-fill"></i>
                         <i class="bi bi-star-fill"></i>
                         <i class="bi bi-star-fill"></i>
                         <i class="bi bi-star-fill"></i>
                         <i class="bi bi-star-fill"></i>				
                     </span>
+                    <br>
                     <span>1032 reviews</span>
                 </div>
 

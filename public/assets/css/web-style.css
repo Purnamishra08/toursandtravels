@@ -354,6 +354,28 @@ margin-bottom: 1rem;
 .recent-blog-card ul i{
     color: #34bdb2;
 }
+.blog-share ul a{
+    --size:30px;
+    height: var(--size);
+    width: var(--size);
+    border-radius: .375rem;
+    border: 1px solid #3d8cc0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #3d8cc0;
+
+}
+.blog-share ul a:hover{
+    background-color: #03787a;
+}
+.blog-share ul a:hover i{
+    color: #fff;
+}
+.blog-share ul a i{
+    font-size: 1rem;
+    color: #3d8cc0;
+}
 /* tour details start */
 .tour-details-box .destination-img{
     width: 100%;
@@ -368,6 +390,9 @@ margin-bottom: 1rem;
     padding: 2rem 0;
     max-height: 400px;
     overflow-y: auto;
+}
+.tour-info .tab-pane.no-scroll{
+    max-height: none;
 }
 .tour-info .nav .nav-link{
 border: 1px solid #03787a;
@@ -444,8 +469,8 @@ color: #03787a;
 }
 .tour-info .tab-pane strong{
     color: #2ba79d;
-    font-size: 0.95rem; 
-    margin-bottom: .25rem;    
+    font-size: 1rem;
+    margin-bottom: .25rem;
 }
 .itenary-ul{
     list-style: disc;
@@ -482,10 +507,66 @@ color: #03787a;
     color: #c59b08;
     font-size: .9rem;
 }
+.stickey-section{
+    position: sticky;
+    top: 90px;
+    z-index: 10;
+
+}
+.calculate-card{
+    background: #244f6c;
+    
+    color: #ffffff;
+}
+.guest-wrapper{
+    transition: all 0.3s ease-in-out;
+    display: none;
+    background: #fff
+}
+.guest-wrapper ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    border-radius: .375rem;
+}
+.guest-wrapper ul li{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+}
+.guest-wrapper ul li:not(:last-child){
+    border-bottom: 1px solid #dedede;
+}
+.guest-wrapper ul li .label-box{
+    flex: 0 0 50%;
+}
+.guest-wrapper ul li .data-box span{
+    --size:25px;
+    height: var(--size);
+    width: var(--size);
+    border-radius: 50%;
+    background-color: #03787a;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+}
+.guest-wrapper ul li .data-box input[type="text"]{
+    width: 60px;
+}
 @media(max-width:680px){
     .hotel-wrapper{
         display: grid;
         grid-template-columns: repeat(2,1fr);
         gap: 1rem;
+    }
+}
+@media(max-width:768px){
+    .stickey-section{
+        position: static;
+        top: unset;
     }
 }

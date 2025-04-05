@@ -188,7 +188,7 @@ border: none;
     transition: all .25s;
     padding: 1.5rem 0;
     position: relative;
-    opacity: .7;
+    font-weight: 500;
 }
 .offcanvas-header{
     border-bottom: 1px solid #000;
@@ -385,8 +385,15 @@ border: none;
 .offcanvas-top{
     min-height: 210px;
 }
+
 .nav-link.mob-menu{
     color: #fff;
+}
+.bg-header .nav-link.mob-menu{
+    color: #000;
+}
+.bg-header .navbar-toggler-icon i{
+    color: #000;
 }
 @media (max-width: 1024px) {
     .desktop-menu {
@@ -493,20 +500,43 @@ border: none;
 .google-review{
     position: fixed;
     bottom: 205px;
-    background: #f1f2f7;
+    background: #133874;
     right: 14px;
-  
-    color: #000;
+    color: #ffffff;
     display: none;
+    border-radius: .5rem;
+    z-index: 999;
+ 
 
 }
+.google-review::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 7px; /* thickness of the border */
+    border-radius: 0.5rem;
+    background: linear-gradient(to right, #4285F4, #EA4335, #FBBC05, #34A853);
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+  }
 .google-review .wrapper{
     position: relative;
-    padding: 1rem;
-
+    padding: 1.3rem 2rem;
+    text-align: center;
+    
+    
+}
+.google-review .wrapper img{
+height: 60PX;
 }
 .google-review .wrapper h4{
     font-size: 1.1rem;
+    margin-top: .5rem;
+    
 }
 .google-review .wrapper i{
     color: #eab306;
@@ -525,6 +555,7 @@ border: none;
     align-items: center;
     border-radius: 50%;
 }
+
 .google-review .wrapper .review-close-btn i{
     color:#fff
 }
@@ -734,9 +765,12 @@ border: none;
     }
 }
 /* modal css */
+.modal-content{
+    border-top: 7px solid #03787a;
+    
+}
 .modal-header{
-    background-color: #03787a;
-    color: #fff;
+   border-bottom: none;
 }
 /* date-picker */
 .datepicker{
