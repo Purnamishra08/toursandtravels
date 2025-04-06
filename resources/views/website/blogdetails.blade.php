@@ -3,14 +3,14 @@
 
 <div class="breadcrumb-section">
     <div class="container">
-        <h1 class="page-name">Blogs</h1>
+        <h1 class="page-name">{{isset($blog->title) ? $blog->title : '' }}</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
                 <a href="{{route('website.home')}}" class="breadcrumb-link"><i class="bi bi-house"></i></a>
             </li>
           
             <li class="breadcrumb-item">
-                <a href="{{ route('website.blogdetails', ['slug' => $blog->blog_url]) }}" class="breadcrumb-link active">Blogs</a>
+                <a href="{{ route('website.blogdetails', ['slug' => isset($blog->blog_url) ? $blog->blog_url : '']) }}" class="breadcrumb-link active">Blogs</a>
             </li>
         </ul>
     </div>
@@ -23,19 +23,24 @@
             <div class="row">
                 <div class="col-lg-8 blog-details-box">
                     <img src="{{ asset('storage/blog_images/' . $blog->image) }}" alt="{{ $blog->alttag_image }}" />
-                    <h3 class="mt-2">{{ $blog->title }}</h3>
+                    <h3 class="mt-2">{{isset($blog->title) ? $blog->title : '' }}</h3>
                     <ul class="mb-3">
-                        <li><i class="bi bi-calendar me-2"></i> {{ date('d-M-Y', strtotime($blog->created_date)) }}</li>
+                        <li><i class="bi bi-calendar me-2"></i> {{ isset($blog->created_date) ? date('d-M-Y', strtotime($blog->created_date)) : '' }}</li>
 
                     </ul>
-                    <p>{!! $blog->content !!}</p>
+                    <p>{!! isset($blog->content) ? $blog->content : '' !!}</p>
                     <div class="d-flex gap-2 align-items-center mt-3 blog-share">
                         <strong>Share :</strong>
                         <ul class="d-flex align-items-center gap-1">
-                            <li><a href="#" title="facebook"> <i class="bi bi-facebook"></i></a></li>
-                            <li><a href="#" title="Twitter"> <i class="bi bi-twitter-x"></i></a></li>
-                            <li><a href="#" title="Google+"> <i class="bi bi-google"></i></a></li>
-                            <li><a href="#" title="Linkdin"> <i class="bi bi-linkedin"></i></a></li>
+                            @php
+                                $facebookLink = $parameters->firstWhere('parid', 29)->par_value ?? '';
+                                $TwiterLink = $parameters->firstWhere('parid', 30)->par_value ?? '';
+                                $LinkedInLink = $parameters->firstWhere('parid', 32)->par_value ?? '';
+                            @endphp
+                            <li><a href="{{$facebookLink}}" title="facebook" target="_blank"> <i class="bi bi-facebook"></i></a></li>
+                            <li><a href="{{$TwiterLink}}" title="Twitter" target="_blank"> <i class="bi bi-twitter-x"></i></a></li>
+                            <li><a href="#" title="Google+" target="_blank"> <i class="bi bi-google"></i></a></li>
+                            <li><a href="{{$LinkedInLink}}" title="Linkdin" target="_blank"> <i class="bi bi-linkedin"></i></a></li>
                         </ul>
 
                     </div>
