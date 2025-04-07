@@ -51,13 +51,13 @@
                                         @csrf
                                         <div class="row">
                                             <!-- Destination Name -->
-                                            <div class="col-sm-4 form-group mb-sm-0">
+                                            <div class="col-sm-6 form-group mb-sm-0">
                                                 <label class="control-label">Destination Name</label>
                                                 <input type="text" class="form-control" id="destination_name" name="destination_name"
                                                     value="{{ request('destination_name') }}">
                                             </div>
                                             <!-- Status -->
-                                            <div class="col-sm-4 form-group mb-sm-0">
+                                            <div class="col-sm-6 form-group mb-sm-0">
                                                 <label class="control-label">Status</label>
                                                 <select class="form-select" id="status" name="status">
                                                     <option value="">--Select--</option>
