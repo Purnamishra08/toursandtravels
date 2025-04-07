@@ -56,20 +56,6 @@
                                                 <input type="text" class="form-control" id="destination_name" name="destination_name"
                                                     value="{{ request('destination_name') }}">
                                             </div>
-                                            <div class="col-sm-4 form-group mb-sm-0">
-                                                <label class="control-label">Destination</label>
-                                                <select class="form-select" id="desttype_for_home" name="desttype_for_home">
-                                                    <option value="">-- Select Destination Type --</option>
-                                                    @forelse($parameters as $type)
-                                                        <option value="{{ $type->parid }}" 
-                                                            {{ request('desttype_for_home') == $type->parid ? 'selected' : '' }}>
-                                                            {{ $type->par_value }}
-                                                        </option>
-                                                    @empty
-                                                        <option value="" disabled>No destination available</option>
-                                                    @endforelse
-                                                </select>
-                                            </div>
                                             <!-- Status -->
                                             <div class="col-sm-4 form-group mb-sm-0">
                                                 <label class="control-label">Status</label>
@@ -106,7 +92,6 @@
                                                         <th width="20%">Destination Name</th>
                                                         <th width="12%">Destination Banner</th>
                                                         <th width="12%">Destination Image</th>
-                                                        <th width="15%">Home page type</th>
                                                         <th width="8%">Status</th>
                                                         <th width="10%">Action</th>
                                                     </tr>
@@ -150,7 +135,6 @@
                         data: function (d) {
                             d.search = $('input[type="search"]').val();
                             d.destination_name = $('#destination_name').val();
-                            d.desttype_for_home = $('#desttype_for_home').val();
                             d.status = $('#status').val();
                         }
                 },
@@ -159,7 +143,6 @@
                     { data: 'destination_name', name: 'destination_name' },
                     { data: 'destiimg', name: 'destiimg', orderable: false, searchable: false },
                     { data: 'destiimg_thumb', name: 'destiimg_thumb', orderable: false, searchable: false },
-                    { data: 'par_value', name: 'par_value' },
                     { data: 'status', name: 'status', render: function(data, type, row) {
                         return data; // Allow HTML rendering
                     }},
