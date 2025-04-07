@@ -67,7 +67,7 @@ class PlacesController extends Controller
                         return '<a href="' . asset('storage/place_images/' . $row->placeimg) . '" target="_blank">
                                     <img id="destinationBannerPreview"
                                         src="' . asset('storage/place_images/' . $row->placeimg) . '"
-                                        alt="Destination Banner Preview"
+                                        alt="Place Banner Preview"
                                         class="img-fluid rounded border"
                                         style="width: 150px; height: 80px; object-fit: cover;">
                                 </a>';
@@ -79,7 +79,7 @@ class PlacesController extends Controller
                         return '<a href="' . asset('storage/place_images/thumbs/' . $row->placethumbimg) . '" target="_blank">
                                     <img id="destinationImagePreview" 
                                         src="' . asset('storage/place_images/thumbs/' . $row->placethumbimg) . '"
-                                        alt="Destination Image"
+                                        alt="Place Image"
                                         class="img-fluid rounded border"
                                         style="width: 150px; height: 80px; object-fit: cover;">
                                 </a>';
