@@ -15,7 +15,7 @@ class ManageUserController extends Controller
 {
     public function index()
     { 
-        return view('admin.manageUser.manageUser');
+        return view('admin.manageuser.manageUser');
     }
     public function getData(Request $request)
     {

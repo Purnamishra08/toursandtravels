@@ -75,9 +75,8 @@ class PackageEnquiryController extends Controller
                     $query->orderByRaw("CONCAT(a.first_name, ' ', a.last_name) {$direction}");
                 })
                 ->addColumn('action', function ($row) {
-                    $viewBtn = '<a href="' . route('admin.managepackageenquiry.viewPackageEnquiry', ['id' => $row->enq_id]) . '" class="btn btn-primary btn-sm" title="View">
-                                    <i class="fa fa-eye"></i>
-                                </a>';
+                    $viewUrl = route('admin.managepackageenquiry.viewPackageEnquiry', ['id' => $row->enq_id]);
+                    $viewBtn =  '<a href="' . $viewUrl . '" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>';
                     $deleteBtn = '';
                     if (session('user')->admin_type == 1) {
                         $deleteBtn = '<form action="' . route('admin.managepackageenquiry.deletePackageEnquiry', ['id' => $row->enq_id]) . '" method="POST" onsubmit="return confirm(\'Are you sure?\')">

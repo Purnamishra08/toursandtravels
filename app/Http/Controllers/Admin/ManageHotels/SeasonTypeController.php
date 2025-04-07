@@ -67,7 +67,7 @@ class SeasonTypeController extends Controller
                 ->make(true);
         }
 
-        return view('admin.managehotels.manageSeasontype');
+        return view('admin.managehotels.manageSeasonType');
     }
 
 
