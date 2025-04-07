@@ -167,6 +167,13 @@ class PlacesController extends Controller
             
 
             try {
+                $duplicateCountName = DB::table('tbl_places')->Where('place_name', $request->input('place_name'))->where('bit_Deleted_Flag',0)->count();
+
+                if ($duplicateCountName > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this place, Place name must be unique.']);
+                }
                 $duplicateCount = DB::table('tbl_places')->Where('place_url', $request->input('place_url'))->count();
 
                 if ($duplicateCount > 0) {
@@ -276,7 +283,7 @@ class PlacesController extends Controller
 
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
-                'place_name'          => "required|string|max:255|unique:tbl_places,place_name,$id,placeid",
+                'place_name'          => "required|string|max:255",
                 'place_url'           => 'required|string|max:255',
                 'destination_id'      => 'required|numeric',
                 'short_desc'          => 'required|string',
@@ -294,6 +301,13 @@ class PlacesController extends Controller
 
             DB::beginTransaction();
             try {
+                $duplicateCountName = DB::table('tbl_places')->Where('place_name', $request->input('place_name'))->where('bit_Deleted_Flag',0)->where('placeid','!=', $id)->count();
+
+                if ($duplicateCountName > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this place, Place name must be unique.']);
+                }
                 $duplicateCount = DB::table('tbl_places')->Where('place_url', $request->input('place_url'))->where('placeid','!=', $id)->count();
 
                 if ($duplicateCount > 0) {
