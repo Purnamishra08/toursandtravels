@@ -146,7 +146,7 @@ class PlacesController extends Controller
         if ($request->isMethod('post')) {
             // Start validation
             $validator = Validator::make($request->all(), [
-                'place_name'          => 'required|string|max:255|unique:tbl_places,place_name',
+                'place_name'          => 'required|string|max:255',
                 'place_url'           => 'required|string|max:255',
                 'destination_id'      => 'required|numeric',
                 'short_desc'          => 'required|string',

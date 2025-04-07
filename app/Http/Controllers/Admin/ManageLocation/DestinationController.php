@@ -141,10 +141,8 @@ class DestinationController extends Controller
         if ($request->isMethod('post')) {
             // Start validation
             $validator = Validator::make($request->all(), [
-                'destination_name' => ['required','string','max:255',Rule::unique('tbl_destination', 'destination_name')->where(function ($query) {
-                        return $query->where('bit_Deleted_Flag', 0);
-                    }),
-                ],
+                'destination_name'    => "required|string|max:255",
+                'destination_url'     => 'required|string|max:255|unique:tbl_destination,destination_url',
                 'pick_drop_price'     => 'required|numeric',
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
