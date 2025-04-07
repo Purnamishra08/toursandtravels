@@ -41,20 +41,6 @@
                         @endif
                         </ul>
                     </div>
-                    <div class="col-lg-4">
-                        <h5 class="footer-title">Blog Posts</h5>
-
-                        <ul class="blog-spot-wrapper">
-                        @if(isset($blogDataFooter) && count($blogDataFooter) > 0)
-                            @foreach($blogDataFooter as $key => $values)
-                            <li>
-                                <img src="{{ asset('storage/blog_images/' . $values->image) }}" alt="blog spot" />
-                                <a href="{{ route('website.blogdetails', ['slug' => $values->blog_url]) }}" class="blog-title stretched-link">{{$values->title}}</a>
-                            </li>
-                            @endforeach
-                        @endif
-                        </ul>
-                    </div>
                 </div>
             </div>
             <a href="javascript:void(0)" class="back-to-top" id="up">

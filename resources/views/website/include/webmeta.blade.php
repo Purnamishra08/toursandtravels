@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/web-common.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/web-style.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/web-content.css')}}"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
    
     

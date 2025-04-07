@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Validation\Rule;
 
 class DestinationController extends Controller
 {
@@ -28,21 +29,15 @@ class DestinationController extends Controller
         if ($request->ajax()) {
             // Fetch destinations for DataTables
             $query = DB::table('tbl_destination as d')
-                ->select('d.destiimg', 'd.destiimg_thumb', 'd.destination_id', 'd.destination_name', 'p.par_value', 'd.status')
-                ->leftJoin('tbl_parameters as p', 'd.desttype_for_home', '=', 'p.parid')
+                ->select('d.destiimg', 'd.destiimg_thumb', 'd.destination_id', 'd.destination_name', 'd.status')
                 ->where('d.destinationType', 1)
-                ->where('p.bit_Deleted_Flag', 0)
                 ->where('d.bit_Deleted_Flag', 0);
 
             $destination_name   = $request->input('destination_name', '');
-            $desttype_for_home  = $request->input('desttype_for_home', '');
             $status             = $request->input('status', '');
 
             if (!empty($destination_name)) {
                 $query->where('d.destination_name', 'like', '%' . $destination_name . '%');
-            }
-            if (!empty($desttype_for_home)) {
-                $query->where('d.desttype_for_home', $desttype_for_home);
             }
             if (!empty($status)) {
                 $query->where('d.status', $status);
@@ -85,9 +80,6 @@ class DestinationController extends Controller
                                 </a>';
                     }
                     return '';
-                })
-                ->addColumn('par_value', function ($row) {
-                    return $row->par_value;
                 })
                 ->addColumn('status', function ($row) {
                     $csrf = csrf_field();
@@ -149,7 +141,8 @@ class DestinationController extends Controller
         if ($request->isMethod('post')) {
             // Start validation
             $validator = Validator::make($request->all(), [
-                'destination_name'    => 'required|string|max:255|unique:tbl_destination,destination_name',
+                'destination_name'    => "required|string|max:255",
+                'destination_url'     => 'required|string|max:255|unique:tbl_destination,destination_url',
                 'pick_drop_price'     => 'required|numeric',
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
@@ -169,6 +162,14 @@ class DestinationController extends Controller
             DB::beginTransaction(); // Start transaction
 
             try {
+                $duplicateCountName = DB::table('tbl_destination')->Where('destination_name', $request->input('destination_name'))->where('bit_Deleted_Flag',0)->count();
+
+                if ($duplicateCountName > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this destination, Destination name must be unique.']);
+                }
+
                 $duplicateCount = DB::table('tbl_destination')->Where('destination_url', $request->input('destination_url'))->count();
 
                 if ($duplicateCount > 0) {
@@ -357,6 +358,13 @@ class DestinationController extends Controller
 
             DB::beginTransaction();
             try {
+                $duplicateCountName = DB::table('tbl_destination')->Where('destination_name', $request->input('destination_name'))->where('bit_Deleted_Flag',0)->where('destination_id','!=', $id)->count();
+
+                if ($duplicateCountName > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this destination, Destination name must be unique.']);
+                }
                 $duplicateCount = DB::table('tbl_destination')->Where('destination_url', $request->input('destination_url'))->where('destination_id','!=', $id)->count();
 
                 if ($duplicateCount > 0) {
