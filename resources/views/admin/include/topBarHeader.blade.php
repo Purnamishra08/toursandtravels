@@ -61,7 +61,10 @@
             'admin.managepackagedurations.addPackageDurations'   => ['Manage Packages', 'Add Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
             'admin.managepackagedurations.editPackageDurations'   => ['Manage Packages', 'Edit Package Durations', 'fa-person-walking-luggage', 'fa fa-hourglass'],
 
-            'admin.managetourpackages'   => ['Manage Packages', 'Tour Packages', 'View fa-person-walking-luggage', 'fa fa-route'],
+            
+            'admin.packageType' => ['Manage Packages', 'Package Type', 'fa-person-walking-luggage', 'fa fa-p'],
+
+            'admin.managetourpackages'   => ['Manage Packages', 'Tour Packages', 'fa-person-walking-luggage', 'fa fa-route'],
             'admin.managetourpackages.addTourPackages'   => ['Manage Packages', 'Add Tour Packages', 'fa-person-walking-luggage', 'fa fa-route'],
             'admin.managetourpackages.editTourPackages'   => ['Manage Packages', 'Edit Tour Packages', 'fa-person-walking-luggage', 'fa fa-route'],
             'admin.managetourpackages.viewTourPackages'   => ['Manage Packages', 'View Tour Packages', 'fa-person-walking-luggage', 'fa fa-route'],
@@ -101,7 +104,7 @@
             'admin.manageblogs.addmanageblogs' => ['Manage Blogs', 'Add Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
             'admin.manageblogs.editmanageblogs' => ['Manage Blogs', 'Edit Blogs', 'fa-brands fa-blogger', 'fa-solid fa-closed-captioning'],
 
-            
+
             'admin.sources' => ['Follow Up Enquiries', 'Sources', 'fa fa-phone', 'fa fa-s'],
             'admin.statuslist' => ['Follow Up Enquiries', 'Status List', 'fa fa-phone', 'fa fa-comment-dots'],
 

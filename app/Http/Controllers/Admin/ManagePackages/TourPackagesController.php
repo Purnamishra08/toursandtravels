@@ -25,6 +25,7 @@ class TourPackagesController extends Controller
                     'a.price',
                     'a.tpackage_image',
                     'a.tour_thumb',
+                    'a.show_in_home',
                     'a.status',
                     'b.destination_name',
                     'c.duration_name',
@@ -69,6 +70,23 @@ class TourPackagesController extends Controller
                                     alt="Thumb Image" style="width: 100px; height: 60px; object-fit: cover;" class="rounded border">
                             </a>';
                 })
+                ->addColumn('show_in_home', function ($row) {
+                    if ($row->show_in_home == 1) {
+                        return '<form action="' . route('admin.managetourpackages.showTourPackages', ['id' => $row->tourpackageid]) . '" method="POST" onsubmit="return confirm(\'Are you sure you want to hide in home page?\')">
+                                    ' . csrf_field() . '
+                                    <button type="submit" class="btn btn-outline-success btn-sm">
+                                        <span class="label-custom label label-success">Shown</span>
+                                    </button>
+                                </form>';
+                    } else {
+                        return '<form action="' . route('admin.managetourpackages.showTourPackages', ['id' => $row->tourpackageid]) . '" method="POST" onsubmit="return confirm(\'Are you sure you want to show in home page?\')">
+                                    ' . csrf_field() . '
+                                    <button type="submit" class="btn btn-outline-dark btn-sm">
+                                        <span class="label-custom label label-danger">Hidden</span>
+                                    </button>
+                                </form>';
+                    }
+                })
                 ->addColumn('status', function ($row) {
                     if ($row->status == 1) {
                         return '<form action="' . route('admin.managetourpackages.activeTourPackages', ['id' => $row->tourpackageid]) . '" method="POST" onsubmit="return confirm(\'Are you sure you want to change the status?\')">
@@ -110,7 +128,7 @@ class TourPackagesController extends Controller
                     $buttons .= '</div>';
                     return $buttons;
                 })
-                ->rawColumns(['banner', 'thumb', 'status', 'action'])
+                ->rawColumns(['banner', 'thumb', 'show_in_home' ,'status', 'action'])
                 ->make(true);
         }
 
@@ -225,6 +243,7 @@ class TourPackagesController extends Controller
             $packageTypes = DB::table('tbl_parameters')
                 ->where('param_type', 'PT')
                 ->where('bit_Deleted_Flag', 0)
+                ->where('status', 1)
                 ->orderBy('par_value', 'asc')
                 ->get();
 
@@ -897,6 +916,34 @@ class TourPackagesController extends Controller
             Log::error('Error Active/Inactive Tour Package: ' . $e->getMessage());
 
             return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to Active/Inactive Tour Package.']);
+        }
+    }
+    public function showTourPackages(Request $request, $id)
+    {
+        $data = DB::table('tbl_tourpackages')->select('show_in_home')->where('tourpackageid', $id)->first();
+        $status=$data->show_in_home;
+        if (!$data) {
+            return back()->withErrors(['error' => 'Tour Package not found!']);
+        }
+
+        try {
+            //  Update the status
+            if($status==1){
+                DB::table('tbl_tourpackages')->where('tourpackageid', $id)->update([
+                'show_in_home' => 2
+                ]);
+                return redirect()->back()->with('success', 'Tour Package Hide successfully!');
+            }else{
+                DB::table('tbl_tourpackages')->where('tourpackageid', $id)->update([
+                'show_in_home' => 1
+                ]);
+                return redirect()->back()->with('success', 'Tour Package Show successfully!');
+            }            
+        } catch (\Exception $e) {
+            // Log the error
+            Log::error('Error show_in_home/show_in_home Tour Package: ' . $e->getMessage());
+
+            return redirect()->back()->withErrors(['error' => 'Something went wrong! Unable to show_in_home/show_in_home Tour Package.']);
         }
     }
 

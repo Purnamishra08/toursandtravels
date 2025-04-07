@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\manageMenus\CategoryController;
 use App\Http\Controllers\Admin\manageMenus\CategoryTagsController;
 use App\Http\Controllers\Admin\ManagePackages\PackageDurationsController;
 use App\Http\Controllers\Admin\ManagePackages\TourPackagesController;
+use App\Http\Controllers\Admin\ManagePackages\PackagesTypeController;
 use App\Http\Controllers\Admin\ManageGeneralSettings\GeneralSettingsController;
 use App\Http\Controllers\Admin\ManageEnquiries\EnquiryController;
 use App\Http\Controllers\Admin\ManageReviews\ReviewsController;
@@ -40,6 +41,8 @@ use App\Http\Controllers\Website\Blogs\BlogsController;
 use App\Http\Controllers\Website\Home\HomeController;
 use App\Http\Controllers\Website\Contact\ContactController;
 use App\Http\Controllers\Website\Footer\FooterController;
+use App\Http\Controllers\Website\Tour\TourController;
+
 
 /********  WEBSITE ROUTING    ********/
 /*
@@ -98,6 +101,10 @@ Route::get('/destinationPlaces', [HomeController::class, 'destinationPlaces'])->
 Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('website.clientReviews');
 //HomePage
 
+//Tour Routing
+Route::get('/tour', [TourController::class, 'allTourPackages'])->name('website.allTourPackages');
+Route::get('tour/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
+//Tour Routing
 
 //Footer
 Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');
@@ -236,12 +243,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/activePackageDurations/{id}', [PackageDurationsController::class, 'activePackageDurations'])->name('admin.managepackagedurations.activePackageDurations');
     // Package Duration
 
+    //Package Type
+    Route::match(['get', 'post'], '/package-type', [PackagesTypeController::class, 'index'])->name('admin.packageType');
+    Route::match(['get', 'post'], '/addPackageType', [PackagesTypeController::class, 'addPackageType'])->name('admin.packageType.addPackageType');
+    Route::post('/deletePackageType/{id}', [PackagesTypeController::class, 'deletePackageType'])->name('admin.packageType.deletePackageType');
+    Route::post('/activePackageType/{id}', [PackagesTypeController::class, 'activePackageType'])->name('admin.packageType.activePackageType');
+    Route::get('/packageType/edit/{id}', [PackagesTypeController::class, 'editPackageType'])->name('admin.packageType.editPackageType');
+    Route::post('/packageType/update', [PackagesTypeController::class, 'updatePackageType'])->name('admin.packageType.updatePackageType');
+    //Package Type
+
     // Tour Package
     Route::match(['get', 'post'], '/tour-packages', [TourPackagesController::class, 'index'])->name('admin.managetourpackages');
     Route::match(['get', 'post'], '/addTourPackages', [TourPackagesController::class, 'addTourPackages'])->name('admin.managetourpackages.addTourPackages');
     Route::match(['get', 'post'], '/editTourPackages/{id}', [TourPackagesController::class, 'editTourPackages'])->name('admin.managetourpackages.editTourPackages');
     Route::post('/deleteTourPackages/{id}', [TourPackagesController::class, 'deleteTourPackages'])->name('admin.managetourpackages.deleteTourPackages');
     Route::post('/activeTourPackages/{id}', [TourPackagesController::class, 'activeTourPackages'])->name('admin.managetourpackages.activeTourPackages');
+    Route::post('/showTourPackages/{id}', [TourPackagesController::class, 'showTourPackages'])->name('admin.managetourpackages.showTourPackages');
     Route::match(['get', 'post'], '/getItineraryAddmore', [TourPackagesController::class, 'getItineraryAddmore'])->name('admin.managetourpackages.getItineraryAddmore');
     Route::match(['get', 'post'], '/editItineraryAddmore', [TourPackagesController::class, 'editItineraryAddmore'])->name('admin.managetourpackages.editItineraryAddmore');
     Route::match(['get', 'post'], '/viewTourPackages/{id}', [TourPackagesController::class, 'viewTourPackages'])->name('admin.managetourpackages.viewTourPackages');

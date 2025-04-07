@@ -112,6 +112,7 @@
                                                                 <th width="9%">Price (₹)</th>
                                                                 <th width="12%">Banner Images</th>
                                                                 <th width="12%">Tour Images</th>
+                                                                <th width="6%">Show In Home</th>
                                                                 <th width="6%">Status</th>
                                                                 <th width="9%">Action</th>
                                                             </tr>
@@ -168,6 +169,7 @@ $(document).ready(function () {
             { data: 'price', name: 'a.price' },
             { data: 'banner', name: 'a.tpackage_image', orderable: false, searchable: false },
             { data: 'thumb', name: 'a.tour_thumb', orderable: false, searchable: false },
+            { data: 'show_in_home', name: 'a.show_in_home'},
             { data: 'status', name: 'a.status', orderable: false, searchable: false },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ],
