@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Validation\Rule;
 
 class DestinationController extends Controller
 {
@@ -140,7 +141,10 @@ class DestinationController extends Controller
         if ($request->isMethod('post')) {
             // Start validation
             $validator = Validator::make($request->all(), [
-                'destination_name'    => 'required|string|max:255|unique:tbl_destination,destination_name',
+                'destination_name' => ['required','string','max:255',Rule::unique('tbl_destination', 'destination_name')->where(function ($query) {
+                        return $query->where('bit_Deleted_Flag', 0);
+                    }),
+                ],
                 'pick_drop_price'     => 'required|numeric',
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
