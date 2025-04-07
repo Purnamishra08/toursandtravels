@@ -43,10 +43,10 @@ const popularTourSwiper = new Swiper('.popular-tour-swiper', {
     slidesPerView: 1,
   spaceBetween: 20,
   loop: true,
-  autoplay: {
-    delay: 3000, 
-    disableOnInteraction: false,
-  },
+  // autoplay: {
+  //   delay: 3000, 
+  //   disableOnInteraction: false,
+  // },
     // If we need pagination
     pagination: {
       el: '.swiper-pagination',

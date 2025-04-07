@@ -162,6 +162,14 @@ class DestinationController extends Controller
             DB::beginTransaction(); // Start transaction
 
             try {
+                $duplicateCountName = DB::table('tbl_destination')->Where('destination_name', $request->input('destination_name'))->where('bit_Deleted_Flag',0)->count();
+
+                if ($duplicateCountName > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this destination, Destination name must be unique.']);
+                }
+
                 $duplicateCount = DB::table('tbl_destination')->Where('destination_url', $request->input('destination_url'))->count();
 
                 if ($duplicateCount > 0) {
@@ -350,6 +358,13 @@ class DestinationController extends Controller
 
             DB::beginTransaction();
             try {
+                $duplicateCountName = DB::table('tbl_destination')->Where('destination_name', $request->input('destination_name'))->where('bit_Deleted_Flag',0)->where('destination_id','!=', $id)->count();
+
+                if ($duplicateCountName > 0) {
+                    return redirect()->back()
+                        ->withInput()
+                        ->withErrors(['error' => 'You have already added this destination, Destination name must be unique.']);
+                }
                 $duplicateCount = DB::table('tbl_destination')->Where('destination_url', $request->input('destination_url'))->where('destination_id','!=', $id)->count();
 
                 if ($duplicateCount > 0) {
