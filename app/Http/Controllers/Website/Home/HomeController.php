@@ -76,10 +76,13 @@ class HomeController extends Controller
                 $html .= '
                 <div class="card tour-card  wow animate__fadeInUp  " data-wow-delay="200ms">
                     <img class="card-img-top" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">
+                    <span class="badge ">Most popular</span>
                     <div class="card-body">
                     <p class="card-lavel">
                         <i class="bi bi-clock"></i> '.str_replace('/', '&', $values->duration_name).'</span>
+                        <small class="d-block">Ex-Bhubaneswar</small>
                     </p>
+                    
                     <div class="d-flex align-items-center gap-2 mb-2">
                         <img src="' . asset('assets/img/web-img/single-star.png') . '" alt="Rating">
                         <span class="text-secondary">'.$values->ratings.' Star</span>
@@ -88,10 +91,12 @@ class HomeController extends Controller
                     <div class="d-flex justify-content-between align-items-center mt-3">
 
                         <div class="p-card-info">
-                            <span>From</span>
-                            <h6>₹ '.$values->price.' <span>Per Person</span></h6>
+                        
+                            
+                            <h6 class="mb-0"><span>₹ </span>'.$values->price.' </h6>
+                            <strike >₹ 9999.00</strike>
                         </div>
-                        <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="../tourdetails" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>';
@@ -172,14 +177,22 @@ class HomeController extends Controller
                 // Review card HTML
                 $html .= '
                     <div class="swiper-slide">
-                        <div class="card client-review-card">
+                        <div class="card client-review-card h-100">
                             <div class="card-body">
                                 <div class="client-details mb-2">
-                                    <div>
-                                        <p class="client-name"><i class="fa-solid fa-person"></i>  ' . $values->reviewer_name . '</p>
-                                        <p class="client-name text-black"><i class="fa-solid fa-location-dot"></i> ' . $values->reviewer_loc . '</p>
-                                        <div class="rate">' . $starsHtml . '</div>
-                                    </div>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="bi bi-person-circle"></i>
+                                            <div>
+                                                <p class="client-name">  ' . $values->reviewer_name . '</p>
+                                                <div class="rate">' . $starsHtml . '</div>
+
+                                            </div>
+
+                                            </div>
+                                            <p class="client-location text-secondary"><i class="fa-solid fa-location-dot"></i> ' . $values->reviewer_loc . '</p>
+                                        
+                                        
+                                    
                                 </div>
                                 <p class="clent-message">' . $values->feedback_msg . '</p>
                             </div>

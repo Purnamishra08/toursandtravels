@@ -184,9 +184,14 @@ margin-bottom: 1rem;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
     border: 0;
 }
+.client-review-card{
+    min-height: 250px;
+}
 .client-details{
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap:1rem;
 }
 .client-img-box{
@@ -203,17 +208,28 @@ margin-bottom: 1rem;
     object-fit: cover;
 }
 .client-name{
-    color: #115DE1;
-    font-weight: 500;
-    margin-bottom: .5rem;
+    color: #0e3575;
+    font-weight: 600;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+}
+.client-details .bi-person-circle{
+    color: #d9e0ec;
+    font-size: 2.5rem;
+    margin-right: .25rem; 
+}
+.rate svg{
+    height: 11px;
+}
+.client-location{
+    color: #8e8e8e;
 }
 .clent-message{
     font-size: .9rem;
 }
 .rate {
     float: left;
-   
-    
+    line-height: 1;
 }
 .rate:not(:checked) > input {
     position:absolute;

@@ -438,6 +438,9 @@ border: none;
 /* footer css start */
 .top-footer{
     padding: 2rem 0;
+    background-image: url(../img/web-img/footer-bg.png);
+    background-position: bottom;
+    background-size: 100% 100%;
     background-color: #04162C;
     color: #fff;
 
@@ -725,33 +728,61 @@ height: 60PX;
 }
 .tour-card{
     box-shadow: 3px 5px 35px rgba(86, 68, 169, 0.1);
+    overflow: hidden;
+    position: relative;
 }
+.tour-card .badge{
+    padding: .5rem ;
+    background-color: #ff7e00;
+    color: #fff;
+    border-radius: 5px;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+.tour-card img {
+    transition: transform 0.4s ease-in-out;
+   
+  }
 .tour-card .card-body{
     position: relative;
     padding: 2rem 1.5rem 1.5rem;
 }
 .tour-card .card-lavel{
+    
     font-weight: 600;
     text-transform: capitalize;
     color: #ffffff;
     background: #34bdb2;
-    border-radius: 3px;
+  
     position: absolute;
-    padding: 9px 32px;
+    padding: 4px 32px;
     top: -43px;
-    left: 20px;
+    left: 0px;
     transform: translateY(50%);
-    clip-path: polygon(9% 0, 90% 3%, 100% 100%, 0 100%);
+    clip-path: polygon(0% 0, 90% 0%, 100% 100%, 0 100%);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    border-radius: 0 2px 2px 0;
+}
+.tour-card h5{
+    font-weight: 500;
+    min-height: 45px;
+}
+.p-card-info strike{
+    color: #000;
+    font-size: .9rem;
+    font-weight: normal;
+    margin: 0;
 }
 .p-card-info h6{
     color: #34bdb2;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1;
+    font-size: 1.3rem;
 }
-.p-card-info h6 span{
-    font-weight: 500;
-    text-transform: capitalize;
-    color: #2d373c;
+.tour-card:hover img{
+    transform: scale(1.05);
 }
 @media(max-width:1024px){
     .card-wrapper{
