@@ -155,9 +155,9 @@
                         (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[10]))
                         || (session()->has('user') && session('user')->admin_type == 1)
                     )
-                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.managetourpackages']) ? '' : 'collapsed' }}"
+                    <a class="nav-link dropdown {{Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.packageType','admin.managetourpackages']) ? '' : 'collapsed' }}"
                         href="#" data-bs-toggle="collapse" data-bs-target="#packages"
-                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.managetourpackages']) ? 'true' : 'false' }}"
+                        aria-expanded="{{ Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.packageType','admin.managetourpackages']) ? 'true' : 'false' }}"
                         aria-controls="packages">
                         <div class="sb-nav-link-icon"><i class="fa fa-person-walking-luggage"></i></div>
                         Manage Packages
@@ -165,12 +165,16 @@
                     </a>
                 @endif
 
-                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.managetourpackages']) ? 'show' : '' }}"
+                <div class="collapse {{ Str::startsWith($currentRoute, ['admin.managepackagedurations','admin.packageType','admin.managetourpackages']) ? 'show' : '' }}"
                     id="packages" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.managepackagedurations']) ? 'active' : ''}}"
                             href="{{ route('admin.managepackagedurations') }}">
                             <i class="fa fa-hourglass mt-1 me-2"></i> Package Durations
+                        </a>
+                        <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.packageType']) ? 'active' : ''}}"
+                            href="{{ route('admin.packageType') }}">
+                            <i class="fa fa-p mt-1 me-2"></i> Package Type
                         </a>
                         <a class="nav-link {{ Str::startsWith($currentRoute, ['admin.managetourpackages']) ? 'active' : ''}}"
                             href="{{ route('admin.managetourpackages') }}">

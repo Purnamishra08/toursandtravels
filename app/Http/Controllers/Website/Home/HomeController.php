@@ -67,6 +67,7 @@ class HomeController extends Controller
                     ->where('a.bit_Deleted_Flag', 0)
                     ->where('a.pack_type', 15)
                     ->where('a.status', 1)
+                    ->where('a.show_in_home', 1)
                     ->limit(6)
                     ->get();
 
@@ -96,7 +97,7 @@ class HomeController extends Controller
                             <h6 class="mb-0"><span>₹ </span>'.$values->price.' </h6>
                             <strike >₹ 9999.00</strike>
                         </div>
-                        <a href="../tourdetails" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>';

@@ -1,18 +1,38 @@
 @include('website.include.webmeta')
 @include('website.include.webheader')
 
-<div class="breadcrumb-section">
+    <!-- print_r($tours); -->
+    <!-- print_r($itinerary); -->
+@php
+
+ // Star rating generation
+$fullStars = floor($tours->ratings);
+$halfStar = (fmod($tours->ratings, 1) != 0.00) ? 1 : 0;
+$emptyStars = 5 - ($fullStars + $halfStar);
+
+$starsHtml = '';
+for ($i = 0; $i < $fullStars; $i++) {
+    $starsHtml .= '<i class="fa fa-star text-warning"></i> ';
+}
+if ($halfStar) {
+    $starsHtml .= '<i class="fa fa-star-half text-warning"></i> ';
+}
+for ($i = 0; $i < $emptyStars; $i++) {
+    $starsHtml .= '<i class="fa fa-star text-secondary"></i> ';
+}
+@endphp
+    <div class="breadcrumb-section" style="background-image: url('{{ asset('storage/tourpackages/' . $tours->tpackage_image) }}')">
     <div class="container">
-        <h1 class="page-name">Tour Details</h1>
+        <h1 class="page-name">{{$tours->tpackage_name}}</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
-                <a href="#" class="breadcrumb-link"><i class="bi bi-house"></i></a>
+                <a href="{{route('website.home')}}" class="breadcrumb-link"><i class="bi bi-house"></i></a>
             </li>
             <li class="breadcrumb-item">
-                <a href="#" class="breadcrumb-link ">Tours</a>
+                <a href="{{route('website.allTourPackages')}}" class="breadcrumb-link ">Tours</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="#" class="breadcrumb-link active">Tours Details</a>
+                <a href="{{route('website.tourDetails', ['slug' => $tours->tpackage_url])}}" class="breadcrumb-link active">{{$tours->tpackage_name}}</a>
             </li>
         </ul>
     </div>
@@ -24,11 +44,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 tour-details-box order-last order-lg-first">
-                    <img class="destination-img" src="{{ asset('assets/img/web-img/blog-details.jpg') }}" alt="img" />
-                    <h3 class="mt-2">Etiam placerat dictum consequat an Pellentesque habitant morbi.</h3>
+                    <img class="destination-img" src="{{ asset('storage/tourpackages/thumbs/' . $tours->tour_thumb) }}" alt="img" />
+                    <h3 class="mt-2">{{ $tours->tpackage_name}}</h3>
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating">
-                        <span class="text-secondary">8.0 Superb</span>
+                        <span class="text-secondary">{!! $starsHtml !!} Star</span>
                     </div>
                     <div class="border-top tour-info">
 

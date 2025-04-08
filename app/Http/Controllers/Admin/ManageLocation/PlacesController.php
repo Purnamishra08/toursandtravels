@@ -200,7 +200,7 @@ class PlacesController extends Controller
                     $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
         
                     // Convert and Store as WebP
-                    $this->convertToWebp($file, storage_path('app/public/place_images/thumbs' . $placeThumbImageName), 500, 300);
+                    $this->convertToWebp($file, storage_path('app/public/place_images/thumbs/' . $placeThumbImageName), 500, 300);
                 }
 
                 // Prepare data
@@ -329,7 +329,7 @@ class PlacesController extends Controller
                 if ($request->hasFile('placethumbimg')) {
                     $file = $request->file('placethumbimg');
                     $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
-        
+
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/place_images/thumbs/' . $placeThumbImageName), 500, 300);
                 }else{
@@ -363,34 +363,28 @@ class PlacesController extends Controller
                     'created_date'                  => now(),
                     'updated_by'                    => session('user')->adminid ?? 0,
                     'updated_date'                  => now(),
-                    'pckg_meta_title'            => $request->input('pckg_meta_title'),
-                    'pckg_meta_keywords'         => $request->input('pckg_meta_keywords'),
-                    'pckg_meta_description'      => $request->input('pckg_meta_description')
+                    'pckg_meta_title'               => $request->input('pckg_meta_title'),
+                    'pckg_meta_keywords'            => $request->input('pckg_meta_keywords'),
+                    'pckg_meta_description'         => $request->input('pckg_meta_description')
                 ];
 
                 DB::table('tbl_places')->where('placeid', $id)->update($data);
 
                 DB::table('tbl_multdest_type')->where('loc_id', $id)->delete();
                 if (!empty($request->input('place_type'))) {
-                    $locationTypes = array_map(fn($dtype) => ['loc_id' => $id, 'loc_type' => 2, 'loc_type_id' => $dtype], $request->input('place_type'));
+                    $locationTypes = array_map(function ($dtype) use ($id) {
+                        return [
+                            'loc_id' => $id,
+                            'loc_type' => 2,
+                            'loc_type_id' => $dtype
+                        ];
+                    }, $request->input('place_type'));
+                
                     DB::table('tbl_multdest_type')->insert($locationTypes);
                 }
-
-                DB::table('tbl_tags')->where('type', 1)->where('type_id', $id)->delete();
-                if (!empty($request->input('getatagid'))) {
-                    $tags = array_map(fn($tagid) => ['type' => 2, 'type_id' => $id, 'tagid' => $tagid], $request->input('getatagid'));
-                    DB::table('tbl_tags')->insert($tags);
-                }
-
-                if (!empty($request->input('transport'))) {
-                    $otherInfos = array_map(fn($otherinfos) => ['place_id' => $id, 'transport_id' => $otherinfos], $request->input('transport'));
-                    DB::table('tbl_place_transport')->insert($otherInfos);
-                }
-
-
                 DB::commit();
                 return redirect()->back()->with('success', 'Place updated successfully.');
-            } catch (\Exception $e) {dd($e);
+            } catch (\Exception $e) {
                 DB::rollBack();
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }
@@ -403,16 +397,6 @@ class PlacesController extends Controller
                                 ->where('loc_id', $place->placeid ?? 0)
                                 ->pluck('loc_type_id')
                                 ->toArray();
-            $selectedGetawayTags = DB::table('tbl_tags')
-                                ->where('bit_Deleted_Flag', 0)
-                                ->where('type_id', $place->placeid ?? 0)
-                                ->pluck('tagid')
-                                ->toArray();
-            $similarDestinationTags = DB::table('tbl_place_transport')
-                                ->where('bit_Deleted_Flag', 0)
-                                ->where('place_id', $place->placeid ?? 0)
-                                ->pluck('transport_id')
-                                ->toArray();
             $destinations = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('destinationType', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
             $vehicleType = DB::table('tbl_vehicletypes')->select('vehicleid','vehicle_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('vehicle_name', 'ASC')->get();
             $destinationTypes = DB::table('tbl_destination_type')->select('destination_type_id','destination_type_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_type_name', 'ASC')->get();
@@ -421,8 +405,6 @@ class PlacesController extends Controller
             return view('admin.managelocation.addplaces', [
                 'placesData'                => $placesData,
                 'selectedDestinationTypes'  => $selectedDestinationTypes,
-                'selectedGetawayTags'       => $selectedGetawayTags,
-                'similarDestinationTags'    => $similarDestinationTags,
                 'destinations'              => $destinations,
                 'vehicleType'               => $vehicleType,
                 'destinationTypes'          => $destinationTypes,

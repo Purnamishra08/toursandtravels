@@ -28,7 +28,7 @@
                             </li>
                             
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="../tourlisting">Tours</a>
+                                <a class="nav-link {{ (request()->routeIs('website.allTourPackages') || request()->routeIs('website.tourDetails')) ? 'active' : '' }}" aria-current="page" href="{{ route('website.allTourPackages') }}">Tours</a>
                             </li>
 
                             <!-- Below Destination is only show in desktop -->
