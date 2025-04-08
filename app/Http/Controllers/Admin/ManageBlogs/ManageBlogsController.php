@@ -139,7 +139,8 @@ class ManageBlogsController extends Controller
                 $featured_imageName = null;
                 if ($request->hasFile('image')) {
                     $file = $request->file('image');
-                    $featured_imageName = Str::slug($request->input('alttag_image')) . '.' . $file->getClientOriginalExtension();
+                    $randomNumber = mt_rand(10000, 99999);
+                    $featured_imageName = Str::slug($request->input('alttag_image')) . '-' . $randomNumber . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('blog_images', $featured_imageName, 'public');
                 }
 
@@ -211,7 +212,8 @@ class ManageBlogsController extends Controller
                 
                 if ($request->hasFile('image')) {
                     $file = $request->file('image');
-                    $featured_imageName = Str::slug($request->input('alttag_image')) . '.' . $file->getClientOriginalExtension();
+                    $randomNumber = mt_rand(10000, 99999);
+                    $featured_imageName = Str::slug($request->input('alttag_image')) . '-' . $randomNumber . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('blog_images', $featured_imageName, 'public');
                 } else {
                     $featured_imageName = $BlogData->image;

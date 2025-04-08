@@ -318,7 +318,8 @@ class PlacesController extends Controller
 
                 if ($request->hasFile('placeimg')) {
                     $file = $request->file('placeimg');
-                    $place_imageName = Str::slug($request->input('alttag_banner')) . '.webp';
+                    $randomNumber = mt_rand(10000, 99999);
+                    $place_imageName = Str::slug($request->input('alttag_banner')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/place_images/' . $place_imageName), 1140, 350);
@@ -328,7 +329,8 @@ class PlacesController extends Controller
 
                 if ($request->hasFile('placethumbimg')) {
                     $file = $request->file('placethumbimg');
-                    $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+                    $randomNumber = mt_rand(10000, 99999);
+                    $placeThumbImageName = Str::slug($request->input('alttag_thumb')) . '-' . $randomNumber . '.webp';
 
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/place_images/thumbs/' . $placeThumbImageName), 500, 300);

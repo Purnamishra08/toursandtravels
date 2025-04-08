@@ -305,11 +305,11 @@ class TourPackagesController extends Controller
             DB::beginTransaction();
 
             $show_video_itinerary = $request->has('show_video_itinerary') ? 1 : 0;
-
+            $randomNumber = mt_rand(10000, 99999);
             // ✅ Handle Tour Image Upload
             if ($request->hasFile('tourimg')) {
                 $tourimgFile = $request->file('tourimg');
-                $tourimgfilename = Str::slug($validated['alttag_banner']) . '.webp';
+                $tourimgfilename = Str::slug($validated['alttag_banner']).'-'.$randomNumber.'.webp';
 
                 // Convert and Store as WebP
                 $this->convertToWebp($tourimgFile, storage_path('app/public/tourpackages/' . $tourimgfilename), 745, 450);
@@ -318,7 +318,7 @@ class TourPackagesController extends Controller
             // ✅ Handle Tour Thumbnail Upload
             if ($request->hasFile('tourthumb')) {
                 $tourthumbFile = $request->file('tourthumb');
-                $tourthumbfilename = Str::slug($validated['alttag_thumb']) . '.webp';
+                $tourthumbfilename = Str::slug($validated['alttag_thumb']).'-'. $randomNumber . '.webp';
 
                 // Convert and Store as WebP
                 $this->convertToWebp($tourthumbFile, storage_path('app/public/tourpackages/thumbs/' . $tourthumbfilename), 300, 225);
@@ -529,7 +529,7 @@ class TourPackagesController extends Controller
             
             $tourimgfilename = $tourPackage->tpackage_image;
             $tourthumbfilename = $tourPackage->tour_thumb;
-            
+            $randomNumber = mt_rand(10000, 99999);
             // ✅ Handle tour image
         //     if ($request->hasFile('tourimg')) {
         //         $tourimgFile = $request->file('tourimg');
@@ -553,7 +553,7 @@ class TourPackagesController extends Controller
         // ✅ Handle Tour Image Upload
         if ($request->hasFile('tourimg')) {
             $tourimgFile = $request->file('tourimg');
-            $tourimgfilename = Str::slug($validated['alttag_banner']) . '.webp';
+            $tourimgfilename = Str::slug($validated['alttag_banner']).'-'.$randomNumber.'.webp';
 
             // Convert and Store as WebP
             $this->convertToWebp($tourimgFile, storage_path('app/public/tourpackages/' . $tourimgfilename), 745, 450);
@@ -562,7 +562,7 @@ class TourPackagesController extends Controller
         // ✅ Handle Tour Thumbnail Upload
         if ($request->hasFile('tourthumb')) {
             $tourthumbFile = $request->file('tourthumb');
-            $tourthumbfilename = Str::slug($validated['alttag_thumb']) . '.webp';
+            $tourthumbfilename = Str::slug($validated['alttag_thumb']).'-'.$randomNumber.'.webp';
 
             // Convert and Store as WebP
             $this->convertToWebp($tourthumbFile, storage_path('app/public/tourpackages/thumbs/' . $tourthumbfilename), 300, 225);

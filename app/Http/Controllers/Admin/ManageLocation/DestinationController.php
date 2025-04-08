@@ -142,15 +142,15 @@ class DestinationController extends Controller
             // Start validation
             $validator = Validator::make($request->all(), [
                 'destination_name'    => "required|string|max:255",
-                'destination_url'     => 'required|string|max:255|unique:tbl_destination,destination_url',
+                'destination_url'     => 'required|string|max:255',
                 'pick_drop_price'     => 'required|numeric',
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
                 'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=2000,height=350',
                 'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=300,height=225',
-                'alttag_banner'       => 'required|string|max:60|unique:tbl_destination,alttag_banner',
-                'alttag_thumb'        => 'required|string|max:60|unique:tbl_destination,alttag_thumb'
+                'alttag_banner'       => 'required|string|max:60',
+                'alttag_thumb'        => 'required|string|max:60'
             ]);
 
             if ($validator->fails()) {
@@ -181,7 +181,8 @@ class DestinationController extends Controller
                 $destination_imageName = null;
                 if ($request->hasFile('destiimg')) {
                     $file = $request->file('destiimg');
-                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '.webp';
+                    $randomNumber = mt_rand(10000, 99999);
+                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/destination_images/' . $destination_imageName), 2000, 350);
@@ -191,7 +192,8 @@ class DestinationController extends Controller
                 $destinationThumbImageName = null;
                 if ($request->hasFile('destismallimg')) {
                     $file = $request->file('destismallimg');
-                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+                    $randomNumber = mt_rand(10000, 99999);
+                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/destination_images/thumbs/' . $destinationThumbImageName), 300, 225);
@@ -341,15 +343,15 @@ class DestinationController extends Controller
 
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
-                'destination_name'    => "required|string|max:255|unique:tbl_destination,destination_name,$id,destination_id",
+                'destination_name'    => "required|string|max:255",
                 'pick_drop_price'     => 'required|numeric',
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
                 'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=2000,height=350',
                 'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=300,height=225',
-                'alttag_banner'       => "required|string|max:60|unique:tbl_destination,alttag_banner,$id,destination_id",
-                'alttag_thumb'        => "required|string|max:60|unique:tbl_destination,alttag_thumb,$id,destination_id"
+                'alttag_banner'       => "required|string|max:60",
+                'alttag_thumb'        => "required|string|max:60"
             ]);
 
             if ($validator->fails()) {
@@ -375,7 +377,8 @@ class DestinationController extends Controller
 
                 if ($request->hasFile('destiimg')) {
                     $file = $request->file('destiimg');
-                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '.webp';
+                    $randomNumber = mt_rand(10000, 99999);
+                    $destination_imageName = Str::slug($request->input('alttag_banner')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/destination_images/' . $destination_imageName), 2000, 350);
@@ -385,7 +388,8 @@ class DestinationController extends Controller
 
                 if ($request->hasFile('destismallimg')) {
                     $file = $request->file('destismallimg');
-                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+                    $randomNumber = mt_rand(10000, 99999);
+                    $destinationThumbImageName = Str::slug($request->input('alttag_thumb')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/destination_images/thumbs/' . $destinationThumbImageName), 300, 225);
