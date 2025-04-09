@@ -399,6 +399,9 @@ margin-bottom: 1rem;
     height: 250px;
     object-fit: cover;
 }
+.tour-details-box h1{
+    font-size: 1.8rem;
+}
 .tour-info .nav {
     gap: 1rem;
 }
@@ -523,6 +526,14 @@ color: #03787a;
     color: #c59b08;
     font-size: .9rem;
 }
+.review-wrapper{
+    max-height: 400px;
+    overflow: auto;
+}
+.review-wrapper .client-review-card{
+    min-height: unset;
+    margin-bottom: .5rem;
+}
 .stickey-section{
     position: sticky;
     top: 90px;
@@ -537,7 +548,13 @@ color: #03787a;
 .guest-wrapper{
     transition: all 0.3s ease-in-out;
     display: none;
-    background: #fff
+    background: #fff;
+    position: absolute;
+    width: 97%;
+    z-index: 99;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0px 0px 0.375rem 0.375rem;
 }
 .guest-wrapper ul{
     margin: 0;
@@ -572,6 +589,39 @@ color: #03787a;
 }
 .guest-wrapper ul li .data-box input[type="text"]{
     width: 60px;
+}
+.icon-patch{
+    --size:60px;
+    height: var(--size);
+    width: var(--size);
+    border-radius: 50%;
+    background-image: linear-gradient(110deg, #f8e4db, #fdfdfd00);
+    background-image: linear-gradient(110deg, #dbede7, #fdfdfd00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon-patch img{
+   height: 40px;
+}
+#calculate-modal strong{
+    color: #21a599;
+}
+#calculate-modal .form-check-input:checked {
+    background-color: #1a5e59;
+    border-color: #1a5e59;
+}
+.total-price-box{
+    padding: .75rem 2rem;
+    background-color: #03787a;
+    color: #fff;
+    font-weight: 500;
+    border-radius: .375rem;
+  
+}
+.total-price{
+    font-weight: 500;
+    font-size: 1.2rem;
 }
 @media(max-width:680px){
     .hotel-wrapper{

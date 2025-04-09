@@ -92,6 +92,9 @@ p{
 section{
     padding: 3rem 0;
 }
+.bg-light-green{
+    background-color: #f4fcfb;
+}
 .section-title-container{
    display: flex;
    justify-content: space-between;
@@ -110,6 +113,9 @@ section{
 }
 .section-title-large{
     font-size: 3.2rem;
+}
+.section-title-sm{
+    font-size: 1.5rem;
 }
 @media(max-width:1024px){
     .section-title-container{
@@ -279,10 +285,16 @@ border: none;
     
     
   }
+  .mega-box .tab-content{
+    display: flex;
+    justify-content: center;
+  }
   .mega-box .nav-link{
     
-    padding: 1rem;
-    background-color: rgb(58 158 160);
+    padding: .5rem 1rem;
+    /* background-color: rgb(58 158 160); */
+    background-color: transparent;
+    border-bottom: 3px solid #afd9da;
     border-radius: 0;
     transition: all .25s;
     color: #000;
@@ -293,24 +305,29 @@ border: none;
   }
   .mega-box .nav-link.nav-link.active{
     position: relative;
-    background-color: rgb(11 171 174);
-    color: #fff;
+    /* background-color: rgb(11 171 174); */
+    color: #03787a;
+    border-color: #03787a;
+    background: transparent;
   }
   .mega-box .nav-link.nav-link.active:before{
     content: "";
     width: 0;
     height: 0;
     border-top: 7px solid transparent;
-    border-right: 10px solid rgb(255, 255, 255);
+    border-right: 10px solid #03787a;
     border-bottom: 7px solid transparent;
     position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    top: 90%;
+    transform: translateX(-50%);
+    rotate: 270deg;
+    transform: translateX(-50%);
   }
   .mega-box .nav-link:hover {
-    background-color: rgb(11 171 174);
-    color: #fff;
+    /* background-color: rgb(11 171 174); */
+    color: #03787a;
+    border-color: #03787a;
  
    
   }
@@ -765,9 +782,10 @@ height: 60PX;
     line-height: 1.4;
     border-radius: 0 2px 2px 0;
 }
-.tour-card h5{
+.tour-card .card-title{
     font-weight: 500;
     min-height: 45px;
+    font-size: 1.25rem;
 }
 .p-card-info strike{
     color: #000;
