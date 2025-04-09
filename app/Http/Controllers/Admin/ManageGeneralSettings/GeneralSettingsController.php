@@ -111,7 +111,7 @@ class GeneralSettingsController extends Controller
                 
                 DB::commit();
                 return redirect()->back()->with('success', $parameters->parameter . ' updated successfully.');
-            } catch (Exception $e) {
+            } catch (Exception $e) {dd($e);
                 DB::rollBack();
                 return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
             }

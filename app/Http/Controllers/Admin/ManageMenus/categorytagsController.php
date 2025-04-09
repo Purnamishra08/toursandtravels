@@ -185,7 +185,8 @@ class CategoryTagsController extends Controller
                 $bannerImageName = null;
                 if ($request->hasFile('menutag_img')) {
                     $file = $request->file('menutag_img');
-                    $bannerImageName = Str::slug($request->input('alttag_banner')) . '.webp';
+                    $randomNumber = mt_rand(10000, 99999);
+                    $bannerImageName = Str::slug($request->input('alttag_banner')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/category_tags_images/BannerImages/' . $bannerImageName), 1920, 488);
@@ -194,7 +195,8 @@ class CategoryTagsController extends Controller
                 $getawayImageName = null;
                 if ($request->hasFile('menutagthumb_img')) {
                     $file = $request->file('menutagthumb_img');
-                    $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+                    $randomNumber = mt_rand(10000, 99999);
+                    $getawayImageName = Str::slug($request->input('alttag_thumb')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
                     $this->convertToWebp($file, storage_path('app/public/category_tags_images/GetawaysImages/' . $getawayImageName), 500, 350);
@@ -310,7 +312,8 @@ class CategoryTagsController extends Controller
 
                     if ($request->hasFile('menutag_img')) {
                         $file = $request->file('menutag_img');
-                        $bannerImageName = Str::slug($request->input('alttag_banner')) . '.webp';
+                        $randomNumber = mt_rand(10000, 99999);
+                        $bannerImageName = Str::slug($request->input('alttag_banner')) . '-' . $randomNumber . '.webp';
             
                         // Convert and Store as WebP
                         $this->convertToWebp($file, storage_path('app/public/category_tags_images/BannerImages/' . $bannerImageName), 1920, 488);
@@ -320,7 +323,8 @@ class CategoryTagsController extends Controller
                     
                     if ($request->hasFile('menutagthumb_img')) {
                         $file = $request->file('menutagthumb_img');
-                        $getawayImageName = Str::slug($request->input('alttag_thumb')) . '.webp';
+                        $randomNumber = mt_rand(10000, 99999);
+                        $getawayImageName = Str::slug($request->input('alttag_thumb')) . '-' . $randomNumber . '.webp';
             
                         // Convert and Store as WebP
                         $this->convertToWebp($file, storage_path('app/public/category_tags_images/GetawaysImages/' . $getawayImageName), 500, 350);
