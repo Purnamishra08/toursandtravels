@@ -36,8 +36,8 @@
                                 <a class="nav-link" href="#"> Destination </a>
                                 <div class="mega-box">
                                     <div class="content">
-                                        <div class="d-flex align-items-start">
-                                            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                                        <div class="">
+                                            <div class="nav justify-content-center gap-3 nav-pills me-3" id="v-pills-tab" role="tablist"
                                                 aria-orientation="vertical">
                                                 <button class="nav-link active" id="v-pills-home-tab"
                                                     data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button"

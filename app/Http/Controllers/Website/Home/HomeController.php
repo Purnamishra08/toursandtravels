@@ -58,6 +58,7 @@ class HomeController extends Controller
                         'a.tpackage_name',
                         'a.tpackage_url',
                         'a.price',
+                        'a.fakeprice',
                         'a.tpackage_image',
                         'a.tour_thumb',
                         'a.alttag_thumb',
@@ -99,7 +100,7 @@ class HomeController extends Controller
                         
                             
                             <h6 class="mb-0"><span>₹ </span>'.$values->price.' </h6>
-                            <strike >₹ 9999.00</strike>
+                            <strike >₹ '.$values->fakeprice.'</strike>
                         </div>
                         <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>

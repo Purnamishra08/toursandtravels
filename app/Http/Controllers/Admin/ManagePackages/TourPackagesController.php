@@ -164,6 +164,7 @@ class TourPackagesController extends Controller
             // Fetch active places
             $places = DB::table('tbl_places')
                 ->where('status', 1)
+                ->where('bit_Deleted_Flag', 0)
                 ->orderBy('place_name', 'asc')
                 ->get();
 
@@ -716,6 +717,7 @@ class TourPackagesController extends Controller
         // Get active places
         $places = DB::table('tbl_places')
                     ->where('status', 1)
+                    ->where('bit_Deleted_Flag', 0)
                     ->orderBy('place_name', 'asc')
                     ->get();
 
