@@ -21,10 +21,12 @@ class TourController extends Controller
                         'a.tpackage_name',
                         'a.tpackage_url',
                         'a.price',
+                        'a.fakeprice',
                         'a.tpackage_image',
                         'a.tour_thumb',
                         'a.alttag_thumb',
                         'a.ratings',
+                        'a.pack_type',
                         'b.destination_name',
                         'c.duration_name',
                     )
@@ -40,11 +42,16 @@ class TourController extends Controller
                 
                 $html .= '
                 <div class="card tour-card">
-                    <img class="card-img-top" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">
-                    <div class="card-body">
+                    <img class="card-img-top" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">';
+                    if($values->pack_type==15){
+                        $html.='<span class="badge">Most popular</span>';
+                    }
+                    $html.='<div class="card-body">
                     <p class="card-lavel">
                         <i class="bi bi-clock"></i> '.str_replace('/', '&', $values->duration_name).'</span>
+                        <small class="d-block">Ex- '.$values->destination_name.'</small>
                     </p>
+                    
                     <div class="d-flex align-items-center gap-2 mb-2">
                         <img src="' . asset('assets/img/web-img/single-star.png') . '" alt="Rating">
                         <span class="text-secondary">'.$values->ratings.' Star</span>
@@ -53,10 +60,12 @@ class TourController extends Controller
                     <div class="d-flex justify-content-between align-items-center mt-3">
 
                         <div class="p-card-info">
-                            <span>From</span>
-                            <h6>₹ '.$values->price.' <span>Per Person</span></h6>
+                        
+                            
+                            <h6 class="mb-0"><span>₹ </span>'.$values->price.' </h6>
+                            <strike >₹ '.$values->fakeprice.'</strike>
                         </div>
-                        <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                 </div>
             </div>';
@@ -91,6 +100,37 @@ class TourController extends Controller
                     ->first();
                     
         $itinerary = DB::table('tbl_itinerary_daywise')->where('package_id',$tour->tourpackageid)->where('bit_Deleted_Flag',0)->get();
-        return view('website.tourdetails',['tours'=>$tour,'meta_title'=>$tour->meta_title,'meta_description'=>$tour->meta_description,'meta_keywords'=>$tour->meta_keywords,'itinerary'=>$itinerary]);
+        $places = DB::table('tbl_places')
+                ->where('status', 1)
+                ->where('bit_Deleted_Flag', 0)
+                ->orderBy('place_name', 'asc')
+                ->get();
+        $bookingPolicys=DB::table('tbl_parameters')
+                ->select('par_value')
+                ->where('parid', 21)
+                ->where('status', 1)
+                ->where('bit_Deleted_Flag', 0)
+                ->first();
+        // $places = DB::table('tbl_places as p')
+        //         ->join(DB::raw('
+        //             (
+        //                 SELECT DISTINCT 
+        //                     TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(tid.place_id, \',\', numbers.n), \',\', -1)) AS place_id,
+        //                     tid.package_id,
+        //                     tid.itinerary_daywiseid
+        //                 FROM (
+        //                     SELECT 1 AS n UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+        //                     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8
+        //                     UNION ALL SELECT 9 UNION ALL SELECT 10
+        //                 ) numbers
+        //                 JOIN tbl_itinerary_daywise tid 
+        //                 ON CHAR_LENGTH(tid.place_id) - CHAR_LENGTH(REPLACE(tid.place_id, \',\', \'\')) >= numbers.n - 1
+        //                 WHERE tid.package_id = '.$tour->tourpackageid.' AND tid.bit_Deleted_Flag = 0
+        //             ) as used_places
+        //         '), 'used_places.place_id', '=', 'p.placeid')
+        //         ->select('p.placeid', 'p.place_name', 'used_places.package_id', 'used_places.itinerary_daywiseid')
+        //         ->get();
+        // dd($itinerary);
+        return view('website.tourdetails',['tours'=>$tour,'meta_title'=>$tour->meta_title,'meta_description'=>$tour->meta_description,'meta_keywords'=>$tour->meta_keywords,'itinerary'=>$itinerary,'places'=>$places,'bookingPolicys'=>$bookingPolicys]);
     }
 }

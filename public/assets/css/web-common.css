@@ -564,6 +564,7 @@ height: 60PX;
 }
 /* breard-crumb-css start */
 .breadcrumb-section{
+    background-image: url(../img/web-img/innerpage-baner.png);
     height: 250px;
     background-position: bottom;
     background-size: 100% 100%;
