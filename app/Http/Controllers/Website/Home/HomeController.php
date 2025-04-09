@@ -61,11 +61,12 @@ class HomeController extends Controller
                         'a.tour_thumb',
                         'a.alttag_thumb',
                         'a.ratings',
+                        'a.pack_type',
                         'b.destination_name',
                         'c.duration_name',
                     )
                     ->where('a.bit_Deleted_Flag', 0)
-                    ->where('a.pack_type', 15)
+                    // ->where('a.pack_type', 15)
                     ->where('a.status', 1)
                     ->where('a.show_in_home', 1)
                     ->limit(6)
@@ -76,12 +77,14 @@ class HomeController extends Controller
             foreach ($popularTours as $values) {
                 $html .= '
                 <div class="card tour-card  wow animate__fadeInUp  " data-wow-delay="200ms">
-                    <img class="card-img-top" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">
-                    <span class="badge ">Most popular</span>
-                    <div class="card-body">
+                    <img class="card-img-top" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">';
+                    if($values->pack_type==15){
+                        $html.='<span class="badge">Most popular</span>';
+                    }
+                    $html.='<div class="card-body">
                     <p class="card-lavel">
                         <i class="bi bi-clock"></i> '.str_replace('/', '&', $values->duration_name).'</span>
-                        <small class="d-block">Ex-Bhubaneswar</small>
+                        <small class="d-block">Ex- '.$values->destination_name.'</small>
                     </p>
                     
                     <div class="d-flex align-items-center gap-2 mb-2">
