@@ -234,7 +234,7 @@ class ManageUserController extends Controller
             }
         }else{
             $modules = DB::table('tbl_modules')->select('moduleid','module')->where('status', 1)->where('bit_Deleted_Flag', 0)->get();
-            return view('admin.manageUser.addUser', ['modules' => $modules]);
+            return view('admin.manageuser.addUser', ['modules' => $modules]);
         }
         
     }
@@ -318,7 +318,7 @@ class ManageUserController extends Controller
                     ->pluck('moduleDeleteAccess', 'moduleid') // Fetch moduleDeleteAccess as key-value pairs
                     ->toArray();
                 }
-                return view('admin.manageUser.addUser', ['user' => $user, 'modules' => $modules, 'selectedModules' => $selectedModules, 'moduleAccess' => $moduleAccess]);
+                return view('admin.manageuser.addUser', ['user' => $user, 'modules' => $modules, 'selectedModules' => $selectedModules, 'moduleAccess' => $moduleAccess]);
             }
         }
         
