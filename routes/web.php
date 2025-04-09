@@ -96,6 +96,7 @@ Route::match(['get', 'post'], 'blog-comments', [BlogsController::class, 'blogCom
 Route::get('/search-blog-recent', [BlogsController::class, 'searchRecentBlog'])->name('website.blogsearch');
 
 //HomePage
+Route::get('/blogsHome', [HomeController::class, 'blogsHome'])->name('website.blogsHome');
 Route::get('/popularTour', [HomeController::class, 'popularTour'])->name('website.popularTour');
 Route::get('/destinationPlaces', [HomeController::class, 'destinationPlaces'])->name('website.destinationPlaces');
 Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('website.clientReviews');
