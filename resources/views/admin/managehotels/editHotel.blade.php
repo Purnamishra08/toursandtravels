@@ -53,120 +53,203 @@
                                                     @csrf
 
                                                     <div class="box-main">
-                                                        <h3>Hotel Details</h3>
-                                                        <div class="row">
-                                                            <!-- Hotel Name -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Hotel Name <span class="manadatory">*</span></label>
-                                                                    <input type="text" class="form-control" placeholder="Enter Hotel Name" name="hotel_name" id="hotel_name" value="{{ old('hotel_name', $hotel->hotel_name) }}">
+                                                        <fieldset>
+                                                            <legend> Hotel Details</legend>
+                                                            <div class="row">
+                                                                <!-- Hotel Name -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Hotel Name <span class="manadatory">*</span></label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Hotel Name" name="hotel_name" id="hotel_name" value="{{ old('hotel_name', $hotel->hotel_name) }}">
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Destination -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Destination <span class="manadatory">*</span></label>
+                                                                        <select class="form-control" id="destinationid" name="destinationid">
+                                                                            <option value="">-- Select destination --</option>
+                                                                            @forelse($destinations as $destination)
+                                                                                <option value="{{ $destination->destination_id }}"
+                                                                                    {{ old('destinationid', $hotel->destination_name) == $destination->destination_id ? 'selected' : '' }}>
+                                                                                    {{ $destination->destination_name }}
+                                                                                </option>
+                                                                            @empty
+                                                                                <option value="" disabled>No destination available</option>
+                                                                            @endforelse
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="clearfix"></div>
+
+                                                                <!-- Hotel Type -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Hotel Type <span class="manadatory">*</span></label>
+                                                                        <select class="form-control" id="hotel_type" name="hotel_type">
+                                                                            <option value="">-- Select Hotel Type --</option>
+                                                                            @forelse($hotelTypes as $hotelType)
+                                                                                <option value="{{ $hotelType->hotel_type_id }}"
+                                                                                    {{ old('hotel_type', $hotel->hotel_type) == $hotelType->hotel_type_id ? 'selected' : '' }}>
+                                                                                    {{ $hotelType->hotel_type_name }}
+                                                                                </option>
+                                                                            @empty
+                                                                                <option value="" disabled>No hotel type available</option>
+                                                                            @endforelse
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Room Type -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Room Type <span class="manadatory">*</span></label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Room Type" name="room_type" id="room_type" value="{{ old('room_type', $hotel->room_type) }}">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="clearfix"></div>
+
+                                                                <!-- Trip Advisor URL -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Trip Advisor URL</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Trip Advisor URL" name="trip_url" id="trip_url" value="{{ old('trip_url', $hotel->trip_advisor_url) }}">
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Default Price -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Default Price (₹) <span class="manadatory">*</span></label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Default Price" name="default_price" id="default_price" value="{{ old('default_price', $hotel->default_price) }}">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="clearfix"></div>
+
+                                                                <!-- Star Ratings -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Star Ratings (Out of 5)</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Star Ratings. Eg. 4 or 4.5" name="star_ratings" id="star_ratings" value="{{ old('star_ratings', $hotel->star_rating) }}">
+                                                                    </div>
                                                                 </div>
                                                             </div>
-
-                                                            <!-- Destination -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Destination <span class="manadatory">*</span></label>
-                                                                    <select class="form-control" id="destinationid" name="destinationid">
-                                                                        <option value="">-- Select destination --</option>
-                                                                        @forelse($destinations as $destination)
-                                                                            <option value="{{ $destination->destination_id }}"
-                                                                                {{ old('destinationid', $hotel->destination_name) == $destination->destination_id ? 'selected' : '' }}>
-                                                                                {{ $destination->destination_name }}
-                                                                            </option>
-                                                                        @empty
-                                                                            <option value="" disabled>No destination available</option>
-                                                                        @endforelse
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="clearfix"></div>
-
-                                                            <!-- Hotel Type -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Hotel Type <span class="manadatory">*</span></label>
-                                                                    <select class="form-control" id="hotel_type" name="hotel_type">
-                                                                        <option value="">-- Select Hotel Type --</option>
-                                                                        @forelse($hotelTypes as $hotelType)
-                                                                            <option value="{{ $hotelType->hotel_type_id }}"
-                                                                                {{ old('hotel_type', $hotel->hotel_type) == $hotelType->hotel_type_id ? 'selected' : '' }}>
-                                                                                {{ $hotelType->hotel_type_name }}
-                                                                            </option>
-                                                                        @empty
-                                                                            <option value="" disabled>No hotel type available</option>
-                                                                        @endforelse
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Room Type -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Room Type <span class="manadatory">*</span></label>
-                                                                    <input type="text" class="form-control" placeholder="Enter Room Type" name="room_type" id="room_type" value="{{ old('room_type', $hotel->room_type) }}">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="clearfix"></div>
-
-                                                            <!-- Trip Advisor URL -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Trip Advisor URL</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter Trip Advisor URL" name="trip_url" id="trip_url" value="{{ old('trip_url', $hotel->trip_advisor_url) }}">
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Default Price -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Default Price (₹) <span class="manadatory">*</span></label>
-                                                                    <input type="text" class="form-control" placeholder="Enter Default Price" name="default_price" id="default_price" value="{{ old('default_price', $hotel->default_price) }}">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="clearfix"></div>
-
-                                                            <!-- Star Ratings -->
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label>Star Ratings (Out of 5)</label>
-                                                                    <input type="text" class="form-control" placeholder="Enter Star Ratings. Eg. 4 or 4.5" name="star_ratings" id="star_ratings" value="{{ old('star_ratings', $hotel->star_rating) }}">
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        </fieldset>
                                                     </div>
 
                                                     <div class="box-main">
-                                                        <h3>Season Wise Price (In ₹)</h3>
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <table id="addRowTable" class="table table-bordered table-striped table-hover">
-                                                                    <thead>
-                                                                        <tr class="info">
-                                                                            <th width="17%">Season Type <span class="manadatory">*</span></th>
-                                                                            <th width="20%">Season Start Duration <span class="manadatory">*</span></th>
-                                                                            <th width="20%">Season End Duration <span class="manadatory">*</span></th>
-                                                                            <th width="9%">Price/Adult (₹) <span class="manadatory">*</span></th>
-                                                                            <th width="9%">Price/Couple (₹) <span class="manadatory">*</span></th>
-                                                                            <th width="9%">Price/Kids (₹) <span class="manadatory">*</span></th>
-                                                                            <th width="9%">Extra Bed/Adult <span class="manadatory">*</span></th>
-                                                                            <th width="7%">Action</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        @if($seasons->count())
-                                                                            @foreach($seasons as $index => $season)
+                                                        <fieldset>
+                                                        <legend>Season Wise Price (In ₹)</legend>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <table id="addRowTable" class="table table-bordered table-striped table-hover">
+                                                                        <thead>
+                                                                            <tr class="info">
+                                                                                <th width="17%">Season Type <span class="manadatory">*</span></th>
+                                                                                <th width="20%">Season Start Duration <span class="manadatory">*</span></th>
+                                                                                <th width="20%">Season End Duration <span class="manadatory">*</span></th>
+                                                                                <th width="9%">Price/Adult (₹) <span class="manadatory">*</span></th>
+                                                                                <th width="9%">Price/Couple (₹) <span class="manadatory">*</span></th>
+                                                                                <th width="9%">Price/Kids (₹) <span class="manadatory">*</span></th>
+                                                                                <th width="9%">Extra Bed/Adult <span class="manadatory">*</span></th>
+                                                                                <th width="7%">Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @if($seasons->count())
+                                                                                @foreach($seasons as $index => $season)
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <select class="form-control" name="season_type[]" id="season_type_{{ $index }}">
+                                                                                                <option value="">-- Select Type --</option>
+                                                                                                @forelse($seasonTypes as $stype)
+                                                                                                    <option value="{{ $stype->season_type_id }}" {{ old("season_type.$index", $season->season_type) == $stype->season_type_id ? 'selected' : '' }}>
+                                                                                                        {{ $stype->season_type_name }}
+                                                                                                    </option>
+                                                                                                @empty
+                                                                                                    <option value="" disabled>No season type available</option>
+                                                                                                @endforelse
+                                                                                            </select>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-6 col-sm-6 col-xs-6 months">
+                                                                                                    <select name="from_startmonth[]" class="form-control" id="from_startmonth_{{ $index }}">
+                                                                                                        <option value="">--Month--</option>
+                                                                                                        @for ($m = 1; $m <= 12; $m++)
+                                                                                                            @php $monthNum = str_pad($m, 2, '0', STR_PAD_LEFT); @endphp
+                                                                                                            <option value="{{ $monthNum }}" {{ old("from_startmonth.$index", $season->sesonstart_month) == $monthNum ? 'selected' : '' }}>
+                                                                                                                {{ date('F', mktime(0, 0, 0, $m, 1)) }}
+                                                                                                            </option>
+                                                                                                        @endfor
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-sm-6 col-xs-6 months">
+                                                                                                    <select name="from_startdate[]" class="form-control" id="from_startdate_{{ $index }}">
+                                                                                                        <option value="">--Day--</option>
+                                                                                                        @for ($d = 1; $d <= 31; $d++)
+                                                                                                            <option value="{{ $d }}" {{ old("from_startdate.$index", $season->sesonstart_day) == $d ? 'selected' : '' }}>
+                                                                                                                {{ $d }}
+                                                                                                            </option>
+                                                                                                        @endfor
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-6 col-sm-6 col-xs-6 months">
+                                                                                                    <select name="from_endmonth[]" class="form-control" id="from_endmonth_{{ $index }}">
+                                                                                                        <option value="">--Month--</option>
+                                                                                                        @for ($m = 1; $m <= 12; $m++)
+                                                                                                            @php $monthNum = str_pad($m, 2, '0', STR_PAD_LEFT); @endphp
+                                                                                                            <option value="{{ $monthNum }}" {{ old("from_endmonth.$index", $season->sesonend_month) == $monthNum ? 'selected' : '' }}>
+                                                                                                                {{ date('F', mktime(0, 0, 0, $m, 1)) }}
+                                                                                                            </option>
+                                                                                                        @endfor
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-sm-6 col-xs-6 months">
+                                                                                                    <select name="from_enddate[]" class="form-control" id="from_enddate_{{ $index }}">
+                                                                                                        <option value="">--Day--</option>
+                                                                                                        @for ($d = 1; $d <= 31; $d++)
+                                                                                                            <option value="{{ $d }}" {{ old("from_enddate.$index", $season->sesonend_day) == $d ? 'selected' : '' }}>
+                                                                                                                {{ $d }}
+                                                                                                            </option>
+                                                                                                        @endfor
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input type="text" class="form-control" placeholder="Price" name="adult_price[]" id="adult_price_{{ $index }}" value="{{ old("adult_price.$index", $season->adult_price) }}">
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input type="text" class="form-control" placeholder="Price" name="couple_price[]" id="couple_price_{{ $index }}" value="{{ old("couple_price.$index", $season->couple_price) }}">
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input type="text" class="form-control" placeholder="Price" name="kid_price[]" id="kid_price_{{ $index }}" value="{{ old("kid_price.$index", $season->kid_price) }}">
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input type="text" class="form-control" placeholder="Extra Price" name="adult_extra[]" id="adult_extra_{{ $index }}" value="{{ old("adult_extra.$index", $season->adult_extra) }}">
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <a href="javascript:void(0);" class="btn btn-success btn-sm addrowbtn" title="Add"><i class="fa fa-plus"></i></a>
+                                                                                            <a href="javascript:void(0);" class="btn btn-danger btn-sm delrowbtn" title="Delete" id="del_{{ $index }}"><i class="fa-regular fa-trash-can"></i></a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                @endforeach
+                                                                            @else
                                                                                 <tr>
                                                                                     <td>
-                                                                                        <select class="form-control" name="season_type[]" id="season_type_{{ $index }}">
+                                                                                        <select class="form-control" name="season_type[]" id="season_type_0">
                                                                                             <option value="">-- Select Type --</option>
                                                                                             @forelse($seasonTypes as $stype)
-                                                                                                <option value="{{ $stype->season_type_id }}" {{ old("season_type.$index", $season->season_type) == $stype->season_type_id ? 'selected' : '' }}>
-                                                                                                    {{ $stype->season_type_name }}
-                                                                                                </option>
+                                                                                                <option value="{{ $stype->season_type_id }}">{{ $stype->season_type_name }}</option>
                                                                                             @empty
                                                                                                 <option value="" disabled>No season type available</option>
                                                                                             @endforelse
@@ -175,23 +258,19 @@
                                                                                     <td>
                                                                                         <div class="row">
                                                                                             <div class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                                <select name="from_startmonth[]" class="form-control" id="from_startmonth_{{ $index }}">
+                                                                                                <select name="from_startmonth[]" class="form-control" id="from_startmonth_0">
                                                                                                     <option value="">--Month--</option>
                                                                                                     @for ($m = 1; $m <= 12; $m++)
                                                                                                         @php $monthNum = str_pad($m, 2, '0', STR_PAD_LEFT); @endphp
-                                                                                                        <option value="{{ $monthNum }}" {{ old("from_startmonth.$index", $season->sesonstart_month) == $monthNum ? 'selected' : '' }}>
-                                                                                                            {{ date('F', mktime(0, 0, 0, $m, 1)) }}
-                                                                                                        </option>
+                                                                                                        <option value="{{ $monthNum }}">{{ date('F', mktime(0, 0, 0, $m, 1)) }}</option>
                                                                                                     @endfor
                                                                                                 </select>
                                                                                             </div>
                                                                                             <div class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                                <select name="from_startdate[]" class="form-control" id="from_startdate_{{ $index }}">
+                                                                                                <select name="from_startdate[]" class="form-control" id="from_startdate_0">
                                                                                                     <option value="">--Day--</option>
                                                                                                     @for ($d = 1; $d <= 31; $d++)
-                                                                                                        <option value="{{ $d }}" {{ old("from_startdate.$index", $season->sesonstart_day) == $d ? 'selected' : '' }}>
-                                                                                                            {{ $d }}
-                                                                                                        </option>
+                                                                                                        <option value="{{ $d }}">{{ $d }}</option>
                                                                                                     @endfor
                                                                                                 </select>
                                                                                             </div>
@@ -200,123 +279,48 @@
                                                                                     <td>
                                                                                         <div class="row">
                                                                                             <div class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                                <select name="from_endmonth[]" class="form-control" id="from_endmonth_{{ $index }}">
+                                                                                                <select name="from_endmonth[]" class="form-control" id="from_endmonth_0">
                                                                                                     <option value="">--Month--</option>
                                                                                                     @for ($m = 1; $m <= 12; $m++)
                                                                                                         @php $monthNum = str_pad($m, 2, '0', STR_PAD_LEFT); @endphp
-                                                                                                        <option value="{{ $monthNum }}" {{ old("from_endmonth.$index", $season->sesonend_month) == $monthNum ? 'selected' : '' }}>
-                                                                                                            {{ date('F', mktime(0, 0, 0, $m, 1)) }}
-                                                                                                        </option>
+                                                                                                        <option value="{{ $monthNum }}">{{ date('F', mktime(0, 0, 0, $m, 1)) }}</option>
                                                                                                     @endfor
                                                                                                 </select>
                                                                                             </div>
                                                                                             <div class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                                <select name="from_enddate[]" class="form-control" id="from_enddate_{{ $index }}">
+                                                                                                <select name="from_enddate[]" class="form-control" id="from_enddate_0">
                                                                                                     <option value="">--Day--</option>
                                                                                                     @for ($d = 1; $d <= 31; $d++)
-                                                                                                        <option value="{{ $d }}" {{ old("from_enddate.$index", $season->sesonend_day) == $d ? 'selected' : '' }}>
-                                                                                                            {{ $d }}
-                                                                                                        </option>
+                                                                                                        <option value="{{ $d }}">{{ $d }}</option>
                                                                                                     @endfor
                                                                                                 </select>
                                                                                             </div>
                                                                                         </div>
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input type="text" class="form-control" placeholder="Price" name="adult_price[]" id="adult_price_{{ $index }}" value="{{ old("adult_price.$index", $season->adult_price) }}">
+                                                                                        <input type="text" class="form-control" placeholder="Price" name="adult_price[]" id="adult_price_0">
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input type="text" class="form-control" placeholder="Price" name="couple_price[]" id="couple_price_{{ $index }}" value="{{ old("couple_price.$index", $season->couple_price) }}">
+                                                                                        <input type="text" class="form-control" placeholder="Price" name="couple_price[]" id="couple_price_0">
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input type="text" class="form-control" placeholder="Price" name="kid_price[]" id="kid_price_{{ $index }}" value="{{ old("kid_price.$index", $season->kid_price) }}">
+                                                                                        <input type="text" class="form-control" placeholder="Price" name="kid_price[]" id="kid_price_0">
                                                                                     </td>
                                                                                     <td>
-                                                                                        <input type="text" class="form-control" placeholder="Extra Price" name="adult_extra[]" id="adult_extra_{{ $index }}" value="{{ old("adult_extra.$index", $season->adult_extra) }}">
+                                                                                        <input type="text" class="form-control" placeholder="Extra Price" name="adult_extra[]" id="adult_extra_0">
                                                                                     </td>
                                                                                     <td>
                                                                                         <a href="javascript:void(0);" class="btn btn-success btn-sm addrowbtn" title="Add"><i class="fa fa-plus"></i></a>
-                                                                                        <a href="javascript:void(0);" class="btn btn-danger btn-sm delrowbtn" title="Delete" id="del_{{ $index }}"><i class="fa-regular fa-trash-can"></i></a>
+                                                                                        <a href="javascript:void(0);" class="btn btn-danger btn-sm delrowbtn" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
                                                                                     </td>
                                                                                 </tr>
-                                                                            @endforeach
-                                                                        @else
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <select class="form-control" name="season_type[]" id="season_type_0">
-                                                                                        <option value="">-- Select Type --</option>
-                                                                                        @forelse($seasonTypes as $stype)
-                                                                                            <option value="{{ $stype->season_type_id }}">{{ $stype->season_type_name }}</option>
-                                                                                        @empty
-                                                                                            <option value="" disabled>No season type available</option>
-                                                                                        @endforelse
-                                                                                    </select>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                            <select name="from_startmonth[]" class="form-control" id="from_startmonth_0">
-                                                                                                <option value="">--Month--</option>
-                                                                                                @for ($m = 1; $m <= 12; $m++)
-                                                                                                    @php $monthNum = str_pad($m, 2, '0', STR_PAD_LEFT); @endphp
-                                                                                                    <option value="{{ $monthNum }}">{{ date('F', mktime(0, 0, 0, $m, 1)) }}</option>
-                                                                                                @endfor
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <div class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                            <select name="from_startdate[]" class="form-control" id="from_startdate_0">
-                                                                                                <option value="">--Day--</option>
-                                                                                                @for ($d = 1; $d <= 31; $d++)
-                                                                                                    <option value="{{ $d }}">{{ $d }}</option>
-                                                                                                @endfor
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                            <select name="from_endmonth[]" class="form-control" id="from_endmonth_0">
-                                                                                                <option value="">--Month--</option>
-                                                                                                @for ($m = 1; $m <= 12; $m++)
-                                                                                                    @php $monthNum = str_pad($m, 2, '0', STR_PAD_LEFT); @endphp
-                                                                                                    <option value="{{ $monthNum }}">{{ date('F', mktime(0, 0, 0, $m, 1)) }}</option>
-                                                                                                @endfor
-                                                                                            </select>
-                                                                                        </div>
-                                                                                        <div class="col-md-6 col-sm-6 col-xs-6 months">
-                                                                                            <select name="from_enddate[]" class="form-control" id="from_enddate_0">
-                                                                                                <option value="">--Day--</option>
-                                                                                                @for ($d = 1; $d <= 31; $d++)
-                                                                                                    <option value="{{ $d }}">{{ $d }}</option>
-                                                                                                @endfor
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input type="text" class="form-control" placeholder="Price" name="adult_price[]" id="adult_price_0">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input type="text" class="form-control" placeholder="Price" name="couple_price[]" id="couple_price_0">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input type="text" class="form-control" placeholder="Price" name="kid_price[]" id="kid_price_0">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <input type="text" class="form-control" placeholder="Extra Price" name="adult_extra[]" id="adult_extra_0">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm addrowbtn" title="Add"><i class="fa fa-plus"></i></a>
-                                                                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm delrowbtn" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
-                                                                                </td>
-                                                                            </tr>
-                                                                        @endif
-                                                                    </tbody>
-                                                                </table>
+                                                                            @endif
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="clearfix"></div>
                                                             </div>
-                                                            <div class="clearfix"></div>
-                                                        </div>
+                                                        </fieldset>
                                                     </div>
 
                                                     <div class="col-md-6">

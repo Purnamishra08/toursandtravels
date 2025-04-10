@@ -304,8 +304,8 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                        @if($insertedAccomodation)
-                                                                         @foreach($insertedAccomodation as $index => $value)
+                                                                        @if(!empty($insertedAccomodation) && count($insertedAccomodation)>0)
+                                                                        @foreach($insertedAccomodation as $index => $value)
                                                                             <tr>
                                                                                 <td>
                                                                                     <select class="form-control" id="destination_id" name="destination_id[]">

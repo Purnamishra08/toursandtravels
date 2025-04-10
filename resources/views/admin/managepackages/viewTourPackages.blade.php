@@ -103,7 +103,7 @@
 
                                                                 // Print half star
                                                                 if ($halfStar) {
-                                                                    echo '<i class="fa fa-star-half-alt text-warning"></i> ';
+                                                                    echo '<i class="fa fa-star-half-stroke text-warning"></i> ';
                                                                 }
 
                                                                 // Print empty stars

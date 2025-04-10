@@ -171,7 +171,7 @@ class HomeController extends Controller
                     $starsHtml .= '<i class="fa fa-star text-warning"></i> ';
                 }
                 if ($halfStar) {
-                    $starsHtml .= '<i class="fa fa-star-half text-warning"></i> ';
+                    $starsHtml .= '<i class="fa fa-star-half-stroke text-warning"></i> ';
                 }
                 for ($i = 0; $i < $emptyStars; $i++) {
                     $starsHtml .= '<i class="fa fa-star text-secondary"></i> ';
