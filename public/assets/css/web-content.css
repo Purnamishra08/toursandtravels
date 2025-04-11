@@ -177,4 +177,5 @@ width: 100%;
     .contact-card li a,.contact-card li p{
         font-size: 1rem;
         color: #dcdcdc;
+        word-break: break-word;
     }

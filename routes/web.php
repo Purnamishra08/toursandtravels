@@ -88,6 +88,7 @@ Route::get('/', [HomeController::class, 'index'])->name('website.home');
 Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
 Route::view('/faq', 'website.faq');
+Route::view('/destinationWeb', 'website.destination');
 Route::view('/tourlisting', 'website.tourlisting');
 Route::view('/tourdetails', 'website.tourdetails');
 Route::get('/blog', [BlogsController::class, 'index'])->name('website.bloglisting');

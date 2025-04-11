@@ -636,3 +636,165 @@ color: #03787a;
         top: unset;
     }
 }
+
+/* destination css start */
+.navigation {
+    background-color: #ccdfdc;
+    color: #fff;
+    border-radius: .375rem;
+    overflow: hidden;
+  }
+  
+  .navigation__link {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+    padding: 1em;
+    font-weight: 400;
+  }
+  
+  .navigation__link:hover {
+    background-color:#b2d6d1 ;
+  
+  }
+  
+  .navigation__link.active {
+    color: white;
+    background-color:#36bcb2;
+  }
+  .page-section{
+    margin-bottom: 2.5rem;
+    padding-top: 80px; /* extra spacing for visual */
+    margin-top: -80px; /* negative margin to cancel scroll offset */
+  }
+  .page-section-heading{
+    font-size: 1.75rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    color: #133874;
+    position: relative;
+  }
+  .page-section-heading2{
+    font-size: 1.25rem;
+    color: #133874;
+    text-decoration: underline;
+    
+  }
+  .page-section-heading3{
+
+  }
+  .page-section-heading:after{
+    content: "";
+    height: 2px;
+    width: 80px;
+    border-radius:3px;
+    background: #133874;
+    position: absolute;
+    left: 0;
+    bottom: .5rem;
+  }
+  .moreless-button{
+    text-decoration: underline;
+  }
+  .moretext {
+    display: none;
+  }
+  .destination-details-list{
+    list-style: auto;
+    padding-left: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  .destination-details-list li:not(:last-child){
+    margin-bottom: .5rem;
+  }
+  /* top-place */
+  .top-place-wrapper{
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1rem;
+  }
+  .top-place-card {
+    transition: .25s;
+  }
+  .top-place-card a{
+    color: #03787a;
+    margin-left: auto;
+    display: block;
+    text-align: right;
+  }
+  .top-place-card:hover a{
+    color: #189a9c;
+  }
+  .top-place-card img{
+      border-radius: .5rem;
+  
+  }
+  
+  .chet-sheet-card .card-body{
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 1.5rem;
+      padding: 2rem;
+  }
+  .chet-sheet-card .icon-patch{
+    background-image: linear-gradient(110deg, #f8e4db, #fdfdfd00);
+    flex: 0 0 60px;
+  }
+  .chet-sheet-card strong{
+    font-weight: 500;
+  }
+.near-destination-wrapper{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 1rem;
+}
+  .near-Dcard {
+    
+    cursor:pointer;
+    position: relative;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    
+  }
+  
+  .near-Dcard:hover {
+    transform: scale(1.05);
+  }
+
+  .near-Dcard img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .near-Dcard .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: bottom 0.3s;
+  }
+  
+  .near-Dcard:hover .overlay {
+    bottom: -100%;
+  }
+
+  .overlay h2 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  .overlay p {
+    margin: 8px 0 0;
+    font-size: 1rem;
+  }
