@@ -15,7 +15,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('admin.manageUser.login');
+        return view('admin.manageuser.login');
     }
 
     public function login(Request $request)
@@ -71,7 +71,7 @@ class LoginController extends Controller
 
     public function forgotPassword()
     {
-        return view('admin.manageUser.forgotpassword');
+        return view('admin.manageuser.forgotpassword');
     }
 
     public function changePassword(Request $request)
@@ -97,7 +97,7 @@ class LoginController extends Controller
     
             return back()->with('success', 'Password updated successfully!');
         }else{
-            return view('admin.manageUser.changePassword');
+            return view('admin.manageuser.changePassword');
         }
     }
 }

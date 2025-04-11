@@ -316,7 +316,7 @@
         if (finished) return;
 
         $.ajax({
-            url: "{{ route('website.bloglisting') }}?page=" + page,
+            url: "{{ route('website.blogsHome') }}?page=" + page,
             type: "get",
             beforeSend: function () {
                 $('.ajax-load').show();

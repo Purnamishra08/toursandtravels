@@ -14,6 +14,9 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        return view('website.index');
+    }
+    public function blogsHome(Request $request){
         $blogDataShow = DB::table('tbl_blog')
                     ->select('blogid', 'title', 'blog_url', 'status', 'image', 'alttag_image', 'content', 'created_date', 'show_comment')
                     ->where('status', 1)
@@ -44,9 +47,7 @@ class HomeController extends Controller
             }
             return $html;
         }
-        return view('website.index');
     }
-
     public function popularTour(Request $request){
 
         $popularTours = DB::table('tbl_tourpackages as a')
@@ -108,9 +109,7 @@ class HomeController extends Controller
             }
             return $html;
         }
-        return view('website.index');
     }
-
 
     public function destinationPlaces(Request $request) {
 
@@ -134,7 +133,6 @@ class HomeController extends Controller
             }
             return $html;
         }
-        return view('website.index');
     }
 
     public function clientReviews(Request $request)
@@ -173,7 +171,7 @@ class HomeController extends Controller
                     $starsHtml .= '<i class="fa fa-star text-warning"></i> ';
                 }
                 if ($halfStar) {
-                    $starsHtml .= '<i class="fa fa-star-half text-warning"></i> ';
+                    $starsHtml .= '<i class="fa fa-star-half-stroke text-warning"></i> ';
                 }
                 for ($i = 0; $i < $emptyStars; $i++) {
                     $starsHtml .= '<i class="fa fa-star text-secondary"></i> ';
@@ -206,7 +204,5 @@ class HomeController extends Controller
             }
             return $html;
         }
-
-        return view('website.index');
     }
 }

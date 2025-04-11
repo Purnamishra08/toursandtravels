@@ -1,19 +1,24 @@
 @include('website.include.webmeta')
 @include('website.include.webheader')
-
-<!-- print_r($tours); -->
-<!-- print_r($itinerary); -->
 @php
-
 // Star rating generation
 $fullStars = floor($tours->ratings);
 $halfStar = (fmod($tours->ratings, 1) != 0.00) ? 1 : 0;
 $emptyStars = 5 - ($fullStars + $halfStar);
 
 $starsHtml = '';
-for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-warning"></i> ' ; } if ($halfStar) {
-    $starsHtml .='<i class="fa fa-star-half text-warning"></i> ' ; } for ($i=0; $i < $emptyStars; $i++) { $starsHtml
-    .='<i class="fa fa-star text-secondary"></i> ' ; } @endphp <div class="breadcrumb-section"
+for ($i = 0; $i < $fullStars; $i++) 
+{ 
+    $starsHtml .='<i class="fa fa-star text-warning"></i> ' ; 
+} 
+if ($halfStar) {
+    $starsHtml .='<i class="fa fa-star-half-stroke text-warning"></i> ' ; 
+} 
+for ($i=0; $i < $emptyStars; $i++) {
+    $starsHtml.='<i class="fa fa-star text-secondary"></i> ' ; 
+} 
+@endphp 
+<div class="breadcrumb-section"
     style="background-image: url('{{ asset('storage/tourpackages/' . $tours->tpackage_image) }}')">
     <div class="container">
         <h1 class="page-name">{{$tours->tpackage_name}}</h1>
@@ -73,24 +78,43 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                                 <div class="tab-pane no-scroll fade show active" id="pills-home" role="tabpanel"
                                     aria-labelledby="pills-home-tab" tabindex="0">
                                     <ul class="timeline">
-                                        @foreach($itinerary as $val)
+                                        @foreach($itinerary as $day)
                                         <li>
                                             <div class="item">
                                                 <div class="timelineheading">
                                                     <span>Day- {{$loop->iteration}}</span>
-                                                    <strong>- {{$val->title}}</strong>
+                                                    <strong>- {{$day->title}}</strong>
                                                     <ol>
-                                                        @foreach(explode(',', $val->place_id) as $placeId)
                                                         @php
-                                                        $place = $places->firstWhere('placeid', $placeId);
+                                                            $dayPlaceIds = explode(',', $day->place_id);
+
+                                                            $dayPlaces = collect($dayPlaceIds)
+                                                                ->map(fn($id) => $places[$id]->place_name ?? null)
+                                                                ->filter()
+                                                                ->values();
+
+                                                            $dayPlacesUrl = collect($dayPlaceIds)
+                                                                ->map(fn($id) => $places[$id]->place_url ?? null)
+                                                                ->filter()
+                                                                ->values();
+
+                                                            $dayPlacesCombined = $dayPlaces->zip($dayPlacesUrl); // Pairs name + URL
                                                         @endphp
-                                                        @if($place)
-                                                        <li>{{ $place->place_name }}</li>
-                                                        @else
-                                                        <li>{{ $placeId }} (Unknown)</li> {{-- fallback in case place is
-                                                        not found --}}
+
+                                                        @if($dayPlacesCombined->isNotEmpty())
+                                                            @foreach($dayPlacesCombined as [$placeName, $url])
+                                                                <li>
+                                                                    <a href="{{ $url }}" target="_blank" rel="noopener noreferrer">{{ $placeName }}</a>
+                                                                </li>
+                                                            @endforeach
                                                         @endif
-                                                        @endforeach
+
+                                                        @if($day->other_iternary_places)
+                                                            @foreach(explode(',', $day->other_iternary_places) as $placeName)
+                                                                    <li> {{ $placeName }}</li>
+                                                            @endforeach
+                                                        @endif
+                                                        
                                                     </ol>
                                                 </div>
                                             </div>
@@ -103,186 +127,68 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                                     <div class="booking-policy">
                                         {!!$tours->inclusion_exclusion!!}
                                     </div>
-                                    <!-- <strong>Inclusions</strong>
-                                <ul class="itenary-ul mb-3">
-                                    <li>Selected AC vehicle for pick up & drop and sightseeing</li>
-                                    <li>Complimentary breakfast at selected hotel</li>
-                                    <li>Selected category hotel for accommodation (not applicable for 1-day trips)</li>
-                                    <li>All the sightseeing will be on a private basis in AC vehicle</li>
-                                    <li>Entry tax, Toll, Parking charges, Driver allowance, Interstate tax if applicable</li>
-                                    <li>Home pick up & drop - within 7 KM's (From our location - Rajajinagar 6th Block) complimentary home pick up and drop services will be provided. Anything above than this will have extra charges</li>
-                                    <li>Total fares include GST</li>
-                                </ul>
-                                <strong>Exclusions</strong>
-                                <ul class="itenary-ul mb-3">
-                                    <li>Meals other than mentioned (Lunch & Dinner) and any beverages</li>
-                                    <li>Local guide, Entrance fees to monuments, sight-seeing, parks and Sanctuaries and Safari charges</li>
-                                    <li>Items of personal nature viz. tips, laundry, travel insurance, camera fees, etc.</li>
-                                    <li>Early check-in or late checkout charges if applicable</li>
-                                    <li>Hotel Gala dinner charges in the event of Christmas and New year eve</li>
-                                    <li>Anything not specifically mentioned in the inclusion section</li>
-                                </ul>
-                                <strong>Optionals (arranged on request at additional cost)</strong>
-                                <ul class="itenary-ul mb-3">
-                                    <li>Any other choice of hotels/Resorts</li>
-                                    <li>Local tour guide for selected destinations</li>
-                                    <li>Honeymoon decoration - Flower bed decoration, Candlelight dinner, cake (Only at selected destinations) </li>
-                                    <li>Visa and Travel insurance</li>
-
-                                </ul> -->
                                 </div>
                                 <div class="tab-pane fade" id="pills-contact" role="tabpanel"
                                     aria-labelledby="pills-contact-tab" tabindex="0">
-                                    <strong class="mb-3 d-block">Puri (1N)</strong>
-                                    <div class="hotel-wrapper">
+                                    @foreach($packageAccomodations as $packageAccomodation)
+                                    @php
+                                        $noof_hotel = count($packageAccomodations);
+                                        $hotel = 1;
+                                        $destination = $destinations->firstWhere('destination_id', $packageAccomodation->destination_id);
+                                    @endphp
+                                    @if($destination)
+                                    <strong class="mb-3 d-block">{{$destination->destination_name}} ({{$packageAccomodation->noof_days}}N)</strong>
+                                    @endif
+                                    <div class="hotel-wrapper mb-1">
+                                        @php
+                                        $hotels = DB::table('tbl_hotel')
+                                                ->where('destination_name',$packageAccomodation->destination_id)
+                                                ->where('bit_Deleted_Flag',0)
+                                                ->get();
+                                        @endphp
+                                        @foreach($hotels as $hotel)
                                         <div class=" hotel-details-card">
                                             <div class="card-body">
-                                                <a href="#"><i class="bi bi-buildings"></i> Hotel Swimming</a>
-                                                <span class="d-block">
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
+                                                <a href="{{$hotel->trip_advisor_url}}" target="_blank"><i class="bi bi-buildings"></i>{{$hotel->hotel_name}}</a>
+                                                @php
+                                                    $hotelName = $hotelsType->firstWhere('hotel_type_id', $hotel->hotel_type);
+                                                    
+                                                    // Star rating generation
+                                                    $full = floor($hotel->star_rating);
+                                                    $half = (fmod($hotel->star_rating, 1) != 0.00) ? 1 : 0;
+                                                    $emptyStars = 5 - ($full + $half);
 
-                                                </span>
-                                                <p>Three Star Hotel</p>
-                                                <small class="d-block">(Deluxe room - Sea Facing)</small>
+                                                    $starsHotelHtml = '';
+                                                    for ($i = 0; $i < $full; $i++) 
+                                                    { 
+                                                        $starsHotelHtml .='<i class="fa fa-star text-warning"></i> ' ; 
+                                                    } 
+                                                    if ($half) {
+                                                        $starsHotelHtml .='<i class="fa fa-star-half-stroke text-warning"></i> ' ; 
+                                                    } 
+                                                    for ($i=0; $i < $emptyStars; $i++) {
+                                                        $starsHotelHtml.='<i class="fa fa-star text-secondary"></i> ' ; 
+                                                    } 
+                                                @endphp
+                                                <span class="d-block">{!! $starsHotelHtml !!}</span>
+                                                @if($hotelName)
+                                                <p>{{$hotelName->hotel_type_name}}</p>
+                                                @endif
+                                                <small class="d-block">({{$hotel->room_type}})</small>
                                                 <img src="{{ asset('assets/img/web-img/trip-adviser.png') }}" alt="img">
                                             </div>
                                         </div>
-                                        <div class=" hotel-details-card">
-                                            <div class="card-body">
-                                                <a href="#"><i class="bi bi-buildings"></i> New Beach Resort</a>
-                                                <span class="d-block">
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-
-                                                </span>
-                                                <p>Four Star Hotel</p>
-                                                <small class="d-block">(Executive Sea View room)</small>
-                                                <img src="{{ asset('assets/img/web-img/trip-adviser.png') }}" alt="img">
-                                            </div>
-                                        </div>
-                                        <div class=" hotel-details-card">
-                                            <div class="card-body">
-                                                <a href="#"><i class="bi bi-buildings"></i> Reba Beach Resort</a>
-                                                <span class="d-block">
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-
-                                                </span>
-                                                <p>Five Star Hotel</p>
-                                                <small class="d-block">(Deluxe Room)</small>
-                                                <img src="{{ asset('assets/img/web-img/trip-adviser.png') }}" alt="img">
-                                            </div>
-                                        </div>
-                                        <div class=" hotel-details-card">
-                                            <div class="card-body">
-                                                <a href="#"><i class="bi bi-buildings"></i> Hotel Swimming</a>
-                                                <span class="d-block">
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-
-                                                </span>
-                                                <p>Three Star Hotel</p>
-                                                <small class="d-block">(Deluxe room - Sea Facing)</small>
-                                                <img src="{{ asset('assets/img/web-img/trip-adviser.png') }}" alt="img">
-                                            </div>
-                                        </div>
-                                        <div class=" hotel-details-card">
-                                            <div class="card-body">
-                                                <a href="#"><i class="bi bi-buildings"></i> New Beach Resort</a>
-                                                <span class="d-block">
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-
-                                                </span>
-                                                <p>Four Star Hotel</p>
-                                                <small class="d-block">(Executive Sea View room)</small>
-                                                <img src="{{ asset('assets/img/web-img/trip-adviser.png') }}" alt="img">
-                                            </div>
-                                        </div>
-                                        <div class=" hotel-details-card">
-                                            <div class="card-body">
-                                                <a href="#"><i class="bi bi-buildings"></i> Reba Beach Resort</a>
-                                                <span class="d-block">
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-
-                                                </span>
-                                                <p>Five Star Hotel</p>
-                                                <small class="d-block">(Deluxe Room)</small>
-                                                <img src="{{ asset('assets/img/web-img/trip-adviser.png') }}" alt="img">
-                                            </div>
-                                        </div>
-
-
+                                        @endforeach
                                     </div>
+                                    @endforeach
                                 </div>
                                 <div class="tab-pane fade" id="pills-disabled" role="tabpanel"
                                     aria-labelledby="pills-disabled-tab" tabindex="0">
                                     <div class="booking-policy">
                                         {!!$bookingPolicys->par_value!!}
                                     </div>
-                                    <!-- <strong>Booking Policy</strong>
-                                <p>Regarding Modification Before the Travel Date</p>
-                                <ul class="itenary-ul mb-3">
-                                    <li>Must be applied for at least 3 days prior to the final travel date. Hotels will be provided depending upon availability</li>
-                                    <li>Rs. 4000 will be charged as a service fee for a change of travel date (package cost less than 40,000 INR). Rs. 8000 will be chargeble if the package cost b/w 40 to 80K INR. Rs. 15000 will be chargeble if the package cost is more than 80K.</li>
-                                    <li>The cancellation Policy will take hold if the requested modification doesn’t leave a margin of at least 3 days from the travel date</li>
-                                    <li>The itinerary and vehicle are flexible for 3 days prior to the final travel date.</li>
-
-                                    </ul>
                                 </div>
-                                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
-                                    <strong class="mb-3 d-block">Puri (1N)</strong>
-                                    <div class="hotel-wrapper">
-                                        <div class=" hotel-details-card">
-                                            <div class="card-body">
-                                                <a href="#"><i class="bi bi-buildings"></i> Hotel Swimming</a>
-                                                <span class="d-block">
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-
-                                                </span>
-                                                <p>Three Star Hotel</p>
-                                                <small class="d-block">(Deluxe room - Sea Facing)</small>
-                                                <img src="{{ asset('assets/img/web-img/trip-adviser.png') }}" alt="img">
-                                            </div>
-                                        </div>
-                                        <div class=" hotel-details-card">
-                                            <div class="card-body">
-                                                <a href="#"><i class="bi bi-buildings"></i> New Beach Resort</a>
-                                                <span class="d-block">
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-                                                    <i class="bi bi-star-fill"></i>
-
-                                </ul>
-                                <strong>Extra charges may apply</strong>
-                                <ul class="itenary-ul mb-3">
-                                    <li>For any pick-up/drop service apart from the ones mentioned in the itinerary.</li>
-                                    <li>For an extra entry or activity fee.</li>
-                                    <li>For any special event organized by the hotel (only if you wish to attend).</li>
-                                    <li>Xmas and Year-end Gala dinner charges will be applicable if hotel is planning to have one.</li>
-                                    <li>For breakfast only if you miss the complimentary hotel breakfast.</li>
-                                    <li>Extra One day vehicle charges applicable if the drop timing crosses 12.00 AM midnight. For Sedan 3500, SUV 5000 and Tempo Rs. 6000</li>
-                                    <li>Incase of vehicle breakdown new vehicle will be arranged within 4 hours of time</li>
-                                </ul> -->
-                                </div>
-                                 <div class="bg-light p-3">
+                        <div class="bg-light p-3">
                             <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
                                 <div>
 
@@ -387,237 +293,11 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                                         <p class="clent-message">Distance between Shimoga to Chikmagalur by Road is, 97 Kms. Distance between Shimoga to Chikmagalur by Flight is, 71 Kms. Travel Time from Shimoga to ...</p>
                                     </div>
                                 </div>
-                                <div class="card client-review-card h-100">
-                                    <div class="card-body">
-                                        <div class="client-details mb-2">
-                                            <div class="d-flex gap-2 align-items-center">
-                                                <i class="bi bi-person-circle"></i>
-                                                <div>
-                                                    <p class="client-name"> Sairam Tatikonda</p>
-                                                    <div class="rate"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> </div>
-
-                                                </div>
-
-                                            </div>
-                                            <p class="client-location text-secondary"><svg class="svg-inline--fa fa-location-dot" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                                                    <path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
-                                                </svg><!-- <i class="fa-solid fa-location-dot"></i> Font Awesome fontawesome.com --> Coastal Karnataka</p>
-
-
-
-                                        </div>
-                                        <p class="clent-message">Distance between Shimoga to Chikmagalur by Road is, 97 Kms. Distance between Shimoga to Chikmagalur by Flight is, 71 Kms. Travel Time from Shimoga to ...</p>
-                                    </div>
-                                </div>
-                                <div class="card client-review-card h-100">
-                                    <div class="card-body">
-                                        <div class="client-details mb-2">
-                                            <div class="d-flex gap-2 align-items-center">
-                                                <i class="bi bi-person-circle"></i>
-                                                <div>
-                                                    <p class="client-name"> Sairam Tatikonda</p>
-                                                    <div class="rate"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> </div>
-
-                                                </div>
-
-                                            </div>
-                                            <p class="client-location text-secondary"><svg class="svg-inline--fa fa-location-dot" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                                                    <path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
-                                                </svg><!-- <i class="fa-solid fa-location-dot"></i> Font Awesome fontawesome.com --> Coastal Karnataka</p>
-
-
-
-                                        </div>
-                                        <p class="clent-message">Distance between Shimoga to Chikmagalur by Road is, 97 Kms. Distance between Shimoga to Chikmagalur by Flight is, 71 Kms. Travel Time from Shimoga to ...</p>
-                                    </div>
-                                </div>
-                                <div class="card client-review-card h-100">
-                                    <div class="card-body">
-                                        <div class="client-details mb-2">
-                                            <div class="d-flex gap-2 align-items-center">
-                                                <i class="bi bi-person-circle"></i>
-                                                <div>
-                                                    <p class="client-name"> Sairam Tatikonda</p>
-                                                    <div class="rate"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> </div>
-
-                                                </div>
-
-                                            </div>
-                                            <p class="client-location text-secondary"><svg class="svg-inline--fa fa-location-dot" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                                                    <path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
-                                                </svg><!-- <i class="fa-solid fa-location-dot"></i> Font Awesome fontawesome.com --> Coastal Karnataka</p>
-
-
-
-                                        </div>
-                                        <p class="clent-message">Distance between Shimoga to Chikmagalur by Road is, 97 Kms. Distance between Shimoga to Chikmagalur by Flight is, 71 Kms. Travel Time from Shimoga to ...</p>
-                                    </div>
-                                </div>
-                                <div class="card client-review-card h-100">
-                                    <div class="card-body">
-                                        <div class="client-details mb-2">
-                                            <div class="d-flex gap-2 align-items-center">
-                                                <i class="bi bi-person-circle"></i>
-                                                <div>
-                                                    <p class="client-name"> Sairam Tatikonda</p>
-                                                    <div class="rate"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> </div>
-
-                                                </div>
-
-                                            </div>
-                                            <p class="client-location text-secondary"><svg class="svg-inline--fa fa-location-dot" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                                                    <path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
-                                                </svg><!-- <i class="fa-solid fa-location-dot"></i> Font Awesome fontawesome.com --> Coastal Karnataka</p>
-
-
-
-                                        </div>
-                                        <p class="clent-message">Distance between Shimoga to Chikmagalur by Road is, 97 Kms. Distance between Shimoga to Chikmagalur by Flight is, 71 Kms. Travel Time from Shimoga to ...</p>
-                                    </div>
-                                </div>
-                                <div class="card client-review-card h-100">
-                                    <div class="card-body">
-                                        <div class="client-details mb-2">
-                                            <div class="d-flex gap-2 align-items-center">
-                                                <i class="bi bi-person-circle"></i>
-                                                <div>
-                                                    <p class="client-name"> Sairam Tatikonda</p>
-                                                    <div class="rate"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> </div>
-
-                                                </div>
-
-                                            </div>
-                                            <p class="client-location text-secondary"><svg class="svg-inline--fa fa-location-dot" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                                                    <path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
-                                                </svg><!-- <i class="fa-solid fa-location-dot"></i> Font Awesome fontawesome.com --> Coastal Karnataka</p>
-
-
-
-                                        </div>
-                                        <p class="clent-message">Distance between Shimoga to Chikmagalur by Road is, 97 Kms. Distance between Shimoga to Chikmagalur by Flight is, 71 Kms. Travel Time from Shimoga to ...</p>
-                                    </div>
-                                </div>
-                                <div class="card client-review-card h-100">
-                                    <div class="card-body">
-                                        <div class="client-details mb-2">
-                                            <div class="d-flex gap-2 align-items-center">
-                                                <i class="bi bi-person-circle"></i>
-                                                <div>
-                                                    <p class="client-name"> Sairam Tatikonda</p>
-                                                    <div class="rate"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> </div>
-
-                                                </div>
-
-                                            </div>
-                                            <p class="client-location text-secondary"><svg class="svg-inline--fa fa-location-dot" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                                                    <path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
-                                                </svg><!-- <i class="fa-solid fa-location-dot"></i> Font Awesome fontawesome.com --> Coastal Karnataka</p>
-
-
-
-                                        </div>
-                                        <p class="clent-message">Distance between Shimoga to Chikmagalur by Road is, 97 Kms. Distance between Shimoga to Chikmagalur by Flight is, 71 Kms. Travel Time from Shimoga to ...</p>
-                                    </div>
-                                </div>
-                                <div class="card client-review-card h-100">
-                                    <div class="card-body">
-                                        <div class="client-details mb-2">
-                                            <div class="d-flex gap-2 align-items-center">
-                                                <i class="bi bi-person-circle"></i>
-                                                <div>
-                                                    <p class="client-name"> Sairam Tatikonda</p>
-                                                    <div class="rate"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                                        </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> </div>
-
-                                                </div>
-
-                                            </div>
-                                            <p class="client-location text-secondary"><svg class="svg-inline--fa fa-location-dot" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                                                    <path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
-                                                </svg><!-- <i class="fa-solid fa-location-dot"></i> Font Awesome fontawesome.com --> Coastal Karnataka</p>
-
-
-
-                                        </div>
-                                        <p class="clent-message">Distance between Shimoga to Chikmagalur by Road is, 97 Kms. Distance between Shimoga to Chikmagalur by Flight is, 71 Kms. Travel Time from Shimoga to ...</p>
-                                    </div>
-                                </div>
 
                             </div>
-
                         </div>
                             </div>
                         </div>
-                        
                     </div>
                     <div class="col-lg-4 order-first order-lg-last">
                         <div class="card calculate-card stickey-section ">
@@ -641,9 +321,7 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                                                         <input type="text" class="form-control guest-count" value="0"
                                                             readonly>
                                                         <span class="plus">+</span>
-
                                                     </div>
-
                                                 </li>
                                                 <li>
                                                     <div class="label-box">
@@ -656,33 +334,11 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                                                         <input type="text" class="form-control guest-count" value="0"
                                                             readonly>
                                                         <span class="plus">+</span>
-
                                                     </div>
-
                                                 </li>
-
                                             </ul>
-
                                         </div>
                                     </div>
-                                    <!-- <div class="col-md-6">
-                                <label for="adult" class="d-block">Adult</label>
-                                <div class="input-group ">
-                                    <span class="input-group-text" id=""><i class="bi bi-plus"></i></span>
-                                    <input type="text" class="form-control" aria-label="Username">
-                                    <span class="input-group-text" id=""><i class="bi bi-dash"></i></span>
-                                </div>
-                                <small class="text-danger">(Adults: 12+ Yrs)</small>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="adult" class="d-block">Children</label>
-                                <div class="input-group ">
-                                    <span class="input-group-text" id=""><i class="bi bi-plus"></i></span>
-                                    <input type="text" class="form-control" aria-label="Username">
-                                    <span class="input-group-text" id=""><i class="bi bi-dash"></i></span>
-                                </div>
-                                <small class="text-danger">(Children: 6-12 Yrs)</small>
-                            </div> -->
                                     <div class="col-12">
                                         <label for="vehicle" class="d-block">Vehicle</label>
                                         <select class="form-select" aria-label="Default select example">
@@ -750,75 +406,50 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                     style="visibility: visible; animation-delay: 200ms; animation-name: fadeInUp;">
                     <div>
                         <p class="section-title-small">Feature tours</p>
-                        <h2 class="section-title-sm"> Most Popular Tour</h2>
+                        <h2 class="section-title-sm"> Most Popular {{$tag_name}}</h2>
                     </div>
                 </div>
                 <div class="card-wrapper" id="allTour">
+                    @foreach ($tour_packages as $values)
+                        <div class="card tour-card">
+                            <img class="card-img-top"
+                                src="{{ asset('storage/tourpackages/thumbs/' . $values->tour_thumb) }}"
+                                alt="{{ $values->alttag_thumb }}">
 
-                    <div class="card tour-card">
-                        <img class="card-img-top"
-                            src="http://localhost:8000/storage/tourpackages/thumbs/ooty-rose-garden.webp"
-                            alt="Ooty Rose Garden">
-                        <div class="card-body">
-                            <p class="card-lavel">
-                                <i class="bi bi-clock"></i> 2 Days &amp; 1 Nights
-                            </p>
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <img src="http://localhost:8000/assets/img/web-img/single-star.png" alt="Rating">
-                                <span class="text-secondary">5 Star</span>
-                            </div>
-                            <h5 class="card-title">Relax Coorg tour</h5>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
+                            @if ($values->pack_type == 15)
+                                <span class="badge">Most popular</span>
+                            @endif
 
-                                <div class="p-card-info">
-                                    <span>From</span>
-                                    <h6>₹ 6000.00 <span>Per Person</span></h6>
+                            <div class="card-body">
+                                <p class="card-lavel">
+                                    <i class="bi bi-clock"></i>
+                                    {!! str_replace('/', '&', $values->duration_name) !!}
+                                    <small class="d-block">Ex- {{ $values->destination_name }}</small>
+                                </p>
+
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating">
+                                    <span class="text-secondary">{{ $values->ratings }} Star</span>
                                 </div>
-                                <a href="http://localhost:8000/tour/relax-coorg-tour"
-                                    class="btn btn-outline-primary">Explore <i
-                                        class="ms-2 bi bi-arrow-right-short"></i></a>
+
+                                <h5 class="card-title">{{ $values->tpackage_name }}</h5>
+
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <div class="p-card-info">
+                                        <h6 class="mb-0"><span>₹ </span>{{ $values->price }}</h6>
+                                        <strike>₹ {{ $values->fakeprice }}</strike>
+                                    </div>
+                                    <a href="{{ route('website.tourDetails', ['slug' => $values->tpackage_url]) }}"
+                                    class="btn btn-outline-primary stretched-link">
+                                        Explore <i class="ms-2 bi bi-arrow-right-short"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card tour-card">
-                        <img class="card-img-top"
-                            src="http://localhost:8000/storage/tourpackages/thumbs/mysore-palace.webp"
-                            alt="Mysore Palace">
-                        <div class="card-body">
-                            <p class="card-lavel">
-                                <i class="bi bi-clock"></i> 3 daya &amp; 2 Night
-                            </p>
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <img src="http://localhost:8000/assets/img/web-img/single-star.png" alt="Rating">
-                                <span class="text-secondary">5 Star</span>
-                            </div>
-                            <h5 class="card-title">3 days trip from Mysore | Mysore &amp; Wayanad</h5>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-
-                                <div class="p-card-info">
-                                    <span>From</span>
-                                    <h6>₹ 8403.00 <span>Per Person</span></h6>
-                                </div>
-                                <a href="http://localhost:8000/tour/3-days-trip-from-mysore--mysore--wayanad"
-                                    class="btn btn-outline-primary">Explore <i
-                                        class="ms-2 bi bi-arrow-right-short"></i></a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
-                <!-- <div class="text-center mt-4">
-                <button class="btn btn-primary">Load More</button>
-
-            </div> -->
-
-
-
-
-
             </div>
-
         </section>
-
     </div>
     <div class="modal fade" tabindex="-1" id="exampleModal">
         <div class="modal-dialog modal-lg">
@@ -860,9 +491,7 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                                             <span class="minus">-</span>
                                             <input type="text" class="form-control guest-count" value="0" readonly>
                                             <span class="plus">+</span>
-
                                         </div>
-
                                     </li>
                                     <li>
                                         <div class="label-box">
@@ -873,19 +502,14 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                                             <span class="minus">-</span>
                                             <input type="text" class="form-control guest-count" value="0" readonly>
                                             <span class="plus">+</span>
-
                                         </div>
-
                                     </li>
-
                                 </ul>
-
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label for="dot" class="d-block">Date of travel</label>
                             <div class="input-group ">
-
                                 <input type="text" class="form-control date" aria-label="Username">
                                 <span class="input-group-text" id=""><i class="bi bi-calendar2"></i></span>
                             </div>
@@ -899,15 +523,12 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                                 <option value="3">Five Star</option>
                             </select>
                         </div>
-
-
                         <div class="col-12">
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
                                     style="height: 100px"></textarea>
                                 <label for="floatingTextarea2">Message</label>
                             </div>
-
                         </div>
                         <div class="col-12">
                             <button class="btn btn-primary ">Submit</button>
@@ -915,7 +536,6 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -1023,14 +643,8 @@ for ($i = 0; $i < $fullStars; $i++) { $starsHtml .='<i class="fa fa-star text-wa
                 <div class="modal-footer">
                     <div class="ms-auto">
                         <span class="total-price-box">total Price <span class="ms-2 c">₹ 9999.00 </span></span>
-
-
-
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>
