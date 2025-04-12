@@ -50,7 +50,7 @@ class HomeController extends Controller
     }
     public function popularTour(Request $request){
 
-        $popularTours = DB::table('tbl_tourpackages as a')
+        $query = DB::table('tbl_tourpackages as a')
                     ->join('tbl_destination as b', 'a.starting_city', '=', 'b.destination_id')
                     ->join('tbl_package_duration as c', 'a.package_duration', '=', 'c.durationid')
                     ->select(
@@ -69,11 +69,11 @@ class HomeController extends Controller
                     )
                     ->where('a.bit_Deleted_Flag', 0)
                     // ->where('a.pack_type', 15)
-                    ->where('a.status', 1)
-                    ->where('a.show_in_home', 1)
-                    ->limit(6)
-                    ->get();
-
+                    ->where('a.status', 1);
+        if($request->fromDestination != 1){
+            $query->where('a.show_in_home', 1);
+        }
+        $popularTours = $query->inRandomOrder()->limit(6)->get();
         if ($request->ajax()) {
             $html = '';
             foreach ($popularTours as $values) {
@@ -110,7 +110,6 @@ class HomeController extends Controller
             return $html;
         }
     }
-
     public function destinationPlaces(Request $request) {
 
         $destinationPlaces=DB::table('tbl_places as p')
@@ -134,7 +133,6 @@ class HomeController extends Controller
             return $html;
         }
     }
-
     public function clientReviews(Request $request)
     {
         $reviews = DB::table('tbl_reviews as r')

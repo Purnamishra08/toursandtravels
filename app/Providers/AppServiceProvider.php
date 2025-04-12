@@ -20,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $destinatoinURL = DB::table('tbl_destination as a')
+                        ->selectRaw('a.destination_id, a.destination_name, a.destination_url')
+                        ->where('bit_Deleted_Flag', '=', 0)
+                        ->where('status', 1)
+                        ->first();
         $parameters =  DB::table('tbl_parameters')
                         ->select('parameter', 'par_value', 'parid')
                         ->where('param_type', 'CS')
@@ -34,5 +39,6 @@ class AppServiceProvider extends ServiceProvider
 
         View::share('parameters', $parameters);
         View::share('footer', $footer);
+        View::share('destinatoinURL', $destinatoinURL);
     }
 }
