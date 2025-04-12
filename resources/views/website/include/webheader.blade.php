@@ -33,8 +33,8 @@
 
                             <!-- Below Destination is only show in desktop -->
                             <li class="nav-item submenu desktop-menu">
-                                <a class="nav-link" href="#"> Destination </a>
-                                <div class="mega-box">
+                                <a class="nav-link {{ (request()->routeIs('website.destinationdetails')) ? 'active' : '' }}" aria-current="page" href="{{route('website.destinationdetails', ['slug' => $destinatoinURL->destination_url])}}"> Destination </a>
+                                <!-- <div class="mega-box">
                                     <div class="content">
                                         <div class="">
                                             <div class="nav justify-content-center gap-3 nav-pills me-3" id="v-pills-tab" role="tablist"
@@ -132,7 +132,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </li>
                             <!-- Below Destination is only show in mobile -->
                             <li class="nav-item dropdown mob-menu">
@@ -145,9 +145,8 @@
                                                 Destination
                                             </button>
                                         </h2>
-                                        <div id="parentOne" class="accordion-collapse collapse px-2"
+                                        <!-- <div id="parentOne" class="accordion-collapse collapse px-2"
                                             data-bs-parent="#parent-accordion">
-                                            <!-- child Accordion -->
                                             <div class="accordion accordion-flush child-accordion" id="child-accordion">
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header">
@@ -254,7 +253,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </li>

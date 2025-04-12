@@ -372,7 +372,7 @@ class PlacesController extends Controller
 
                 DB::table('tbl_places')->where('placeid', $id)->update($data);
 
-                DB::table('tbl_multdest_type')->where('loc_id', $id)->delete();
+                DB::table('tbl_multdest_type')->where('loc_id', $id)->where('loc_type', 2)->delete();
                 if (!empty($request->input('place_type'))) {
                     $locationTypes = array_map(function ($dtype) use ($id) {
                         return [

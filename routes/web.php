@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\ManageFollowUpEnquiries\EnquiriesReportController
 use App\Http\Controllers\Admin\ManageBlogs\ManageBlogsController;
 use App\Http\Controllers\Admin\ManageBlogs\ManageBlogsCommentsController;
 use App\Http\Controllers\Admin\ManagePackages\PackagePdfController;
+use App\Http\Controllers\Website\Destination\DestinationsController;
 /********  ADMIN ROUTING    ********/
 
 /********  WEBSITE ROUTING    ********/
@@ -88,7 +89,6 @@ Route::get('/', [HomeController::class, 'index'])->name('website.home');
 Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
 Route::view('/faq', 'website.faq');
-Route::view('/destinationWeb', 'website.destination');
 Route::view('/tourlisting', 'website.tourlisting');
 Route::view('/tourdetails', 'website.tourdetails');
 Route::get('/blog', [BlogsController::class, 'index'])->name('website.bloglisting');
@@ -107,6 +107,13 @@ Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('we
 Route::get('/tour', [TourController::class, 'allTourPackages'])->name('website.allTourPackages');
 Route::get('tour/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
 //Tour Routing
+
+//Destination Routing
+Route::get('destinations/{slug}', [DestinationsController::class, 'index'])->name('website.destinationdetails');
+Route::post('/get-places', [DestinationsController::class, 'getPlaces'])->name('website.places');
+Route::get('/get-popular-tours', [DestinationsController::class, 'popularTourData'])->name('website.popularTourData');
+//Destination Routing
+
 
 //Footer
 Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');

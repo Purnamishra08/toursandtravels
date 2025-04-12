@@ -320,7 +320,7 @@ class DestinationController extends Controller
             $similarDestinations = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
             $nearByPlaces = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
             $destinationTypes = DB::table('tbl_destination_type')->select('destination_type_id','destination_type_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_type_name', 'ASC')->get();
-            $categories  = DB::table('tbl_menucategories')->select('catid','cat_name')->where('status', 1)->where('bit_Deleted_Flag', 0)->get();
+            $categories  = DB::table('tbl_menucategories')->select('catid','cat_name')->where('status', 1)->where('bit_Deleted_Flag', 0)->where('menuid','!=', 3)->get();
             $tags = DB::table('tbl_menutags')->select('tagid','tag_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->orderBy('tag_name', 'ASC')->get();
             $parameters  = DB::table('tbl_parameters')->select('parid','par_value')->where('status', 1)->where('param_type', 'TD')->where('bit_Deleted_Flag', 0)->get();
             return view('admin.managelocation.adddestination', [
@@ -348,7 +348,7 @@ class DestinationController extends Controller
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=2000,height=350',
+                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1900,height=300',
                 'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=300,height=225',
                 'alttag_banner'       => "required|string|max:60",
                 'alttag_thumb'        => "required|string|max:60"
@@ -381,7 +381,7 @@ class DestinationController extends Controller
                     $destination_imageName = Str::slug($request->input('alttag_banner')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
-                    $this->convertToWebp($file, storage_path('app/public/destination_images/' . $destination_imageName), 2000, 350);
+                    $this->convertToWebp($file, storage_path('app/public/destination_images/' . $destination_imageName), 1900, 300);
                 }else{
                     $destination_imageName = $destination->destiimg;
                 }
@@ -508,7 +508,7 @@ class DestinationController extends Controller
             $similarDestinations = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
             $nearByPlaces = DB::table('tbl_destination')->select('destination_id','destination_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_name', 'ASC')->get();
             $destinationTypes = DB::table('tbl_destination_type')->select('destination_type_id','destination_type_name')->where('status', 1)->where('bit_Deleted_Flag',0)->orderBy('destination_type_name', 'ASC')->get();
-            $categories  = DB::table('tbl_menucategories')->select('catid','cat_name')->where('status', 1)->where('bit_Deleted_Flag', 0)->get();
+            $categories  = DB::table('tbl_menucategories')->select('catid','cat_name')->where('status', 1)->where('bit_Deleted_Flag', 0)->where('menuid','!=', 3)->get();
             $tags = DB::table('tbl_menutags')->select('tagid','tag_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->orderBy('tag_name', 'ASC')->get();
             $parameters  = DB::table('tbl_parameters')->select('parid','par_value')->where('status', 1)->where('param_type', 'TD')->where('bit_Deleted_Flag', 0)->get();
 
@@ -572,6 +572,10 @@ class DestinationController extends Controller
             DB::table('tbl_destination')->where('destination_id', $id)->update([
                 'bit_Deleted_Flag' => 1
             ]);
+            DB::table('tbl_destination_cats')->where('destination_id', $id)->delete();
+            DB::table('tbl_multdest_type')->where('loc_type', 1)->where('loc_id', $id)->delete();
+            DB::table('tbl_tags')->where('type', 1)->where('type_id', $id)->delete();
+            DB::table('tbl_destination_places')->where('destination_id', $id)->delete();
 
             return redirect()->back()->with('success', 'Destination deleted successfully!');
         } catch (\Exception $e) {
