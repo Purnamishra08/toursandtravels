@@ -458,7 +458,7 @@ class PlacesController extends Controller
             DB::table('tbl_places')->where('placeid', $id)->update([
                 'bit_Deleted_Flag' => 1
             ]);
-
+            DB::table('tbl_multdest_type')->where('loc_id', $id)->where('loc_type', 2)->delete();
             return redirect()->back()->with('success', 'Place deleted successfully!');
         } catch (\Exception $e) {
             // Log the error
