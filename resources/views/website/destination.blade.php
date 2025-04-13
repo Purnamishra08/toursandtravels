@@ -333,7 +333,24 @@
     </section>
 
 </div>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<!--page-load- modal -->
+<div class="modal fade" tabindex="-1" id="page-load-modal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                <h1 class="my-3">Planning a Trip to Bhubaneswar ?</h1>
+                <a href="" class="btn btn-warning">7 Bhubaneswar Tours from ₹9301.00 </a>
+                  <a href="" class="d-block mt-3">Explore & Book Online</a>
+                    
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
     crossorigin="anonymous"></script>
@@ -480,5 +497,10 @@
         }
     });
 </script>
-
+<script>
+$(document).ready(function () {
+        const myModal = new bootstrap.Modal(document.getElementById('page-load-modal'));
+        myModal.show();
+    });
+</script>
 @include('website.include.webfooter')

@@ -179,3 +179,6 @@ width: 100%;
         color: #dcdcdc;
         word-break: break-word;
     }
+    #page-load-modal h1{
+        font-size: 1.5rem;
+    }

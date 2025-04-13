@@ -638,7 +638,7 @@ color: #03787a;
 }
 .total-price-box{
     padding: .75rem 2rem;
-    background-color: #03787a;
+    background-color: #1e425a;
     color: #fff;
     font-weight: 500;
     border-radius: .375rem;
@@ -646,7 +646,7 @@ color: #03787a;
 }
 .total-price{
     font-weight: 500;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 @media(max-width:680px){
     .hotel-wrapper{

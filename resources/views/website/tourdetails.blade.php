@@ -328,7 +328,12 @@ for ($i=0; $i < $emptyStars; $i++) {
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <label for="dot" class="d-block">Accommodation</label>
+                                        <div class="d-flex justifu-content-between">
+
+                                            <label for="dot" class="">Accommodation</label>
+                                            <a href="" class="ms-auto text-warning" data-bs-toggle="modal"
+                                        data-bs-target="#hotel-modal" >Check hotel</a>
+                                        </div>
                                         <select class="form-select" aria-label="Default select example">
                                             <option selected>-Select Accommodation-</option>
                                             <option value="1">Three Star</option>
@@ -510,6 +515,8 @@ for ($i=0; $i < $emptyStars; $i++) {
             </div>
         </div>
     </div>
+
+    <!-- Calculate modal -->
     <div class="modal fade" tabindex="-1" id="calculate-modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -518,7 +525,7 @@ for ($i=0; $i < $emptyStars; $i++) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row g-4">
+                    <div class="row g-4 calculate-details">
 
                         <div class=" col-md-6">
                             <div class="d-flex align-items-center gap-2">
@@ -572,6 +579,7 @@ for ($i=0; $i < $emptyStars; $i++) {
                                 </div>
                                 <div>
                                     <label class="d-block text-secondary">Accommodation</label>
+                                    
                                     <strong class="">Three Star Hotel</strong>
                                 </div>
                             </div>
@@ -610,15 +618,69 @@ for ($i=0; $i < $emptyStars; $i++) {
                         </div>
 
                     </div>
+                    <div class="mt-3 total-price-box text-center">
+                        Total Price <span class="ms-2 c">₹ 9999.00 </span>                                   
+                    </div>
+                    <div class="bookingUser-details mt-3" style="display: none;">
+                        
+                        <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="dot" class="d-block">First Name</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="dot" class="d-block">Last Name</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="dot" class="d-block">Email</label>
+                            <input type="email" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="dot" class="d-block">Mobile No.</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                                <label for="floatingTextarea2">Message</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                        
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div class="ms-auto">
-                        <span class="total-price-box">total Price <span class="ms-2 c">₹ 9999.00 </span></span>
+                        <a href="#" id="backBtn" class="btn btn-secondary" style="display:none">Back</a>
+                        <a href="#" class="btn btn-primary " id="bookNowBtn"> Book Now</a>
+                        <a href="#" class="btn btn-outline-primary"> Download</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- hotel modal -->
+    <div class="modal fade" tabindex="-1" id="hotel-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">2 Day Trip from Bhubaneshwar | Puri, Konark & Bhubaneshwar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                  
+                    
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const guestInput = document.getElementById('guestInput');
@@ -671,4 +733,23 @@ for ($i=0; $i < $emptyStars; $i++) {
             });
         });
     </script>
+    <script>
+ $(document).on('click', '#bookNowBtn', function (e) {
+  console.log("clicked");
+  e.preventDefault();
+  $('#backBtn').show();
+  $('.calculate-details').slideUp();
+  $('.bookingUser-details').slideDown();
+});
+$(document).on('click', '#backBtn', function (e) {
+  console.log("back clicked");
+  e.preventDefault();
+  
+  $('.bookingUser-details').slideUp();        // Hide booking form
+  $('.calculate-details').slideDown();        // Show trip details
+  $('#backBtn').hide();                       // Optionally hide the back button again
+});
+</script>
+
+
     @include('website.include.webfooter')
