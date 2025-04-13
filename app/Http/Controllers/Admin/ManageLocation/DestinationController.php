@@ -147,7 +147,7 @@ class DestinationController extends Controller
                 'accomodation_price'  => 'required|numeric',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=2000,height=350',
+                'destiimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1900,height=300',
                 'destismallimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=300,height=225',
                 'alttag_banner'       => 'required|string|max:60',
                 'alttag_thumb'        => 'required|string|max:60'
@@ -185,7 +185,7 @@ class DestinationController extends Controller
                     $destination_imageName = Str::slug($request->input('alttag_banner')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
-                    $this->convertToWebp($file, storage_path('app/public/destination_images/' . $destination_imageName), 2000, 350);
+                    $this->convertToWebp($file, storage_path('app/public/destination_images/' . $destination_imageName), 1900, 300);
                 }
 
                 // Handle Thumbnail Image Upload
