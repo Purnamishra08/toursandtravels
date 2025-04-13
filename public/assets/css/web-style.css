@@ -425,6 +425,14 @@ color: #03787a;
     position: relative;
     list-style: none;
 }
+.timeline li a{
+    color: #000;
+
+}
+.timeline li a:hover{
+    color: #0e3575;
+    font-weight: 500;
+}
 .timeline li .item {
     position: relative;
     min-height: 60px;
@@ -648,6 +656,27 @@ color: #03787a;
     font-weight: 500;
     font-size: 1.3rem;
 }
+#hotel-modal svg{
+    height: 10px;
+}
+.hotel-details-card{
+    position: relative;
+}
+.hotel-radio{
+    position: absolute;
+    top: .75rem;
+    right: .75rem;
+    width: 18px;  /* Optional: improves click area */
+  height: 18px; /* Optional: improves click area */
+ 
+}
+.hotel-details-card:has(.hotel-radio:checked) {
+    border: 2px solid #1a5e59;
+  }
+  .h-name{
+    color: #03787a;
+    font-weight: 500;
+  }
 @media(max-width:680px){
     .hotel-wrapper{
         display: grid;
