@@ -76,7 +76,7 @@ class TourController extends Controller
     }
     public function allTourPlacePackages($slug){
         $placesData = DB::table('tbl_places')
-        ->select('placeid','place_name')
+        ->select('placeid','place_name','pckg_meta_title','pckg_meta_keywords','pckg_meta_description')
         ->where('place_url', $slug)
         ->where('status', 1)
         ->where('bit_Deleted_Flag', 0)
@@ -114,7 +114,11 @@ class TourController extends Controller
             ->where('b.bit_Deleted_Flag', 0)
             ->first();
         }
-        return view('website.tourplacelisting', ['tours' => $tours, 'placesData' => $placesData, 'countAndPrice' => $countAndPrice]);
+        return view('website.tourplacelisting', ['tours' => $tours, 'placesData' => $placesData, 'countAndPrice' => $countAndPrice])->with([
+            'meta_title' => $placesData->pckg_meta_title,
+            'meta_description' => $placesData->pckg_meta_description,
+            'meta_keywords' => $placesData->pckg_meta_keywords
+        ]);
     }
     public function tourDetails1($slug){
 
