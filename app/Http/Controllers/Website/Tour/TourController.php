@@ -261,6 +261,24 @@ class TourController extends Controller
             ->where('bit_Deleted_Flag', 0)
             ->first();
 
+        $reviewsTag = DB::table('tbl_tags')
+            ->where('type', 3)
+            ->where('type_id', $tourpackageid)
+            ->where('bit_Deleted_Flag', 0)
+            ->distinct()
+            ->pluck('tagid');
+
+        $reviews = DB::table('tbl_reviews')
+            ->select('review_id','tourtagid','reviewer_name','reviewer_loc','no_of_star','feedback_msg')
+            ->where('status', 1)
+            ->where('bit_Deleted_Flag', 0)
+            ->where(function ($query) use ($reviewsTag) {
+                foreach ($reviewsTag as $tagid) {
+                    $query->orWhere('tourtagid', 'LIKE', "%$tagid%");
+                }
+            })
+            ->orderByDesc('review_id')
+            ->get();
         // Get a random related tag
         $tagRow = DB::table('tbl_tags')
             ->select('tagid')
@@ -327,7 +345,8 @@ class TourController extends Controller
             'hotels' => $hotels,
             'bookingPolicys' => $bookingPolicys,
             'tour_packages' => $tour_packages,
-            'tag_name' => $tag_name
+            'tag_name' => $tag_name,
+            'reviews' => $reviews,
         ]);
     }
 

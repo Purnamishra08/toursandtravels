@@ -486,6 +486,31 @@ color: #03787a;
     line-height: 1;
     color: #c0c0c0;
 }
+.timeline li ul li{
+    font-size: .95rem;
+    padding-left:  1.5rem;
+    position: relative;
+}
+.timeline li ul{
+    margin-top: .75rem;
+}
+.timeline li ul li:not(:last-child){
+    margin-bottom: .25rem;
+}
+.timeline li ul li:before{
+    content: "\F3E8";
+    position: absolute;
+    left: 0 ;
+    top: 4px;
+    font-size: .85rem;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    color: #c0c0c0;
+}
 .tour-info .tab-pane strong{
     color: #2ba79d;
     font-size: 1rem;

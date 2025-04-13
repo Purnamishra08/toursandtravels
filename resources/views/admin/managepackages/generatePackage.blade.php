@@ -40,7 +40,97 @@
                                     <div class="col-md-12">
                                         <div class="panel panel-bd lobidrag">
                                             <div class="panel-body">
-                                                
+                                                <form action="{{ route('admin.managetourpackages.addTourPackages') }}" method="POST" id="form_tpackages" name="form_tpackages" class="add-user" enctype="multipart/form-data" onsubmit="return validator()">
+                                                    @csrf
+                                                    <div class="box-main">
+                                                        <fieldset>
+                                                            <legend>Generate Package Details PDF/DOC</legend>
+                                                            <div class="row">
+                                                                <!-- Package Name -->
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Package</label>
+                                                                        <select class="form-select" name="packtype" id="packtype">
+                                                                            <option value="">-- Select Package --</option>
+                                                                            @foreach($packages as $pack)
+                                                                                <option value="{{ $pack->tourpackageid }}" {{ old('packtype') == $pack->tourpackageid ? 'selected' : '' }}>
+                                                                                    {{ $pack->tpackage_name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <div class="form-group">
+                                                                        <label>(Adults: 12+ Yrs)</label>
+                                                                        <div class="d-flex align-items-center" style="gap: 6px;">
+                                                                            <button type="button" class="btn btn-danger btn-sm button-minus" data-field="quantity_adult">−</button>
+                                                                            <input type="text" name="quantity_adult" id="quantity_adult" value="0"
+                                                                                class="form-control text-center quantity-field"
+                                                                                readonly style="width: 35px; height: 30px; padding: 0; font-size: 14px;">
+                                                                            <button type="button" class="btn btn-success btn-sm button-plus" data-field="quantity_adult">+</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <div class="form-group">
+                                                                        <label>(Children: 6-12 Yrs)</label>
+                                                                        <div class="d-flex align-items-center" style="gap: 6px;">
+                                                                            <button type="button" class="btn btn-danger btn-sm button-minus" data-field="quantity_child">−</button>
+                                                                            <input type="text" name="quantity_child" id="quantity_child" value="0"
+                                                                                class="form-control text-center quantity-field"
+                                                                                readonly style="width: 35px; height: 30px; padding: 0; font-size: 14px;">
+                                                                            <button type="button" class="btn btn-success btn-sm button-plus" data-field="quantity_child">+</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <div class="col-md-3">
+                                                                    <div class="form-group">
+                                                                        <label for="vehicle">Vehicle</label>
+                                                                        <select class="form-select" id="vehicle" name="vehicle">
+                                                                            <option value="">---Select Vehicle---</option>
+                                                                        
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <div class="form-group">
+                                                                        <label>Date of travel <span class="manadatory">*</span></label>
+                                                                        <input type="text" data-date-format="dd-mm-yyyy" class="form-control datepicker" id="travel_date" name="travel_date" placeholder="mm-dd-yyyy" autocomplete="off" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="date">Accommodation Type</label>
+                                                                        <select class="form-control" id="accommodation_type" name="accommodation_type">		
+                                                                            <option value=""> - - Select Accommodation - - </option>
+                                                                            
+                                                                        </select>
+                                                                        <span for="accomodation" class="chk-hotl" data-toggle="modal" data-target="#Hotel-check" style="float:right;cursor:pointer">Check Hotels</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <!-- <div class="col-md-6">
+                                                                    <div class="reset-button align-items-center">
+                                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                                        <button type="reset" class="btn btn-danger">Reset</button>
+                                                                    </div>
+                                                                </div> -->
+                                                                <div class="col-md-6">
+                                                                    <div class="reset-button"> 
+                                                                        <button type="button" class="btn btn-primary" name="btnSubmit" id="btnSubmit" onclick="generate()">Generate PDF</button>
+                                                                    </div>
+                                                                </div>   
+                                                                <div class="col-md-6">
+                                                                    <div class="reset-button"> 
+                                                                        <button type="button" class="btn btn-primary" name="btnSubmit" id="btnSubmit2" onclick="generateDoc()">Generate DOC</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -50,6 +140,39 @@
                     </div>
                 </main>
                 <!-- Main Content End -->
+                <!-- Hotel Modal -->
+                            <div class="modal fade" id="Hotel-check">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Hotels</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <div class="hotel-chk-sec">
+                                                <div class="row" id="accomodation_result">
+                                                    <div class="col-xl-12 col-lg-12">
+                                                        <h4 style="color:#6583bb; padding-bottom:20px;">Select accommodation first to check hotels.</h4>
+                                                    </div>
+                                                </div>
+												<div class="row">
+													<div class="col-xl-12 col-lg-12 text-center">
+                                                        <input type="button" class="btn btn-primary" value="OK" data-dismiss="modal">
+                                                    </div>
+												</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal footer -->
+
+                                    </div>
+                                </div>
+                            </div>
+                <!-- Hotel Modal -->
 
                 <!-- Footer Start-->
                 @include('admin.include.footer')
@@ -60,6 +183,31 @@
     <!-- FooterJs Start-->
     @include('admin.include.footerJs')
     <!-- FooterJs End-->
+     <script>
+    $(".datepicker").datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        changeMonth: true,
+        changeYear: true, // Allow year selection
+        minDate: +2, //
+        showButtonPanel: true, // Show footer buttons
+        closeText: "Close", // Customize close button text
+        currentText: "Today", // Customize today button text
+        clearText: "Clear", // Customize clear button text
+        beforeShow: function (input, inst) {
+            setTimeout(function () {
+                $(inst.dpDiv).find(".ui-datepicker-close").hide(); // Hide default close button
+                if (!$(inst.dpDiv).find(".ui-datepicker-clear").length) {
+                    $(inst.dpDiv)
+                        .find(".ui-datepicker-buttonpane")
+                        .append(
+                            '<button type="button" class="ui-datepicker-clear ui-state-default ui-priority-secondary ui-corner-all">Clear</button>'
+                        ); // Add Clear button
+                }
+            }, 1);
+        },
+    });
+     </script>
 
 </body>
 
