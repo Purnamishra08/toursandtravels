@@ -74,6 +74,48 @@ class TourController extends Controller
         }
         return view('website.tourlisting');
     }
+    public function allTourPlacePackages($slug){
+        $placesData = DB::table('tbl_places')
+        ->select('placeid','place_name')
+        ->where('place_url', $slug)
+        ->where('status', 1)
+        ->where('bit_Deleted_Flag', 0)
+        ->first();
+        if(count((array)$placesData) > 0){
+            $tours = DB::table('tbl_tourpackages as a')
+            ->join('tbl_itinerary_daywise as d', 'd.package_id', '=', 'a.tourpackageid')
+            ->join('tbl_destination as b', 'a.starting_city', '=', 'b.destination_id')
+            ->join('tbl_package_duration as c', 'a.package_duration', '=', 'c.durationid')
+            ->select(
+                'a.tourpackageid',
+                'a.tpackage_name',
+                'a.tpackage_url',
+                'a.price',
+                'a.fakeprice',
+                'a.tpackage_image',
+                'a.tour_thumb',
+                'a.alttag_thumb',
+                'a.ratings',
+                'a.pack_type',
+                'b.destination_name',
+                'c.duration_name',
+            )
+            ->whereRaw('FIND_IN_SET(?, d.place_id)', [$placesData->placeid ?? 0])
+            ->where('a.bit_Deleted_Flag', 0)
+            ->where('d.bit_Deleted_Flag', 0)
+            ->where('a.status', 1)
+            ->get();
+            $countAndPrice = DB::table('tbl_itinerary_daywise as a')
+            ->join('tbl_tourpackages as b', 'a.package_id', '=', 'b.tourpackageid')
+            ->selectRaw('COUNT(b.tourpackageid) as total_packages, MIN(b.price) as min_price')
+            ->whereRaw('FIND_IN_SET(?, a.place_id)', [$placesData->placeid ?? 0])
+            ->where('b.status', 1)
+            ->where('a.bit_Deleted_Flag',0)
+            ->where('b.bit_Deleted_Flag', 0)
+            ->first();
+        }
+        return view('website.tourplacelisting', ['tours' => $tours, 'placesData' => $placesData, 'countAndPrice' => $countAndPrice]);
+    }
     public function tourDetails1($slug){
 
         $tour = DB::table('tbl_tourpackages as a')

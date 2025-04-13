@@ -3,14 +3,14 @@
 
 <div class="breadcrumb-section" style="background-image: url('{{ asset('storage/destination_images/' . $destinationData->destiimg) }}');">
     <div class="container">
-        <h1 class="page-name">{{$destinationData->destination_name}} Overview</h1>
+        <h1 class="page-name">{{$destinationData->destination_name}} </h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
                 <a href="{{route('website.home')}}" class="breadcrumb-link"><i class="bi bi-house"></i></a>
             </li>
 
             <li class="breadcrumb-item">
-                <a href="{{route('website.destinationdetails', ['slug' => $destinatoinURL->destination_url])}}" class="breadcrumb-link active">{{$destinationData->destination_name}} Overview</a>
+                <a href="{{route('website.destinationdetails', ['slug' => $destinationData->destination_url])}}" class="breadcrumb-link active">{{$destinationData->destination_name}} </a>
             </li>
         </ul>
     </div>
@@ -81,7 +81,13 @@
                                 <li><a href="{{$LinkedInLink}}" title="Linkdin" target="_blank"> <i class="bi bi-linkedin"></i></a></li>
                             </ul>
                         </div>
-                        <a class="moreless-button " href="#">Read more</a>
+                        <br>
+                        <a class="moreless-button" href="#"
+                        style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500;">
+                        Read more <span style="margin-left: 5px;">&#x25BC;</span>
+                        </a>
+
+
                     </div>
                     <div class="page-section" id="topPlace">
                         <h1 class="page-section-heading">Top Places to Visit </h1>
@@ -341,12 +347,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                <h1 class="my-3">Planning a Trip to Bhubaneswar ?</h1>
-                <a href="" class="btn btn-warning">7 Bhubaneswar Tours from ₹9301.00 </a>
-                  <a href="" class="d-block mt-3">Explore & Book Online</a>
-                    
+                    <h1 class="my-3">Planning a Trip to {{$destinationData->destination_name}} ?</h1>
+                    <a href="{{ route('website.allTourPackages') }}" target="_blank" class="btn btn-warning">{{!empty($total_packages) ? $countAndPrice->total_packages : ''}} {{$countAndPrice->total_packages}} Tours from {{!empty($countAndPrice) ? $countAndPrice->min_price : ''}} </a>
+                    <a href="{{ route('website.allTourPackages') }}" target="_blank" class="d-block mt-3">Explore & Book Online</a>
                 </div>
-               
             </div>
         </div>
     </div>
@@ -490,10 +494,10 @@
         $('.full-text-content').toggleClass('d-none'); // Show/hide the full text content
 
         // Change the button text accordingly
-        if ($(this).text() == "Read more") {
-            $(this).text("Read less");
+        if ($(this).text().trim().startsWith("Read more")) {
+            $(this).html('Read less <span style="margin-left: 5px;">&#9650;</span>'); // ▲
         } else {
-            $(this).text("Read more");
+            $(this).html('Read more <span style="margin-left: 5px;">&#9660;</span>'); // ▼
         }
     });
 </script>
