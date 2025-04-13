@@ -182,3 +182,6 @@ width: 100%;
     #page-load-modal h1{
         font-size: 1.5rem;
     }
+    #page-load-modal .modal-header{
+        padding-bottom: 0;
+    }

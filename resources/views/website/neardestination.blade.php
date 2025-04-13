@@ -684,7 +684,7 @@
             </div>
 
         </section>
-<!-- modal -->
+<!--page-load- modal -->
 <div class="modal fade" tabindex="-1" id="page-load-modal">
         <div class="modal-dialog modal-md">
             <div class="modal-content ">
@@ -692,7 +692,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                <h1 class="my-3">Planning a Trip to Dhauli ?</h1>
+                <h1 class="mb-3">Planning a Trip to Dhauli ?</h1>
                 <a href="" class="btn btn-warning">1 Dhauli Tours from ₹9301.00 </a>
                   <a href="" class="d-block mt-3">Explore & Book Online</a>
                     

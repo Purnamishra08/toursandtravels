@@ -341,7 +341,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                <h1 class="my-3">Planning a Trip to Bhubaneswar ?</h1>
+                <h1 class="mb-3">Planning a Trip to Bhubaneswar ?</h1>
                 <a href="" class="btn btn-warning">7 Bhubaneswar Tours from ₹9301.00 </a>
                   <a href="" class="d-block mt-3">Explore & Book Online</a>
                     
