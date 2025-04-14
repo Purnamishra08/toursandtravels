@@ -84,7 +84,7 @@
                             </ul>
                         </div>
                         <br>
-                        <a class="moreless-button" href=""
+                        <a class="moreless-button" href="javascript:void(0)"
                         style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500;">
                         Read more <span style="margin-left: 5px;">&#x25BC;</span>
                         </a>
