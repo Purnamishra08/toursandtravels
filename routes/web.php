@@ -417,6 +417,12 @@ Route::middleware('auth')->group(function () {
 
     //Generate pdf or word doc
     Route::match(['get', 'post'], '/generatePackageDoc', [PackagePdfController::class, 'index'])->name('admin.generatePackageDoc');
+    Route::get('/getPackageMaxCapacity/{id}', [PackagePdfController::class, 'getPackageMaxCapacity'])->name('admin.generatePackageDoc.getPackageMaxCapacity');
+    Route::get('/getPackageItineraries/{id}', [PackagePdfController::class, 'getPackageItineraries'])->name('admin.generatePackageDoc.getPackageItineraries');
+    Route::get('/getPackageAccommodations/{id}', [PackagePdfController::class, 'getPackageAccommodations'])->name('admin.generatePackageDoc.getPackageAccommodations');
+    Route::get('/getVehicles', [PackagePdfController::class, 'getVehicles'])->name('admin.generatePackageDoc.getVehicles');
+    Route::get('/getAccommodation', [PackagePdfController::class, 'getAccommodation'])->name('admin.generatePackageDoc.getAccommodation');
+    Route::match(['get', 'post'], '/generatePDF', [PackagePdfController::class, 'generatePDF'])->name('admin.generatePackageDoc.generatePDF');
     
     //Generate pdf or word doc
 });
