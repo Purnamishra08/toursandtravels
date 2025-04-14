@@ -118,6 +118,8 @@
             
             'admin.manageblogscomments' => ['Manage Blogs', 'View Blogs Comment', 'fa-brands fa-blogger', 'fa fa-question-circle'],
             'admin.manageblogscomments.editmanageblogscomments' => ['Manage Blogs', 'Edit Blogs Comment', 'fa-brands fa-blogger', 'fa fa-question-circle'],
+
+            'admin.generatePackageDoc' => ['Package PDF', '', 'fa-solid fa-file', ''],
         ];
 
         $route = $routes[Route::currentRouteName()] ?? ['Dashboard', '',    'fa-line-chart', ''];
