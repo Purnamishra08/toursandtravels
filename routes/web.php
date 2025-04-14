@@ -34,15 +34,16 @@ use App\Http\Controllers\Admin\ManageFollowUpEnquiries\EnquiriesReportController
 use App\Http\Controllers\Admin\ManageBlogs\ManageBlogsController;
 use App\Http\Controllers\Admin\ManageBlogs\ManageBlogsCommentsController;
 use App\Http\Controllers\Admin\ManagePackages\PackagePdfController;
-use App\Http\Controllers\Website\Destination\DestinationsController;
 /********  ADMIN ROUTING    ********/
 
 /********  WEBSITE ROUTING    ********/
+use App\Http\Controllers\Website\Destination\DestinationsController;
 use App\Http\Controllers\Website\Blogs\BlogsController;
 use App\Http\Controllers\Website\Home\HomeController;
 use App\Http\Controllers\Website\Contact\ContactController;
 use App\Http\Controllers\Website\Footer\FooterController;
 use App\Http\Controllers\Website\Tour\TourController;
+use App\Http\Controllers\Website\Places\PlaceController;
 
 
 /********  WEBSITE ROUTING    ********/
@@ -89,6 +90,7 @@ Route::get('/', [HomeController::class, 'index'])->name('website.home');
 Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
 Route::view('/faq', 'website.faq');
+Route::view('/bookingDownload', 'website.bookingDownload');
 Route::view('/tourlisting', 'website.tourlisting');
 Route::view('/tourdetails', 'website.tourdetails');
 Route::get('/blog', [BlogsController::class, 'index'])->name('website.bloglisting');
@@ -105,6 +107,7 @@ Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('we
 
 //Tour Routing
 Route::get('/tour', [TourController::class, 'allTourPackages'])->name('website.allTourPackages');
+Route::get('/place-package/{slug}', [TourController::class, 'allTourPlacePackages'])->name('website.allTourPlacePackages');
 Route::get('tour/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
 //Tour Routing
 
@@ -113,6 +116,13 @@ Route::get('destinations/{slug}', [DestinationsController::class, 'index'])->nam
 Route::post('/get-places', [DestinationsController::class, 'getPlaces'])->name('website.places');
 Route::get('/get-popular-tours', [DestinationsController::class, 'popularTourData'])->name('website.popularTourData');
 //Destination Routing
+
+//Place routing
+Route::get('place/{slug}', [PlaceController::class, 'index'])->name('website.neardestination');
+Route::get('/get-popular-tours-places', [PlaceController::class, 'popularTourDataPlaces'])->name('website.popularTourDataPlaces');
+Route::get('/get-popular-places-data', [PlaceController::class, 'allPlacesDataAsPerDestination'])->name('website.allPlacesDataAsPerDestination');
+Route::get('/popular-tour-places', [PlaceController::class, 'popularTourPlaces'])->name('website.popularTourPlaces');
+//Place routing
 
 
 //Footer

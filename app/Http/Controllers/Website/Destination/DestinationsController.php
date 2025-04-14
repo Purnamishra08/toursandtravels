@@ -24,29 +24,23 @@ class DestinationsController extends Controller{
                     ->where('p.bit_Deleted_Flag', '=', 0)
                     ->where('p.status', 1)
                     ->get();
-        $similarDestinationTags = DB::table('tbl_destination_places')
-                                ->where('type', 1)
-                                ->where('bit_Deleted_Flag', 0)
-                                ->where('destination_id', $destinationData->destination_id ?? 0)
-                                ->pluck('simdest_id') // Fetch only the cat_id column
-                                ->toArray();
-        $nearbyPlacesTags = DB::table('tbl_destination_places')
-                            ->where('type', 2)
-                            ->where('bit_Deleted_Flag', 0)
-                            ->where('destination_id', $destinationData->destination_id ?? 0)
-                            ->pluck('simdest_id') // Fetch only the cat_id column
-                            ->toArray();
         $parameters =  DB::table('tbl_parameters')
                     ->select('parameter', 'par_value', 'parid')
                     ->where('param_type', 'CS')
                     ->where('status', 1)
                     ->where('bit_Deleted_Flag', 0)
                     ->get();
-        return view('website.destination', ['destinationData' => $destinationData, 'placesData' => $placesData, 'parameters' => $parameters])->with([
+        $countAndPrice = DB::table('tbl_tourpackages as a')
+                    ->selectRaw('COUNT(a.tourpackageid) as total_packages, MIN(a.price) as min_price')
+                    ->where('a.bit_Deleted_Flag', 0)
+                    ->where('a.status', 1)
+                    ->first();
+
+        return view('website.destination', ['destinationData' => $destinationData, 'placesData' => $placesData, 'parameters' => $parameters, 'countAndPrice' => $countAndPrice])->with([
             'meta_title' => $destinationData->meta_title,
             'meta_description' => $destinationData->meta_description,
             'meta_keywords' => $destinationData->meta_keywords
-        ]);;
+        ]);
     }
     public function getPlaces(Request $request)
     {
@@ -70,7 +64,7 @@ class DestinationsController extends Controller{
                     <div class="card-body">
                         <h5 class="card-title">' . e($place->place_name) . '</h5>
                         <p class="card-text mb-2">' . implode(' ', array_slice(explode(' ', strip_tags($place->about_place)), 0, 30)) . '...</p>
-                        <a href="' . url('place/' . $place->place_url) . '" class="stretched-link fw-bold">View Details <i class="ms-2 bi bi-arrow-right"></i></a>
+                        <a href="' . url('place/' . $place->place_url) . '" target="_blank" class="stretched-link fw-bold">View Details <i class="ms-2 bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             ';

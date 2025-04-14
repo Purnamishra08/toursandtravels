@@ -10,7 +10,6 @@
             <li class="breadcrumb-item">
                 <a href="{{route('website.allTourPackages')}}" class="breadcrumb-link active">Tours</a>
             </li>
-            
         </ul>
     </div>
 

@@ -1,16 +1,16 @@
 @include('website.include.webmeta')
 @include('website.include.webheader')
 
-<div class="breadcrumb-section" style="background-image: url('{{ asset('storage/destination_images/' . $destinationData->destiimg) }}');">
+<div class="breadcrumb-section" style="background-image: url('{{ asset('storage/place_images/' . $placesData->placeimg) }}');">
     <div class="container">
-        <h1 class="page-name">{{$destinationData->destination_name}} </h1>
+        <h1 class="page-name">{{$placesData->place_name}}</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
                 <a href="{{route('website.home')}}" class="breadcrumb-link"><i class="bi bi-house"></i></a>
             </li>
 
             <li class="breadcrumb-item">
-                <a href="{{route('website.destinationdetails', ['slug' => $destinationData->destination_url])}}" class="breadcrumb-link active">{{$destinationData->destination_name}} </a>
+                <a href="{{route('website.neardestination', ['slug' => $placesData->place_url])}}" class="breadcrumb-link active">{{$placesData->place_name}}</a>
             </li>
         </ul>
     </div>
@@ -25,9 +25,11 @@
 
                         <nav class="navigation " id="mainNav">
                             <a class="navigation__link active" href="#overview">Overview </a>
-                            <a class="navigation__link" href="#topPlace">Top Place to Visit </a>
+                            <!-- <a class="navigation__link" href="#topPlace">Top Place to Visit </a> -->
                             <a class="navigation__link" href="#tourPackages">Tour Pakages </a>
                             <a class="navigation__link" href="#chetSheet">Essentials Cheat Sheet </a>
+                            <!-- <a class="navigation__link" href="#neardestination">Nearby Destinations </a>
+                            <a class="navigation__link" href="#similiardestination">Similar Destinations </a> -->
                             <a class="navigation__link" href="#map">Getting There </a>
                             
                         </nav>
@@ -55,9 +57,9 @@
                 </div>
                 <div class="col-xxl-9 col-lg-8">
                     <div class="page-section hero" id="overview">
-                        <h1 class="page-section-heading">{{$destinationData->destination_name}} Overview</h1>
+                        <h1 class="page-section-heading">{{$placesData->place_name}} Overview</h1>
                         @php
-                            $aboutFull = trim($destinationData->about_destination);
+                            $aboutFull = trim($placesData->about_place);
                             $aboutLimit = Str::limit($aboutFull, 1000, ''); // Limit to 250 characters
                         @endphp
                         <div class="short-text">
@@ -86,178 +88,171 @@
                         style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500;">
                         Read more <span style="margin-left: 5px;">&#x25BC;</span>
                         </a>
-
-
                     </div>
-                    <div class="page-section" id="topPlace">
+                    <!-- <div class="page-section" id="topPlace">
                         <h1 class="page-section-heading">Top Places to Visit </h1>
-                        <div class="top-place-wrapper" id="post-data">
-                            <!-- Loaded places will appear here -->
+                        <div class="top-place-wrapper">
+                            <div class="card top-place-card">
+                                <img src="https://myholidayhappiness.com/uploads/dhauli-2032.jpg" class="card-img-top" alt="img">
+                                <div class="card-body">
+                                    <h5 class="card-title">Dhauli</h5>
+                                    <p class="card-text mb-2">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a href="#" class=" stretched-link  fw-bold">View Details <i class=" ms-2 bi bi-arrow-right"></i> </a>
+                                </div>
+                            </div>
+                            <div class="card top-place-card">
+                                <img src="https://myholidayhappiness.com/uploads/dhauli-2032.jpg" class="card-img-top" alt="img">
+                                <div class="card-body">
+                                    <h5 class="card-title">Dhauli</h5>
+                                    <p class="card-text mb-2">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a href="#" class=" stretched-link  fw-bold">View Details <i class=" ms-2 bi bi-arrow-right"></i> </a>
+                                </div>
+                            </div>
+                            <div class="card top-place-card">
+                                <img src="https://myholidayhappiness.com/uploads/dhauli-2032.jpg" class="card-img-top" alt="img">
+                                <div class="card-body">
+                                    <h5 class="card-title">Dhauli</h5>
+                                    <p class="card-text mb-2">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a href="#" class=" stretched-link  fw-bold">View Details <i class=" ms-2 bi bi-arrow-right"></i> </a>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="ajax-load text-center" style="display: none;">
-                            <p>Loading more places...</p>
-                        </div>
-                        <button id="view-all-btn" class="btn btn-warning w-100 mt-3">View All</button>
-                    </div>
+                        <button class="btn btn-warning w-100 mt-3">View All</button>
+                    </div> -->
                     <div class="page-section" id="tourPackages">
                         <h1 class="page-section-heading">Tour package</h1>
-                        <div class="card-wrapper" id="popular-tour"></div>
-                        <a href="{{ route('website.allTourPackages') }}" target="_blank" class="btn btn-warning mt-3 w-100">View All</a>
-
+                        <div class="card-wrapper" id="popular-tour"> </div>
+                        <a href="{{ route('website.allTourPlacePackages', ['slug' => $placesData->place_url]) }}" target="_blank" class="btn btn-warning mt-3 w-100">View All</a>
                     </div>
                     <div class="page-section" id="chetSheet">
                         <h1 class="page-section-heading">Essentials Cheat Sheet</h1>
                         <div class="card chet-sheet-card">
                             <div class="card-body">
-                                <div class="d-flex  gap-2">
+                            <div class="d-flex  gap-2">
                                     <div class="icon-patch">
-                                        <img src="{{ asset('assets/img/web-img/trip-duration.png') }}" alt="icon">
+                                        <img src="{{ asset('assets/img/web-img/exploretion-type.png') }}" alt="icon">
                                     </div>
                                     <div>
-                                        <label class="d-block text-secondary">Ideal Trip Duration</label>
-                                        <strong class="">{{$destinationData->trip_duration}}</strong>
-                                    </div>
-                                </div>
-                                <div class="d-flex  gap-2">
-                                    <div class="icon-patch">
-                                        <img src="{{ asset('assets/img/web-img/nearby-location.png') }}" alt="icon">
-                                    </div>
-                                    <div>
-                                        <label class="d-block text-secondary">Nearest City</label>
-                                        <strong class="">{{$destinationData->nearest_city}}</strong>
-                                    </div>
-                                </div>
-                                <div class="d-flex  gap-2">
-                                    <div class="icon-patch">
-                                        <img src="{{ asset('assets/img/web-img/bestTime-to-visit.png') }}" alt="icon">
-                                    </div>
-                                    <div>
-                                        <label class="d-block text-secondary">Best Time to Visit</label>
-                                        <strong class="">{{$destinationData->visit_time}}</strong>
-                                    </div>
-                                </div>
-                                <div class="d-flex  gap-2">
-                                    <div class="icon-patch">
-                                        <img src="{{ asset('assets/img/web-img/peak-season.png') }}" alt="icon">
-                                    </div>
-                                    <div>
-                                        <label class="d-block text-secondary">Peak Season</label>
-                                        <strong class="">{{$destinationData->peak_season}}</strong>
-                                    </div>
-                                </div>
-                                <div class="d-flex  gap-2">
-                                    <div class="icon-patch">
-                                        <img src="{{ asset('assets/img/web-img/weather.png') }}" alt="icon">
-                                    </div>
-                                    <div>
-                                        <label class="d-block text-secondary">Weather Info</label>
-                                        <strong class="">{{$destinationData->weather_info}}</strong>
-                                    </div>
-                                </div>
-                                <div class="d-flex  gap-2">
-                                    <div class="icon-patch">
-                                        <img src="{{ asset('assets/img/web-img/state.png') }}" alt="icon">
-                                    </div>
-                                    <div>
-                                        <label class="d-block text-secondary">State</label>
-                                        <strong class="">Karnataka</strong>
+                                        <label class="d-block text-secondary">Exploration Type</label>
+                                        <strong class="">{{!empty($destinationTypes) ? $destinationTypes->destination_type_names : 'N/A'}}</strong>
                                     </div>
                                 </div>
                                 <!-- <div class="d-flex  gap-2">
                                     <div class="icon-patch">
-                                        <img src="{{ asset('assets/img/web-img/internet.png') }}" alt="icon">
+                                        <img src="{{ asset('assets/img/web-img/timing.png') }}" alt="icon">
                                     </div>
                                     <div>
-                                        <label class="d-block text-secondary">Internet</label>
-                                        <strong class="">Good</strong>
-                                    </div>
-                                </div>
-                                <div class="d-flex  gap-2">
-                                    <div class="icon-patch">
-                                        <img src="{{ asset('assets/img/web-img/telephone.png') }}" alt="icon">
-                                    </div>
-                                    <div>
-                                        <label class="d-block text-secondary">STD Code</label>
-                                        <strong class="">0674</strong>
-                                    </div>
-                                </div>
-                                <div class="d-flex  gap-2">
-                                    <div class="icon-patch">
-                                        <img src="{{ asset('assets/img/web-img/languages.png') }}" alt="icon">
-                                    </div>
-                                    <div>
-                                        <label class="d-block text-secondary">Languages</label>
-                                        <strong class="">Odia, Hindi and English</strong>
-                                    </div>
-                                </div>
-                                <div class="d-flex  gap-2">
-                                    <div class="icon-patch">
-                                        <img src="{{ asset('assets/img/web-img/festival.png') }}" alt="icon">
-                                    </div>
-                                    <div>
-                                        <label class="d-block text-secondary">Festival</label>
-                                        <strong class="">Kalinga Mahotsav, Durga Pooja, Konark Dance Festival and Chandan yatra</strong>
+                                        <label class="d-block text-secondary">Timings</label>
+                                        <strong class="">7:00 AM to 6:00 PM</strong>
                                     </div>
                                 </div> -->
+                                <!-- <div class="d-flex  gap-2">
+                                    <div class="icon-patch">
+                                        <img src="{{ asset('assets/img/web-img/entryFee.png') }}" alt="icon">
+                                    </div>
+                                    <div>
+                                        <label class="d-block text-secondary">Entry Fee</label>
+                                        <strong class="">Rs. 25 per Person</strong>
+                                    </div>
+                                </div>   -->
+                                <div class="d-flex  gap-2">
+                                    <div class="icon-patch">
+                                        <img src="{{ asset('assets/img/web-img/distance.png') }}" alt="icon">
+                                    </div>
+                                    <div>
+                                        <label class="d-block text-secondary">Distance from near by city</label>
+                                        <strong class="">{{!empty($placesData->distance_from_nearest_city) ? $placesData->distance_from_nearest_city : 'N/A'}}</strong>
+                                    </div>
+                                </div>
+                                <!-- <div class="d-flex  gap-2">
+                                    <div class="icon-patch">
+                                        <img src="{{ asset('assets/img/web-img/trip-duration.png') }}" alt="icon">
+                                    </div>
+                                    <div>
+                                        <label class="d-block text-secondary">Trip duration (including travel in hours)</label>
+                                        <strong class="">1 - 2 Hours</strong>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="d-flex  gap-2">
+                                    <div class="icon-patch">
+                                        <img src="{{ asset('assets/img/web-img/car.png') }}" alt="icon">
+                                    </div>
+                                    <div>
+                                        <label class="d-block text-secondary">Transportation Options</label>
+                                        <strong class="">Sedan - AC (4+1), SUV - AC (7+1), Tempo Traveller - AC (12+1)</strong>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="d-flex  gap-2">
+                                    <div class="icon-patch">
+                                        <img src="{{ asset('assets/img/web-img/package.png') }}" alt="icon">
+                                    </div>
+                                    <div>
+                                        <label class="d-block text-secondary"><a href="">1 package starts from</a></label>
+                                        <strong class="">₹ 9301.00</strong>
+                                    </div>
+                                </div> -->
+                               
+                              
 
                             </div>
-                            <!-- <div class="card-footer bg-white">
-                                <small class="text-danger"><strong class="me-2">Notes/Tips:</strong>Try to wear white, neutral tones of clothing to stay comfortable in summer. And avoid staying out at night as the city is quite an early sleeper.</small>
-                            </div> -->
+                            <div class="card-footer bg-white">
+                                <small class="text-danger"><strong class="me-2">Notes/Tips:</strong>{{!empty($placesData->travel_tips) ? $placesData->travel_tips : 'N/A'}}</small>
+                            </div>
                         </div>
                     </div>
                     <!-- <div class="page-section" id="neardestination">
                         <h1 class="page-section-heading">Near by Destinations</h1>
                         <div class="near-destination-wrapper">
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Puri</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Konark</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Ramchandi</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Lingaraj</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Dhauli</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Nandankanan</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Khandagiri</h2>
-                            
-                            </div>
-                        </a>
+                            <a href="#" class="card near-Dcard">
+                                <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
+                                <div class="overlay">
+                                <h2>Puri</h2>
+                                
+                                </div>
+                            </a>
+                            <a href="#" class="card near-Dcard">
+                                <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
+                                <div class="overlay">
+                                <h2>Konark</h2>
+                                
+                                </div>
+                            </a>
+                            <a href="#" class="card near-Dcard">
+                                <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
+                                <div class="overlay">
+                                <h2>Ramchandi</h2>
+                                
+                                </div>
+                            </a>
+                            <a href="#" class="card near-Dcard">
+                                <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
+                                <div class="overlay">
+                                <h2>Lingaraj</h2>
+                                
+                                </div>
+                            </a>
+                            <a href="#" class="card near-Dcard">
+                                <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
+                                <div class="overlay">
+                                <h2>Dhauli</h2>
+                                
+                                </div>
+                            </a>
+                            <a href="#" class="card near-Dcard">
+                                <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
+                                <div class="overlay">
+                                <h2>Nandankanan</h2>
+                                
+                                </div>
+                            </a>
+                            <a href="#" class="card near-Dcard">
+                                <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
+                                <div class="overlay">
+                                <h2>Khandagiri</h2>
+                                
+                                </div>
+                            </a>
                         </div>
                     </div>
                     <div class="page-section" id="similiardestination">
@@ -316,13 +311,26 @@
                     </div> -->
                     <div class="page-section" id="map">
                         <h1 class="page-section-heading">Getting There </h1>
-                        {!! $destinationData->google_map !!}
+                        {!! $placesData->google_map !!}
                     </div>
 
                     </div>
                     
                 </div>
             </div>
+        </div>
+    </section>
+    <section class="bg-light">
+        <div class="container" id="placesDataAll">
+            <!-- <h1 class="page-section-heading">13 places to visit & things to do in Bhubaneswar</h1>
+            <div class="near-destination-wrapper" id="placesDataAll">
+                <a href="#" class="card near-Dcard">
+                    <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
+                    <div class="overlay">
+                        <h2>Puri</h2>
+                    </div>
+                </a>
+            </div> -->
         </div>
     </section>
     <section class="bg-light-green">
@@ -333,13 +341,13 @@
                     <h2 class="section-title-sm"> Most Popular Tour</h2>
                 </div>
             </div>
-            <div class="card-wrapper" id="allTour">
+            <div class="ajax-load text-center" style="display: none;">
+                <p>Loading more packages...</p>
             </div>
+            <div class="card-wrapper" id="allTour"></div>
         </div>
     </section>
-
-</div>
-<!--page-load- modal -->
+<!-- modal -->
 <div class="modal fade" tabindex="-1" id="page-load-modal">
         <div class="modal-dialog modal-md">
             <div class="modal-content ">
@@ -347,68 +355,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                    <h1 class="mb-3">Planning a Trip to {{$destinationData->destination_name}} ?</h1>
-                    <a href="{{ route('website.allTourPackages') }}" target="_blank" class="btn btn-warning">{{!empty($total_packages) ? $countAndPrice->total_packages : ''}} {{$countAndPrice->total_packages}} Tours from {{!empty($countAndPrice) ? $countAndPrice->min_price : ''}} </a>
-                    <a href="{{ route('website.allTourPackages') }}" target="_blank" class="d-block mt-3">Explore & Book Online</a>
+                    <h1 class="my-3">Planning a Trip to {{$placesData->place_name}} ?</h1>
+                    <a href="{{ route('website.allTourPlacePackages', ['slug' => $placesData->place_url]) }}" target="_blank" class="btn btn-warning">{{!empty($total_packages) ? $countAndPrice->total_packages : ''}} {{$countAndPrice->total_packages}} Tours from {{!empty($countAndPrice) ? $countAndPrice->min_price : ''}} </a>
+                    <a href="{{ route('website.allTourPlacePackages', ['slug' => $placesData->place_url]) }}" target="_blank" class="d-block mt-3">Explore & Book Online</a>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
     crossorigin="anonymous"></script>
 <script>
-    let page = 1;
     let isLoading = false;
     let finished = false;
-    function loadPlaces(loadAll = false) {
-        $.ajax({
-            url: "{{ route('website.places') }}",
-            type: "POST",
-            data: {
-                destination_id: '{{ $destinationData->destination_id }}',
-                load_all: loadAll,
-                page: page,
-                _token: "{{ csrf_token() }}"
-            },
-            beforeSend: function () {
-                $('.ajax-load').show();  // Show loading spinner
-            },
-            success: function (data) {
-                if (data.trim().length === 0) {
-                    finished = true;  // Mark as finished if no data
-                    $('.ajax-load').html("<p class='text-center'>No more records found</p>");
-                    return;
-                }
-
-                if (loadAll) {
-                    $('#post-data').html(data);  // Show all places
-                    $('#view-all-btn').hide();  // Hide "View All" button after loading all
-                } else {
-                    if (page === 1) {
-                        $('#post-data').html(data);  // Show only the first 3 places
-                    } else {
-                        $('#post-data').append(data);  // Append more places on subsequent pages
-                    }
-                }
-
-                $('.ajax-load').hide();  // Hide loading spinner
-            },
-            error: function () {
-                console.log("Error loading places.");
-                $('.ajax-load').hide();
-            }
-        });
-    }
-    
-    function loadPopularTour(page) {
+    function loadPopularTour() {
         if (finished) return;
         $.ajax({
-            url: "{{ route('website.popularTour') }}?page=" + page,
+            url: "{{ route('website.popularTourPlaces') }}",
             type: "get",
             data: {
-                fromDestination: 1,
+                place_Id: '{{ $placesData->placeid }}',
                 _token: "{{ csrf_token() }}"
             },
             beforeSend: function () {
@@ -428,11 +396,38 @@
             $('.ajax-load').hide();
         });
     }
-    function loadPopularTourData(page) {
+    function loadPopularTourData() {
         if (finished) return;
         $.ajax({
-            url: "{{ route('website.popularTourData') }}?page=" + page,
+            url: "{{ route('website.popularTourDataPlaces') }}",
             type: "get",
+            beforeSend: function () {
+                $('.ajax-load').show();
+            }
+        }).done(function (data) {
+            if (data.trim().length == 0) {
+                finished = true;
+                $('.ajax-load').html("<p class='text-center'>No more records found</p>");
+                return;
+            }
+            $('#allTour').append(data);
+            isLoading = false;
+            $('.ajax-load').hide();
+        }).fail(function () {
+            console.log("Server error");
+            $('.ajax-load').hide();
+        });
+    }
+    function loadPopularPlaceData() {
+        if (finished) return;
+        $.ajax({
+            url: "{{ route('website.allPlacesDataAsPerDestination') }}",
+            type: "get",
+            data: {
+                destination_id: '{{ $placesData->destination_id }}',
+                place_Id: '{{ $placesData->placeid }}',
+                _token: "{{ csrf_token() }}"
+            },
             beforeSend: function () {
                 $('.ajax-load').show();
             }
@@ -443,7 +438,7 @@
                 return;
             }
             $('.ajax-load').hide();
-            $('#allTour').append(data);
+            $('#placesDataAll').append(data);
             isLoading = false;
         }).fail(function () {
             console.log("Server error");
@@ -451,12 +446,9 @@
         });
     }
     $(document).ready(function () {
-        loadPlaces(false);
         loadPopularTour(true);
         loadPopularTourData(true);
-    });
-    $('#view-all-btn').on('click', function () {
-        loadPlaces(true);
+        loadPopularPlaceData(true);
     });
 </script>
 <script>
@@ -479,6 +471,14 @@
 
     $(window).scroll(function() {
         var scrollDistance = $(window).scrollTop();
+
+        // Show/hide menu on scroll
+        //if (scrollDistance >= 850) {
+        //		$('nav').fadeIn("fast");
+        //} else {
+        //		$('nav').fadeOut("fast");
+        //}
+
         // Assign active class to nav links while scolling
         $('.page-section').each(function(i) {
             if ($(this).position().top <= scrollDistance) {
@@ -487,7 +487,8 @@
             }
         });
     }).scroll();
-
+</script>
+<script>
     $('.moreless-button').click(function() {
         // Toggle the visibility of the short and full content
         $('.short-text').toggleClass('d-none'); // Hide/show the short text
