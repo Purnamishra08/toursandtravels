@@ -25,8 +25,8 @@
 
                         <nav class="navigation " id="mainNav">
                             <a class="navigation__link active" href="#overview">Overview </a>
-                            <a class="navigation__link" href="#topPlace">Top Place to Visit </a>
-                            <a class="navigation__link" href="#tourPackages">Tour Pakages </a>
+                            <a class="navigation__link" href="#topPlace">Top Place to Visit in {{$destinationData->destination_name}}</a>
+                            <a class="navigation__link" href="#tourPackages">{{$destinationData->destination_name}} Tour Pakages </a>
                             <a class="navigation__link" href="#chetSheet">Essentials Cheat Sheet </a>
                             <a class="navigation__link" href="#map">Getting There </a>
                             
@@ -90,7 +90,7 @@
 
                     </div>
                     <div class="page-section" id="topPlace">
-                        <h1 class="page-section-heading">Top Places to Visit </h1>
+                        <h1 class="page-section-heading">Top Places to Visit in {{$destinationData->destination_name}}</h1>
                         <div class="top-place-wrapper" id="post-data">
                             <!-- Loaded places will appear here -->
                         </div>
@@ -100,7 +100,7 @@
                         <button id="view-all-btn" class="btn btn-warning w-100 mt-3">View All</button>
                     </div>
                     <div class="page-section" id="tourPackages">
-                        <h1 class="page-section-heading">Tour package</h1>
+                        <h1 class="page-section-heading">{{$destinationData->destination_name}} Tour packages</h1>
                         <div class="card-wrapper" id="popular-tour"></div>
                         <a href="{{ route('website.allTourPackages') }}" target="_blank" class="btn btn-warning mt-3 w-100">View All</a>
 
@@ -330,7 +330,7 @@
             <div class="section-title-container wow animate__fadeInUp" data-wow-delay="200ms" style="visibility: visible; animation-delay: 200ms; animation-name: fadeInUp;">
                 <div>
                     <p class="section-title-small">Feature tours</p>
-                    <h2 class="section-title-sm"> Most Popular Tour</h2>
+                    <h2 class="section-title-sm"> Most Popular {{$destinationData->destination_name}} Tour Packages</h2>
                 </div>
             </div>
             <div class="card-wrapper" id="allTour">

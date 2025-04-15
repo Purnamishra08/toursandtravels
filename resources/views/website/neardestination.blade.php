@@ -26,7 +26,7 @@
                         <nav class="navigation " id="mainNav">
                             <a class="navigation__link active" href="#overview">Overview </a>
                             <!-- <a class="navigation__link" href="#topPlace">Top Place to Visit </a> -->
-                            <a class="navigation__link" href="#tourPackages">Tour Pakages </a>
+                            <a class="navigation__link" href="#tourPackages">{{$placesData->place_name}} Tour Pakages </a>
                             <a class="navigation__link" href="#chetSheet">Essentials Cheat Sheet </a>
                             <!-- <a class="navigation__link" href="#neardestination">Nearby Destinations </a>
                             <a class="navigation__link" href="#similiardestination">Similar Destinations </a> -->
@@ -121,7 +121,7 @@
                         <button class="btn btn-warning w-100 mt-3">View All</button>
                     </div> -->
                     <div class="page-section" id="tourPackages">
-                        <h1 class="page-section-heading">Tour package</h1>
+                        <h1 class="page-section-heading">{{$placesData->place_name}} Tour packages</h1>
                         <div class="card-wrapper" id="popular-tour"> </div>
                         <a href="{{ route('website.allTourPlacePackages', ['slug' => $placesData->place_url]) }}" target="_blank" class="btn btn-warning mt-3 w-100">View All</a>
                     </div>
@@ -338,7 +338,7 @@
             <div class="section-title-container wow animate__fadeInUp" data-wow-delay="200ms" style="visibility: visible; animation-delay: 200ms; animation-name: fadeInUp;">
                 <div>
                     <p class="section-title-small">Feature tours</p>
-                    <h2 class="section-title-sm"> Most Popular Tour</h2>
+                    <h2 class="section-title-sm"> Most Popular {{$placesData->destination_name}} Tour Packages</h2>
                 </div>
             </div>
             <div class="ajax-load text-center" style="display: none;">
