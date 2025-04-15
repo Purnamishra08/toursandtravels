@@ -138,13 +138,11 @@
                             <li class="nav-item dropdown mob-menu">
                                 <div class="accordion accordion-flush" id="parent-accordion">
                                     <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#parentOne"
-                                                aria-expanded="false" aria-controls="parentOne">
-                                                Destination
-                                            </button>
-                                        </h2>
+                                        <a href="{{ route('website.destinationdetails', ['slug' => $destinatoinURL->destination_url]) }}"
+                                               class="nav-link {{ request()->routeIs('website.destinationdetails') ? 'active' : 'collapsed' }}"
+                                               type="button">
+                                               Destination
+                                        </a>
                                         <!-- <div id="parentOne" class="accordion-collapse collapse px-2"
                                             data-bs-parent="#parent-accordion">
                                             <div class="accordion accordion-flush child-accordion" id="child-accordion">
