@@ -9,7 +9,7 @@
     <style>
         .page-header,
         .page-header-space {
-            height: 130px;
+            height: 115px;
         }
 
         .page-footer,
@@ -31,7 +31,7 @@
             position: fixed;
             top: 0mm;
             width: 100%;
-            background-color: #fff;
+            background-color: #e0edeb;
         }
 .watermark{
     position: absolute;
@@ -83,13 +83,13 @@
     print-color-adjust: exact;">
         <table style="width: 100%; border-collapse:collapse;color:#3c3c3c">
             <tr>
-                <td style="padding: .25rem; text-align:center">
+                <td style="padding: .25rem; text-align:right">
                     <img height="50" src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" />
                 </td>
             </tr>
             <tr>
                 <td style="padding: .25rem; ">
-                    <h1 style="font-size:1.1rem; text-align:center;border-bottom:1px solid #3c3c3c;padding-bottom:1rem ">“2 Day Trip from Bhubaneshwar | Puri, Konark & Bhubaneshwar”</h1>
+                    <h1 style="font-size:1.2rem; text-align:center;padding-bottom:1rem ">“2 Day Trip from Bhubaneshwar | Puri, Konark & Bhubaneshwar”</h1>
                 </td>
             </tr>
         </table>
@@ -127,7 +127,7 @@
                 </tr>
                 <tr>
                     <td style="padding: .25rem; ">
-                        <span style="padding: 3px 5px; background-color:yellow">No. of pax – 1 Adults, 1 Childrens</span>
+                        <span style="padding: 3px 5px;display:block; margin-top:.75rem; background-color:yellow">No. of pax – 1 Adults, 1 Childrens</span>
                     </td>
                 </tr>
 
@@ -227,7 +227,7 @@
 
                         </ul>
                         <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Cancellation Charges  </h5>
-                        <ul style="padding-left: 1rem ; margin:0">
+                        <ul style="padding-left: 1rem ; margin:0; page-break-inside: avoid;">
                             <li>16 day or more before the journey:25% deduction on package cost </li>
                             <li>14 day or more before the journey:50% deduction on package cost</li>
                             <li>7 to 14 days before the journey: 75% deduction on package cost</li>
@@ -235,31 +235,40 @@
 
 
                         </ul>
-                        <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Refunds
-                        </h5>
-                        <ul style="padding-left: 1rem ; margin:0">
-                           <li>All refunds are processed with 7 working days</li>
+                        <div style="page-break-inside: avoid;">
 
-                        </ul>
-                        <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Bank Account
-                        </h5>
-                        <ul style="padding-left: 1rem ; margin:0">
-                           <li>Bank name - Kotak Mahindra Bank</li>
-                           <li>Account name - My Holiday Happiness</li>
-                           <li>Account number - 9886 52 52 53</li>
-                           <li>Account type - Current</li>
-                           <li>IFSC Code - KKBK0008078 (Rajajinagar)</li>
+                            <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Refunds
+                            </h5>
+                            <ul style="padding-left: 1rem ; margin:0; ">
+                               <li>All refunds are processed with 7 working days</li>
+    
+                            </ul>
+                        </div>
+                        <div style="page-break-inside: avoid;">
 
-                        </ul>
-                        <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">UPI (Google Pay/BHIM/UPI/PhonePe)
-                        </h5>
-                        <ul style="padding-left: 1rem ; margin:0">
-                           <li>UPI ID - myholidayhappiness2018@ybl</li>
-                           <li>PhonePe - 9886525253</li>
-                           <li>Google Pay - 9886525253</li>
-                           
+                            <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Bank Account
+                            </h5>
+                            <ul style="padding-left: 1rem ; margin:0">
+                               <li>Bank name - Kotak Mahindra Bank</li>
+                               <li>Account name - My Holiday Happiness</li>
+                               <li>Account number - 9886 52 52 53</li>
+                               <li>Account type - Current</li>
+                               <li>IFSC Code - KKBK0008078 (Rajajinagar)</li>
+    
+                            </ul>
+                        </div>
+                        <div style="page-break-inside: avoid;">
 
-                        </ul>
+                            <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">UPI (Google Pay/BHIM/UPI/PhonePe)
+                            </h5>
+                            <ul style="padding-left: 1rem ; margin:0">
+                               <li>UPI ID - myholidayhappiness2018@ybl</li>
+                               <li>PhonePe - 9886525253</li>
+                               <li>Google Pay - 9886525253</li>
+                               
+    
+                            </ul>
+                        </div>
                     </td>
                 </tr>
                 <tr>

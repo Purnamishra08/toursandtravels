@@ -34,7 +34,7 @@ class BlogsController extends Controller
                             <ul>
                                 <li><i class="bi bi-calendar"></i> ' . date('d-M-Y', strtotime($values->created_date)) . '</li>
                             </ul>
-                            <h5 class="card-title mt-3">' . $values->title . '</h5>
+                            <h5 class="card-title mt-2">' . $values->title . '</h5>
                             <p>' . implode(' ', array_slice(explode(' ', $values->content), 0, 30)) . '</p>
                             <div class="text-end mt-2">
                                 <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" class="btn btn-outline-primary">

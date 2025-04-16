@@ -426,6 +426,93 @@ for ($i = 0; $i < $fullStars; $i++)
                 </div>
             </div>
         </section>
+        <section>
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-8">
+                    <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
+                                        <div>
+
+                                            <h2 class="section-title-sm">Frequently Asked Questions</h2>
+                                        </div>
+                                     </div>
+                        <div class="accordion faq-accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <h6> How to search for tour package</h6>
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        To search for tour packages, a customer has to visit to our website - www.myholidayhappiness.com and click on the “Tours” option. This option is available in the upper tab on the website. Then, select “Popular Tour Packages” to know about the tours which are famous and liked by our previous clients. You can easily search for tour packages there, according to your requirements.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <h6>How to calculate tour price</h6>
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <ol>
+                                            <li>Update number of travelers along with the kids as per their age</li>
+                                            <li>Select vehicle type</li>
+                                            <li>mention your travel date</li>
+                                            <li>Choose your hotel as per your choice</li>
+                                            <li>Select airport pick up and drop as per your plan</li>
+                                            <li>Finally, click on "Calculate price"</li>
+                                        </ol>
+                                        <p>With the above-said option one can easily know what the prices for a tour that is to be paid to the service provide My Holiday Happiness. </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <h6>How to Book a Tour on My Holiday website?</h6>
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li> Go to the “Tours” section on the website and click on it. You can see a drop-down menu where different tour packages will show. Click any one of them according to your wish and then a webpage will be redirected. You can select the “Starting City” and the “Trip Duration” in order to know the price for your trip. You will get a lot of options of tour packages which you may select according to your will. </li>
+                                            <li>There will be some more options which you need to answer correctly in order to get the final price of your tour.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card contact-card">
+                                <div class="card-body">
+                                    <h4 class="text-white">Contact Us</h4>
+                                <ul class="contact-wrapper mt-1">
+                                    <li>
+                                        <i class="bi bi-telephone"></i>
+                                        <a href="tel:+926669990000">+ 926669990000</a>
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-envelope"></i>
+                                        <a href="mailto:needhelp@company.com">support@myholidayhappiness.com</a>
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-geo-alt"></i>
+                                        <p># 66 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar, Bengaluru, Karnataka 560010</p>
+                                    </li>
+                                </ul>
+                                </div>
+                            </div>  
+                        </div>
+                </div>
+                    
+            </div>
+
+        </section>
     </div>
     <div class="modal fade" tabindex="-1" id="exampleModal">
         <div class="modal-dialog modal-lg">
@@ -674,7 +761,7 @@ for ($i = 0; $i < $fullStars; $i++)
                     <h6 class="text-info text-decoration-underline">Four Star Hotel in Puri (1 Night)</h6>
                     <div class="hotel-wrapper mb-1">
                         <label class=" hotel-details-card ">
-                        <input name="hotel" class="hotel-radio" type="radio" >
+                            <input name="hotel" class="hotel-radio" type="radio">
                             <div class="card-body plan-details">
                                 <span class="d-block h-name"><i class="bi bi-buildings"></i>Preethi International</span>
                                 <span class="d-block"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
@@ -693,7 +780,7 @@ for ($i = 0; $i < $fullStars; $i++)
                             </div>
                         </label>
                         <label class=" hotel-details-card ">
-                        <input name="hotel" class="hotel-radio" type="radio" >
+                            <input name="hotel" class="hotel-radio" type="radio">
                             <div class="card-body plan-details">
                                 <span class="d-block h-name"><i class="bi bi-buildings"></i>Preethi International</span>
                                 <span class="d-block"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
@@ -707,12 +794,12 @@ for ($i = 0; $i < $fullStars; $i++)
                                     </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star-half-stroke text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star-half-stroke" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
                                         <path fill="currentColor" d="M288 376.4l.1-.1 26.4 14.1 85.2 45.5-16.5-97.6-4.8-28.7 20.7-20.5 70.1-69.3-96.1-14.2-29.3-4.3-12.9-26.6L288.1 86.9l-.1 .3 0 289.2zm175.1 98.3c2 12-3 24.2-12.9 31.3s-23 8-33.8 2.3L288.1 439.8 159.8 508.3C149 514 135.9 513.1 126 506s-14.9-19.3-12.9-31.3L137.8 329 33.6 225.9c-8.6-8.5-11.7-21.2-7.9-32.7s13.7-19.9 25.7-21.7L195 150.3 259.4 18c5.4-11 16.5-18 28.8-18s23.4 7 28.8 18l64.3 132.3 143.6 21.2c12 1.8 22 10.2 25.7 21.7s.7 24.2-7.9 32.7L438.5 329l24.6 145.7z"></path>
                                     </svg><!-- <i class="fa fa-star-half-stroke text-warning"></i> Font Awesome fontawesome.com --> </span>
-                                    <span class="d-block">Three Star Hotel</span>
+                                <span class="d-block">Three Star Hotel</span>
                                 <small class="d-block">(Deluxe room)</small>
                             </div>
                         </label>
                         <label class=" hotel-details-card ">
-                        <input name="hotel" class="hotel-radio" type="radio" >
+                            <input name="hotel" class="hotel-radio" type="radio">
                             <div class="card-body plan-details">
                                 <span class="d-block h-name"><i class="bi bi-buildings"></i>Preethi International</span>
                                 <span class="d-block"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
@@ -726,11 +813,11 @@ for ($i = 0; $i < $fullStars; $i++)
                                     </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star-half-stroke text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star-half-stroke" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
                                         <path fill="currentColor" d="M288 376.4l.1-.1 26.4 14.1 85.2 45.5-16.5-97.6-4.8-28.7 20.7-20.5 70.1-69.3-96.1-14.2-29.3-4.3-12.9-26.6L288.1 86.9l-.1 .3 0 289.2zm175.1 98.3c2 12-3 24.2-12.9 31.3s-23 8-33.8 2.3L288.1 439.8 159.8 508.3C149 514 135.9 513.1 126 506s-14.9-19.3-12.9-31.3L137.8 329 33.6 225.9c-8.6-8.5-11.7-21.2-7.9-32.7s13.7-19.9 25.7-21.7L195 150.3 259.4 18c5.4-11 16.5-18 28.8-18s23.4 7 28.8 18l64.3 132.3 143.6 21.2c12 1.8 22 10.2 25.7 21.7s.7 24.2-7.9 32.7L438.5 329l24.6 145.7z"></path>
                                     </svg><!-- <i class="fa fa-star-half-stroke text-warning"></i> Font Awesome fontawesome.com --> </span>
-                                    <span class="d-block">Three Star Hotel</span>
+                                <span class="d-block">Three Star Hotel</span>
                                 <small class="d-block">(Deluxe room)</small>
                             </div>
                         </label>
-                        
+
                     </div>
                     <div class="text-center mt-3">
                         <button class="btn btn-info ">Ok</button>

@@ -95,3 +95,7 @@ const popularTourSwiper = new Swiper('.popular-tour-swiper', {
 });
 
 // --------scrill top end-------
+// tooltip
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})

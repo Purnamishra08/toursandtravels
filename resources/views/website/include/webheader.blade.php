@@ -283,8 +283,13 @@
             </div>
             <div class="offcanvas-body text-center ">
                <div class="row justify-content-center">
-                    <div class="col-8 mb-3">
-                        <input type="text" class="form-control"  placeholder="Search">
+                    <div class="col-lg-4  mb-3 ">
+                        <select name="" id="" class="form-select ">
+                            <option value="">--Select Destination--</option>
+                            <option value="">Option 2</option>
+                            <option value="">Option 3</option>
+                            <option value="">Option 4</option>
+                        </select>
                     </div>
                </div>
                <button class="btn btn-primary">Search</button>
