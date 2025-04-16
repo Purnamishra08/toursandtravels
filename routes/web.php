@@ -430,10 +430,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/getPackageMaxCapacity/{id}', [PackagePdfController::class, 'getPackageMaxCapacity'])->name('admin.generatePackageDoc.getPackageMaxCapacity');
     Route::get('/getPackageItineraries/{id}', [PackagePdfController::class, 'getPackageItineraries'])->name('admin.generatePackageDoc.getPackageItineraries');
     Route::get('/getPackageAccommodations/{id}', [PackagePdfController::class, 'getPackageAccommodations'])->name('admin.generatePackageDoc.getPackageAccommodations');
-    Route::get('/getVehicles', [PackagePdfController::class, 'getVehicles'])->name('admin.generatePackageDoc.getVehicles');
     Route::get('/getAccommodation', [PackagePdfController::class, 'getAccommodation'])->name('admin.generatePackageDoc.getAccommodation');
     Route::match(['get', 'post'], '/generatePDF', [PackagePdfController::class, 'generatePDF'])->name('admin.generatePackageDoc.generatePDF');
     
     //Generate pdf or word doc
 });
+    Route::get('/getVehicles', [PackagePdfController::class, 'getVehicles'])->name('admin.generatePackageDoc.getVehicles');
+    Route::get('/getAccommodationWeb', [PackagePdfController::class, 'getAccommodationWeb'])->name('admin.generatePackageDoc.getAccommodationWeb');
+    Route::get('/getPackagePrice', [PackagePdfController::class, 'getPackagePrice'])->name('admin.generatePackageDoc.getPackagePrice');
 /********  ADMIN ROUTING    ********/

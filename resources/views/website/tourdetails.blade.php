@@ -289,8 +289,9 @@ for ($i = 0; $i < $fullStars; $i++)
                                                         <div
                                                             class="data-box d-flex justify-content-between  gap-3 align-items-center">
                                                             <span class="minus">-</span>
-                                                            <input type="text" class="form-control guest-count" value="0"
-                                                                readonly>
+                                                            <!-- <input type="text" class="form-control guest-count" value="0"
+                                                                readonly> -->
+                                                                <input type="text" class="form-control guest-count"  step="1" max="{{$max_vehicle_capacity}}" value="0" name="quantity_adult" id="quantity_adult" class="quantity-field" readonly>
                                                             <span class="plus">+</span>
                                                         </div>
                                                     </li>
@@ -302,8 +303,9 @@ for ($i = 0; $i < $fullStars; $i++)
                                                         <div
                                                             class="data-box d-flex justify-content-between  gap-3 align-items-center">
                                                             <span class="minus">-</span>
-                                                            <input type="text" class="form-control guest-count" value="0"
-                                                                readonly>
+                                                            <!-- <input type="text" class="form-control guest-count" value="0"
+                                                                readonly> -->
+                                                            <input type="text" class="form-control guest-count" step="1" max="{{$max_vehicle_capacity}}"  value="0" name="quantity_child" id="quantity_child" class="quantity-field" readonly>
                                                             <span class="plus">+</span>
                                                         </div>
                                                     </li>
@@ -312,18 +314,19 @@ for ($i = 0; $i < $fullStars; $i++)
                                         </div>
                                         <div class="col-12">
                                             <label for="vehicle" class="d-block">Vehicle</label>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>-Select Vehicle-</option>
-                                                <option value="1">Sedan - AC (4+1)</option>
-                                                <option value="2">SUV - AC (7+1)</option>
-                                                <option value="3">Tempo Traveller - AC (12+1)</option>
+                                            <select class="form-select" aria-label="Default select Vehicle" id="vehicle" name="vehicle">
+                                                <option value="0">-Select Vehicle-</option>
+                                                @if($noof_vehicle)
+                                                    @foreach($getVehicleDropDown as $value)
+                                                    <option value="{{$value->vehicleid}}">{{$value->vehicle_name}}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                         <div class="col-12">
                                             <label for="dot" class="d-block">Date of travel</label>
                                             <div class="input-group ">
-
-                                                <input type="text" class="form-control date">
+                                                <input type="text" class="form-control date" id="travel_date" name="travel_date">
                                                 <span class="input-group-text" id=""><i class="bi bi-calendar2"></i></span>
                                             </div>
                                         </div>
@@ -334,32 +337,34 @@ for ($i = 0; $i < $fullStars; $i++)
                                                 <a href="" class="ms-auto text-warning" data-bs-toggle="modal"
                                                     data-bs-target="#hotel-modal">Check hotel</a>
                                             </div>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>-Select Accommodation-</option>
-                                                <option value="1">Three Star</option>
-                                                <option value="2">Four Star</option>
-                                                <option value="3">Five Star</option>
+                                            <select class="form-select" id="accommodation_type" name="accommodation_type" onchange="getAccommodation()">		
+                                                <option value=""> - - Select Accommodation - - </option>
+                                                @if($hotelsTypeDropDown)
+                                                    @foreach($hotelsTypeDropDown as $value)
+                                                    <option value="{{$value->hotel_type_id}}">{{$value->hotel_type_name}}</option>
+                                                    @endforeach
+                                                @endif
+                                                
                                             </select>
                                         </div>
                                         <div class="col-12">
                                             <label class="d-block">Airport pickup & drop</label>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1"
-                                                    value="option1">
+                                                <input class="form-check-input" type="checkbox" name="airport_pickup" id="airport_pickup" value="1">
                                                 <label class="form-check-label" for="inlineCheckbox1">Pickup</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2"
-                                                    value="option2">
+                                                <input class="form-check-input" type="checkbox" name="airport_drop" id="airport_drop" value="2">
                                                 <label class="form-check-label" for="inlineCheckbox2">Drop</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="d-flex gap-2 flex-wrap-wrap">
-                                                <Button class="btn btn-success" data-bs-toggle="modal"
-                                                    data-bs-target="#calculate-modal">Calculate</Button>
-                                                <Button class="btn btn-outline-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">Inquiry/Customize</Button>
+                                                
+                                                <input type="hidden" id="hid_packageid" name="hid_packageid" value="{{$tourpackageid}}">
+                                                <button class="btn btn-success" onclick="getPackagePrice()">Calculate</button>
+                                                <button class="btn btn-outline-warning" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">Inquiry/Customize</button>
                                             </div>
                                         </div>
                                     </div>
@@ -667,135 +672,336 @@ for ($i = 0; $i < $fullStars; $i++)
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">2 Day Trip from Bhubaneshwar | Puri, Konark & Bhubaneshwar</h5>
+                    <h5 class="modal-title">{{$tours->tpackage_name}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <h6 class="text-info text-decoration-underline">Four Star Hotel in Puri (1 Night)</h6>
-                    <div class="hotel-wrapper mb-1">
-                        <label class=" hotel-details-card ">
-                        <input name="hotel" class="hotel-radio" type="radio" >
-                            <div class="card-body plan-details">
-                                <span class="d-block h-name"><i class="bi bi-buildings"></i>Preethi International</span>
-                                <span class="d-block"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star-half-stroke text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star-half-stroke" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M288 376.4l.1-.1 26.4 14.1 85.2 45.5-16.5-97.6-4.8-28.7 20.7-20.5 70.1-69.3-96.1-14.2-29.3-4.3-12.9-26.6L288.1 86.9l-.1 .3 0 289.2zm175.1 98.3c2 12-3 24.2-12.9 31.3s-23 8-33.8 2.3L288.1 439.8 159.8 508.3C149 514 135.9 513.1 126 506s-14.9-19.3-12.9-31.3L137.8 329 33.6 225.9c-8.6-8.5-11.7-21.2-7.9-32.7s13.7-19.9 25.7-21.7L195 150.3 259.4 18c5.4-11 16.5-18 28.8-18s23.4 7 28.8 18l64.3 132.3 143.6 21.2c12 1.8 22 10.2 25.7 21.7s.7 24.2-7.9 32.7L438.5 329l24.6 145.7z"></path>
-                                    </svg><!-- <i class="fa fa-star-half-stroke text-warning"></i> Font Awesome fontawesome.com --> </span>
-                                <span class="d-block">Three Star Hotel</span>
-                                <small class="d-block">(Deluxe room)</small>
-                            </div>
-                        </label>
-                        <label class=" hotel-details-card ">
-                        <input name="hotel" class="hotel-radio" type="radio" >
-                            <div class="card-body plan-details">
-                                <span class="d-block h-name"><i class="bi bi-buildings"></i>Preethi International</span>
-                                <span class="d-block"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star-half-stroke text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star-half-stroke" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M288 376.4l.1-.1 26.4 14.1 85.2 45.5-16.5-97.6-4.8-28.7 20.7-20.5 70.1-69.3-96.1-14.2-29.3-4.3-12.9-26.6L288.1 86.9l-.1 .3 0 289.2zm175.1 98.3c2 12-3 24.2-12.9 31.3s-23 8-33.8 2.3L288.1 439.8 159.8 508.3C149 514 135.9 513.1 126 506s-14.9-19.3-12.9-31.3L137.8 329 33.6 225.9c-8.6-8.5-11.7-21.2-7.9-32.7s13.7-19.9 25.7-21.7L195 150.3 259.4 18c5.4-11 16.5-18 28.8-18s23.4 7 28.8 18l64.3 132.3 143.6 21.2c12 1.8 22 10.2 25.7 21.7s.7 24.2-7.9 32.7L438.5 329l24.6 145.7z"></path>
-                                    </svg><!-- <i class="fa fa-star-half-stroke text-warning"></i> Font Awesome fontawesome.com --> </span>
-                                    <span class="d-block">Three Star Hotel</span>
-                                <small class="d-block">(Deluxe room)</small>
-                            </div>
-                        </label>
-                        <label class=" hotel-details-card ">
-                        <input name="hotel" class="hotel-radio" type="radio" >
-                            <div class="card-body plan-details">
-                                <span class="d-block h-name"><i class="bi bi-buildings"></i>Preethi International</span>
-                                <span class="d-block"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star-half-stroke text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star-half-stroke" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M288 376.4l.1-.1 26.4 14.1 85.2 45.5-16.5-97.6-4.8-28.7 20.7-20.5 70.1-69.3-96.1-14.2-29.3-4.3-12.9-26.6L288.1 86.9l-.1 .3 0 289.2zm175.1 98.3c2 12-3 24.2-12.9 31.3s-23 8-33.8 2.3L288.1 439.8 159.8 508.3C149 514 135.9 513.1 126 506s-14.9-19.3-12.9-31.3L137.8 329 33.6 225.9c-8.6-8.5-11.7-21.2-7.9-32.7s13.7-19.9 25.7-21.7L195 150.3 259.4 18c5.4-11 16.5-18 28.8-18s23.4 7 28.8 18l64.3 132.3 143.6 21.2c12 1.8 22 10.2 25.7 21.7s.7 24.2-7.9 32.7L438.5 329l24.6 145.7z"></path>
-                                    </svg><!-- <i class="fa fa-star-half-stroke text-warning"></i> Font Awesome fontawesome.com --> </span>
-                                    <span class="d-block">Three Star Hotel</span>
-                                <small class="d-block">(Deluxe room)</small>
-                            </div>
-                        </label>
-                        
+                <div class="modal-body"  id="accomodation_result">
+                    <div class="col-xl-12 col-lg-12">
+                        <h4 style="color:#6583bb; padding-bottom:20px;">Select accommodation first to check hotels.</h4>
                     </div>
                     <div class="text-center mt-3">
-                        <button class="btn btn-info ">Ok</button>
-
+                        <input type="button" class="btn btn-info" value="OK" data-bs-dismiss="modal">
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        $(function () {
+        var today = new Date();
+        var twoDaysLater = new Date();
+        twoDaysLater.setDate(today.getDate() + 2);
+
+        $('.date').datepicker({
+            format: 'dd/mm/yyyy',
+            startDate: twoDaysLater,
+            autoclose: true,
+            clearBtn: true
+        });
+    });
+        document.addEventListener('DOMContentLoaded', function () {
             const guestInput = document.getElementById('guestInput');
             const guestWrapper = document.getElementById('guestWrapper');
             const plusButtons = document.querySelectorAll('.plus');
             const minusButtons = document.querySelectorAll('.minus');
+            const maxCapacity = parseInt("{{ $max_vehicle_capacity }}");
 
             // Toggle guest box
-            guestInput.addEventListener('click', function(e) {
+            guestInput.addEventListener('click', function (e) {
                 e.stopPropagation();
                 guestWrapper.style.display = guestWrapper.style.display === 'block' ? 'none' : 'block';
             });
 
             // Close when clicking outside
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (!guestWrapper.contains(e.target) && e.target !== guestInput) {
                     guestWrapper.style.display = 'none';
                 }
             });
 
-            // Update guest count
-            function updateGuestCount() {
+        // Update guest count display
+        function updateGuestCount() {
+            const guestInputs = document.querySelectorAll('.guest-count');
+            let total = 0;
+            guestInputs.forEach(input => {
+                total += parseInt(input.value);
+            });
+            guestInput.value = `${total} Guest${total !== 1 ? 's' : ''}`;
+
+            var maxcapacity = {{$max_vehicle_capacity}};
+            // var adultcount = $("#quantity_adult").val();
+            // var childcount = $("#quantity_child").val();
+            var totalcount = total;
+            $.ajax({
+                url: '/getVehicles',
+                type: 'GET',
+                dataType: 'json',  // Ensure JSON response
+                data: {
+                    totalcount: totalcount,
+                    package_id: {{$tourpackageid}} // or destination if no package_id
+                },
+                success: function (response) {                
+                    if (response.options) {
+                        $('#vehicle').html(response.options);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oopps...',
+                            text: 'Error: Invalid response!',
+                            confirmButtonColor: '#dd3333',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oopps...',
+                        text: 'Error loading view form.',
+                        confirmButtonColor: '#dd3333',
+                    });
+                }
+            });
+
+        }
+
+        // Add guest with max capacity check
+        plusButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const input = this.previousElementSibling;
                 const guestInputs = document.querySelectorAll('.guest-count');
                 let total = 0;
                 guestInputs.forEach(input => {
                     total += parseInt(input.value);
                 });
-                guestInput.value = `${total} Guest${total !== 1 ? 's' : ''}`;
-            }
 
-            // Add guest
-            plusButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const input = this.previousElementSibling;
+                if (total < maxCapacity) {
                     input.value = parseInt(input.value) + 1;
                     updateGuestCount();
-                });
-            });
-
-            // Remove guest
-            minusButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const input = this.nextElementSibling;
-                    let value = parseInt(input.value);
-                    if (value > 0) {
-                        input.value = value - 1;
-                        updateGuestCount();
-                    }
-                });
+                } else {
+                    alert(`Maximum ${maxCapacity} guests allowed.`);
+                    let exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                    exampleModal.show();
+                }
             });
         });
+
+        // Remove guest
+        minusButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const input = this.nextElementSibling;
+                let value = parseInt(input.value);
+                if (value > 0) {
+                    input.value = value - 1;
+                    updateGuestCount();
+                }
+            });
+        });
+    });
+
+    function getAccommodation(){
+        let package_id = {{$tourpackageid}};
+        var accommodation_type = $('#accommodation_type').val();
+        if (accommodation_type !="")
+        {
+            $("#hotel-modal").modal('show');
+            $.ajax({
+                url: '/getAccommodationWeb',
+                type: 'GET',
+                dataType: 'json',  // Ensure JSON response
+                data: {
+                    accommodation_type: accommodation_type,
+                    packageid: package_id
+                },
+                success: function (response) {
+                    if (response.html) {
+                        $('#accomodation_result').html(response.html);
+                        $('#accommodation').val(accommodation_type);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oopps...',
+                            text: 'Error: Invalid response!',
+                            confirmButtonColor: '#dd3333',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oopps...',
+                        text: 'Error loading view form.',
+                        confirmButtonColor: '#dd3333',
+                    });
+                }
+            });
+        } else
+        {
+            $("#accomodation_result").html('<h4 style="color:#6583bb; padding-bottom:20px;">Select rohan accommodation first to check hotels.</h4>');
+        }
+    }
+
+    // function getPackagePrice(){
+    //     let selectedHotels = [];
+    //     // Loop through all radio groups that start with 'hotel_radio_'
+    //     $('input[type="radio"]').each(function () {
+    //         let name = $(this).attr('name');
+
+    //         // Skip if we've already processed this group
+    //         if (selectedHotels[name] !== undefined) return;
+
+    //         let checked = $('input[name="' + name + '"]:checked').val();
+    //         if (checked) {
+    //             selectedHotels.push({ name: name, value: checked });
+    //         }
+
+    //         // Prevent duplicates
+    //         selectedHotels[name] = true;
+    //     });
+    //     // Prepare data for backend
+    //     let postData = {
+    //         _token: $('meta[name="csrf-token"]').attr('content'),
+    //     };
+
+    //     // Add hotel radios dynamically
+    //     selectedHotels.forEach(function (hotel) {
+    //         postData[hotel.name] = hotel.value;
+    //     });
+
+    //     console.log(postData);
+        
+    //     // let hid_packageid = $('#hid_packageid').val();;
+    //     // let quantity_adult = $('#quantity_adult').val();
+    //     // let quantity_child = $('#quantity_child').val();
+    //     // let travel_date = $('#travel_date').val();
+    //     // let vehicle = $('#vehicle').val();
+    //     // var accommodation_type = $('#accommodation_type').val();
+    //     // var airport_pickup = $('#airport_pickup').val();
+    //     // var airport_drop = $('#airport_drop').val();
+    //     formData.append('hid_packageid', $("#hid_packageid").val());
+    //     formData.append('quantity_adult', $("#quantity_adult").val());
+    //     formData.append('quantity_child', $("#quantity_child").val());
+    //     formData.append('travel_date', $("#travel_date").val());
+    //     formData.append('vehicle', $("#vehicle").val());
+    //     formData.append('accommodation_type', $("#accommodation_type").val());
+    //     formData.append('airport_pickup', $("#airport_pickup").val());
+    //     formData.append('airport_drop', $("#airport_drop").val());
+
+    //     // CSRF token (Laravel Blade)
+    //     formData.append('_token', '{{ csrf_token() }}');
+    //     if (accommodation_type !="")
+    //     {
+    //         $.ajax({
+    //             url: '/getPackagePrice',
+    //             type: 'GET',
+    //             dataType: 'json',  // Ensure JSON response
+    //             data: {
+    //                 hid_packageid : hid_packageid,
+    //                 quantity_adult : quantity_adult,
+    //                 quantity_child : quantity_child,
+    //                 travel_date : travel_date,
+    //                 vehicle : vehicle,
+    //                 accommodation_type : accommodation_type,
+    //                 airport_pickup : airport_pickup,
+    //                 airport_drop : airport_drop
+    //             },
+    //             success: function (response) {
+    //                 if (response.html) {
+    //                     $("#calculate-modal").modal('show');
+    //                     $('#accomodation_result').html(response.html);
+    //                     $('#accommodation').val(accommodation_type);
+    //                 } else {
+    //                     Swal.fire({
+    //                         icon: 'error',
+    //                         title: 'Oopps...',
+    //                         text: 'Error: Invalid response!',
+    //                         confirmButtonColor: '#dd3333',
+    //                     });
+    //                 }
+    //             },
+    //             error: function () {
+    //                 Swal.fire({
+    //                     icon: 'error',
+    //                     title: 'Oopps...',
+    //                     text: 'Error loading view form.',
+    //                     confirmButtonColor: '#dd3333',
+    //                 });
+    //             }
+    //         });
+    //     } else
+    //     {
+            
+    //     }
+    // }
+    function getPackagePrice() {
+    let selectedHotels = {};
+    let params = {};
+
+    // Step 1: Get checked hotel radios
+    $('input[type="radio"]').each(function () {
+        let name = $(this).attr('name');
+        if (!(name in selectedHotels)) {
+            let checked = $('input[name="' + name + '"]:checked').val();
+            if (checked) {
+                selectedHotels[name] = checked;
+                params[name] = checked;  // Add to params as a regular object
+            }
+        }
+    });
+
+    // Step 2: Append other parameters
+    params['hid_packageid'] = $("#hid_packageid").val();
+    params['quantity_adult'] = $("#quantity_adult").val();
+    params['quantity_child'] = $("#quantity_child").val();
+    params['travel_date'] = $("#travel_date").val();
+    params['vehicle'] = $("#vehicle").val();
+    params['accommodation_type'] = $("#accommodation_type").val();
+
+     // Step 3: Check for Airport pickup and drop and append if checked
+    if ($("#airport_pickup").prop('checked')) {
+        params['airport_pickup'] = 1;
+    }
+
+    if ($("#airport_drop").prop('checked')) {
+        params['airport_drop'] = 1;
+    }
+
+    let accommodation_type = $("#accommodation_type").val();
+
+    if (accommodation_type !== "") {
+        $.ajax({
+            url: '/getPackagePrice',  // Send as query string
+            type: 'GET',
+            data: params,  // Pass params as a regular object
+            dataType: 'json',
+            success: function (response) {
+                if (response.html) {
+                    $("#calculate-modal").modal('show');
+                    $('#accomodation_result').html(response.html);
+                    $('#accommodation').val(accommodation_type);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Error: Invalid response!',
+                        confirmButtonColor: '#dd3333',
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error loading view form.',
+                    confirmButtonColor: '#dd3333',
+                });
+            }
+        });
+    }
+}
+
+
     </script>
     <script>
         $(document).on('click', '#bookNowBtn', function(e) {

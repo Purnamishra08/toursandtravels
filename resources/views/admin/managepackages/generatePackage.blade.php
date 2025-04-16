@@ -107,7 +107,6 @@
                                                                             <option value=""> - - Select Accommodation - - </option>
                                                                             
                                                                         </select>
-                                                                        <!-- ✅ Bootstrap 5 -->
                                                                         <span for="accomodation" class="chk-hotl" data-bs-toggle="modal" data-bs-target="#Hotel-check" style="float:right;cursor:pointer">Check Hotels</span>
 
                                                                     </div>
