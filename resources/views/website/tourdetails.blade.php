@@ -431,6 +431,93 @@ for ($i = 0; $i < $fullStars; $i++)
                 </div>
             </div>
         </section>
+        <section>
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-8">
+                    <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
+                                        <div>
+
+                                            <h2 class="section-title-sm">Frequently Asked Questions</h2>
+                                        </div>
+                                     </div>
+                        <div class="accordion faq-accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <h6> How to search for tour package</h6>
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        To search for tour packages, a customer has to visit to our website - www.myholidayhappiness.com and click on the “Tours” option. This option is available in the upper tab on the website. Then, select “Popular Tour Packages” to know about the tours which are famous and liked by our previous clients. You can easily search for tour packages there, according to your requirements.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        <h6>How to calculate tour price</h6>
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <ol>
+                                            <li>Update number of travelers along with the kids as per their age</li>
+                                            <li>Select vehicle type</li>
+                                            <li>mention your travel date</li>
+                                            <li>Choose your hotel as per your choice</li>
+                                            <li>Select airport pick up and drop as per your plan</li>
+                                            <li>Finally, click on "Calculate price"</li>
+                                        </ol>
+                                        <p>With the above-said option one can easily know what the prices for a tour that is to be paid to the service provide My Holiday Happiness. </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        <h6>How to Book a Tour on My Holiday website?</h6>
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li> Go to the “Tours” section on the website and click on it. You can see a drop-down menu where different tour packages will show. Click any one of them according to your wish and then a webpage will be redirected. You can select the “Starting City” and the “Trip Duration” in order to know the price for your trip. You will get a lot of options of tour packages which you may select according to your will. </li>
+                                            <li>There will be some more options which you need to answer correctly in order to get the final price of your tour.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card contact-card">
+                                <div class="card-body">
+                                    <h4 class="text-white">Contact Us</h4>
+                                <ul class="contact-wrapper mt-1">
+                                    <li>
+                                        <i class="bi bi-telephone"></i>
+                                        <a href="tel:+926669990000">+ 926669990000</a>
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-envelope"></i>
+                                        <a href="mailto:needhelp@company.com">support@myholidayhappiness.com</a>
+                                    </li>
+                                    <li>
+                                        <i class="bi bi-geo-alt"></i>
+                                        <p># 66 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar, Bengaluru, Karnataka 560010</p>
+                                    </li>
+                                </ul>
+                                </div>
+                            </div>  
+                        </div>
+                </div>
+                    
+            </div>
+
+        </section>
     </div>
     <div class="modal fade" tabindex="-1" id="exampleModal">
         <div class="modal-dialog modal-lg">

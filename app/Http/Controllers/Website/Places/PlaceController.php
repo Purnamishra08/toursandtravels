@@ -12,11 +12,12 @@ use Illuminate\Validation\Rule;
 
 class PlaceController extends Controller{
     public function index($slug){
-        $placesData = DB::table('tbl_places')
-        ->selectRaw('placeid, destination_id, place_name, place_url, latitude, longitude, show_in_home, trip_duration, distance_from_nearest_city, placeimg, placethumbimg, alttag_banner, alttag_thumb, google_map, travel_tips, about_place, status, entry_fee, timing, rating, meta_title, meta_keywords, meta_description, pckg_meta_title, pckg_meta_keywords, pckg_meta_description, created_date, created_by, updated_date, updated_by, bit_Deleted_Flag')
+        $placesData = DB::table('tbl_places as p')
+        ->selectRaw('p.placeid, p.destination_id, p.place_name, p.place_url, p.latitude, p.longitude, p.show_in_home, p.trip_duration, p.distance_from_nearest_city, p.placeimg, p.placethumbimg, p.alttag_banner, p.alttag_thumb, p.google_map, p.travel_tips, p.about_place, p.status, p.entry_fee, p.timing, p.rating, p.meta_title, p.meta_keywords, p.meta_description, p.pckg_meta_title, p.pckg_meta_keywords, p.pckg_meta_description, p.created_date, p.created_by, p.updated_date, p.updated_by, p.bit_Deleted_Flag, b.destination_name')
+        ->join('tbl_destination as b', 'p.destination_id', '=', 'b.destination_id')
         ->where('place_url', $slug)
-        ->where('status', 1)
-        ->where('bit_Deleted_Flag', 0)
+        ->where('p.status', 1)
+        ->where('p.bit_Deleted_Flag', 0)
         ->first();
 
         $selectedDestinationTypes = DB::table('tbl_multdest_type')
@@ -120,7 +121,8 @@ class PlaceController extends Controller{
         $destinationId = $request->destination_id;
         $place_Id = $request->place_Id;
         $placesData = DB::table('tbl_places as p')
-                    ->selectRaw('p.placeid, p.destination_id, p.place_name, p.place_url, p.latitude, p.longitude, p.trip_duration, p.distance_from_nearest_city, p.placeimg, p.placethumbimg, p.alttag_banner, p.alttag_thumb, p.google_map, p.travel_tips , p.about_place, p.entry_fee, p.timing, p.rating, p.status, p.meta_title, p.meta_keywords, p.meta_description, p.pckg_meta_title, p.pckg_meta_keywords, p.pckg_meta_description, p.show_in_home')
+                    ->selectRaw('p.placeid, p.destination_id, p.place_name, p.place_url, p.latitude, p.longitude, p.trip_duration, p.distance_from_nearest_city, p.placeimg, p.placethumbimg, p.alttag_banner, p.alttag_thumb, p.google_map, p.travel_tips , p.about_place, p.entry_fee, p.timing, p.rating, p.status, p.meta_title, p.meta_keywords, p.meta_description, p.pckg_meta_title, p.pckg_meta_keywords, p.pckg_meta_description, p.show_in_home, b.destination_name')
+                    ->join('tbl_destination as b', 'p.destination_id', '=', 'b.destination_id')
                     ->where('p.destination_id','=', $destinationId)
                     ->where('p.placeid', '!=', $place_Id)
                     ->where('p.bit_Deleted_Flag', '=', 0)
@@ -129,7 +131,7 @@ class PlaceController extends Controller{
         
         $html = '';
         $html .= '
-            <h1 class="page-section-heading">' . count($placesData) . ' places to visit & things to do in Bhubaneswar</h1>
+            <h1 class="page-section-heading">' . count($placesData) . ' places to visit & things to do in '.$placesData[0]->destination_name.'</h1>
             <div class="near-destination-wrapper" id="placesDataAll">
         ';
         foreach ($placesData as $place) {

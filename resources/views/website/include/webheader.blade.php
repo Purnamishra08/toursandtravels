@@ -138,13 +138,11 @@
                             <li class="nav-item dropdown mob-menu">
                                 <div class="accordion accordion-flush" id="parent-accordion">
                                     <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#parentOne"
-                                                aria-expanded="false" aria-controls="parentOne">
-                                                Destination
-                                            </button>
-                                        </h2>
+                                        <a href="{{ route('website.destinationdetails', ['slug' => $destinatoinURL->destination_url]) }}"
+                                               class="nav-link {{ request()->routeIs('website.destinationdetails') ? 'active' : 'collapsed' }}"
+                                               type="button">
+                                               Destination
+                                        </a>
                                         <!-- <div id="parentOne" class="accordion-collapse collapse px-2"
                                             data-bs-parent="#parent-accordion">
                                             <div class="accordion accordion-flush child-accordion" id="child-accordion">
@@ -283,8 +281,13 @@
             </div>
             <div class="offcanvas-body text-center ">
                <div class="row justify-content-center">
-                    <div class="col-8 mb-3">
-                        <input type="text" class="form-control"  placeholder="Search">
+                    <div class="col-lg-4  mb-3 ">
+                        <select name="" id="" class="form-select ">
+                            <option value="">--Select Destination--</option>
+                            <option value="">Option 2</option>
+                            <option value="">Option 3</option>
+                            <option value="">Option 4</option>
+                        </select>
                     </div>
                </div>
                <button class="btn btn-primary">Search</button>

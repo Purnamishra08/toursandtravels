@@ -186,6 +186,8 @@ margin-bottom: 1rem;
 }
 .client-review-card{
     min-height: 250px;
+    max-height: 250px;
+    overflow: auto;
 }
 .client-details{
     display: flex;
@@ -783,7 +785,9 @@ color: #03787a;
       border-radius: .5rem;
   
   }
-  
+  .card-wrapper-sm{
+    grid-template-columns: repeat(3,1fr);
+  }
   .chet-sheet-card .card-body{
       display: grid;
       grid-template-columns: repeat(3,1fr);
@@ -851,4 +855,31 @@ color: #03787a;
   .overlay p {
     margin: 8px 0 0;
     font-size: 1rem;
+  }
+  @media(max-width:1366px){
+    .top-place-wrapper{
+        grid-template-columns: repeat(2,1fr);
+    }
+    .card-wrapper-sm{
+        grid-template-columns: repeat(2,1fr);
+      }
+  }
+  @media(max-width:1024px){
+    .chet-sheet-card .card-body{
+        grid-template-columns: repeat(2,1fr);
+    }
+    
+  }
+  @media(max-width:680px){
+    .card-wrapper-sm{
+        grid-template-columns: repeat(1,1fr);
+      }
+    .chet-sheet-card .card-body{
+        grid-template-columns: repeat(1,1fr);
+    }
+    .top-place-wrapper{
+    
+        grid-template-columns: repeat(1,1fr);
+     
+    }
   }
