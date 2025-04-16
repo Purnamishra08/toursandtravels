@@ -321,6 +321,16 @@
                         Manage Footer Links
                     </a>
                 @endif
+                @if(
+                        (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[11]))
+                        || (session()->has('user') && session('user')->admin_type == 1)
+                    )
+                    <a class="nav-link {{ request()->routeIs('admin.generatePackageDoc*') ? 'active' : '' }}"
+                        href="{{ route('admin.generatePackageDoc') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-file"></i></div>
+                        Package PDF
+                    </a>
+                @endif
 
                 @if(
                         (session()->has('moduleAccess') && session('user')->admin_type != 1 && isset(session('moduleAccess')[14]))
