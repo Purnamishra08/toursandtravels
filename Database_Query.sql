@@ -710,3 +710,8 @@ CREATE TABLE `tbl_itinerary_daywise` (
 
 ALTER TABLE `toursandtravels`.`tbl_places` 
 ADD COLUMN `show_in_home` tinyint(4) DEFAULT NULL AFTER `longitude`;
+
+ALTER TABLE `myholhq7_coorgpackages`.`tbl_faqs` 
+ADD COLUMN `faq_type` INT(11) NULL DEFAULT 0 AFTER `faq_id`,
+CHANGE COLUMN `faq_id` `faq_id` INT(11) NOT NULL COMMENT '1 - Common Faqs\n2 -  Destination Faqs' ;
+

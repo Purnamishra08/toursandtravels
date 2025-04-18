@@ -44,6 +44,7 @@ use App\Http\Controllers\Website\Contact\ContactController;
 use App\Http\Controllers\Website\Footer\FooterController;
 use App\Http\Controllers\Website\Tour\TourController;
 use App\Http\Controllers\Website\Places\PlaceController;
+use App\Http\Controllers\Website\Faqs\FaqsController;
 
 
 /********  WEBSITE ROUTING    ********/
@@ -89,7 +90,6 @@ Route::get('/optimize', function() {
 Route::get('/', [HomeController::class, 'index'])->name('website.home');
 Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
-Route::view('/faq', 'website.faq');
 Route::view('/bookingDownload', 'website.bookingDownload');
 Route::view('/tourlisting', 'website.tourlisting');
 Route::view('/tourdetails', 'website.tourdetails');
@@ -118,11 +118,14 @@ Route::get('/get-popular-tours', [DestinationsController::class, 'popularTourDat
 //Destination Routing
 
 //Place routing
-Route::get('place/{slug}', [PlaceController::class, 'index'])->name('website.neardestination');
+Route::get('Coorg/{slug}', [PlaceController::class, 'index'])->name('website.neardestination');
 Route::get('/get-popular-tours-places', [PlaceController::class, 'popularTourDataPlaces'])->name('website.popularTourDataPlaces');
 Route::get('/get-popular-places-data', [PlaceController::class, 'allPlacesDataAsPerDestination'])->name('website.allPlacesDataAsPerDestination');
 Route::get('/popular-tour-places', [PlaceController::class, 'popularTourPlaces'])->name('website.popularTourPlaces');
 //Place routing
+
+//Faq
+Route::get('/Faqs/{slug}', [FaqsController::class, 'index'])->name('website.faqs');
 
 
 //Footer

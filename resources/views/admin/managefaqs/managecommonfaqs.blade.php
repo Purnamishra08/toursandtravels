@@ -64,6 +64,14 @@
                                                     <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Inactive</option>
                                                 </select>
                                             </div>
+                                            <div class="col-sm-6 form-group mb-sm-0">
+                                                <label class="control-label">Faq Type</label>
+                                                <select class="form-select" id="faq_type" name="faq_type">
+                                                    <option value="">--Select--</option>
+                                                    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Common Faqs</option>
+                                                    <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>Destination Faqs</option>
+                                                </select>
+                                            </div>
                                         </div><br>
                                         <div class="row">
                                             <!-- Submit and Reset Buttons -->
@@ -88,6 +96,7 @@
                                                 <thead class="thead-dark">
                                                     <tr class="bg-info text-white">
                                                         <th width="2%">Sl #</th>
+                                                        <th width="15%">Faq Type</th>
                                                         <th width="15%">Questions</th>
                                                         <th width="20%">Answers</th>
                                                         <th width="2%">Order</th>
@@ -137,10 +146,12 @@
                         d.faq_question = $('#faq_question').val();
                         d.faq_answer = $('#faq_answer').val();
                         d.status = $('#status').val();
+                        d.faq_type = $('#faq_type').val();
                     }
                 },
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'faq_type' , name: 'faq_type' },
                     { data: 'faq_question', name: 'faq_question' },
                     { data: 'faq_answer', name: 'faq_answer', render: function(data, type, row) {
                         return $('<div>').html(data).text(); // Decode HTML entities

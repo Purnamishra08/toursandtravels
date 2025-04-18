@@ -119,7 +119,7 @@
                     <ul class="link-wrapper">
 
                         <li><a href="#"> About Us</a></li>
-                        <li><a href="../faq">Faq</a></li>
+                        <li><a href="{{route('website.faqs', ['slug' => 'common-faqs'])}}">Faq</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms & Conditions</a></li>
                         <li><a href="#">Booking Policy</a></li>
