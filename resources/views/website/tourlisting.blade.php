@@ -117,10 +117,10 @@
                 <div>
                     <div class="card tour-listing-card mb-3">
                         <div class="row g-0">
-                            <div class="col-md-4 col-lg-3">
+                            <div class="col-md-4 col-lg-4">
                                 <img class="place-img" src="http://localhost:8000/storage/tourpackages/thumbs/mysore-palace.webp" class="img-fluid rounded-start" alt="...">
                             </div>
-                            <div class="col-md-8 col-lg-9">
+                            <div class="col-md-8 col-lg-8">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-item-center flex-wrap">
                                         <h5 class="card-title">Coorg & Mysore 3 days trip from Bangalore</h5>

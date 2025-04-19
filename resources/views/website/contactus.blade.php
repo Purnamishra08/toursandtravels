@@ -36,7 +36,7 @@
                                     <i class="bi bi-briefcase"></i>
                                     </span>
                                     <div>
-                                        <h5>26 years of experiance</h5>
+                                        <h5>10 years of experiance</h5>
                                         <p>empowering enterprises to deliver value</p>
                                     </div>
 
@@ -46,7 +46,7 @@
                                     <i class="bi bi-award"></i>
                                     </span>
                                     <div>
-                                        <h5> 200+ Award</h5>
+                                        <h5> Multiple Awards</h5>
                                         <p>Implemented across industries</p>
                                     </div>
 
@@ -56,12 +56,12 @@
                                     <i class="bi bi-people"></i>
                                     </span>
                                     <div>
-                                        <h5>Over 20000+ Clients</h5>
+                                        <h5>Over 6000+ Clients</h5>
                                         <p>Implemented across industries</p>
                                     </div>
 
                                 </li>
-                                <li class="d-flex gap-4 align-items-center">
+                                <!-- <li class="d-flex gap-4 align-items-center">
                                     <span class="icon-box">
                                     <i class="bi bi-people"></i>
                                     </span>
@@ -70,7 +70,7 @@
                                         <p> Experts at what they do</p>
                                     </div>
 
-                                </li>
+                                </li> -->
                                
                             </ul>
                 </div>
