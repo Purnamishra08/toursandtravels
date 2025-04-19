@@ -260,7 +260,7 @@
                                 <a class="nav-link {{ request()->routeIs('website.bloglisting') ? 'active' : '' }}" href="{{ route('website.bloglisting') }}">Blog</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="../contactus">Contact</a>
+                                <a class="nav-link" aria-current="page" href="../contactus">Contact Us</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" aria-current="page" href="#"><i class="bi bi-search"></i></a>
