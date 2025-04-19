@@ -131,7 +131,7 @@ class CategoryTagsController extends Controller
                 'tag_url'                   => 'required|max:255',
                 'menuid'                    => 'required',
                 'catId'                     => 'required',
-                'menutag_img'               => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=488',
+                'menutag_img'               => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1900,height=300',
                 'menutagthumb_img'          => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=350',
                 'alttag_banner'             => 'required|string|max:60|unique:tbl_menutags,alttag_banner',
                 'alttag_thumb'              => 'required|string|max:60|unique:tbl_menutags,alttag_thumb',
@@ -150,7 +150,7 @@ class CategoryTagsController extends Controller
                 'menutag_img.image'                 => 'The Banner image must be an image file.',
                 'menutag_img.mimes'                 => 'The Banner image must be in JPEG, PNG, JPG, GIF, or SVG format.',
                 'menutag_img.max'                   => 'The Banner image size must not exceed 2MB.',
-                'menutag_img.dimensions'            => 'The Banner image must be exactly 1920x488 pixels.',
+                'menutag_img.dimensions'            => 'The Banner image must be exactly 1900x300 pixels.',
                 'menutagthumb_img.image'            => 'The Getaways/Tour image must be an image file.',
                 'menutagthumb_img.mimes'            => 'The Getaways/Tour image must be in JPEG, PNG, JPG, GIF, or SVG format.',
                 'menutagthumb_img.max'              => 'The Getaways/Tour image size must not exceed 1MB.',
@@ -191,7 +191,7 @@ class CategoryTagsController extends Controller
                     $bannerImageName = Str::slug($request->input('alttag_banner')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
-                    $this->convertToWebp($file, storage_path('app/public/category_tags_images/BannerImages/' . $bannerImageName), 1920, 488);
+                    $this->convertToWebp($file, storage_path('app/public/category_tags_images/BannerImages/' . $bannerImageName), 1900, 300);
                 }
 
                 $getawayImageName = null;
@@ -263,7 +263,7 @@ class CategoryTagsController extends Controller
                     'tag_url'               => 'required|max:255',
                     'menuid'                => 'required',
                     'catId'                 => 'required',
-                    'menutag_img'           => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=488',
+                    'menutag_img'           => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1900,height=300',
                     'menutagthumb_img'      => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=350',
                     'alttag_banner'         => "required|string|max:60|unique:tbl_menutags,alttag_banner,$id,tagid",
                     'alttag_thumb'          => "required|string|max:60|unique:tbl_menutags,alttag_thumb,$id,tagid",
@@ -321,7 +321,7 @@ class CategoryTagsController extends Controller
                         $bannerImageName = Str::slug($request->input('alttag_banner')) . '-' . $randomNumber . '.webp';
             
                         // Convert and Store as WebP
-                        $this->convertToWebp($file, storage_path('app/public/category_tags_images/BannerImages/' . $bannerImageName), 1920, 488);
+                        $this->convertToWebp($file, storage_path('app/public/category_tags_images/BannerImages/' . $bannerImageName), 1900, 300);
                     }else{
                         $bannerImageName = $categorytags->menutag_img;
                     }

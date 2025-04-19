@@ -94,7 +94,7 @@
                                                         <div class="form-group" style="margin-bottom: 20px;">
                                                             <label>Banner Image  <span class="manadatory">*</span></label>
                                                             <input name="menutag_img" id="menutag_img" type="file" onchange="previewImage(event, 'banner_preview')">
-                                                            <span>Image size should be 1920px X 488px</span>
+                                                            <span>Image size should be 1900px X 300px</span>
                                                             <div id="banner_preview" style="margin-top: 10px;">
                                                                 @if(isset($Categorytags->menutag_img))
                                                                     <a href="{{ asset('storage/category_tags_images/BannerImages/'.$Categorytags->menutag_img) }}" target="_blank">
