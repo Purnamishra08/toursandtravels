@@ -23,6 +23,24 @@
                     <p class="section-title-small">Feature tours</p>
                     <h2 class="section-title"> Most Popular Tour</h2>
                 </div>
+                <div>
+                    <div class="row g-2">
+                        <div class="col-md-6 col-6"><select class="form-select" aria-label="Default select example">
+                                <option selected>Select Starting City</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select></div>
+                        <div class="col-md-6 col-6">
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Select Trip Duration</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="card-wrapper" id="allTour">
             </div>
@@ -30,10 +48,10 @@
                 <button class="btn btn-primary">Load More</button>
 
             </div> -->
-            
-                
 
-            
+
+
+
 
         </div>
 
@@ -54,10 +72,10 @@
         $.ajax({
             url: "{{ route('website.allTourPackages') }}?page=" + page,
             type: "get",
-            beforeSend: function () {
+            beforeSend: function() {
                 $('.ajax-load').show();
             }
-        }).done(function (data) {
+        }).done(function(data) {
             if (data.trim().length == 0) {
                 $('.ajax-load').html("<p>No more records found</p>");
                 finished = true;
@@ -66,14 +84,14 @@
             $('.ajax-load').hide();
             $('#allTour').append(data);
             isLoading = false;
-        }).fail(function () {
+        }).fail(function() {
             console.log("Server error");
             $('.ajax-load').hide();
         });
     }
 
     // Initial load
-    $(document).ready(function () {
+    $(document).ready(function() {
         loadPopularTour(page);
     });
 </script>

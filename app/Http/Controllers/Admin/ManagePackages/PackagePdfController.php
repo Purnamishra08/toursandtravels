@@ -639,6 +639,18 @@ class PackagePdfController extends Controller
 		
 		$percentage_price = $sub_total_price*($pmargin_perctage/100);
 		$total_price = $sub_total_price+$percentage_price;
+
+        return response()->json([
+            'status'=>200,
+            'adult' => $quantity_adult,
+            'child' => $quantity_child,
+            'vehicle' => $vehicle_name,
+            'travel_date' => $travel_date,
+            'accommodation' => $accommodation_name,
+            'airport_pickup' => $airport_pickup,
+            'airport_drop' => $airport_drop,
+            'total_price' => number_format($total_price, 2)
+        ]);
     }
 
     public function generatePDF(Request $request)

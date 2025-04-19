@@ -91,7 +91,7 @@ class HomeController extends Controller
         }else{
             $query->inRandomOrder()->limit(6);
         }
-        $popularTours = $query->get();
+        $popularTours = $query->inRandomOrder()->limit(8)->get();
         if ($request->ajax()) {
             $html = '';
             foreach ($popularTours as $values) {

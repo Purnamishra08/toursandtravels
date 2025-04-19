@@ -315,6 +315,22 @@ class TourController extends Controller
             ->where('bit_Deleted_Flag', 0)
             ->get();
 
+
+        $parameters =  DB::table('tbl_parameters')
+            ->select('parameter', 'par_value', 'parid')
+            ->where('param_type', 'CS')
+            ->where('status', 1)
+            ->where('bit_Deleted_Flag', 0)
+            ->get();
+
+        $tourFaqs = DB::table('tbl_package_faqs')
+            ->select('faq_id','faq_question','faq_answer')
+            ->where('tag_id', $tagid)
+            ->where('status', 1)
+            ->where('bit_Deleted_Flag', 0)
+            ->orderby('faq_order','ASC')
+            ->get();
+// dd($tourFaqs);
         
         // dd($hotel_typeids,$hotel_typeid,
         //     $hotelsTypeDropDown);
@@ -338,7 +354,11 @@ class TourController extends Controller
             'max_vehicle_capacity' => $max_vehicle_capacity,
             'hotelsTypeDropDown' => $hotelsTypeDropDown,
             'getVehicleDropDown' => $getVehicleDropDown,
-            'tourpackageid' => $tourpackageid
+            'tourpackageid' => $tourpackageid,
+            //contactus
+            'parameters'=>$parameters,
+            //tourFaqs
+            'tourFaqs'=>$tourFaqs
         ]);
     }
 

@@ -359,12 +359,11 @@ for ($i = 0; $i < $fullStars; $i++)
                                             </div>
                                         </div>
                                         <div class="col-12">
+                                            <div id="calculate-container"></div>
                                             <div class="d-flex gap-2 flex-wrap-wrap">
-                                                
                                                 <input type="hidden" id="hid_packageid" name="hid_packageid" value="{{$tourpackageid}}">
-                                                <button class="btn btn-success" onclick="getPackagePrice()">Calculate</button>
-                                                <button class="btn btn-outline-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">Inquiry/Customize</button>
+                                                <button id="calculate-btn" class="btn btn-success" onclick="getPackagePrice(1)">Calculate</button>
+                                                <button class="btn btn-outline-warning" onclick="getPackagePrice(2)">Inquiry/Customize</button>
                                             </div>
                                         </div>
                                     </div>
@@ -436,13 +435,12 @@ for ($i = 0; $i < $fullStars; $i++)
                 <div class="row">
 
                     <div class="col-lg-8">
-                    <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
-                                        <div>
-
-                                            <h2 class="section-title-sm">Frequently Asked Questions</h2>
-                                        </div>
-                                     </div>
-                        <div class="accordion faq-accordion" id="accordionExample">
+                        <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;animation-delay: 200ms; animation-name: fadeInUp;">
+                            <div>
+                                <h2 class="section-title-sm">Frequently Asked Questions</h2>
+                            </div>
+                        </div>
+                        <!-- <div class="accordion faq-accordion" id="accordionExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -455,42 +453,27 @@ for ($i = 0; $i < $fullStars; $i++)
                                     </div>
                                 </div>
                             </div>
+                        </div> -->
+                        @if($tourFaqs->count())
+                        <div class="accordion faq-accordion" id="accordionExample">
+                            @foreach($tourFaqs as $index => $faq)
                             <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        <h6>How to calculate tour price</h6>
+                                <h2 class="accordion-header" id="heading{{ $index }}">
+                                    <button class="accordion-button {{ $index != 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="{{ $index == 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
+                                        <h6>{{ $faq->faq_question }}</h6>
                                     </button>
                                 </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <ol>
-                                            <li>Update number of travelers along with the kids as per their age</li>
-                                            <li>Select vehicle type</li>
-                                            <li>mention your travel date</li>
-                                            <li>Choose your hotel as per your choice</li>
-                                            <li>Select airport pick up and drop as per your plan</li>
-                                            <li>Finally, click on "Calculate price"</li>
-                                        </ol>
-                                        <p>With the above-said option one can easily know what the prices for a tour that is to be paid to the service provide My Holiday Happiness. </p>
+                                        {!! $faq->faq_answer !!}
                                     </div>
                                 </div>
                             </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        <h6>How to Book a Tour on My Holiday website?</h6>
-                                    </button>
-                                </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul>
-                                            <li> Go to the “Tours” section on the website and click on it. You can see a drop-down menu where different tour packages will show. Click any one of them according to your wish and then a webpage will be redirected. You can select the “Starting City” and the “Trip Duration” in order to know the price for your trip. You will get a lot of options of tour packages which you may select according to your will. </li>
-                                            <li>There will be some more options which you need to answer correctly in order to get the final price of your tour.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
+                        @else
+                            <p>No FAQs available for this tour.</p>
+                        @endif
                     </div>
                     <div class="col-lg-4">
                         <div class="card contact-card">
@@ -499,15 +482,15 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <ul class="contact-wrapper mt-1">
                                     <li>
                                         <i class="bi bi-telephone"></i>
-                                        <a href="tel:+926669990000">+ 926669990000</a>
+                                        <a href="tel:{{isset($parameters) ? $parameters[2]->par_value : ''}}">{{isset($parameters) ? $parameters[2]->par_value : ''}}</a>
                                     </li>
                                     <li>
                                         <i class="bi bi-envelope"></i>
-                                        <a href="mailto:needhelp@company.com">support@myholidayhappiness.com</a>
+                                        <a href="mailto:{{isset($parameters) ? $parameters[3]->par_value : ''}}">{{isset($parameters) ? $parameters[3]->par_value : ''}}</a>
                                     </li>
                                     <li>
                                         <i class="bi bi-geo-alt"></i>
-                                        <p># 66 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar, Bengaluru, Karnataka 560010</p>
+                                        <p>{{isset($parameters) ? $parameters[0]->par_value : ''}}</p>
                                     </li>
                                 </ul>
                                 </div>
@@ -519,6 +502,7 @@ for ($i = 0; $i < $fullStars; $i++)
 
         </section>
     </div>
+    
     <div class="modal fade" tabindex="-1" id="exampleModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -529,84 +513,61 @@ for ($i = 0; $i < $fullStars; $i++)
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="dot" class="d-block">First Name</label>
-                            <input type="text" class="form-control">
+                            <label for="first_name" class="d-block">First Name</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name">
                         </div>
                         <div class="col-md-6">
-                            <label for="dot" class="d-block">Last Name</label>
-                            <input type="text" class="form-control">
+                            <label for="last_name" class="d-block">Last Name</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name">
                         </div>
                         <div class="col-md-6">
-                            <label for="dot" class="d-block">Email</label>
-                            <input type="email" class="form-control">
+                            <label for="email" class="d-block">Email</label>
+                            <input type="email" class="form-control" id="email" name="email">
                         </div>
                         <div class="col-md-6">
-                            <label for="dot" class="d-block">Mobile No.</label>
-                            <input type="text" class="form-control">
+                            <label for="mobile" class="d-block">Mobile No.</label>
+                            <input type="text" class="form-control" id="mobile" name="mobile">
                         </div>
-                        <div class="col-md-6 position-relative">
-                            <label for="guest" class="d-block">Guest</label>
-                            <input type="text" class="form-control form-select " id="guestInput" readonly
-                                value="0 Guests">
-                            <div class="guest-wrapper" id="guestWrapper">
-                                <ul class="">
-                                    <li>
-                                        <div class="label-box">
-                                            <strong class="d-block">Adults</strong>
-                                            <small class="text-muted">12years and above</small>
-                                        </div>
-                                        <div class="data-box d-flex justify-content-between  gap-3 align-items-center">
-                                            <span class="minus">-</span>
-                                            <input type="text" class="form-control guest-count" value="0" readonly>
-                                            <span class="plus">+</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="label-box">
-                                            <strong class="d-block">Children</strong>
-                                            <small class="text-muted">Children: 6-12 Yrs</small>
-                                        </div>
-                                        <div class="data-box d-flex justify-content-between  gap-3 align-items-center">
-                                            <span class="minus">-</span>
-                                            <input type="text" class="form-control guest-count" value="0" readonly>
-                                            <span class="plus">+</span>
-                                        </div>
-                                    </li>
-                                </ul>
+                        <div class="col-md-6">
+                            <label for="adult_count" class="d-block">Adult</label>
+                            <input type="number" class="form-control" id="adult_count" name="adult_count" min="0">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="child_count" class="d-block">Child</label>
+                            <input type="number" class="form-control" id="child_count" name="child_count" min="0">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="travel_date_modal" class="d-block">Date of travel</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control date" id="travel_date_modal" name="travel_date">
+                                <span class="input-group-text"><i class="bi bi-calendar2"></i></span>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="dot" class="d-block">Date of travel</label>
-                            <div class="input-group ">
-                                <input type="text" class="form-control date" aria-label="Username">
-                                <span class="input-group-text" id=""><i class="bi bi-calendar2"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="dot" class="d-block">Accommodation</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>-Select Accommodation-</option>
-                                <option value="1">Three Star</option>
-                                <option value="2">Four Star</option>
-                                <option value="3">Five Star</option>
+                            <label for="accommodation_modal" class="d-block">Accommodation</label>
+                            <select class="form-select" id="accommodation_modal" name="accommodation">
+                                <option selected value="">-Select Accommodation-</option>
+                                <option value="4">Three Star Hotel</option>
+                                <option value="6">Four Star Hotel</option>
+                                <option value="7">Five Star Hotel</option>
                             </select>
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                                    style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">Message</label>
+                                <textarea class="form-control" placeholder="Leave a comment here" id="message" name="message" style="height: 100px"></textarea>
+                                <label for="message">Message</label>
                             </div>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary ">Submit</button>
-                            <button class="btn btn-danger " data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary">Submit</button>
+                            <button class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Calculate modal -->
     <div class="modal fade" tabindex="-1" id="calculate-modal">
@@ -626,7 +587,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 </div>
                                 <div>
                                     <label class="d-block text-secondary">Adult</label>
-                                    <strong class="">2</strong>
+                                    <strong id="modal-adult-count"></strong>
                                 </div>
                             </div>
                         </div>
@@ -638,7 +599,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 </div>
                                 <div>
                                     <label class="d-block text-secondary">Childern</label>
-                                    <strong class="">4</strong>
+                                    <strong id="modal-child-count"></strong>
                                 </div>
                             </div>
                         </div>
@@ -649,7 +610,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 </div>
                                 <div>
                                     <label class="d-block text-secondary">Vehicle</label>
-                                    <strong class="">Sedan - AC (4+1)</strong>
+                                    <strong id="modal-vehicle-name"></strong>
                                 </div>
                             </div>
                         </div>
@@ -660,7 +621,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 </div>
                                 <div>
                                     <label class="d-block text-secondary">Date of travel</label>
-                                    <strong class="">24-06-2025</strong>
+                                    <strong id="modal-travel-date"></strong>
                                 </div>
                             </div>
                         </div>
@@ -672,7 +633,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <div>
                                     <label class="d-block text-secondary">Accommodation</label>
 
-                                    <strong class="">Three Star Hotel</strong>
+                                    <strong id="modal-accommodation"></strong>
                                 </div>
                             </div>
                         </div>
@@ -684,8 +645,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <div>
                                     <label class="d-block text-secondary">Pickup</label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" checked type="checkbox" id="inlineCheckbox1"
-                                            value="option1">
+                                            <input class="form-check-input" type="checkbox" id="modal-pickup" disabled>
                                         <label class="form-check-label"
                                             for="inlineCheckbox1"><strong>Pickup</strong></label>
                                     </div>
@@ -700,8 +660,9 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <div>
                                     <label class="d-block text-secondary">Drop</label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" checked type="checkbox" id="inlineCheckbox1"
-                                            value="option1">
+                                        <!-- <input class="form-check-input" checked type="checkbox" id="inlineCheckbox1"
+                                            value="option1"> -->
+                                            <input class="form-check-input" type="checkbox" id="modal-drop" disabled>
                                         <label class="form-check-label"
                                             for="inlineCheckbox1"><strong>Drop</strong></label>
                                     </div>
@@ -711,7 +672,8 @@ for ($i = 0; $i < $fullStars; $i++)
 
                     </div>
                     <div class="mt-3 total-price-box text-center">
-                        Total Price <span class="ms-2 c">₹ 9999.00 </span>
+                        Total Price <span class="ms-2 c" id="modal-total-price"> </span>
+                        
                     </div>
                     <div class="bookingUser-details mt-3" style="display: none;">
 
@@ -773,7 +735,8 @@ for ($i = 0; $i < $fullStars; $i++)
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 
     <script>
         $(function () {
@@ -929,164 +892,135 @@ for ($i = 0; $i < $fullStars; $i++)
         }
     }
 
-    // function getPackagePrice(){
-    //     let selectedHotels = [];
-    //     // Loop through all radio groups that start with 'hotel_radio_'
-    //     $('input[type="radio"]').each(function () {
-    //         let name = $(this).attr('name');
+    function getPackagePrice(type) {
 
-    //         // Skip if we've already processed this group
-    //         if (selectedHotels[name] !== undefined) return;
+        let adultCount = parseInt($("#quantity_adult").val()) || 0;
+        let childCount = parseInt($("#quantity_child").val()) || 0;
+        let totalGuests = adultCount + childCount;
+        let travelDate = $("#travel_date").val();
+        let accommodation = $("#accommodation_type").val();  // Assuming this holds the accommodation type text
 
-    //         let checked = $('input[name="' + name + '"]:checked').val();
-    //         if (checked) {
-    //             selectedHotels.push({ name: name, value: checked });
-    //         }
+        if (type == 1) {
+            let selectedHotels = {};
+            let params = {};
+            let hasError = false;
 
-    //         // Prevent duplicates
-    //         selectedHotels[name] = true;
-    //     });
-    //     // Prepare data for backend
-    //     let postData = {
-    //         _token: $('meta[name="csrf-token"]').attr('content'),
-    //     };
+            // Clear previous error styles and message
+            $('#guestInput, #travel_date, #accommodation_type, #vehicle').removeClass('is-invalid');
+            $('#calculate-error').remove(); // remove old error message
 
-    //     // Add hotel radios dynamically
-    //     selectedHotels.forEach(function (hotel) {
-    //         postData[hotel.name] = hotel.value;
-    //     });
+            // Step 1: Validation
+            let adultCount = parseInt($("#quantity_adult").val()) || 0;
+            let childCount = parseInt($("#quantity_child").val()) || 0;
+            let totalGuests = adultCount + childCount;
+            let travelDate = $("#travel_date").val();
+            let accommodation = $("#accommodation_type").val();
+            let vehicle = $("#vehicle").val();
 
-    //     console.log(postData);
-        
-    //     // let hid_packageid = $('#hid_packageid').val();;
-    //     // let quantity_adult = $('#quantity_adult').val();
-    //     // let quantity_child = $('#quantity_child').val();
-    //     // let travel_date = $('#travel_date').val();
-    //     // let vehicle = $('#vehicle').val();
-    //     // var accommodation_type = $('#accommodation_type').val();
-    //     // var airport_pickup = $('#airport_pickup').val();
-    //     // var airport_drop = $('#airport_drop').val();
-    //     formData.append('hid_packageid', $("#hid_packageid").val());
-    //     formData.append('quantity_adult', $("#quantity_adult").val());
-    //     formData.append('quantity_child', $("#quantity_child").val());
-    //     formData.append('travel_date', $("#travel_date").val());
-    //     formData.append('vehicle', $("#vehicle").val());
-    //     formData.append('accommodation_type', $("#accommodation_type").val());
-    //     formData.append('airport_pickup', $("#airport_pickup").val());
-    //     formData.append('airport_drop', $("#airport_drop").val());
-
-    //     // CSRF token (Laravel Blade)
-    //     formData.append('_token', '{{ csrf_token() }}');
-    //     if (accommodation_type !="")
-    //     {
-    //         $.ajax({
-    //             url: '/getPackagePrice',
-    //             type: 'GET',
-    //             dataType: 'json',  // Ensure JSON response
-    //             data: {
-    //                 hid_packageid : hid_packageid,
-    //                 quantity_adult : quantity_adult,
-    //                 quantity_child : quantity_child,
-    //                 travel_date : travel_date,
-    //                 vehicle : vehicle,
-    //                 accommodation_type : accommodation_type,
-    //                 airport_pickup : airport_pickup,
-    //                 airport_drop : airport_drop
-    //             },
-    //             success: function (response) {
-    //                 if (response.html) {
-    //                     $("#calculate-modal").modal('show');
-    //                     $('#accomodation_result').html(response.html);
-    //                     $('#accommodation').val(accommodation_type);
-    //                 } else {
-    //                     Swal.fire({
-    //                         icon: 'error',
-    //                         title: 'Oopps...',
-    //                         text: 'Error: Invalid response!',
-    //                         confirmButtonColor: '#dd3333',
-    //                     });
-    //                 }
-    //             },
-    //             error: function () {
-    //                 Swal.fire({
-    //                     icon: 'error',
-    //                     title: 'Oopps...',
-    //                     text: 'Error loading view form.',
-    //                     confirmButtonColor: '#dd3333',
-    //                 });
-    //             }
-    //         });
-    //     } else
-    //     {
-            
-    //     }
-    // }
-    function getPackagePrice() {
-    let selectedHotels = {};
-    let params = {};
-
-    // Step 1: Get checked hotel radios
-    $('input[type="radio"]').each(function () {
-        let name = $(this).attr('name');
-        if (!(name in selectedHotels)) {
-            let checked = $('input[name="' + name + '"]:checked').val();
-            if (checked) {
-                selectedHotels[name] = checked;
-                params[name] = checked;  // Add to params as a regular object
+            if (totalGuests === 0) {
+                $('#guestInput').addClass('is-invalid');
+                hasError = true;
             }
-        }
-    });
+            if (travelDate === '') {
+                $('#travel_date').addClass('is-invalid');
+                hasError = true;
+            }
+            if (accommodation === '') {
+                $('#accommodation_type').addClass('is-invalid');
+                hasError = true;
+            }
+            if (vehicle === '0') {
+                $('#vehicle').addClass('is-invalid');
+                hasError = true;
+            }
 
-    // Step 2: Append other parameters
-    params['hid_packageid'] = $("#hid_packageid").val();
-    params['quantity_adult'] = $("#quantity_adult").val();
-    params['quantity_child'] = $("#quantity_child").val();
-    params['travel_date'] = $("#travel_date").val();
-    params['vehicle'] = $("#vehicle").val();
-    params['accommodation_type'] = $("#accommodation_type").val();
+            if (hasError) {
+                if ($('#calculate-error').length === 0) {
+                    $('<div id="calculate-error" class="text-danger fw-bold">Please fill in all required fields to calculate.</div>')
+                    .hide()
+                    .appendTo('#calculate-container')
+                    .fadeIn();
+                }
+                return;
+            }
 
-     // Step 3: Check for Airport pickup and drop and append if checked
-    if ($("#airport_pickup").prop('checked')) {
-        params['airport_pickup'] = 1;
-    }
+            // Step 2: Get checked hotel radios
+            $('input[type="radio"]').each(function () {
+                let name = $(this).attr('name');
+                if (!(name in selectedHotels)) {
+                    let checked = $('input[name="' + name + '"]:checked').val();
+                    if (checked) {
+                        selectedHotels[name] = checked;
+                        params[name] = checked;
+                    }
+                }
+            });
 
-    if ($("#airport_drop").prop('checked')) {
-        params['airport_drop'] = 1;
-    }
+            // Step 3: Append form params
+            params['hid_packageid'] = $("#hid_packageid").val();
+            params['quantity_adult'] = adultCount;
+            params['quantity_child'] = childCount;
+            params['travel_date'] = travelDate;
+            params['vehicle'] = vehicle;
+            params['accommodation_type'] = accommodation;
 
-    let accommodation_type = $("#accommodation_type").val();
+            if ($("#airport_pickup").prop('checked')) {
+                params['airport_pickup'] = 1;
+            }
+            if ($("#airport_drop").prop('checked')) {
+                params['airport_drop'] = 1;
+            }
 
-    if (accommodation_type !== "") {
-        $.ajax({
-            url: '/getPackagePrice',  // Send as query string
-            type: 'GET',
-            data: params,  // Pass params as a regular object
-            dataType: 'json',
-            success: function (response) {
-                if (response.html) {
-                    $("#calculate-modal").modal('show');
-                    $('#accomodation_result').html(response.html);
-                    $('#accommodation').val(accommodation_type);
-                } else {
+            // Step 4: AJAX call
+            $.ajax({
+                url: '/getPackagePrice',
+                type: 'GET',
+                data: params,
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status == 200) {
+                        $('#modal-adult-count').text(response.adult);
+                        $('#modal-child-count').text(response.child);
+                        $('#modal-vehicle-name').text(response.vehicle);
+                        $('#modal-travel-date').text(response.travel_date);
+                        $('#modal-accommodation').text(response.accommodation);
+                        $('#modal-total-price').text("₹ " + response.total_price);
+                        $('#modal-pickup').prop("checked", response.airport_pickup == 1);
+                        $('#modal-drop').prop("checked", response.airport_drop == 1);
+                        $("#calculate-modal").modal('show');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Error: Invalid response!',
+                            confirmButtonColor: '#dd3333',
+                        });
+                    }
+                },
+                error: function () {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Error: Invalid response!',
+                        text: 'Error loading view form.',
                         confirmButtonColor: '#dd3333',
                     });
                 }
-            },
-            error: function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Error loading view form.',
-                    confirmButtonColor: '#dd3333',
-                });
+            });
+        }else {
+            // Prefill modal fields if data exists
+            if (totalGuests > 0 || travelDate !== '' || accommodation !== '') {
+                $("#adult_count").val(adultCount);
+                $("#child_count").val(childCount);
+                $("#travel_date_modal").val(travelDate);
+
+                // Set accommodation text (not value) to match the modal
+                $("#accommodation_modal").val(accommodation);
             }
-        });
+
+            // Show the modal
+            $("#exampleModal").modal('show');
+        }
     }
-}
 
 
     </script>
