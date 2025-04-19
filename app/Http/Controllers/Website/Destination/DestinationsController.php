@@ -35,8 +35,21 @@ class DestinationsController extends Controller{
                     ->where('a.bit_Deleted_Flag', 0)
                     ->where('a.status', 1)
                     ->first();
-
-        return view('website.destination', ['destinationData' => $destinationData, 'placesData' => $placesData, 'parameters' => $parameters, 'countAndPrice' => $countAndPrice])->with([
+        
+        $faqData = DB::table('tbl_faqs')
+                    ->selectRaw('faq_id, faq_question, faq_answer')
+                    ->where('bit_Deleted_Flag', 0)
+                    ->where('faq_type', 2)
+                    ->where('status', 1)
+                    ->orderBy('faq_order', 'ASC')
+                    ->limit(5)
+                    ->get();
+        $reviewsData = DB::table('tbl_reviews')
+                ->selectRaw('review_id, reviewer_name, reviewer_loc, no_of_star, feedback_msg')
+                ->where('bit_Deleted_Flag', 0)
+                ->where('status', 1)
+                ->get();
+        return view('website.destination', ['destinationData' => $destinationData, 'placesData' => $placesData, 'parameters' => $parameters, 'countAndPrice' => $countAndPrice, 'faqData' => $faqData, 'reviewsData' => $reviewsData])->with([
             'meta_title' => $destinationData->meta_title,
             'meta_description' => $destinationData->meta_description,
             'meta_keywords' => $destinationData->meta_keywords
@@ -64,7 +77,7 @@ class DestinationsController extends Controller{
                     <div class="card-body">
                         <h5 class="card-title">' . e($place->place_name) . '</h5>
                         <p class="card-text mb-2">' . implode(' ', array_slice(explode(' ', strip_tags($place->about_place)), 0, 30)) . '...</p>
-                        <a href="' . url('place/' . $place->place_url) . '" target="_blank" class="stretched-link fw-bold">View Details <i class="ms-2 bi bi-arrow-right"></i></a>
+                        <a href="' . route('website.neardestination', ['slug' => $place->place_url]) . '" target="_blank" class="stretched-link fw-bold">View Details <i class="ms-2 bi bi-arrow-right"></i></a>
                     </div>
                 </div>
             ';

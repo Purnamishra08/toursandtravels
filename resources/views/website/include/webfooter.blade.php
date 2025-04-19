@@ -118,8 +118,8 @@
                 <div class="col-lg-6 order-first order-lg-2">
                     <ul class="link-wrapper">
 
-                        <li><a href="../aboutus"> About Us</a></li>
-                        <li><a href="../faq">Faq</a></li>
+                        <li><a href="#"> About Us</a></li>
+                        <li><a href="{{route('website.faqs', ['slug' => 'common-faqs'])}}">Faq</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms & Conditions</a></li>
                         <li><a href="#">Booking Policy</a></li>

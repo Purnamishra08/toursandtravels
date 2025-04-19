@@ -14,7 +14,22 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        return view('website.index');
+        $parameters =  DB::table('tbl_parameters')
+        ->select('parameter', 'par_value', 'parid')
+        ->where('param_type', 'CS')
+        ->where('status', 1)
+        ->where('bit_Deleted_Flag', 0)
+        ->get();
+
+        $meta_title         =  isset($parameters) ? $parameters[10]->par_value : '';
+        $meta_keywords      =  isset($parameters) ? $parameters[11]->par_value : '';
+        $meta_description   =  isset($parameters) ? $parameters[12]->par_value : '';
+
+        return view('website.index')->with([
+            'meta_title' => $meta_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords
+        ]);
     }
     public function blogsHome(Request $request){
         $blogDataShow = DB::table('tbl_blog')
@@ -72,6 +87,9 @@ class HomeController extends Controller
                     ->where('a.status', 1);
         if($request->fromDestination != 1){
             $query->where('a.show_in_home', 1);
+            $query->inRandomOrder()->limit(8);
+        }else{
+            $query->inRandomOrder()->limit(6);
         }
         $popularTours = $query->inRandomOrder()->limit(8)->get();
         if ($request->ajax()) {
@@ -113,7 +131,7 @@ class HomeController extends Controller
     public function destinationPlaces(Request $request) {
 
         $destinationPlaces=DB::table('tbl_places as p')
-                ->select('p.placeimg', 'p.placethumbimg', 'p.placeid', 'p.place_name', 'd.destination_id', 'd.destination_name', 'p.alttag_thumb')
+                ->select('p.placeimg', 'p.placethumbimg', 'p.placeid', 'p.place_name', 'd.destination_id', 'd.destination_name', 'p.alttag_thumb', 'p.place_url')
                 ->leftJoin('tbl_destination as d', 'p.destination_id', '=', 'd.destination_id')
                 ->where('p.bit_Deleted_Flag', 0)
                 ->where('p.show_in_home', 1)
@@ -126,8 +144,10 @@ class HomeController extends Controller
             foreach ($destinationPlaces as $values) {
                 $html .= '
                 <div class="gallery-item">
-                    <img src="' . asset('storage/place_images/thumbs/' . $values->placethumbimg) . '" alt="' . $values->alttag_thumb . '">
-                    <div class="gallery-text">'. $values->place_name.'</div>
+                    <a href="' . route('website.neardestination', ['slug' => $values->place_url]) . '" target="_blank">
+                        <img src="' . asset('storage/place_images/thumbs/' . $values->placethumbimg) . '" alt="' . $values->alttag_thumb . '">
+                    </a>
+                    <div class="gallery-text">' . $values->place_name . '</div>
                 </div>';
             }
             return $html;
