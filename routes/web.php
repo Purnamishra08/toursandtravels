@@ -109,6 +109,11 @@ Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('we
 Route::get('/tour', [TourController::class, 'allTourPackages'])->name('website.allTourPackages');
 Route::get('/place-package/{slug}', [TourController::class, 'allTourPlacePackages'])->name('website.allTourPlacePackages');
 Route::get('tour/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
+Route::post('/submit-inquiry', [TourController::class, 'submitInquiry'])->name('website.packageinquiry');
+
+Route::get('/getVehicles', [PackagePdfController::class, 'getVehicles'])->name('admin.generatePackageDoc.getVehicles');
+Route::get('/getAccommodationWeb', [PackagePdfController::class, 'getAccommodationWeb'])->name('admin.generatePackageDoc.getAccommodationWeb');
+Route::get('/getPackagePrice', [PackagePdfController::class, 'getPackagePrice'])->name('admin.generatePackageDoc.getPackagePrice');
 //Tour Routing
 
 //Destination Routing
@@ -438,7 +443,5 @@ Route::middleware('auth')->group(function () {
     
     //Generate pdf or word doc
 });
-    Route::get('/getVehicles', [PackagePdfController::class, 'getVehicles'])->name('admin.generatePackageDoc.getVehicles');
-    Route::get('/getAccommodationWeb', [PackagePdfController::class, 'getAccommodationWeb'])->name('admin.generatePackageDoc.getAccommodationWeb');
-    Route::get('/getPackagePrice', [PackagePdfController::class, 'getPackagePrice'])->name('admin.generatePackageDoc.getPackagePrice');
+
 /********  ADMIN ROUTING    ********/
