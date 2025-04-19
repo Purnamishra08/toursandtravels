@@ -18,9 +18,9 @@ class EnquiriesEntryController extends Controller
         if ($request->ajax()) {
             $query = DB::table('tbl_inquiries as a')
                 ->select('a.id', 'a.inquiry_number', 'a.customer_name', 'a.email_address', 'a.phone_number', 'd.admin_name', 'a.created_at', 'c.name', 'a.status')
-                ->join('tbl_sources as b', 'a.source_id', '=', 'b.id')
-                ->join('tbl_statuses as c', 'a.status_id', '=', 'c.id')
-                ->join('tbl_admin as d', 'a.created_by', '=', 'd.adminid')
+                ->leftjoin('tbl_sources as b', 'a.source_id', '=', 'b.id')
+                ->leftjoin('tbl_statuses as c', 'a.status_id', '=', 'c.id')
+                ->leftjoin('tbl_admin as d', 'a.created_by', '=', 'd.adminid')
                 ->where('a.bit_Deleted_Flag', 0);
 
             // Apply filters if present

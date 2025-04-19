@@ -46,7 +46,7 @@ use App\Http\Controllers\Website\Tour\TourController;
 use App\Http\Controllers\Website\Places\PlaceController;
 use App\Http\Controllers\Website\Faqs\FaqsController;
 use App\Http\Controllers\Website\CommonFooterLinks\CommonfooterlinksController;
-
+use App\Http\Controllers\Website\ContactUs\ContactusController;
 
 /********  WEBSITE ROUTING    ********/
 /*
@@ -89,7 +89,6 @@ Route::get('/optimize', function() {
 
 /********  WEBSITE ROUTING    ********/
 Route::get('/', [HomeController::class, 'index'])->name('website.home');
-Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
 Route::view('/bookingDownload', 'website.bookingDownload');
 Route::view('/tourlisting', 'website.tourlisting');
@@ -139,6 +138,11 @@ Route::get('/privacy-policy', [CommonfooterlinksController::class, 'index'])->na
 Route::get('/booking-policy', [CommonfooterlinksController::class, 'bookingpolicy'])->name('website.booking-policy');
 Route::get('/term-condition', [CommonfooterlinksController::class, 'termsConditions'])->name('website.term-condition');
 //Common footer links
+
+//contact us
+Route::get('/contact-us', [ContactusController::class, 'index'])->name('website.contactus');
+Route::match(['get', 'post'], 'addContacUs', [ContactusController::class, 'addContacUs'])->name('website.addContacUs');
+//contact us
 
 //Footer
 Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');
