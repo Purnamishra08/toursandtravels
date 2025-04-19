@@ -21,9 +21,10 @@ class CommonFaqController extends Controller
         $faq_question = $request->input('faq_question', '');
         $faq_answer = $request->input('faq_answer', '');
         $status = $request->input('status', '');
+        $faq_type = $request->input('faq_type', '');
 
         $query = DB::table('tbl_faqs')
-            ->select('faq_id', 'faq_question', 'faq_answer', 'faq_order', 'status', 'created_date')
+            ->select('faq_id', 'faq_question', 'faq_answer', 'faq_order', 'status', 'created_date', 'faq_type')
             ->where('bit_Deleted_Flag', 0)
             ->orderBy('faq_order', 'ASC');
 
@@ -35,6 +36,9 @@ class CommonFaqController extends Controller
         }
         if (!empty($status)) {
             $query->where('status', $status);
+        }
+        if(!empty($faq_type)){
+            $query->where('faq_type', $faq_type);
         }
 
         // Handle global search
@@ -48,6 +52,9 @@ class CommonFaqController extends Controller
 
         return DataTables::of($query)
             ->addIndexColumn()
+            ->editColumn('faq_type', function ($row) {
+                return $row->faq_type == 1 ? 'Common Faqs' : ($row->faq_type == 2 ? 'Destination Faqs' : 'N/A');
+            })
             ->editColumn('created_date', function ($row) {
                 return date('jS M Y', strtotime($row->created_date));
             })
@@ -113,6 +120,7 @@ class CommonFaqController extends Controller
         if ($request->isMethod('post')) {
             // Start validation
             $validator = Validator::make($request->all(), [
+                'faq_type'          => 'required|numeric',
                 'faq_question'      => 'required|string',
                 'faq_answer'        => 'required|string|',
                 'faq_order'         => 'required|numeric'
@@ -127,6 +135,7 @@ class CommonFaqController extends Controller
             DB::beginTransaction(); // Start transaction
             try {
                 $data = [
+                    'faq_type'                  => $request->input('faq_type'),
                     'faq_question'              => stripslashes($request->input('faq_question')),
                     'faq_answer'                => stripslashes($request->input('faq_answer')),
                     'faq_order'                 => $request->input('faq_order'),
@@ -161,6 +170,7 @@ class CommonFaqController extends Controller
         if ($request->isMethod('post')) {
             // Start validation
             $validator = Validator::make($request->all(), [
+                'faq_type'          => 'required|numeric',
                 'faq_question'      => 'required|string',
                 'faq_answer'        => 'required|string|',
                 'faq_order'         => 'required|numeric'
@@ -175,6 +185,7 @@ class CommonFaqController extends Controller
             DB::beginTransaction(); // Start transaction
             try {
                 $data = [
+                    'faq_type'                  => $request->input('faq_type'),
                     'faq_question'              => stripslashes($request->input('faq_question')),
                     'faq_answer'                => stripslashes($request->input('faq_answer')),
                     'faq_order'                 => $request->input('faq_order'),

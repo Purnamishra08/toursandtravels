@@ -289,8 +289,9 @@ for ($i = 0; $i < $fullStars; $i++)
                                                         <div
                                                             class="data-box d-flex justify-content-between  gap-3 align-items-center">
                                                             <span class="minus">-</span>
-                                                            <input type="text" class="form-control guest-count" value="0"
-                                                                readonly>
+                                                            <!-- <input type="text" class="form-control guest-count" value="0"
+                                                                readonly> -->
+                                                                <input type="text" class="form-control guest-count"  step="1" max="{{$max_vehicle_capacity}}" value="0" name="quantity_adult" id="quantity_adult" class="quantity-field" readonly>
                                                             <span class="plus">+</span>
                                                         </div>
                                                     </li>
@@ -302,8 +303,9 @@ for ($i = 0; $i < $fullStars; $i++)
                                                         <div
                                                             class="data-box d-flex justify-content-between  gap-3 align-items-center">
                                                             <span class="minus">-</span>
-                                                            <input type="text" class="form-control guest-count" value="0"
-                                                                readonly>
+                                                            <!-- <input type="text" class="form-control guest-count" value="0"
+                                                                readonly> -->
+                                                            <input type="text" class="form-control guest-count" step="1" max="{{$max_vehicle_capacity}}"  value="0" name="quantity_child" id="quantity_child" class="quantity-field" readonly>
                                                             <span class="plus">+</span>
                                                         </div>
                                                     </li>
@@ -312,18 +314,19 @@ for ($i = 0; $i < $fullStars; $i++)
                                         </div>
                                         <div class="col-12">
                                             <label for="vehicle" class="d-block">Vehicle</label>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>-Select Vehicle-</option>
-                                                <option value="1">Sedan - AC (4+1)</option>
-                                                <option value="2">SUV - AC (7+1)</option>
-                                                <option value="3">Tempo Traveller - AC (12+1)</option>
+                                            <select class="form-select" aria-label="Default select Vehicle" id="vehicle" name="vehicle">
+                                                <option value="0">-Select Vehicle-</option>
+                                                @if($noof_vehicle)
+                                                    @foreach($getVehicleDropDown as $value)
+                                                    <option value="{{$value->vehicleid}}">{{$value->vehicle_name}}</option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                         <div class="col-12">
                                             <label for="dot" class="d-block">Date of travel</label>
                                             <div class="input-group ">
-
-                                                <input type="text" class="form-control date">
+                                                <input type="text" class="form-control date" id="travel_date" name="travel_date">
                                                 <span class="input-group-text" id=""><i class="bi bi-calendar2"></i></span>
                                             </div>
                                         </div>
@@ -334,32 +337,33 @@ for ($i = 0; $i < $fullStars; $i++)
                                                 <a href="" class="ms-auto text-warning" data-bs-toggle="modal"
                                                     data-bs-target="#hotel-modal">Check hotel</a>
                                             </div>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>-Select Accommodation-</option>
-                                                <option value="1">Three Star</option>
-                                                <option value="2">Four Star</option>
-                                                <option value="3">Five Star</option>
+                                            <select class="form-select" id="accommodation_type" name="accommodation_type" onchange="getAccommodation()">		
+                                                <option value=""> - - Select Accommodation - - </option>
+                                                @if($hotelsTypeDropDown)
+                                                    @foreach($hotelsTypeDropDown as $value)
+                                                    <option value="{{$value->hotel_type_id}}">{{$value->hotel_type_name}}</option>
+                                                    @endforeach
+                                                @endif
+                                                
                                             </select>
                                         </div>
                                         <div class="col-12">
                                             <label class="d-block">Airport pickup & drop</label>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1"
-                                                    value="option1">
+                                                <input class="form-check-input" type="checkbox" name="airport_pickup" id="airport_pickup" value="1">
                                                 <label class="form-check-label" for="inlineCheckbox1">Pickup</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2"
-                                                    value="option2">
+                                                <input class="form-check-input" type="checkbox" name="airport_drop" id="airport_drop" value="2">
                                                 <label class="form-check-label" for="inlineCheckbox2">Drop</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
+                                            <div id="calculate-container"></div>
                                             <div class="d-flex gap-2 flex-wrap-wrap">
-                                                <Button class="btn btn-success" data-bs-toggle="modal"
-                                                    data-bs-target="#calculate-modal">Calculate</Button>
-                                                <Button class="btn btn-outline-warning" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">Inquiry/Customize</Button>
+                                                <input type="hidden" id="hid_packageid" name="hid_packageid" value="{{$tourpackageid}}">
+                                                <button id="calculate-btn" class="btn btn-success" onclick="getPackagePrice(1)">Calculate</button>
+                                                <button class="btn btn-outline-warning" onclick="getPackagePrice(2)">Inquiry/Customize</button>
                                             </div>
                                         </div>
                                     </div>
@@ -431,13 +435,12 @@ for ($i = 0; $i < $fullStars; $i++)
                 <div class="row">
 
                     <div class="col-lg-8">
-                    <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
-                                        <div>
-
-                                            <h2 class="section-title-sm">Frequently Asked Questions</h2>
-                                        </div>
-                                     </div>
-                        <div class="accordion faq-accordion" id="accordionExample">
+                        <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;animation-delay: 200ms; animation-name: fadeInUp;">
+                            <div>
+                                <h2 class="section-title-sm">Frequently Asked Questions</h2>
+                            </div>
+                        </div>
+                        <!-- <div class="accordion faq-accordion" id="accordionExample">
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -450,42 +453,27 @@ for ($i = 0; $i < $fullStars; $i++)
                                     </div>
                                 </div>
                             </div>
+                        </div> -->
+                        @if($tourFaqs->count())
+                        <div class="accordion faq-accordion" id="accordionExample">
+                            @foreach($tourFaqs as $index => $faq)
                             <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        <h6>How to calculate tour price</h6>
+                                <h2 class="accordion-header" id="heading{{ $index }}">
+                                    <button class="accordion-button {{ $index != 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="{{ $index == 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
+                                        <h6>{{ $faq->faq_question }}</h6>
                                     </button>
                                 </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        <ol>
-                                            <li>Update number of travelers along with the kids as per their age</li>
-                                            <li>Select vehicle type</li>
-                                            <li>mention your travel date</li>
-                                            <li>Choose your hotel as per your choice</li>
-                                            <li>Select airport pick up and drop as per your plan</li>
-                                            <li>Finally, click on "Calculate price"</li>
-                                        </ol>
-                                        <p>With the above-said option one can easily know what the prices for a tour that is to be paid to the service provide My Holiday Happiness. </p>
+                                        {!! $faq->faq_answer !!}
                                     </div>
                                 </div>
                             </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                        <h6>How to Book a Tour on My Holiday website?</h6>
-                                    </button>
-                                </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul>
-                                            <li> Go to the “Tours” section on the website and click on it. You can see a drop-down menu where different tour packages will show. Click any one of them according to your wish and then a webpage will be redirected. You can select the “Starting City” and the “Trip Duration” in order to know the price for your trip. You will get a lot of options of tour packages which you may select according to your will. </li>
-                                            <li>There will be some more options which you need to answer correctly in order to get the final price of your tour.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
+                        @else
+                            <p>No FAQs available for this tour.</p>
+                        @endif
                     </div>
                     <div class="col-lg-4">
                         <div class="card contact-card">
@@ -494,15 +482,15 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <ul class="contact-wrapper mt-1">
                                     <li>
                                         <i class="bi bi-telephone"></i>
-                                        <a href="tel:+926669990000">+ 926669990000</a>
+                                        <a href="tel:{{isset($parameters) ? $parameters[2]->par_value : ''}}">{{isset($parameters) ? $parameters[2]->par_value : ''}}</a>
                                     </li>
                                     <li>
                                         <i class="bi bi-envelope"></i>
-                                        <a href="mailto:needhelp@company.com">support@myholidayhappiness.com</a>
+                                        <a href="mailto:{{isset($parameters) ? $parameters[3]->par_value : ''}}">{{isset($parameters) ? $parameters[3]->par_value : ''}}</a>
                                     </li>
                                     <li>
                                         <i class="bi bi-geo-alt"></i>
-                                        <p># 66 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar, Bengaluru, Karnataka 560010</p>
+                                        <p>{{isset($parameters) ? $parameters[0]->par_value : ''}}</p>
                                     </li>
                                 </ul>
                                 </div>
@@ -514,6 +502,7 @@ for ($i = 0; $i < $fullStars; $i++)
 
         </section>
     </div>
+    
     <div class="modal fade" tabindex="-1" id="exampleModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -524,84 +513,61 @@ for ($i = 0; $i < $fullStars; $i++)
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="dot" class="d-block">First Name</label>
-                            <input type="text" class="form-control">
+                            <label for="first_name" class="d-block">First Name</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name">
                         </div>
                         <div class="col-md-6">
-                            <label for="dot" class="d-block">Last Name</label>
-                            <input type="text" class="form-control">
+                            <label for="last_name" class="d-block">Last Name</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name">
                         </div>
                         <div class="col-md-6">
-                            <label for="dot" class="d-block">Email</label>
-                            <input type="email" class="form-control">
+                            <label for="email" class="d-block">Email</label>
+                            <input type="email" class="form-control" id="email" name="email">
                         </div>
                         <div class="col-md-6">
-                            <label for="dot" class="d-block">Mobile No.</label>
-                            <input type="text" class="form-control">
+                            <label for="mobile" class="d-block">Mobile No.</label>
+                            <input type="text" class="form-control" id="mobile" name="mobile">
                         </div>
-                        <div class="col-md-6 position-relative">
-                            <label for="guest" class="d-block">Guest</label>
-                            <input type="text" class="form-control form-select " id="guestInput" readonly
-                                value="0 Guests">
-                            <div class="guest-wrapper" id="guestWrapper">
-                                <ul class="">
-                                    <li>
-                                        <div class="label-box">
-                                            <strong class="d-block">Adults</strong>
-                                            <small class="text-muted">12years and above</small>
-                                        </div>
-                                        <div class="data-box d-flex justify-content-between  gap-3 align-items-center">
-                                            <span class="minus">-</span>
-                                            <input type="text" class="form-control guest-count" value="0" readonly>
-                                            <span class="plus">+</span>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="label-box">
-                                            <strong class="d-block">Children</strong>
-                                            <small class="text-muted">Children: 6-12 Yrs</small>
-                                        </div>
-                                        <div class="data-box d-flex justify-content-between  gap-3 align-items-center">
-                                            <span class="minus">-</span>
-                                            <input type="text" class="form-control guest-count" value="0" readonly>
-                                            <span class="plus">+</span>
-                                        </div>
-                                    </li>
-                                </ul>
+                        <div class="col-md-6">
+                            <label for="adult_count" class="d-block">Adult</label>
+                            <input type="number" class="form-control" id="adult_count" name="adult_count" min="0">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="child_count" class="d-block">Child</label>
+                            <input type="number" class="form-control" id="child_count" name="child_count" min="0">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="travel_date_modal" class="d-block">Date of travel</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control date" id="travel_date_modal" name="travel_date">
+                                <span class="input-group-text"><i class="bi bi-calendar2"></i></span>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="dot" class="d-block">Date of travel</label>
-                            <div class="input-group ">
-                                <input type="text" class="form-control date" aria-label="Username">
-                                <span class="input-group-text" id=""><i class="bi bi-calendar2"></i></span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="dot" class="d-block">Accommodation</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>-Select Accommodation-</option>
-                                <option value="1">Three Star</option>
-                                <option value="2">Four Star</option>
-                                <option value="3">Five Star</option>
+                            <label for="accommodation_modal" class="d-block">Accommodation</label>
+                            <select class="form-select" id="accommodation_modal" name="accommodation">
+                                <option selected value="">-Select Accommodation-</option>
+                                <option value="4">Three Star Hotel</option>
+                                <option value="6">Four Star Hotel</option>
+                                <option value="7">Five Star Hotel</option>
                             </select>
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                                    style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">Message</label>
+                                <textarea class="form-control" placeholder="Leave a comment here" id="message" name="message" style="height: 100px"></textarea>
+                                <label for="message">Message</label>
                             </div>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary ">Submit</button>
-                            <button class="btn btn-danger " data-bs-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary">Submit</button>
+                            <button class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Calculate modal -->
     <div class="modal fade" tabindex="-1" id="calculate-modal">
@@ -621,7 +587,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 </div>
                                 <div>
                                     <label class="d-block text-secondary">Adult</label>
-                                    <strong class="">2</strong>
+                                    <strong id="modal-adult-count"></strong>
                                 </div>
                             </div>
                         </div>
@@ -633,7 +599,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 </div>
                                 <div>
                                     <label class="d-block text-secondary">Childern</label>
-                                    <strong class="">4</strong>
+                                    <strong id="modal-child-count"></strong>
                                 </div>
                             </div>
                         </div>
@@ -644,7 +610,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 </div>
                                 <div>
                                     <label class="d-block text-secondary">Vehicle</label>
-                                    <strong class="">Sedan - AC (4+1)</strong>
+                                    <strong id="modal-vehicle-name"></strong>
                                 </div>
                             </div>
                         </div>
@@ -655,7 +621,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 </div>
                                 <div>
                                     <label class="d-block text-secondary">Date of travel</label>
-                                    <strong class="">24-06-2025</strong>
+                                    <strong id="modal-travel-date"></strong>
                                 </div>
                             </div>
                         </div>
@@ -667,7 +633,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <div>
                                     <label class="d-block text-secondary">Accommodation</label>
 
-                                    <strong class="">Three Star Hotel</strong>
+                                    <strong id="modal-accommodation"></strong>
                                 </div>
                             </div>
                         </div>
@@ -679,8 +645,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <div>
                                     <label class="d-block text-secondary">Pickup</label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" checked type="checkbox" id="inlineCheckbox1"
-                                            value="option1">
+                                            <input class="form-check-input" type="checkbox" id="modal-pickup" disabled>
                                         <label class="form-check-label"
                                             for="inlineCheckbox1"><strong>Pickup</strong></label>
                                     </div>
@@ -695,8 +660,9 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <div>
                                     <label class="d-block text-secondary">Drop</label>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" checked type="checkbox" id="inlineCheckbox1"
-                                            value="option1">
+                                        <!-- <input class="form-check-input" checked type="checkbox" id="inlineCheckbox1"
+                                            value="option1"> -->
+                                            <input class="form-check-input" type="checkbox" id="modal-drop" disabled>
                                         <label class="form-check-label"
                                             for="inlineCheckbox1"><strong>Drop</strong></label>
                                     </div>
@@ -706,7 +672,8 @@ for ($i = 0; $i < $fullStars; $i++)
 
                     </div>
                     <div class="mt-3 total-price-box text-center">
-                        Total Price <span class="ms-2 c">₹ 9999.00 </span>
+                        Total Price <span class="ms-2 c" id="modal-total-price"> </span>
+                        
                     </div>
                     <div class="bookingUser-details mt-3" style="display: none;">
 
@@ -754,135 +721,308 @@ for ($i = 0; $i < $fullStars; $i++)
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">2 Day Trip from Bhubaneshwar | Puri, Konark & Bhubaneshwar</h5>
+                    <h5 class="modal-title">{{$tours->tpackage_name}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <h6 class="text-info text-decoration-underline">Four Star Hotel in Puri (1 Night)</h6>
-                    <div class="hotel-wrapper mb-1">
-                        <label class=" hotel-details-card ">
-                            <input name="hotel" class="hotel-radio" type="radio">
-                            <div class="card-body plan-details">
-                                <span class="d-block h-name"><i class="bi bi-buildings"></i>Preethi International</span>
-                                <span class="d-block"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star-half-stroke text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star-half-stroke" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M288 376.4l.1-.1 26.4 14.1 85.2 45.5-16.5-97.6-4.8-28.7 20.7-20.5 70.1-69.3-96.1-14.2-29.3-4.3-12.9-26.6L288.1 86.9l-.1 .3 0 289.2zm175.1 98.3c2 12-3 24.2-12.9 31.3s-23 8-33.8 2.3L288.1 439.8 159.8 508.3C149 514 135.9 513.1 126 506s-14.9-19.3-12.9-31.3L137.8 329 33.6 225.9c-8.6-8.5-11.7-21.2-7.9-32.7s13.7-19.9 25.7-21.7L195 150.3 259.4 18c5.4-11 16.5-18 28.8-18s23.4 7 28.8 18l64.3 132.3 143.6 21.2c12 1.8 22 10.2 25.7 21.7s.7 24.2-7.9 32.7L438.5 329l24.6 145.7z"></path>
-                                    </svg><!-- <i class="fa fa-star-half-stroke text-warning"></i> Font Awesome fontawesome.com --> </span>
-                                <span class="d-block">Three Star Hotel</span>
-                                <small class="d-block">(Deluxe room)</small>
-                            </div>
-                        </label>
-                        <label class=" hotel-details-card ">
-                            <input name="hotel" class="hotel-radio" type="radio">
-                            <div class="card-body plan-details">
-                                <span class="d-block h-name"><i class="bi bi-buildings"></i>Preethi International</span>
-                                <span class="d-block"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star-half-stroke text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star-half-stroke" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M288 376.4l.1-.1 26.4 14.1 85.2 45.5-16.5-97.6-4.8-28.7 20.7-20.5 70.1-69.3-96.1-14.2-29.3-4.3-12.9-26.6L288.1 86.9l-.1 .3 0 289.2zm175.1 98.3c2 12-3 24.2-12.9 31.3s-23 8-33.8 2.3L288.1 439.8 159.8 508.3C149 514 135.9 513.1 126 506s-14.9-19.3-12.9-31.3L137.8 329 33.6 225.9c-8.6-8.5-11.7-21.2-7.9-32.7s13.7-19.9 25.7-21.7L195 150.3 259.4 18c5.4-11 16.5-18 28.8-18s23.4 7 28.8 18l64.3 132.3 143.6 21.2c12 1.8 22 10.2 25.7 21.7s.7 24.2-7.9 32.7L438.5 329l24.6 145.7z"></path>
-                                    </svg><!-- <i class="fa fa-star-half-stroke text-warning"></i> Font Awesome fontawesome.com --> </span>
-                                <span class="d-block">Three Star Hotel</span>
-                                <small class="d-block">(Deluxe room)</small>
-                            </div>
-                        </label>
-                        <label class=" hotel-details-card ">
-                            <input name="hotel" class="hotel-radio" type="radio">
-                            <div class="card-body plan-details">
-                                <span class="d-block h-name"><i class="bi bi-buildings"></i>Preethi International</span>
-                                <span class="d-block"><svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                                    </svg><!-- <i class="fa fa-star text-warning"></i> Font Awesome fontawesome.com --> <svg class="svg-inline--fa fa-star-half-stroke text-warning" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star-half-stroke" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg="">
-                                        <path fill="currentColor" d="M288 376.4l.1-.1 26.4 14.1 85.2 45.5-16.5-97.6-4.8-28.7 20.7-20.5 70.1-69.3-96.1-14.2-29.3-4.3-12.9-26.6L288.1 86.9l-.1 .3 0 289.2zm175.1 98.3c2 12-3 24.2-12.9 31.3s-23 8-33.8 2.3L288.1 439.8 159.8 508.3C149 514 135.9 513.1 126 506s-14.9-19.3-12.9-31.3L137.8 329 33.6 225.9c-8.6-8.5-11.7-21.2-7.9-32.7s13.7-19.9 25.7-21.7L195 150.3 259.4 18c5.4-11 16.5-18 28.8-18s23.4 7 28.8 18l64.3 132.3 143.6 21.2c12 1.8 22 10.2 25.7 21.7s.7 24.2-7.9 32.7L438.5 329l24.6 145.7z"></path>
-                                    </svg><!-- <i class="fa fa-star-half-stroke text-warning"></i> Font Awesome fontawesome.com --> </span>
-                                <span class="d-block">Three Star Hotel</span>
-                                <small class="d-block">(Deluxe room)</small>
-                            </div>
-                        </label>
-
+                <div class="modal-body"  id="accomodation_result">
+                    <div class="col-xl-12 col-lg-12">
+                        <h4 style="color:#6583bb; padding-bottom:20px;">Select accommodation first to check hotels.</h4>
                     </div>
                     <div class="text-center mt-3">
-                        <button class="btn btn-info ">Ok</button>
-
+                        <input type="button" class="btn btn-info" value="OK" data-bs-dismiss="modal">
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        $(function () {
+        var today = new Date();
+        var twoDaysLater = new Date();
+        twoDaysLater.setDate(today.getDate() + 2);
+
+        $('.date').datepicker({
+            format: 'dd/mm/yyyy',
+            startDate: twoDaysLater,
+            autoclose: true,
+            clearBtn: true
+        });
+    });
+        document.addEventListener('DOMContentLoaded', function () {
             const guestInput = document.getElementById('guestInput');
             const guestWrapper = document.getElementById('guestWrapper');
             const plusButtons = document.querySelectorAll('.plus');
             const minusButtons = document.querySelectorAll('.minus');
+            const maxCapacity = parseInt("{{ $max_vehicle_capacity }}");
 
             // Toggle guest box
-            guestInput.addEventListener('click', function(e) {
+            guestInput.addEventListener('click', function (e) {
                 e.stopPropagation();
                 guestWrapper.style.display = guestWrapper.style.display === 'block' ? 'none' : 'block';
             });
 
             // Close when clicking outside
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 if (!guestWrapper.contains(e.target) && e.target !== guestInput) {
                     guestWrapper.style.display = 'none';
                 }
             });
 
-            // Update guest count
-            function updateGuestCount() {
+        // Update guest count display
+        function updateGuestCount() {
+            const guestInputs = document.querySelectorAll('.guest-count');
+            let total = 0;
+            guestInputs.forEach(input => {
+                total += parseInt(input.value);
+            });
+            guestInput.value = `${total} Guest${total !== 1 ? 's' : ''}`;
+
+            var maxcapacity = {{$max_vehicle_capacity}};
+            // var adultcount = $("#quantity_adult").val();
+            // var childcount = $("#quantity_child").val();
+            var totalcount = total;
+            $.ajax({
+                url: '/getVehicles',
+                type: 'GET',
+                dataType: 'json',  // Ensure JSON response
+                data: {
+                    totalcount: totalcount,
+                    package_id: {{$tourpackageid}} // or destination if no package_id
+                },
+                success: function (response) {                
+                    if (response.options) {
+                        $('#vehicle').html(response.options);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oopps...',
+                            text: 'Error: Invalid response!',
+                            confirmButtonColor: '#dd3333',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oopps...',
+                        text: 'Error loading view form.',
+                        confirmButtonColor: '#dd3333',
+                    });
+                }
+            });
+
+        }
+
+        // Add guest with max capacity check
+        plusButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const input = this.previousElementSibling;
                 const guestInputs = document.querySelectorAll('.guest-count');
                 let total = 0;
                 guestInputs.forEach(input => {
                     total += parseInt(input.value);
                 });
-                guestInput.value = `${total} Guest${total !== 1 ? 's' : ''}`;
-            }
 
-            // Add guest
-            plusButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const input = this.previousElementSibling;
+                if (total < maxCapacity) {
                     input.value = parseInt(input.value) + 1;
                     updateGuestCount();
-                });
-            });
-
-            // Remove guest
-            minusButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const input = this.nextElementSibling;
-                    let value = parseInt(input.value);
-                    if (value > 0) {
-                        input.value = value - 1;
-                        updateGuestCount();
-                    }
-                });
+                } else {
+                    alert(`Maximum ${maxCapacity} guests allowed.`);
+                    let exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                    exampleModal.show();
+                }
             });
         });
+
+        // Remove guest
+        minusButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const input = this.nextElementSibling;
+                let value = parseInt(input.value);
+                if (value > 0) {
+                    input.value = value - 1;
+                    updateGuestCount();
+                }
+            });
+        });
+    });
+
+    function getAccommodation(){
+        let package_id = {{$tourpackageid}};
+        var accommodation_type = $('#accommodation_type').val();
+        if (accommodation_type !="")
+        {
+            $("#hotel-modal").modal('show');
+            $.ajax({
+                url: '/getAccommodationWeb',
+                type: 'GET',
+                dataType: 'json',  // Ensure JSON response
+                data: {
+                    accommodation_type: accommodation_type,
+                    packageid: package_id
+                },
+                success: function (response) {
+                    if (response.html) {
+                        $('#accomodation_result').html(response.html);
+                        $('#accommodation').val(accommodation_type);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oopps...',
+                            text: 'Error: Invalid response!',
+                            confirmButtonColor: '#dd3333',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oopps...',
+                        text: 'Error loading view form.',
+                        confirmButtonColor: '#dd3333',
+                    });
+                }
+            });
+        } else
+        {
+            $("#accomodation_result").html('<h4 style="color:#6583bb; padding-bottom:20px;">Select rohan accommodation first to check hotels.</h4>');
+        }
+    }
+
+    function getPackagePrice(type) {
+
+        let adultCount = parseInt($("#quantity_adult").val()) || 0;
+        let childCount = parseInt($("#quantity_child").val()) || 0;
+        let totalGuests = adultCount + childCount;
+        let travelDate = $("#travel_date").val();
+        let accommodation = $("#accommodation_type").val();  // Assuming this holds the accommodation type text
+
+        if (type == 1) {
+            let selectedHotels = {};
+            let params = {};
+            let hasError = false;
+
+            // Clear previous error styles and message
+            $('#guestInput, #travel_date, #accommodation_type, #vehicle').removeClass('is-invalid');
+            $('#calculate-error').remove(); // remove old error message
+
+            // Step 1: Validation
+            let adultCount = parseInt($("#quantity_adult").val()) || 0;
+            let childCount = parseInt($("#quantity_child").val()) || 0;
+            let totalGuests = adultCount + childCount;
+            let travelDate = $("#travel_date").val();
+            let accommodation = $("#accommodation_type").val();
+            let vehicle = $("#vehicle").val();
+
+            if (totalGuests === 0) {
+                $('#guestInput').addClass('is-invalid');
+                hasError = true;
+            }
+            if (travelDate === '') {
+                $('#travel_date').addClass('is-invalid');
+                hasError = true;
+            }
+            if (accommodation === '') {
+                $('#accommodation_type').addClass('is-invalid');
+                hasError = true;
+            }
+            if (vehicle === '0') {
+                $('#vehicle').addClass('is-invalid');
+                hasError = true;
+            }
+
+            if (hasError) {
+                if ($('#calculate-error').length === 0) {
+                    $('<div id="calculate-error" class="text-danger fw-bold">Please fill in all required fields to calculate.</div>')
+                    .hide()
+                    .appendTo('#calculate-container')
+                    .fadeIn();
+                }
+                return;
+            }
+
+            // Step 2: Get checked hotel radios
+            $('input[type="radio"]').each(function () {
+                let name = $(this).attr('name');
+                if (!(name in selectedHotels)) {
+                    let checked = $('input[name="' + name + '"]:checked').val();
+                    if (checked) {
+                        selectedHotels[name] = checked;
+                        params[name] = checked;
+                    }
+                }
+            });
+
+            // Step 3: Append form params
+            params['hid_packageid'] = $("#hid_packageid").val();
+            params['quantity_adult'] = adultCount;
+            params['quantity_child'] = childCount;
+            params['travel_date'] = travelDate;
+            params['vehicle'] = vehicle;
+            params['accommodation_type'] = accommodation;
+
+            if ($("#airport_pickup").prop('checked')) {
+                params['airport_pickup'] = 1;
+            }
+            if ($("#airport_drop").prop('checked')) {
+                params['airport_drop'] = 1;
+            }
+
+            // Step 4: AJAX call
+            $.ajax({
+                url: '/getPackagePrice',
+                type: 'GET',
+                data: params,
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status == 200) {
+                        $('#modal-adult-count').text(response.adult);
+                        $('#modal-child-count').text(response.child);
+                        $('#modal-vehicle-name').text(response.vehicle);
+                        $('#modal-travel-date').text(response.travel_date);
+                        $('#modal-accommodation').text(response.accommodation);
+                        $('#modal-total-price').text("₹ " + response.total_price);
+                        $('#modal-pickup').prop("checked", response.airport_pickup == 1);
+                        $('#modal-drop').prop("checked", response.airport_drop == 1);
+                        $("#calculate-modal").modal('show');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Error: Invalid response!',
+                            confirmButtonColor: '#dd3333',
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Error loading view form.',
+                        confirmButtonColor: '#dd3333',
+                    });
+                }
+            });
+        }else {
+            // Prefill modal fields if data exists
+            if (totalGuests > 0 || travelDate !== '' || accommodation !== '') {
+                $("#adult_count").val(adultCount);
+                $("#child_count").val(childCount);
+                $("#travel_date_modal").val(travelDate);
+
+                // Set accommodation text (not value) to match the modal
+                $("#accommodation_modal").val(accommodation);
+            }
+
+            // Show the modal
+            $("#exampleModal").modal('show');
+        }
+    }
+
+
     </script>
     <script>
         $(document).on('click', '#bookNowBtn', function(e) {

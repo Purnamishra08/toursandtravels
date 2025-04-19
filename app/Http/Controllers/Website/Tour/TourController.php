@@ -120,125 +120,7 @@ class TourController extends Controller
             'meta_keywords' => $placesData->pckg_meta_keywords
         ]);
     }
-    public function tourDetails1($slug){
 
-        $tour = DB::table('tbl_tourpackages as a')
-                    ->join('tbl_destination as b', 'a.starting_city', '=', 'b.destination_id')
-                    ->join('tbl_package_duration as c', 'a.package_duration', '=', 'c.durationid')
-                    // ->select(
-                    //     'a.tourpackageid',
-                    //     'a.tpackage_name',
-                    //     'a.tpackage_url',
-                    //     'a.tpackage_code',
-                    //     'a.fakeprice',
-                    //     'a.price',
-                    //     'a.tpackage_image',
-                    //     'a.tour_thumb',
-                    //     'a.alttag_thumb',
-                    //     'a.ratings',
-                    //     'b.destination_name',
-                    //     'c.duration_name',
-                    // )
-                    ->where('a.bit_Deleted_Flag', 0)
-                    ->where('a.tpackage_url', $slug)
-                    // ->where('a.pack_type', 15)
-                    ->where('a.status', 1)
-                    ->first();
-                    
-        $itinerary = DB::table('tbl_itinerary_daywise')
-                ->where('package_id',$tour->tourpackageid)
-                ->where('bit_Deleted_Flag',0)
-                ->get();
-
-        $places = DB::table('tbl_places')
-                ->where('status', 1)
-                ->where('bit_Deleted_Flag', 0)
-                ->orderBy('place_name', 'asc')
-                ->get();
-
-        $packageAccomodations = DB::table('tbl_package_accomodation')
-                ->where('package_id',$tour->tourpackageid)
-                ->where('bit_Deleted_Flag',0)
-                ->get();
-        // dd($packageAccomodations);
-        $hotelsType = DB::table('tbl_hotel_type')
-                ->where('status',1)
-                ->where('bit_Deleted_Flag',0)
-                ->get();
-
-        $destinations = DB::table('tbl_destination')
-                ->where('status',1)
-                ->where('bit_Deleted_Flag',0)
-                ->get();
-
-        $bookingPolicys = DB::table('tbl_parameters')
-                ->select('par_value')
-                ->where('parid', 21)
-                ->where('status', 1)
-                ->where('bit_Deleted_Flag', 0)
-                ->first();
-
-        //Other Tours
-        $get_pkg_tag = DB::table('tbl_tags')
-            ->select('tagid')
-            ->where('type_id', $tour->tourpackageid)
-            ->where('type', 3)
-            ->where('bit_Deleted_Flag', 0)
-            ->orderByRaw('RAND()')
-            ->get();
-
-        if ($get_pkg_tag->count() > 0) {
-            foreach ($get_pkg_tag as $row) {
-                $tagid = $row->tagid;
-
-                $noof_package = DB::table('tbl_tags')
-                    ->select(DB::raw('DISTINCT(type_id) as packageid'))
-                    ->where('type', 3)
-                    ->where('tagid', $tagid)
-                    ->where('type_id', '!=', $tour->tourpackageid)
-                    ->where('bit_Deleted_Flag', 0)
-                    ->count();
-
-                if ($noof_package > 0) {
-                    $tagid;
-                }
-            }
-        }
-
-        $tourpackageid = $tour->tourpackageid;
-        $tour_packages = DB::table('tbl_tourpackages as a')
-                ->join('tbl_destination as b', 'a.starting_city', '=', 'b.destination_id')
-                ->join('tbl_package_duration as c', 'a.package_duration', '=', 'c.durationid')
-                ->select(
-                        'a.tourpackageid',
-                        'a.tpackage_name',
-                        'a.tpackage_url',
-                        'a.price',
-                        'a.fakeprice',
-                        'a.tpackage_image',
-                        'a.tour_thumb',
-                        'a.alttag_thumb',
-                        'a.ratings',
-                        'a.pack_type',
-                        'b.destination_name',
-                        'c.duration_name',
-                    )
-                ->whereIn('a.tourpackageid', function ($query) use ($tagid, $tourpackageid) {
-                    $query->select(DB::raw('DISTINCT(type_id)'))
-                        ->from('tbl_tags')
-                        ->where('type', 3)
-                        ->where('tagid', $tagid)
-                        ->whereNotIn('type_id', [$tourpackageid]);
-                })
-                ->where('a.status', 1)
-                ->where('c.status', 1)
-                ->get();
-
-        $tag_name = DB::table('tbl_menutags')
-            ->where('tagid', $tagid)
-            ->value('tag_name');
-        return view('website.tourdetails',['tours'=>$tour,'meta_title'=>$tour->meta_title,'meta_description'=>$tour->meta_description,'meta_keywords'=>$tour->meta_keywords,'itinerary'=>$itinerary,'places'=>$places,'packageAccomodations'=>$packageAccomodations,'hotelsType'=>$hotelsType,'destinations'=> $destinations,'bookingPolicys'=>$bookingPolicys,'tour_packages'=>$tour_packages,'tag_name'=>$tag_name]);
-    }
     public function tourDetails($slug)
     {
         $tour = DB::table('tbl_tourpackages as a')
@@ -378,6 +260,80 @@ class TourController extends Controller
             }
         }
 
+        //Calculation Part
+        $starting_city = $tour->starting_city ? $tour->starting_city:0;
+
+        $noof_vehicle = DB::table('tbl_vehicleprices as a')
+            ->join('tbl_vehicletypes as b', 'a.vehicle_name', '=', 'b.vehicleid')
+            ->where('a.destination', $starting_city)
+            ->where('a.status', 1)
+            ->count('a.priceid');
+
+        $max_vehicle_capacity = 0;
+        if ($noof_vehicle > 0) {
+            $max_vehicle_capacity = DB::table('tbl_vehicleprices as a')
+                ->join('tbl_vehicletypes as b', 'a.vehicle_name', '=', 'b.vehicleid')
+                ->where('a.destination', $starting_city)
+                ->where('a.status', 1)
+                ->max('b.capacity');
+        }
+
+        $getVehicleDropDown = DB::table('tbl_vehicleprices as a')
+            ->join('tbl_vehicletypes as b', 'a.vehicle_name', '=', 'b.vehicleid')
+            ->select('b.vehicle_name', 'b.vehicleid')
+            ->where('a.destination', $starting_city)
+            ->where('a.status', 1)
+            ->orderBy('b.capacity', 'asc')
+            ->get();
+
+        
+        $accommodation_types = DB::table('tbl_hotel as a')
+            ->select(DB::raw('DISTINCT(a.hotel_type) as hotel_type_id'))
+            ->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')
+            ->where('a.status', 1)
+            ->whereIn('a.destination_name', function ($query) use ($tourpackageid) {
+                $query->select('destination_id')
+                    ->from('tbl_package_accomodation')
+                    ->where('package_id', $tourpackageid);
+            })
+            ->orderByDesc('b.hotel_type_name')
+            ->get();
+
+        $hotel_typeids = [];
+        if (!$accommodation_types->isEmpty()) {
+            foreach ($accommodation_types as $accommodation_type) {
+                $hotel_typeids[] = $accommodation_type->hotel_type_id;
+            }
+            $hotel_typeid = implode(",", $hotel_typeids);
+            $first_hoteltype = $hotel_typeids[0];
+        }
+
+        $hotelsTypeDropDown = DB::table('tbl_hotel_type')
+            ->select('hotel_type_id', 'hotel_type_name')
+            ->whereIn('hotel_type_id', $hotel_typeids) // ✅ Use the array, not the string
+            ->where('status', 1)
+            ->where('bit_Deleted_Flag', 0)
+            ->get();
+
+
+        $parameters =  DB::table('tbl_parameters')
+            ->select('parameter', 'par_value', 'parid')
+            ->where('param_type', 'CS')
+            ->where('status', 1)
+            ->where('bit_Deleted_Flag', 0)
+            ->get();
+
+        $tourFaqs = DB::table('tbl_package_faqs')
+            ->select('faq_id','faq_question','faq_answer')
+            ->where('tag_id', $tagid)
+            ->where('status', 1)
+            ->where('bit_Deleted_Flag', 0)
+            ->orderby('faq_order','ASC')
+            ->get();
+// dd($tourFaqs);
+        
+        // dd($hotel_typeids,$hotel_typeid,
+        //     $hotelsTypeDropDown);
         return view('website.tourdetails', [
             'tours' => $tour,
             'meta_title' => $tour->meta_title,
@@ -393,6 +349,16 @@ class TourController extends Controller
             'tour_packages' => $tour_packages,
             'tag_name' => $tag_name,
             'reviews' => $reviews,
+            //Calculation
+            'noof_vehicle' => $noof_vehicle,
+            'max_vehicle_capacity' => $max_vehicle_capacity,
+            'hotelsTypeDropDown' => $hotelsTypeDropDown,
+            'getVehicleDropDown' => $getVehicleDropDown,
+            'tourpackageid' => $tourpackageid,
+            //contactus
+            'parameters'=>$parameters,
+            //tourFaqs
+            'tourFaqs'=>$tourFaqs
         ]);
     }
 

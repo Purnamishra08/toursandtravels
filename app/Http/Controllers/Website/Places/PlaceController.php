@@ -28,29 +28,41 @@ class PlaceController extends Controller{
         $destinationTypes = '';
         if(!empty($selectedDestinationTypes)){
             $destinationTypes = DB::table('tbl_destination_type')
-            ->selectRaw('GROUP_CONCAT(destination_type_name ORDER BY destination_type_name ASC) as destination_type_names')
-            ->where('status', 1)
-            ->whereIn('destination_type_id', $selectedDestinationTypes)
-            ->where('bit_Deleted_Flag', 0)
-            ->first();
+                    ->selectRaw('GROUP_CONCAT(destination_type_name ORDER BY destination_type_name ASC) as destination_type_names')
+                    ->where('status', 1)
+                    ->whereIn('destination_type_id', $selectedDestinationTypes)
+                    ->where('bit_Deleted_Flag', 0)
+                    ->first();
         }
         $parameters =  DB::table('tbl_parameters')
-        ->select('parameter', 'par_value', 'parid')
-        ->where('param_type', 'CS')
-        ->where('status', 1)
-        ->where('bit_Deleted_Flag', 0)
-        ->get();
-
+                ->select('parameter', 'par_value', 'parid')
+                ->where('param_type', 'CS')
+                ->where('status', 1)
+                ->where('bit_Deleted_Flag', 0)
+                ->get();
+        $faqData = DB::table('tbl_faqs')
+                ->selectRaw('faq_id, faq_question, faq_answer')
+                ->where('bit_Deleted_Flag', 0)
+                ->where('faq_type', 1)
+                ->where('status', 1)
+                ->orderBy('faq_order', 'ASC')
+                ->limit(5)
+                ->get();
+        $reviewsData = DB::table('tbl_reviews')
+                ->selectRaw('review_id, reviewer_name, reviewer_loc, no_of_star, feedback_msg')
+                ->where('bit_Deleted_Flag', 0)
+                ->where('status', 1)
+                ->get();
         $countAndPrice = DB::table('tbl_itinerary_daywise as a')
-        ->join('tbl_tourpackages as b', 'a.package_id', '=', 'b.tourpackageid')
-        ->selectRaw('COUNT(b.tourpackageid) as total_packages, MIN(b.price) as min_price')
-        ->whereRaw('FIND_IN_SET(?, a.place_id)', [$placesData->placeid ?? 0])
-        ->where('b.status', 1)
-        ->where('a.bit_Deleted_Flag', 0)
-        ->where('b.bit_Deleted_Flag', 0)
-        ->first();
+                ->join('tbl_tourpackages as b', 'a.package_id', '=', 'b.tourpackageid')
+                ->selectRaw('COUNT(b.tourpackageid) as total_packages, MIN(b.price) as min_price')
+                ->whereRaw('FIND_IN_SET(?, a.place_id)', [$placesData->placeid ?? 0])
+                ->where('b.status', 1)
+                ->where('a.bit_Deleted_Flag', 0)
+                ->where('b.bit_Deleted_Flag', 0)
+                ->first();
 
-        return view('website.neardestination', ['placesData' => $placesData, 'parameters' => $parameters, 'destinationTypes' => $destinationTypes, 'countAndPrice' => $countAndPrice])->with([
+        return view('website.neardestination', ['placesData' => $placesData, 'parameters' => $parameters, 'destinationTypes' => $destinationTypes, 'countAndPrice' => $countAndPrice, 'faqData' => $faqData, 'reviewsData' => $reviewsData])->with([
             'meta_title' => $placesData->meta_title,
             'meta_description' => $placesData->meta_description,
             'meta_keywords' => $placesData->meta_keywords
@@ -137,7 +149,7 @@ class PlaceController extends Controller{
         foreach ($placesData as $place) {
             $image = asset('storage/place_images/thumbs/' . $place->placethumbimg); // Adjust path as needed
             $html .= '
-            <a href="' . url('place/' . $place->place_url) . '" class="card near-Dcard" target="_blank">
+            <a href="' . route('website.neardestination', ['slug' => $place->place_url]) . '" class="card near-Dcard" target="_blank">
                 <img src="' . $image . '" alt="' . e($place->alttag_thumb) . '">
                 <div class="overlay">
                     <h2>' . e($place->place_name) . '</h2>

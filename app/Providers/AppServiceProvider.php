@@ -37,8 +37,20 @@ class AppServiceProvider extends ServiceProvider
                     ->where('bit_Deleted_Flag', 0)
                     ->get();
 
+        $bestTourPackages = DB::table('tbl_tourpackages as a')
+                    ->select(
+                        'a.tourpackageid',
+                        'a.tpackage_name',
+                        'a.tpackage_url',
+                        )
+                    ->where('a.bit_Deleted_Flag', 0)
+                    ->where('a.pack_type', 15)
+                    ->where('a.status', 1);
+        $bestTourPackages = $bestTourPackages->inRandomOrder()->limit(8)->get();
+
         View::share('parameters', $parameters);
         View::share('footer', $footer);
         View::share('destinatoinURL', $destinatoinURL);
+        View::share('bestTourPackages', $bestTourPackages);
     }
 }

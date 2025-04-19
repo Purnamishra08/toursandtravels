@@ -173,7 +173,7 @@ class ReviewsController extends Controller
                     'no_of_star'             => $request->input('no_of_star'),
                     'feedback_msg'           => $request->input('feedback_msg'),
                     'status'                 => 1,
-                    'tourtagid' 		     => implode(',', $request->input('getatagid')),
+                    'tourtagid' 		     => !empty($request->input('getatagid')) ? implode(',', $request->input('getatagid')) : '',
                     'created_by'             => session('user')->adminid ?? 0,
                     'updated_by'             => session('user')->adminid ?? 0,
                     'created_date'           => now(),
@@ -225,7 +225,7 @@ class ReviewsController extends Controller
                     'no_of_star'             => $request->input('no_of_star'),
                     'feedback_msg'           => $request->input('feedback_msg'),
                     'status'                 => 1,
-                    'tourtagid' 		     => implode(',', $request->input('getatagid')),
+                    'tourtagid' 		     => !empty($request->input('getatagid')) ? implode(',', $request->input('getatagid')) : '',
                     'updated_by'             => session('user')->adminid ?? 0,
                     'updated_date'           => now(),
                 ];

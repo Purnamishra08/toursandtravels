@@ -43,12 +43,12 @@
                     </ul>
                 </div>
                 <div class="col-lg-3">
-                    <h5 class="footer-title">Quick Links</h5>
+                    <h5 class="footer-title">Best Tours Packages</h5>
                     <ul class="quick-link-wrapper">
-                        @if(isset($footer) && count($footer) > 0)
-                        @foreach($footer as $footers)
+                        @if(isset($bestTourPackages) && count($bestTourPackages) > 0)
+                        @foreach($bestTourPackages as $bestTourPackage)
                         <li>
-                            <a href="{{$footers->vch_Footer_URL}}" class="quick-link">{{$footers->vch_Footer_Name}}</a>
+                            <a href="{{route('website.tourDetails', ['slug' => $bestTourPackage->tpackage_url])}}" class="quick-link">{{$bestTourPackage->tpackage_name}}</a>
                         </li>
                         @endforeach
                         @endif
@@ -81,7 +81,7 @@
         <a href="javascript:void(0)" class="back-to-top" id="up">
             <i class="bi bi-chevron-up"></i>
         </a>
-        <a href="https://api.whatsapp.com/send?phone=+919886525253&text=Hi%20there%2E" class="whats-app"><i class="bi bi-whatsapp"></i></a>
+        <a href="https://api.whatsapp.com/send?phone=+919886525253&text=Hi%20there%2E" target="_blank" class="whats-app"><i class="bi bi-whatsapp"></i></a>
         <div class="google-review">
             <div class="wrapper">
                 <span class="review-close-btn"><i class="bi bi-x"></i></span>
@@ -107,10 +107,10 @@
             <div class="row">
                 <div class="col-lg-6 order-last order-lg-2">
                     <ul class="social-link">
-                    <li><a href="#" title="facebook" target="_blank" data-toggle="tooltip" > <i class="bi bi-facebook"></i></a></li>
+                    <li><a href="#" title="Facebook" target="_blank" data-toggle="tooltip" > <i class="bi bi-facebook"></i></a></li>
                                 <li><a href="#" title="Twitter" target="_blank" data-toggle="tooltip"> <i class="bi bi-twitter-x"></i></a></li>
                                 <li><a href="#" title="Google+" target="_blank"  data-toggle="tooltip"> <i class="bi bi-google"></i></a></li>
-                                <li><a href="#" title="Linkdin" target="_blank" data-toggle="tooltip"> <i class="bi bi-linkedin"></i></a></li>
+                                <li><a href="#" title="LinkedIn" target="_blank" data-toggle="tooltip"> <i class="bi bi-linkedin"></i></a></li>
 
                         <li>Copyright © 2025 Tourism. All Rights Reserved</li>
                     </ul>
@@ -119,7 +119,7 @@
                     <ul class="link-wrapper">
 
                         <li><a href="#"> About Us</a></li>
-                        <li><a href="../faq">Faq</a></li>
+                        <li><a href="{{route('website.faqs', ['slug' => 'common-faqs'])}}">Faq</a></li>
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms & Conditions</a></li>
                         <li><a href="#">Booking Policy</a></li>

@@ -51,6 +51,22 @@
                                                     <fieldset>
                                                         <legend> Common Faqs</legend>
                                                         <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label> Faq Type <span class="manadatory">*</span></label>
+                                                                    <select data-placeholder="Choose faq_type" class="form-control" tabindex="4" id="faq_type" name="faq_type" style="width: 100%;">
+                                                                        <option value=''>--Select Faq Type--</option>
+                                                                        <option value='1' {{ $commonfaq->faq_type == '1' ? 'selected' : '' }}>Common Faqs</option>
+                                                                        <option value='2' {{ $commonfaq->faq_type == '2' ? 'selected' : '' }}>Destination Faqs</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>Order No <span class="manadatory">*</span></label>
+                                                                    <input type="number" class="form-control" placeholder="Order no" name="faq_order" id="faq_order" value="{{ old('faq_order', $commonfaq->faq_order ?? '') }}">
+                                                                </div>
+                                                            </div>
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
                                                                     <label>Question <span class="manadatory">*</span></label>
@@ -62,13 +78,6 @@
                                                                 <div class=""> 
                                                                     <label>Answer <span class="manadatory">*</span></label>
                                                                     <textarea name="faq_answer" id="faq_answer" class="form-control">{{ old('faq_answer', $commonfaq->faq_answer ?? '') }}</textarea>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label>Order No <span class="manadatory">*</span></label>
-                                                                    <input type="number" class="form-control" placeholder="Order no" name="faq_order" id="faq_order" value="{{ old('faq_order', $commonfaq->faq_order ?? '') }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -116,10 +125,12 @@
         });
         function validator() {
             // Validate text fields
+            faq_type
+            if (!onlyNumeric('faq_type', 'Faq type must be a number')) return false;
+            if (!onlyNumeric('faq_order', 'Order no must be a number')) return false;
             if (!blankCheck('faq_question', 'Question name cannot be blank')) return false;
             if (!blankCheck('faq_answer', 'Answer cannot be blank')) return false;
-            if (!onlyNumeric('faq_order', 'Order no must be a number')) return false;
-
+            
             return true;
         }
     </script>
