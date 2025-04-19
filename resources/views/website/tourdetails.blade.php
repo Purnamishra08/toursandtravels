@@ -430,6 +430,7 @@ for ($i = 0; $i < $fullStars; $i++)
                 </div>
             </div>
         </section>
+        {{-- FAQS --}}
         <section>
             <div class="container">
                 <div class="row">
@@ -440,20 +441,6 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <h2 class="section-title-sm">Frequently Asked Questions</h2>
                             </div>
                         </div>
-                        <!-- <div class="accordion faq-accordion" id="accordionExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <h6> How to search for tour package</h6>
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        To search for tour packages, a customer has to visit to our website - www.myholidayhappiness.com and click on the “Tours” option. This option is available in the upper tab on the website. Then, select “Popular Tour Packages” to know about the tours which are famous and liked by our previous clients. You can easily search for tour packages there, according to your requirements.
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                         @if($tourFaqs->count())
                         <div class="accordion faq-accordion" id="accordionExample">
                             @foreach($tourFaqs as $index => $faq)
@@ -501,6 +488,7 @@ for ($i = 0; $i < $fullStars; $i++)
             </div>
 
         </section>
+        {{-- FAQS --}}
     </div>
     
     <div class="modal fade" tabindex="-1" id="exampleModal">
@@ -511,59 +499,64 @@ for ($i = 0; $i < $fullStars; $i++)
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <form id="enquiryForm">
+                            @csrf
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="first_name" class="d-block">First Name</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="last_name" class="d-block">Last Name</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="email" class="d-block">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="mobile" class="d-block">Mobile No.</label>
-                            <input type="text" class="form-control" id="mobile" name="mobile">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="adult_count" class="d-block">Adult</label>
-                            <input type="number" class="form-control" id="adult_count" name="adult_count" min="0">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="child_count" class="d-block">Child</label>
-                            <input type="number" class="form-control" id="child_count" name="child_count" min="0">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="travel_date_modal" class="d-block">Date of travel</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control date" id="travel_date_modal" name="travel_date">
-                                <span class="input-group-text"><i class="bi bi-calendar2"></i></span>
+                        
+                            <div class="col-md-6">
+                                <label for="first_name" class="d-block">First Name</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name">
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="accommodation_modal" class="d-block">Accommodation</label>
-                            <select class="form-select" id="accommodation_modal" name="accommodation">
-                                <option selected value="">-Select Accommodation-</option>
-                                <option value="4">Three Star Hotel</option>
-                                <option value="6">Four Star Hotel</option>
-                                <option value="7">Five Star Hotel</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="message" name="message" style="height: 100px"></textarea>
-                                <label for="message">Message</label>
+                            <div class="col-md-6">
+                                <label for="last_name" class="d-block">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name">
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary">Submit</button>
-                            <button class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                            <div class="col-md-6">
+                                <label for="email" class="d-block">Email</label>
+                                <input type="email" class="form-control" id="email" name="email">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="mobile" class="d-block">Mobile No.</label>
+                                <input type="text" class="form-control" id="mobile" name="mobile">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="adult_count" class="d-block">Adult</label>
+                                <input type="number" class="form-control" id="adult_count" name="adult_count" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="child_count" class="d-block">Child</label>
+                                <input type="number" class="form-control" id="child_count" name="child_count" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="travel_date_modal" class="d-block">Date of travel</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control date" id="travel_date_modal" name="travel_date">
+                                    <span class="input-group-text"><i class="bi bi-calendar2"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="accommodation_modal" class="d-block">Accommodation</label>
+                                <select class="form-select" id="accommodation_modal" name="accommodation">
+                                    <option selected value="">-Select Accommodation-</option>
+                                    <option value="4">Three Star Hotel</option>
+                                    <option value="6">Four Star Hotel</option>
+                                    <option value="7">Five Star Hotel</option>
+                                </select>
+                            </div>
+                            <input type="hidden" name="package_id" value="{{$tourpackageid}}">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Leave a comment here" id="message" name="message" style="height: 100px"></textarea>
+                                    <label for="message">Message</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary">Submit</button>
+                                <button class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -696,6 +689,7 @@ for ($i = 0; $i < $fullStars; $i++)
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
+                                    <input type="hidden" id="csrf_token" value="{{ csrf_token() }}">
                                     <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                                     <label for="floatingTextarea2">Message</label>
                                 </div>
@@ -710,6 +704,7 @@ for ($i = 0; $i < $fullStars; $i++)
                     <div class="ms-auto">
                         <a href="#" id="backBtn" class="btn btn-secondary" style="display:none">Back</a>
                         <a href="#" class="btn btn-primary " id="bookNowBtn"> Book Now</a>
+                        <a href="#" class="btn btn-success" id="submitBookingBtn" style="display: none;">Submit Booking</a>
                         <a href="#" class="btn btn-outline-primary"> Download</a>
                     </div>
                 </div>
@@ -731,6 +726,19 @@ for ($i = 0; $i < $fullStars; $i++)
                     <div class="text-center mt-3">
                         <input type="button" class="btn btn-info" value="OK" data-bs-dismiss="modal">
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Confirmation Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4">
+                <div class="modal-body">
+                    <h5 class="modal-title mb-3" id="successModalLabel">Thank You!</h5>
+                    <p>Your booking enquiry has been sent successfully.</p>
+                    <button type="button" class="btn btn-primary mt-2" data-bs-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>
@@ -1022,24 +1030,153 @@ for ($i = 0; $i < $fullStars; $i++)
         }
     }
 
+    $(document).ready(function () {
+        $('#enquiryForm').on('submit', function (e) {
+            e.preventDefault();
+
+            let formData = $(this).serialize();
+
+            $.ajax({
+                url: '{{ route("website.packageinquiry") }}',
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Show success message
+
+                    // Optional: Reset form and close modal
+                    $('#enquiryForm')[0].reset();
+                    $('#exampleModal').modal('hide');
+                    $('#successModal').modal('show'); 
+                },
+                error: function (xhr) {
+                    // Show validation errors
+                    let errors = xhr.responseJSON.errors;
+                    let errorMessage = 'Please fix the following errors:\n';
+                    for (const key in errors) {
+                        errorMessage += `- ${errors[key][0]}\n`;
+                    }
+                    alert(errorMessage);
+                }
+            });
+        });
+    });
+
+    $(document).on('click', '#submitBookingBtn', function(e) {
+        e.preventDefault();
+
+        // Extract modal preview values
+        let adult_count = parseInt($("#quantity_adult").val()) || 0;
+        let child_count = parseInt($("#quantity_child").val()) || 0;
+        let travel_date = $("#travel_date").val();
+        let accommodation = $("#accommodation_type").val(); 
+        let package_id = {{ $tourpackageid }}; // Blade variable inserted properly
+        let type = 1;
+
+        // Extract user input
+        let first_name = $('.bookingUser-details input[type="text"]').eq(0).val();
+        let last_name = $('.bookingUser-details input[type="text"]').eq(1).val();
+        let email = $('.bookingUser-details input[type="email"]').val();
+        let mobile = $('.bookingUser-details input[type="text"]').eq(2).val();
+        let message = $('#floatingTextarea2').val();
+        let csrf_token = $('#csrf_token').val();
+
+        let isValid = true;
+
+
+        // Clear old error states
+        $('.bookingUser-details input').removeClass('is-invalid');
+
+        // Validate required fields
+        if (first_name === '') {
+            $('.bookingUser-details input[type="text"]').eq(0).addClass('is-invalid');
+            isValid = false;
+        }
+        if (email === '') {
+            $('.bookingUser-details input[type="email"]').addClass('is-invalid');
+            isValid = false;
+        }
+        if (mobile === '') {
+            $('.bookingUser-details input[type="text"]').eq(2).addClass('is-invalid');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return; // Stop submission if validation fails
+        }
+
+        // AJAX submit
+        $.ajax({
+            url: '{{ route("website.packageinquiry") }}',
+            type: "POST",
+            data: {
+                _token: csrf_token,
+                type: type,
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                mobile: mobile,
+                message: message,
+                adult_count: adult_count,
+                child_count: child_count,
+                travel_date: travel_date,
+                accommodation: accommodation,
+                package_id: package_id
+            },
+            success: function(response) {
+                $('#calculate-modal').modal('hide');
+                $('#successModal').modal('show'); // Show success modal
+            },
+            error: function(err) {
+                alert('Something went wrong. Please try again.');
+            }
+        });
+    });
+
+
+
+
+    setTimeout(function() {
+        $('#successModal').modal('hide');
+    }, 4000); // closes after 4 seconds
+
 
     </script>
     <script>
+        // $(document).on('click', '#bookNowBtn', function(e) {
+        //     console.log("clicked");
+        //     e.preventDefault();
+        //     $('#backBtn').show();
+        //     $('.calculate-details').slideUp();
+        //     $('.bookingUser-details').slideDown();
+        // });
+
         $(document).on('click', '#bookNowBtn', function(e) {
-            console.log("clicked");
             e.preventDefault();
             $('#backBtn').show();
+            $('#submitBookingBtn').show(); // Show submit button
+            $(this).hide(); // Hide "Book Now" after moving forward
+
             $('.calculate-details').slideUp();
             $('.bookingUser-details').slideDown();
         });
-        $(document).on('click', '#backBtn', function(e) {
-            console.log("back clicked");
-            e.preventDefault();
 
-            $('.bookingUser-details').slideUp(); // Hide booking form
-            $('.calculate-details').slideDown(); // Show trip details
-            $('#backBtn').hide(); // Optionally hide the back button again
+        $(document).on('click', '#backBtn', function(e) {
+            e.preventDefault();
+            $('#bookNowBtn').show();
+            $('#submitBookingBtn').hide(); // Hide submit button
+            $('#backBtn').hide();
+
+            $('.bookingUser-details').slideUp();
+            $('.calculate-details').slideDown();
         });
+        // $(document).on('click', '#backBtn', function(e) {
+        //     console.log("back clicked");
+        //     e.preventDefault();
+
+        //     $('.bookingUser-details').slideUp(); // Hide booking form
+        //     $('.calculate-details').slideDown(); // Show trip details
+        //     $('#backBtn').hide(); // Optionally hide the back button again
+        // });
     </script>
 
 

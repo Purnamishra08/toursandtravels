@@ -715,3 +715,8 @@ ALTER TABLE `myholhq7_coorgpackages`.`tbl_faqs`
 ADD COLUMN `faq_type` INT(11) NULL DEFAULT 0 AFTER `faq_id`,
 CHANGE COLUMN `faq_id` `faq_id` INT(11) NOT NULL COMMENT '1 - Common Faqs\n2 -  Destination Faqs' ;
 
+ALTER TABLE `myholhq7_coorgpackages`.`tbl_menutags` 
+ADD COLUMN `description_tag` TEXT NULL DEFAULT NULL AFTER `about_tag`,
+CHANGE COLUMN `tag_url` `tag_url` VARCHAR(200) NULL DEFAULT NULL AFTER `tag_name`;
+
+

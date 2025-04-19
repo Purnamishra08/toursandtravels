@@ -362,4 +362,43 @@ class TourController extends Controller
         ]);
     }
 
+
+    public function submitInquiry(Request $request)
+    {
+        $type=0;
+        if($request->has('type')){
+            $type=1;
+        }else{
+            $type=2;
+        }
+        $request->validate([
+            'first_name' => 'required|string|max:200',
+            'last_name' => 'nullable|string|max:200',
+            'email' => 'nullable|email|max:250',
+            'mobile' => 'required|string|max:20',
+            'message' => 'nullable|string',
+            'adult_count' => 'nullable|integer|min:0',
+            'child_count' => 'nullable|integer|min:0',
+            'travel_date' => 'required',
+            'accommodation' => 'nullable|integer',
+        ]);
+        DB::table('tbl_package_inquiry')->insert([
+            'type'           => $type,
+            'first_name'     => $request->first_name,
+            'last_name'      => $request->last_name,
+            'emailid'        => $request->email,
+            'phone'          => $request->mobile,
+            'message'        => $request->message,
+            'noof_adult'     => $request->adult_count,
+            'noof_child'     => $request->child_count,
+            'tour_date'      => date('Y-m-d', strtotime(str_replace('/', '-', $request->travel_date))),
+            'accomodation'   => $request->accommodation,
+            'packageid'      => $request->package_id,
+            'inquiry_date'   => now(),
+            'bit_Deleted_Flag' => 0,
+        ]);
+
+        return redirect()->back()->with('success', 'Thank you! Your enquiry has been submitted.');
+    }
+
 }

@@ -45,6 +45,7 @@ use App\Http\Controllers\Website\Footer\FooterController;
 use App\Http\Controllers\Website\Tour\TourController;
 use App\Http\Controllers\Website\Places\PlaceController;
 use App\Http\Controllers\Website\Faqs\FaqsController;
+use App\Http\Controllers\Website\CommonFooterLinks\CommonfooterlinksController;
 
 
 /********  WEBSITE ROUTING    ********/
@@ -91,9 +92,6 @@ Route::get('/', [HomeController::class, 'index'])->name('website.home');
 Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
 Route::view('/bookingDownload', 'website.bookingDownload');
-Route::view('/privacy-policy', 'website.privacy-policy');
-Route::view('/booking-policy', 'website.booking-policy');
-Route::view('/term-condition', 'website.term-condition');
 Route::view('/tourlisting', 'website.tourlisting');
 Route::view('/tourdetails', 'website.tourdetails');
 Route::get('/blog', [BlogsController::class, 'index'])->name('website.bloglisting');
@@ -112,6 +110,11 @@ Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('we
 Route::get('/tour', [TourController::class, 'allTourPackages'])->name('website.allTourPackages');
 Route::get('/place-package/{slug}', [TourController::class, 'allTourPlacePackages'])->name('website.allTourPlacePackages');
 Route::get('tour/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
+Route::post('/submit-inquiry', [TourController::class, 'submitInquiry'])->name('website.packageinquiry');
+
+Route::get('/getVehicles', [PackagePdfController::class, 'getVehicles'])->name('admin.generatePackageDoc.getVehicles');
+Route::get('/getAccommodationWeb', [PackagePdfController::class, 'getAccommodationWeb'])->name('admin.generatePackageDoc.getAccommodationWeb');
+Route::get('/getPackagePrice', [PackagePdfController::class, 'getPackagePrice'])->name('admin.generatePackageDoc.getPackagePrice');
 //Tour Routing
 
 //Destination Routing
@@ -129,7 +132,13 @@ Route::get('/popular-tour-places', [PlaceController::class, 'popularTourPlaces']
 
 //Faq
 Route::get('/Faqs/{slug}', [FaqsController::class, 'index'])->name('website.faqs');
+//Faq
 
+//Common footer links
+Route::get('/privacy-policy', [CommonfooterlinksController::class, 'index'])->name('website.privacy-policy');
+Route::get('/booking-policy', [CommonfooterlinksController::class, 'bookingpolicy'])->name('website.booking-policy');
+Route::get('/term-condition', [CommonfooterlinksController::class, 'termsConditions'])->name('website.term-condition');
+//Common footer links
 
 //Footer
 Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');
@@ -441,7 +450,5 @@ Route::middleware('auth')->group(function () {
     
     //Generate pdf or word doc
 });
-    Route::get('/getVehicles', [PackagePdfController::class, 'getVehicles'])->name('admin.generatePackageDoc.getVehicles');
-    Route::get('/getAccommodationWeb', [PackagePdfController::class, 'getAccommodationWeb'])->name('admin.generatePackageDoc.getAccommodationWeb');
-    Route::get('/getPackagePrice', [PackagePdfController::class, 'getPackagePrice'])->name('admin.generatePackageDoc.getPackagePrice');
+
 /********  ADMIN ROUTING    ********/
