@@ -179,6 +179,14 @@
                                                             <div id="aboutplace_err"></div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group" style="margin-bottom: 20px;">
+                                                            <label>Description Tag</label>
+                                                            <textarea name="description_tag" id="description_tag" class="form-control">{{ old('description_tag', $Categorytags->description_tag ?? '') }}</textarea>
+                                                            <div id="description_tag_err"></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="box-main">
@@ -245,6 +253,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             CKEDITOR.replace('about_tag');
+            CKEDITOR.replace('description_tag');
             const originalWarn = console.warn;
             console.warn = function (message) {
                 if (!message.includes("This CKEditor 4.22.1 (Standard) version is not secure")) {
@@ -296,6 +305,8 @@
             if (!blankCheck('alttag_thumb', 'Alt Tag For Getaways Image cannot be blank'))
                  return false;
             if (!blankCheck('about_tag', 'About Tag cannot be blank'))
+                 return false;
+            if (!blankCheck('description_tag', 'Description Tag cannot be blank'))
                  return false;
             if (!blankCheck('meta_title', 'Meta Title cannot be blank'))
                  return false;
