@@ -161,7 +161,7 @@ section{
 }
 @media(max-width:680px){
     .section-title-container{
-        margin-bottom: 0;
+        margin-bottom: .75rem;
        
         flex-direction: column;
         align-items: flex-start;
@@ -843,9 +843,7 @@ height: 60PX;
 }
 @media(max-width:1366px){
     .card-wrapper{
-      
         grid-template-columns: repeat(3,1fr);
-        
     }
 }
 @media(max-width:1024px){
