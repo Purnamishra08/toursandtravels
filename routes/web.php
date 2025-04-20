@@ -153,7 +153,7 @@ Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->na
 //Footer
 
 //FooterQuickLinks
-Route::get('/coorg-packages/{slug}', [FooterquicklinksController::class, 'allTourPackages'])->name('website.allTourPackagesFooter');
+Route::get('/coorg-packages/tours/{slug}', [FooterquicklinksController::class, 'allTourPackages'])->name('website.allTourPackagesFooter');
 //FooterQuickLinks
 /********  WEBSITE ROUTING    ********/
 
