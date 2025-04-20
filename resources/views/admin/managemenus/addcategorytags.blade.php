@@ -94,7 +94,7 @@
                                                         <div class="form-group" style="margin-bottom: 20px;">
                                                             <label>Banner Image  <span class="manadatory">*</span></label>
                                                             <input name="menutag_img" id="menutag_img" type="file" onchange="previewImage(event, 'banner_preview')">
-                                                            <span>Image size should be 1920px X 488px</span>
+                                                            <span>Image size should be 1900px X 300px</span>
                                                             <div id="banner_preview" style="margin-top: 10px;">
                                                                 @if(isset($Categorytags->menutag_img))
                                                                     <a href="{{ asset('storage/category_tags_images/BannerImages/'.$Categorytags->menutag_img) }}" target="_blank">
@@ -179,6 +179,14 @@
                                                             <div id="aboutplace_err"></div>
                                                         </div>
                                                     </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group" style="margin-bottom: 20px;">
+                                                            <label>Description Tag</label>
+                                                            <textarea name="description_tag" id="description_tag" class="form-control">{{ old('description_tag', $Categorytags->description_tag ?? '') }}</textarea>
+                                                            <div id="description_tag_err"></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 <div class="box-main">
@@ -245,6 +253,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             CKEDITOR.replace('about_tag');
+            CKEDITOR.replace('description_tag');
             const originalWarn = console.warn;
             console.warn = function (message) {
                 if (!message.includes("This CKEditor 4.22.1 (Standard) version is not secure")) {
@@ -296,6 +305,8 @@
             if (!blankCheck('alttag_thumb', 'Alt Tag For Getaways Image cannot be blank'))
                  return false;
             if (!blankCheck('about_tag', 'About Tag cannot be blank'))
+                 return false;
+            if (!blankCheck('description_tag', 'Description Tag cannot be blank'))
                  return false;
             if (!blankCheck('meta_title', 'Meta Title cannot be blank'))
                  return false;

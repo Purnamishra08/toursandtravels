@@ -77,6 +77,15 @@ p{
 a{
     text-decoration: none;
 }
+.form-check-input:checked {
+    background-color: #03787a;
+    border-color: #03787a;
+}
+.form-check-input:focus {
+    border-color: #03787a;
+    
+    box-shadow: 0 0 0 .25rem rgb(3 120 122 / 12%);
+}
 .btn-primary{
     background-color: #03787a;
     border-color: #03787a;

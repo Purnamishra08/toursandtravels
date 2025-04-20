@@ -119,10 +119,10 @@
                     <ul class="link-wrapper">
 
                         <li><a href="#"> About Us</a></li>
-                        <li><a href="{{route('website.faqs', ['slug' => 'common-faqs'])}}">Faq</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms & Conditions</a></li>
-                        <li><a href="#">Booking Policy</a></li>
+                        <li><a href="{{route('website.faqs', ['slug' => 'common-faqs'])}}">FAQs</a></li>
+                        <li><a href="{{route('website.privacy-policy')}}">Privacy Policy</a></li>
+                        <li><a href="{{route('website.term-condition')}}">Terms & Conditions</a></li>
+                        <li><a href="{{route('website.booking-policy')}}">Booking Policy</a></li>
                     </ul>
                 </div>
             </div>

@@ -228,6 +228,10 @@ margin-bottom: 1rem;
 }
 .clent-message{
     font-size: .9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;       /* Show only 4 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 .rate {
     float: left;
@@ -393,6 +397,134 @@ margin-bottom: 1rem;
 .blog-share ul a i{
     font-size: 1rem;
     color: #3d8cc0;
+}
+
+/* tour-listing css */
+.tour-filter-section{
+    display: none;
+    margin-bottom: .5rem;
+    position: sticky;
+    top: 76px;
+    background-color: rgb(245 255 254);
+    z-index: 99;
+    padding: .25rem 0;
+    border-top: 1px solid #eef0f0;
+    border-bottom: 1px solid #eef0f0;
+}
+.tour-list-wrapper{
+    display: flex;
+    gap: 1rem;
+
+}
+.filter-wrapper{
+    flex: 0 0 250px;
+    
+}
+.filter-card{
+   
+    border-radius: .375rem;
+    background-color: #ccdfdc;
+    color: #000;
+}
+.filter-card-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem 1rem;
+    border-bottom: 1px solid #aecbc7;
+}
+.filter-card-header span{
+    cursor: pointer;
+}
+
+.filter-card-body{
+    padding:  1rem;
+}
+.about-content{
+    max-height: 300px;
+    overflow: auto;
+}
+.tour-listing-card{
+    overflow: hidden;
+}
+.tour-listing-card:hover .place-img{
+    transform: scale(1.05);
+}
+.tour-listing-card .place-img{
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+    transition: transform 0.4s ease-in-out;
+}
+.tour-listing-card ul{
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+    row-gap: .25rem;
+
+}
+.light-badge,.primary-badge{
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: .85rem;
+    line-height: 1;
+}
+.tour-listing-card .title{
+    flex: 0 0 80px;
+}
+.light-badge{
+    background: #ebe8e83d;
+    border: 1px solid #f6e9e9;
+}
+.primary-badge{
+    background: #e3fffd;
+    border: 1px solid rgb(191 233 230);
+ 
+}
+.tour-listing-card .badge {
+    background-color: rgb(255, 91, 0);
+    color: rgb(255, 255, 255);
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    letter-spacing: 0.5px;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+@media(max-width:767px){
+    .tour-filter-section{
+        display: block;
+     
+    }
+    .filter-wrapper {
+        position: fixed;
+        top: 0;
+        left: -100%; /* Hide off screen */
+        height: 100vh;
+        width: 80%;
+        max-width: 300px;
+        background: #fff;
+        z-index: 1050;
+        transition: left 0.3s ease-in-out;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+      }
+    
+      .filter-wrapper.active {
+        left: 0; /* Slide in */
+      }
+    
+      /* Optional overlay behind filter */
+      .filter-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 1040;
+      }
+    
+      .filter-overlay.active {
+        display: block;
+      }
 }
 /* tour details start */
 .tour-details-box .destination-img{

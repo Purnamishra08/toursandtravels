@@ -45,7 +45,8 @@ use App\Http\Controllers\Website\Footer\FooterController;
 use App\Http\Controllers\Website\Tour\TourController;
 use App\Http\Controllers\Website\Places\PlaceController;
 use App\Http\Controllers\Website\Faqs\FaqsController;
-
+use App\Http\Controllers\Website\CommonFooterLinks\CommonfooterlinksController;
+use App\Http\Controllers\Website\ContactUs\ContactusController;
 
 /********  WEBSITE ROUTING    ********/
 /*
@@ -88,12 +89,8 @@ Route::get('/optimize', function() {
 
 /********  WEBSITE ROUTING    ********/
 Route::get('/', [HomeController::class, 'index'])->name('website.home');
-Route::view('/contactus', 'website.contactus');
 Route::view('/aboutus', 'website.aboutus');
 Route::view('/bookingDownload', 'website.bookingDownload');
-Route::view('/privacy-policy', 'website.privacy-policy');
-Route::view('/booking-policy', 'website.booking-policy');
-Route::view('/term-condition', 'website.term-condition');
 Route::view('/tourlisting', 'website.tourlisting');
 Route::view('/tourdetails', 'website.tourdetails');
 Route::get('/blog', [BlogsController::class, 'index'])->name('website.bloglisting');
@@ -134,7 +131,18 @@ Route::get('/popular-tour-places', [PlaceController::class, 'popularTourPlaces']
 
 //Faq
 Route::get('/Faqs/{slug}', [FaqsController::class, 'index'])->name('website.faqs');
+//Faq
 
+//Common footer links
+Route::get('/privacy-policy', [CommonfooterlinksController::class, 'index'])->name('website.privacy-policy');
+Route::get('/booking-policy', [CommonfooterlinksController::class, 'bookingpolicy'])->name('website.booking-policy');
+Route::get('/term-condition', [CommonfooterlinksController::class, 'termsConditions'])->name('website.term-condition');
+//Common footer links
+
+//contact us
+Route::get('/contact-us', [ContactusController::class, 'index'])->name('website.contactus');
+Route::match(['get', 'post'], 'addContacUs', [ContactusController::class, 'addContacUs'])->name('website.addContacUs');
+//contact us
 
 //Footer
 Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');
