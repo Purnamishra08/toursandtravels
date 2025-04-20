@@ -102,7 +102,7 @@ class ContactusController extends Controller{
                 <body style='font-family:sans-serif;font-size:13px; line-height:22px;'>
                     <div style='width: 100%;background: #F5F5F5;color: #000;'>
                         <div style='text-align:center'>
-                            <a href='".url('/')."'><img src='".asset('assets/imag/logo.png')."'></a>
+                            <a href='".url('/')."'><img src='".asset('assets/img/logo.png')."'></a>
                         </div>
                         <div style='clear:both'></div>
                     </div>
