@@ -119,11 +119,11 @@ class TourController extends Controller
                             <ul class="m-0 d-flex gx-3 gy-2 flex-wrap text-secondary">';
                             if(count($places)>0){
                             foreach ($places as $value) {
-                               $html.=' <li class="light-badge"> '.$value->place_name.' </li>';
+                                $html.=' <li class="light-badge"> '.$value->place_name.' </li>';
 
                             }
                         }
-                           $html.=' </ul>
+                            $html.=' </ul>
                         </div>
                         <!--<div class="d-flex gap-3 mb-3 align-items-center">
                             <span class="title"><i class="bi bi-activity me-1"></i> Activity</span>
@@ -150,7 +150,37 @@ class TourController extends Controller
         }
             return $html;
         }
-        return view('website.tourlisting',['tourPageData'=>$tourPageData,'meta_title'=>$tourPageData->meta_title,'meta_keywords'=>$tourPageData->meta_keywords,'meta_description'=>$tourPageData->meta_description,'durations'=>$durations,'destinations'=>$destinations]);
+
+        $tourFaqs = DB::table('tbl_package_faqs')
+            ->select('faq_id','faq_question','faq_answer')
+            ->where('tag_id', $tourPageData->tagid)
+            ->where('status', 1)
+            ->where('bit_Deleted_Flag', 0)
+            ->orderby('faq_order','ASC')
+            ->get();
+
+        $reviews = DB::table('tbl_reviews as r')
+            ->leftJoin('tbl_menutags as t', DB::raw('FIND_IN_SET(t.tagid, r.tourtagid)'), '>', DB::raw('0'))
+            ->select(
+                'r.review_id',
+                'r.tourtagid',
+                'r.reviewer_name',
+                'r.reviewer_loc',
+                'r.no_of_star',
+                'r.feedback_msg',
+                'r.status',
+                'r.updated_date',
+                DB::raw("GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name SEPARATOR ', ') AS tag_name")
+            )
+            ->where('r.bit_Deleted_Flag', 0)
+            ->where('r.status', 1)
+            ->where('t.bit_Deleted_Flag', 0)
+            ->where('t.status', 1)
+            ->inRandomOrder()
+            ->groupBy('r.review_id', 'r.tourtagid', 'r.reviewer_name', 'r.reviewer_loc', 'r.no_of_star', 'r.feedback_msg', 'r.status', 'r.updated_date')
+            ->get();
+
+        return view('website.tourlisting',['tourPageData'=>$tourPageData,'meta_title'=>$tourPageData->meta_title,'meta_keywords'=>$tourPageData->meta_keywords,'meta_description'=>$tourPageData->meta_description,'durations'=>$durations,'destinations'=>$destinations,'tourFaqs'=>$tourFaqs,'reviews'=>$reviews]);
     }
 
     public function allTourPlacePackages($slug){
@@ -575,75 +605,75 @@ class TourController extends Controller
         }
     }
 
-    public function clientReviews(Request $request)
-    {
-        $reviews = DB::table('tbl_reviews as r')
-            ->leftJoin('tbl_menutags as t', DB::raw('FIND_IN_SET(t.tagid, r.tourtagid)'), '>', DB::raw('0'))
-            ->select(
-                'r.review_id',
-                'r.tourtagid',
-                'r.reviewer_name',
-                'r.reviewer_loc',
-                'r.no_of_star',
-                'r.feedback_msg',
-                'r.status',
-                'r.updated_date',
-                DB::raw("GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name SEPARATOR ', ') AS tag_name")
-            )
-            ->where('r.bit_Deleted_Flag', 0)
-            ->where('r.status', 1)
-            ->orderBy('r.review_id', 'DESC')
-            ->groupBy('r.review_id', 'r.tourtagid', 'r.reviewer_name', 'r.reviewer_loc', 'r.no_of_star', 'r.feedback_msg', 'r.status', 'r.updated_date')
-            // ->limit(6)
-            ->get();
+    // public function clientReviews(Request $request)
+    // {
+    //     $reviews = DB::table('tbl_reviews as r')
+    //         ->leftJoin('tbl_menutags as t', DB::raw('FIND_IN_SET(t.tagid, r.tourtagid)'), '>', DB::raw('0'))
+    //         ->select(
+    //             'r.review_id',
+    //             'r.tourtagid',
+    //             'r.reviewer_name',
+    //             'r.reviewer_loc',
+    //             'r.no_of_star',
+    //             'r.feedback_msg',
+    //             'r.status',
+    //             'r.updated_date',
+    //             DB::raw("GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name SEPARATOR ', ') AS tag_name")
+    //         )
+    //         ->where('r.bit_Deleted_Flag', 0)
+    //         ->where('r.status', 1)
+    //         ->orderBy('r.review_id', 'DESC')
+    //         ->groupBy('r.review_id', 'r.tourtagid', 'r.reviewer_name', 'r.reviewer_loc', 'r.no_of_star', 'r.feedback_msg', 'r.status', 'r.updated_date')
+    //         // ->limit(6)
+    //         ->get();
 
-        if ($request->ajax()) {
-            $html = '';
-            foreach ($reviews as $values) {
+    //     if ($request->ajax()) {
+    //         $html = '';
+    //         foreach ($reviews as $values) {
 
-                // Star rating generation
-                $fullStars = floor($values->no_of_star);
-                $halfStar = (fmod($values->no_of_star, 1) != 0.00) ? 1 : 0;
-                $emptyStars = 5 - ($fullStars + $halfStar);
+    //             // Star rating generation
+    //             $fullStars = floor($values->no_of_star);
+    //             $halfStar = (fmod($values->no_of_star, 1) != 0.00) ? 1 : 0;
+    //             $emptyStars = 5 - ($fullStars + $halfStar);
 
-                $starsHtml = '';
-                for ($i = 0; $i < $fullStars; $i++) {
-                    $starsHtml .= '<i class="fa fa-star text-warning"></i> ';
-                }
-                if ($halfStar) {
-                    $starsHtml .= '<i class="fa fa-star-half-stroke text-warning"></i> ';
-                }
-                for ($i = 0; $i < $emptyStars; $i++) {
-                    $starsHtml .= '<i class="fa fa-star text-secondary"></i> ';
-                }
+    //             $starsHtml = '';
+    //             for ($i = 0; $i < $fullStars; $i++) {
+    //                 $starsHtml .= '<i class="fa fa-star text-warning"></i> ';
+    //             }
+    //             if ($halfStar) {
+    //                 $starsHtml .= '<i class="fa fa-star-half-stroke text-warning"></i> ';
+    //             }
+    //             for ($i = 0; $i < $emptyStars; $i++) {
+    //                 $starsHtml .= '<i class="fa fa-star text-secondary"></i> ';
+    //             }
 
-                // Review card HTML
-                $html .= '
-                    <div class="swiper-slide">
-                        <div class="card client-review-card h-100">
-                            <div class="card-body">
-                                <div class="client-details mb-2">
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <i class="bi bi-person-circle"></i>
-                                            <div>
-                                                <p class="client-name">  ' . $values->reviewer_name . '</p>
-                                                <div class="rate">' . $starsHtml . '</div>
+    //             // Review card HTML
+    //             $html .= '
+    //                 <div class="swiper-slide">
+    //                     <div class="card client-review-card h-100">
+    //                         <div class="card-body">
+    //                             <div class="client-details mb-2">
+    //                                 <div class="d-flex gap-2 align-items-center">
+    //                                     <i class="bi bi-person-circle"></i>
+    //                                         <div>
+    //                                             <p class="client-name">  ' . $values->reviewer_name . '</p>
+    //                                             <div class="rate">' . $starsHtml . '</div>
 
-                                            </div>
+    //                                         </div>
 
-                                            </div>
-                                            <p class="client-location text-secondary"><i class="fa-solid fa-location-dot"></i> ' . $values->reviewer_loc . '</p>
+    //                                         </div>
+    //                                         <p class="client-location text-secondary"><i class="fa-solid fa-location-dot"></i> ' . $values->reviewer_loc . '</p>
                                         
                                         
                                     
-                                </div>
-                                <p class="clent-message">' . $values->feedback_msg . '</p>
-                            </div>
-                        </div>
-                    </div>';
-            }
-            return $html;
-        }
-    }
+    //                             </div>
+    //                             <p class="clent-message">' . $values->feedback_msg . '</p>
+    //                         </div>
+    //                     </div>
+    //                 </div>';
+    //         }
+    //         return $html;
+    //     }
+    // }
 
 }
