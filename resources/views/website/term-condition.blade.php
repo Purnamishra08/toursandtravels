@@ -21,7 +21,7 @@
     <section>
         <div class="container">
             <div class="page-section ">
-                {!! isset($termsCondition) ? $termsConditions->page_content : '' !!}
+                {!! isset($termsConditions) ? $termsConditions->page_content : '' !!}
             </div>
         </div>
 
