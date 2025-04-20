@@ -48,7 +48,7 @@ use App\Http\Controllers\Website\Faqs\FaqsController;
 use App\Http\Controllers\Website\CommonFooterLinks\CommonfooterlinksController;
 use App\Http\Controllers\Website\ContactUs\ContactusController;
 use App\Http\Controllers\Website\AboutUs\AboutusController;
-
+use App\Http\Controllers\Website\FooterQuickLinks\FooterquicklinksController;
 /********  WEBSITE ROUTING    ********/
 /*
 |--------------------------------------------------------------------------
@@ -151,6 +151,10 @@ Route::get('/about-us', [AboutusController::class, 'index'])->name('website.abou
 //Footer
 Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');
 //Footer
+
+//FooterQuickLinks
+Route::get('/coorg-packages/{slug}', [FooterquicklinksController::class, 'allTourPackages'])->name('website.allTourPackagesFooter');
+//FooterQuickLinks
 /********  WEBSITE ROUTING    ********/
 
 

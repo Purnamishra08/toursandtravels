@@ -36,7 +36,7 @@
                         @if(isset($footer) && count($footer) > 0)
                         @foreach($footer as $footers)
                         <li>
-                            <a href="{{$footers->vch_Footer_URL}}" class="quick-link">{{$footers->vch_Footer_Name}}</a>
+                        <a href="{{ route('website.allTourPackagesFooter', ['slug' => $footers->vch_Footer_URL]) }}"    class="quick-link">{{ $footers->vch_Footer_Name }}</a>
                         </li>
                         @endforeach
                         @endif
