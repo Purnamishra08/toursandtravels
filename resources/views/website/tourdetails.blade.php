@@ -111,7 +111,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                                         @if($dayPlacesCombined->isNotEmpty())
                                                         @foreach($dayPlacesCombined as [$placeName, $url])
                                                         <li>
-                                                            <a href="{{ $url }}" target="_blank" rel="noopener noreferrer">{{ $placeName }}</a>
+                                                            <a href="{{route('website.neardestination', ['slug' => $url])}}" target="_blank" rel="noopener noreferrer">{{ $placeName }}</a>
                                                         </li>
                                                         @endforeach
                                                         @endif
@@ -550,6 +550,10 @@ for ($i = 0; $i < $fullStars; $i++)
                                     <label for="message">Message</label>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_SITE_KEY') }}"></div>
+                            </div>
+                            
                             <div class="col-12">
                                 <button class="btn btn-primary">Submit</button>
                                 <button class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
@@ -694,6 +698,9 @@ for ($i = 0; $i < $fullStars; $i++)
                                     <label for="floatingTextarea2">Message</label>
                                 </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_SITE_KEY') }}"></div>
+                            </div>
 
                         </div>
 
@@ -705,7 +712,7 @@ for ($i = 0; $i < $fullStars; $i++)
                         <a href="#" id="backBtn" class="btn btn-secondary" style="display:none">Back</a>
                         <a href="#" class="btn btn-primary " id="bookNowBtn"> Book Now</a>
                         <a href="#" class="btn btn-success" id="submitBookingBtn" style="display: none;">Submit Booking</a>
-                        <a href="#" class="btn btn-outline-primary"> Download</a>
+                        <a onclick="generate()" class="btn btn-outline-primary"> Download</a>
                     </div>
                 </div>
             </div>
@@ -738,15 +745,18 @@ for ($i = 0; $i < $fullStars; $i++)
                 <div class="modal-body">
                     <h5 class="modal-title mb-3" id="successModalLabel">Thank You!</h5>
                     <p>Your booking enquiry has been sent successfully.</p>
-                    <button type="button" class="btn btn-primary mt-2" data-bs-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-primary mt-2" data-bs-dismiss="modal" onclick="reload()">OK</button>
                 </div>
             </div>
         </div>
     </div>
-    
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 
     <script>
+        function reload(){
+            location.reload();
+        }
         $(function () {
         var today = new Date();
         var twoDaysLater = new Date();
@@ -1030,27 +1040,117 @@ for ($i = 0; $i < $fullStars; $i++)
         }
     }
 
+    // $(document).ready(function () {
+    //     $('#enquiryForm').on('submit', function (e) {
+    //         e.preventDefault();
+
+    //         let formData = $(this).serialize();
+
+    //         $.ajax({
+    //             url: '{{ route("website.packageinquiry") }}',
+    //             method: 'POST',
+    //             data: formData,
+    //             success: function (response) {
+    //                 // Show success message
+
+    //                 // Optional: Reset form and close modal
+    //                 $('#enquiryForm')[0].reset();
+    //                 $('#exampleModal').modal('hide');
+    //                 $('#successModal').modal('show'); 
+    //             },
+    //             error: function (xhr) {
+    //                 // Show validation errors
+    //                 let errors = xhr.responseJSON.errors;
+    //                 let errorMessage = 'Please fix the following errors:\n';
+    //                 for (const key in errors) {
+    //                     errorMessage += `- ${errors[key][0]}\n`;
+    //                 }
+    //                 alert(errorMessage);
+    //             }
+    //         });
+    //     });
+    // });
     $(document).ready(function () {
         $('#enquiryForm').on('submit', function (e) {
             e.preventDefault();
 
-            let formData = $(this).serialize();
+            let isValid = true;
+            let form = $(this);
+
+            // Clear previous validation states
+            form.find('input, select, textarea').removeClass('is-invalid');
+
+            // Validate required fields
+            let first_name = $('#first_name').val().trim();
+            let email = $('#email').val().trim();
+            let mobile = $('#mobile').val().trim();
+            let adult_count = $('#adult_count').val().trim();
+            let child_count = $('#child_count').val().trim();
+            let accommodation = $('#accommodation_modal').val().trim();
+            let message = $('#message').val().trim();
+            let travel_date = $('#travel_date_modal').val().trim();
+            let captcha = grecaptcha.getResponse(); // Google reCAPTCHA
+
+            if (first_name === '') {
+                $('#first_name').addClass('is-invalid');
+                isValid = false;
+            }
+
+            if (email === '') {
+                $('#email').addClass('is-invalid');
+                isValid = false;
+            }
+
+            if (mobile === '') {
+                $('#mobile').addClass('is-invalid');
+                isValid = false;
+            }
+
+            if (adult_count === '') {
+                $('#adult_count').addClass('is-invalid');
+                isValid = false;
+            }
+
+            if (child_count === '') {
+                $('#child_count').addClass('is-invalid');
+                isValid = false;
+            }
+
+            if (accommodation === '') {
+                $('#accommodation_modal').addClass('is-invalid');
+                isValid = false;
+            }
+
+            if (travel_date === '') {
+                $('#travel_date_modal').addClass('is-invalid');
+                isValid = false;
+            }
+
+            if (message === '') {
+                $('#message').addClass('is-invalid');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // Append captcha response to form before sending
+            let formData = form.serialize() + '&g-recaptcha-response=' + encodeURIComponent(captcha);
 
             $.ajax({
                 url: '{{ route("website.packageinquiry") }}',
                 method: 'POST',
                 data: formData,
                 success: function (response) {
-                    // Show success message
-
-                    // Optional: Reset form and close modal
                     $('#enquiryForm')[0].reset();
                     $('#exampleModal').modal('hide');
-                    $('#successModal').modal('show'); 
+                    $('#successModal').modal('show');
+                    grecaptcha.reset(); // Reset captcha
                 },
                 error: function (xhr) {
-                    // Show validation errors
                     let errors = xhr.responseJSON.errors;
+                    for (const key in errors) {
+                        $(`#${key}`).addClass('is-invalid');
+                    }
                     let errorMessage = 'Please fix the following errors:\n';
                     for (const key in errors) {
                         errorMessage += `- ${errors[key][0]}\n`;
@@ -1061,6 +1161,7 @@ for ($i = 0; $i < $fullStars; $i++)
         });
     });
 
+    //Book Now Submit
     $(document).on('click', '#submitBookingBtn', function(e) {
         e.preventDefault();
 
@@ -1079,6 +1180,7 @@ for ($i = 0; $i < $fullStars; $i++)
         let mobile = $('.bookingUser-details input[type="text"]').eq(2).val();
         let message = $('#floatingTextarea2').val();
         let csrf_token = $('#csrf_token').val();
+        let captcha = grecaptcha.getResponse(); // Google reCAPTCHA response
 
         let isValid = true;
 
@@ -1120,7 +1222,8 @@ for ($i = 0; $i < $fullStars; $i++)
                 child_count: child_count,
                 travel_date: travel_date,
                 accommodation: accommodation,
-                package_id: package_id
+                package_id: package_id,
+                'g-recaptcha-response': captcha
             },
             success: function(response) {
                 $('#calculate-modal').modal('hide');
@@ -1132,6 +1235,92 @@ for ($i = 0; $i < $fullStars; $i++)
         });
     });
 
+    function generate() {
+        let error = 0;
+
+        // Validate fields
+        if ($("#package_id").val() == "") {
+            $("#package_id").addClass("errorfield");
+            error += 1;
+        } else {
+            $("#package_id").removeClass("errorfield");
+        }
+
+        if (!$("#quantity_adult").val()) {
+            $("#quantity_adult").addClass("errorfield");
+            error += 1;
+        } else {
+            $("#quantity_adult").removeClass("errorfield");
+        }
+
+        if (!$("#vehicle").val()) {
+            $("#vehicle").addClass("errorfield");
+            error += 1;
+        } else {
+            $("#vehicle").removeClass("errorfield");
+        }
+
+        if (!$("#travel_date").val()) {
+            $("#travel_date").addClass("errorfield");
+            error += 1;
+        } else {
+            $("#travel_date").removeClass("errorfield");
+        }
+
+        if (!$("#accommodation_type").val()) {
+            $("#accommodation_type").addClass("errorfield");
+            error += 1;
+        } else {
+            $("#accommodation_type").removeClass("errorfield");
+        }
+
+        // If no errors, proceed with AJAX
+        if (error == 0) {
+            $("#error_message").html('');
+
+            var formData = new FormData();
+
+            // Append checked checkboxes
+            for (let i = 0; i < document.querySelectorAll('.form-check-input').length; i++) {
+                if (document.querySelectorAll('.form-check-input')[i].checked) {
+                    formData.append(document.querySelectorAll('.form-check-input')[i].name, document.querySelectorAll('.form-check-input')[i].value);
+                }
+            }
+
+            // Append form fields
+            formData.append('accommodation_type', $("#accommodation_type").val());
+            formData.append('travel_date', $("#travel_date").val());
+            formData.append('vehicle', $("#vehicle").val());
+            formData.append('quantity_adult', $("#quantity_adult").val());
+            formData.append('hid_packageid', {{$tourpackageid}});
+            formData.append('quantity_child', $("#quantity_child").val());
+
+            // CSRF token (Laravel Blade)
+            formData.append('_token', '{{ csrf_token() }}');
+
+            // Send AJAX request
+            $.ajax({
+                url: "{{ route('admin.generatePackageDoc.generatePDF') }}",  // Replace with Laravel route
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    // Show loading spinner or something before sending
+                },
+                success: function (result) {
+                    $('#result').html(result);  // Update the result section with the response
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus + "\n" + "Error: " + errorThrown);
+                }
+            });
+        } else {
+            // Show error message if validation fails
+            $("#error_message").html('<div class="errormsg" style="font-size:15px;">Please fill up all above mandatory fields.</div>');
+            return false;
+        }
+    }
 
 
 
@@ -1142,14 +1331,6 @@ for ($i = 0; $i < $fullStars; $i++)
 
     </script>
     <script>
-        // $(document).on('click', '#bookNowBtn', function(e) {
-        //     console.log("clicked");
-        //     e.preventDefault();
-        //     $('#backBtn').show();
-        //     $('.calculate-details').slideUp();
-        //     $('.bookingUser-details').slideDown();
-        // });
-
         $(document).on('click', '#bookNowBtn', function(e) {
             e.preventDefault();
             $('#backBtn').show();
@@ -1169,14 +1350,6 @@ for ($i = 0; $i < $fullStars; $i++)
             $('.bookingUser-details').slideUp();
             $('.calculate-details').slideDown();
         });
-        // $(document).on('click', '#backBtn', function(e) {
-        //     console.log("back clicked");
-        //     e.preventDefault();
-
-        //     $('.bookingUser-details').slideUp(); // Hide booking form
-        //     $('.calculate-details').slideDown(); // Show trip details
-        //     $('#backBtn').hide(); // Optionally hide the back button again
-        // });
     </script>
 
 

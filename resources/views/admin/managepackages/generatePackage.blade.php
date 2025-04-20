@@ -97,7 +97,8 @@
                                                                 <div class="col-md-3">
                                                                     <div class="form-group">
                                                                         <label>Date of travel <span class="manadatory">*</span></label>
-                                                                        <input type="text" data-date-format="dd-mm-yyyy" class="form-control datepicker" id="travel_date" name="travel_date" placeholder="mm-dd-yyyy" autocomplete="off" readonly>
+                                                                        <!-- <input type="text" data-date-format="dd-mm-yyyy" class="form-control datepicker" id="travel_date" name="travel_date" placeholder="dd-mm-yyyy" autocomplete="off" readonly> -->
+                                                                        <input type="text" data-date-format="dd/mm/yyyy" class="form-control datepicker" id="travel_date" name="travel_date" placeholder="dd/mm/yyyy" autocomplete="off" readonly>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
@@ -182,6 +183,7 @@
     <!-- FooterJs End-->
     <script>
     $(".datepicker").datepicker({
+        dateFormat: "dd/mm/yy", // Correct format for jQuery UI (yy = 4-digit year)
         autoclose: true,
         todayHighlight: true,
         changeMonth: true,
@@ -524,8 +526,96 @@
             return false;
         }
     }
+    function generateDoc() {
+        let error = 0;
+
+        // Validate fields
+        if ($("#package_id").val() == "") {
+            $("#package_id").addClass("errorfield");
+            error += 1;
+        } else {
+            $("#package_id").removeClass("errorfield");
+        }
+
+        if (!$("#quantity_adult").val()) {
+            $("#quantity_adult").addClass("errorfield");
+            error += 1;
+        } else {
+            $("#quantity_adult").removeClass("errorfield");
+        }
+
+        if (!$("#vehicle").val()) {
+            $("#vehicle").addClass("errorfield");
+            error += 1;
+        } else {
+            $("#vehicle").removeClass("errorfield");
+        }
+
+        if (!$("#travel_date").val()) {
+            $("#travel_date").addClass("errorfield");
+            error += 1;
+        } else {
+            $("#travel_date").removeClass("errorfield");
+        }
+
+        if (!$("#accommodation_type").val()) {
+            $("#accommodation_type").addClass("errorfield");
+            error += 1;
+        } else {
+            $("#accommodation_type").removeClass("errorfield");
+        }
+
+        // If no errors, proceed with AJAX
+        if (error == 0) {
+            $("#error_message").html('');
+
+            var formData = new FormData();
+
+            // Append checked checkboxes
+            for (let i = 0; i < document.querySelectorAll('.form-check-input').length; i++) {
+                if (document.querySelectorAll('.form-check-input')[i].checked) {
+                    formData.append(document.querySelectorAll('.form-check-input')[i].name, document.querySelectorAll('.form-check-input')[i].value);
+                }
+            }
+
+            // Append form fields
+            formData.append('accommodation_type', $("#accommodation_type").val());
+            formData.append('travel_date', $("#travel_date").val());
+            formData.append('vehicle', $("#vehicle").val());
+            formData.append('quantity_adult', $("#quantity_adult").val());
+            formData.append('hid_packageid', $("#package_id").val());
+            formData.append('quantity_child', $("#quantity_child").val());
+
+            // CSRF token (Laravel Blade)
+            formData.append('_token', '{{ csrf_token() }}');
+
+            // Send AJAX request
+            $.ajax({
+                url: "{{ route('admin.generatePackageDoc.generateDoc') }}",  // Replace with Laravel route
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    // Show loading spinner or something before sending
+                },
+                success: function (result) {
+                    $('#result').html(result);  // Update the result section with the response
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Status: " + textStatus + "\n" + "Error: " + errorThrown);
+                }
+            });
+        } else {
+            // Show error message if validation fails
+            $("#error_message").html('<div class="errormsg" style="font-size:15px;">Please fill up all above mandatory fields.</div>');
+            return false;
+        }
+    }
     </script>
 
 </body>
 
 </html>
+
+composer require barryvdh/laravel-dompdf  --ignore-platform-reqs

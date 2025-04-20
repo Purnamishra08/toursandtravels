@@ -84,19 +84,16 @@
         <table style="width: 100%; border-collapse:collapse;color:#3c3c3c">
             <tr>
                 <td style="padding: .25rem; text-align:right">
-                    <img height="50" src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" />
+                    <img height="50" src="{{ asset('assets/img/logo.png') }}" alt="logo" />
                 </td>
             </tr>
             <tr>
                 <td style="padding: .25rem; ">
-                    <h1 style="font-size:1.2rem; text-align:center;padding-bottom:1rem ">“2 Day Trip from Bhubaneshwar | Puri, Konark & Bhubaneshwar”</h1>
+                    <h1 style="font-size:1.2rem; text-align:center;padding-bottom:1rem ">“{{$tpackage_name}}”</h1>
                 </td>
             </tr>
         </table>
-
-
     </div>
-
     <div class="page-footer">
         <table style="width: 100%; border-collapse:collapse;color:#3c3c3c;color: #ff0000">
             <tr>
@@ -123,11 +120,11 @@
                     <td style="padding: .25rem; ">Dear Sir/Madam,</td>
                 </tr>
                 <tr>
-                    <td style="padding: .25rem; ">Please find requested “2 Day Trip from Bhubaneshwar | Puri, Konark & Bhubaneshwar”trip details.</td>
+                    <td style="padding: .25rem; ">Please find requested “{{$tpackage_name}}”.</td>
                 </tr>
                 <tr>
                     <td style="padding: .25rem; ">
-                        <span style="padding: 3px 5px;display:block; margin-top:.75rem; background-color:yellow">No. of pax – 1 Adults, 1 Childrens</span>
+                        <span style="padding: 3px 5px;display:block; margin-top:.75rem; background-color:yellow">No. of pax – {{$adult}} Adults, {{$child}} Childrens</span>
                     </td>
                 </tr>
 
@@ -144,135 +141,125 @@
                                 <th style="border: 1px solid #c5dad6;padding: .25rem;background-color: #e0edeb;">Total Cost</th>
 
                             </tr>
+                            @php
+                                $currentDate = $travel_date;
+                                list($day, $month, $year) = explode('/', $currentDate);
+                                $currentDate = "$year-$month-$day";
+                            @endphp
+                            @foreach($field_value as $index =>$hotel_id)
+                            @php
+                                $hotels = DB::table('tbl_hotel')->select('hotel_name','room_type','destination_name')->where('hotel_id', $hotel_id)->first();
+                                $destName = DB::table('tbl_destination')->select('destination_name')->where('destination_id', $hotels->destination_name)->first();
+                                $noof_nights = DB::table('tbl_package_accomodation')
+                                        ->where('package_id', $hid_packageid)
+                                        ->where('destination_id', $hotels->destination_name)
+                                        ->where('bit_Deleted_Flag', 0)
+                                        ->value('noof_days');
+                                        
+                                $checkInDate = date("dS M", strtotime($currentDate));
+                                $currentDate = date("Y-m-d", strtotime("+{$noof_nights} days", strtotime($currentDate)));
+                                $totalPersons = $adult + $child;
+                                $roomsNeeded = $totalPersons <= 3 ? 1 : ceil($totalPersons / 2);
+                            @endphp
                             <tr>
-                                <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">22nd Apr</td>
-                                <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">NRS Royal Palace</td>
-                                <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">Puri </td>
-                                <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">1 Deluxe Room</td>
+                                <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">{{$checkInDate }}</td>
+                                <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">{{$hotels->hotel_name}}</td>
+                                <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">{{$destName->destination_name}} </td>
+                                <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">{{$roomsNeeded}} {{$hotels->room_type}}</td>
                                 <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">Breakfast</td>
-                                <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">Sedan - AC (4+1)</td>
-                                <td style="padding: .25rem; border:1px solid #c5dad6;text-align:center">Rs. 21,450</td>
+                                @if ($index === 0)
+                                    <td rowspan="{{ count($field_value) }}" style="padding: .25rem; border:1px solid #c5dad6; text-align:center">
+                                        {{$vehicle}}
+                                    </td>
+                                    <td rowspan="{{ count($field_value) }}" style="padding: .25rem; border:1px solid #c5dad6; text-align:center">
+                                        Rs. {{$total_price}}
+                                    </td>
+                                @endif
                             </tr>
+                            @endforeach
                         </table>
                     </td>
                 </tr>
                 <tr>
                     <td>
+                        @php
+                            $noOfItineraries = DB::table('tbl_itinerary_daywise')
+                                    ->where('bit_Deleted_Flag', 0)
+                                    ->where('package_id', $hid_packageid)
+                                    ->count();
+                            $daywiseItineraries = DB::table('tbl_itinerary_daywise')
+                                    ->where('package_id', $hid_packageid)
+                                    ->where('bit_Deleted_Flag', 0)
+                                    ->orderBy('itinerary_daywiseid')
+                                    ->get();
+                            $day = 1;
+                        @endphp
                         <table style="width: 100%; border-collapse:collapse;margin-top:20px">
+                            @if($noOfItineraries>0)
+                            @foreach($daywiseItineraries as $itinerary)
+                            @php $placeIds = $itinerary->place_id; @endphp
                             <tr>
-                                <th style="border: 1px solid #c5dad6;padding: .25rem;background-color: #e0edeb; text-align:left">Day 1- Pick up at 8 AM - From Bhubaneswar Drive to Puri & Konark Sightseeing</th>
+                                <th style="border: 1px solid #c5dad6;padding: .25rem;background-color: #e0edeb; text-align:left">Day {{$day}}- {{$itinerary->title}}</th>
                             </tr>
                             <tr>
                                 <td style="padding: .25rem; border:1px solid #c5dad6;">
                                     <ul style="padding-left: 1rem ; margin:0">
-                                        <li> Puri Jagannath Temple</li>
-                                        <li> Sudarshan Craft Museum</li>
-                                        <li>Narendra Pushkarini</li>
-                                        <li>Konark sun temple</li>
-                                        <li>Konark beach</li>
-                                        <li>Ramachandi temple</li>
-
+                                        @if (!empty($placeIds))
+                                        @php 
+                                            $places = DB::table('tbl_places')
+                                                ->select('placeid', 'destination_id', 'place_name', 'place_url')
+                                                ->whereIn('placeid', explode(',', $placeIds))
+                                                ->get();
+                                            $otherPlaces = explode(',', $itinerary->other_iternary_places);
+                                        @endphp
+                                        @foreach($places as $place)
+                                            <li> {{$place->place_name}}</li>
+                                        @endforeach
+                                        @if(count($otherPlaces)>0)
+                                        @foreach($otherPlaces as $otherPlace)
+                                            <li> {{$otherPlace}}</li>
+                                        @endforeach
+                                        @endif
+                                        @endif
                                     </ul>
                                 </td>
                             </tr>
-                            <tr>
-                                <th style="border: 1px solid #c5dad6;padding: .25rem;background-color: #e0edeb; text-align:left">Day 2- Start at 8 AM from - Puri to Bhubaneswar, Bhubaneswar Sightseeing & drop</th>
-                            </tr>
-                            <tr>
-                                <td style="padding: .25rem; border:1px solid #c5dad6;">
-                                    <ul style="padding-left: 1rem ; margin:0">
-                                        <li> Udaygiri & Khandagiri Caves </li>
-
-                                        <li>Iskcon - Bhubaneswar</li>
-                                        <li> Ram Mandir Bhubaneswar</li>
-                                        <li>Odisha State Museum</li>
-                                        <li> Nandan Kanan Zoo</li>
-                                        <li> Lingaraj temple</li>
-
-                                    </ul>
-                                </td>
-                            </tr>
+                            @php $day++; @endphp
+                            @endforeach
+                            @endif
                         </table>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Inclusions </h5>
-                        <ul style="padding-left: 1rem ; margin:0">
-                            <li>Selected private AC vehicle for pick up & drop and sightseeing</li>
-                            <li>Selected category hotel for accommodation (not applicable for 1-day trips)</li>
-                            <li>Home pick up and drop (Optional - Need to be communicated while booking)</li>
-                            <li>Meal Plan for Hotel : Breakfast</li>
-                            <li>Parking/Toll/ Driver Bata/ Fuel cost/Inter state taxes</li>
-
-
-                        </ul>
-
+                        {!! $parameters[25]->par_value !!}
+                        
                         <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Exclusions </h5>
-                        <ul style="padding-left: 1rem ; margin:0">
-                            <li>Early check in and late checkout charges will be applicable (depending upon hotel)
-                                on Day 1 with additional cost.</li>
-                            <li> Local Guide, Entrance fees, Jeep charges for mountain peaks & Safari charges</li>
-                            <li>Meals other than mentioned (Lunch & Dinner) and any beverages. If dinner
-                                required it will cost Rs. 650 per head per time.
-                            </li>
-                            <li>Items of personal nature viz. tips, laundry, travel insurance, camera fees, etc.</li>
-                            <li>Cost of airfare/ train fare.</li>
-                            <li>Hotel Gala dinner charges in the event of Christmas and New year eve.</li>
-                            <li> Anything not specifically mentioned in the inclusion section.</li>
-                            <li>Within 07 KM's (From our location - Rajajinagar 6th Block) complimentary home
-                                pick up and drop services will be provided. Anything above than this will have extra
-                                charges.</li>
-
-
-                        </ul>
+                        {!! $parameters[26]->par_value !!}
+                        
                         <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Cancellation Charges  </h5>
-                        <ul style="padding-left: 1rem ; margin:0; page-break-inside: avoid;">
-                            <li>16 day or more before the journey:25% deduction on package cost </li>
-                            <li>14 day or more before the journey:50% deduction on package cost</li>
-                            <li>7 to 14 days before the journey: 75% deduction on package cost</li>
-                            <li>1 to 6 days before the journey: Non-refundable on package cost</li>
-
-
-                        </ul>
+                            {!! $parameters[29]->par_value !!}
                         <div style="page-break-inside: avoid;">
-
                             <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Refunds
                             </h5>
-                            <ul style="padding-left: 1rem ; margin:0; ">
-                               <li>All refunds are processed with 7 working days</li>
-    
-                            </ul>
+                            {!! $parameters[30]->par_value !!}
                         </div>
                         <div style="page-break-inside: avoid;">
-
                             <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Bank Account
                             </h5>
-                            <ul style="padding-left: 1rem ; margin:0">
-                               <li>Bank name - Kotak Mahindra Bank</li>
-                               <li>Account name - My Holiday Happiness</li>
-                               <li>Account number - 9886 52 52 53</li>
-                               <li>Account type - Current</li>
-                               <li>IFSC Code - KKBK0008078 (Rajajinagar)</li>
-    
-                            </ul>
+                            {!! $parameters[31]->par_value !!}
                         </div>
                         <div style="page-break-inside: avoid;">
 
                             <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">UPI (Google Pay/BHIM/UPI/PhonePe)
                             </h5>
-                            <ul style="padding-left: 1rem ; margin:0">
-                               <li>UPI ID - myholidayhappiness2018@ybl</li>
-                               <li>PhonePe - 9886525253</li>
-                               <li>Google Pay - 9886525253</li>
-                               
-    
-                            </ul>
+                            {!! $parameters[32]->par_value !!}
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td style="padding-top: 20px;">Please read our company reviews by clicking the link - <span style="color: #ff0000;">My Holiday Happiness reviews</span>
+                    <td style="padding-top: 20px;">Please read our company reviews by clicking the link - <a style="text-decoration-color: #ff0000;" href="https://www.google.com/search?q=my+holiday+happiness&oq=My+ho&aqs=chrome.0.69i59j69i57j69i60l2j69i59l2.1246j0j7&sourceid=chrome&ie=UTF-8#lrd=0x3bae3f2ed2301e45:0x89e7ba8485a43c37,1,,," target="_blank"><span style="color: #ff0000;">My Holiday Happiness reviews</span></a>
                     </td>
                 </tr>
             </tbody>
@@ -284,9 +271,6 @@
                 </tr>
             </tfoot>
         </table>
-
     </div>
-
 </body>
-
 </html>

@@ -109,7 +109,7 @@ Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('we
 //HomePage
 
 //Tour Routing
-Route::get('/tour', [TourController::class, 'allTourPackages'])->name('website.allTourPackages');
+Route::get('/coorg-tour-packages', [TourController::class, 'allTourPackages'])->name('website.allTourPackages');
 Route::get('/place-package/{slug}', [TourController::class, 'allTourPlacePackages'])->name('website.allTourPlacePackages');
 Route::get('tour/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
 Route::post('/submit-inquiry', [TourController::class, 'submitInquiry'])->name('website.packageinquiry');
@@ -126,7 +126,7 @@ Route::get('/get-popular-tours', [DestinationsController::class, 'popularTourDat
 //Destination Routing
 
 //Place routing
-Route::get('Coorg/{slug}', [PlaceController::class, 'index'])->name('website.neardestination');
+Route::get('coorg/{slug}', [PlaceController::class, 'index'])->name('website.neardestination');
 Route::get('/get-popular-tours-places', [PlaceController::class, 'popularTourDataPlaces'])->name('website.popularTourDataPlaces');
 Route::get('/get-popular-places-data', [PlaceController::class, 'allPlacesDataAsPerDestination'])->name('website.allPlacesDataAsPerDestination');
 Route::get('/popular-tour-places', [PlaceController::class, 'popularTourPlaces'])->name('website.popularTourPlaces');
@@ -443,6 +443,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getPackageAccommodations/{id}', [PackagePdfController::class, 'getPackageAccommodations'])->name('admin.generatePackageDoc.getPackageAccommodations');
     Route::get('/getAccommodation', [PackagePdfController::class, 'getAccommodation'])->name('admin.generatePackageDoc.getAccommodation');
     Route::match(['get', 'post'], '/generatePDF', [PackagePdfController::class, 'generatePDF'])->name('admin.generatePackageDoc.generatePDF');
+    Route::match(['get', 'post'], '/generateDoc', [PackagePdfController::class, 'generateDoc'])->name('admin.generatePackageDoc.generateDoc');
     
     //Generate pdf or word doc
 });

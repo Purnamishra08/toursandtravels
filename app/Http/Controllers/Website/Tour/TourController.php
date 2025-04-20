@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Storage;
 use DB;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 class TourController extends Controller
 {
@@ -330,10 +333,7 @@ class TourController extends Controller
             ->where('bit_Deleted_Flag', 0)
             ->orderby('faq_order','ASC')
             ->get();
-// dd($tourFaqs);
-        
-        // dd($hotel_typeids,$hotel_typeid,
-        //     $hotelsTypeDropDown);
+
         return view('website.tourdetails', [
             'tours' => $tour,
             'meta_title' => $tour->meta_title,
@@ -361,16 +361,28 @@ class TourController extends Controller
             'tourFaqs'=>$tourFaqs
         ]);
     }
-
-
+    
     public function submitInquiry(Request $request)
     {
-        $type=0;
-        if($request->has('type')){
-            $type=1;
-        }else{
-            $type=2;
+        $type = $request->has('type') ? 1 : 2;
+
+        if($type==2){
+            // Recaptcha verification
+            $recaptchaResponse = $request->input('g-recaptcha-response');
+            $googleResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret'   => env('GOOGLE_RECAPTCHA_SECRET_KEY'),
+                'response' => $recaptchaResponse,
+            ]);
+
+            if (!$googleResponse->json('success')) {
+                return response()->json([
+                    'errors' => ['recaptcha' => ['Captcha validation failed. Please try again.']]
+                ], 422);
+            }
         }
+        
+
+        // Validation
         $request->validate([
             'first_name' => 'required|string|max:200',
             'last_name' => 'nullable|string|max:200',
@@ -382,23 +394,109 @@ class TourController extends Controller
             'travel_date' => 'required',
             'accommodation' => 'nullable|integer',
         ]);
-        DB::table('tbl_package_inquiry')->insert([
-            'type'           => $type,
-            'first_name'     => $request->first_name,
-            'last_name'      => $request->last_name,
-            'emailid'        => $request->email,
-            'phone'          => $request->mobile,
-            'message'        => $request->message,
-            'noof_adult'     => $request->adult_count,
-            'noof_child'     => $request->child_count,
-            'tour_date'      => date('Y-m-d', strtotime(str_replace('/', '-', $request->travel_date))),
-            'accomodation'   => $request->accommodation,
-            'packageid'      => $request->package_id,
-            'inquiry_date'   => now(),
-            'bit_Deleted_Flag' => 0,
-        ]);
 
-        return redirect()->back()->with('success', 'Thank you! Your enquiry has been submitted.');
+        DB::beginTransaction();
+
+        try {
+            // Insert into DB
+            DB::table('tbl_package_inquiry')->insert([
+                'type'             => $type,
+                'first_name'       => $request->first_name,
+                'last_name'        => $request->last_name,
+                'emailid'          => $request->email,
+                'phone'            => $request->mobile,
+                'message'          => $request->message,
+                'noof_adult'       => $request->adult_count,
+                'noof_child'       => $request->child_count,
+                'tour_date'        => date('Y-m-d', strtotime(str_replace('/', '-', $request->travel_date))),
+                'accomodation'     => $request->accommodation,
+                'packageid'        => $request->package_id,
+                'inquiry_date'     => now(),
+                'bit_Deleted_Flag' => 0,
+            ]);
+
+            // Get email parameters
+            $parameters = DB::table('tbl_parameters')
+                ->select('parameter', 'par_value', 'parid')
+                ->where('param_type', 'CS')
+                ->where('status', 1)
+                ->where('bit_Deleted_Flag', 0)
+                ->get();
+
+            $fromEmail = $parameters->firstWhere('parid', 9)->par_value ?? null;
+            $toEmail = $parameters->firstWhere('parid', 2)->par_value ?? null;
+
+            // Fetch package and accommodation names
+            $package = DB::table('tbl_tourpackages')->select('tpackage_name','tpackage_url')->where('tourpackageid', $request->package_id)->first();
+            $accommodation = DB::table('tbl_hotel_type')->select('hotel_type_name')->where('hotel_type_id', $request->accommodation)->first();
+
+            $tourName = $package->tpackage_name ?? 'N/A';
+            $tourUrl = route('website.tourDetails', ['slug' => $package->tpackage_url]); // assuming $package is available
+            $accommodationName = $accommodation->hotel_type_name ?? 'N/A';
+            $userEmail = $request->email;
+            $logoUrl = asset('assets/img/logo.png');
+
+            // Prepare user email
+            $userMessage = '
+            <div style="font-family: Arial, sans-serif; border:1px solid #eee; padding:20px; max-width:600px; margin:auto;">
+                <div style="text-align:center; margin-bottom:20px;">
+                    <a href="'.url('/').'"><img src="' . $logoUrl . '" alt="My Holiday Happiness Logo" style="max-height:80px;"></a>
+                </div>
+                <h2 style="color:#0d6efd;">Greetings from My Holiday Happiness (MHH)</h2>
+                <p>Dear ' . $request->first_name . ',</p>
+                <p>Thank you for reaching out to us. We’re pleased to inform you that we have received your ' . ($type == 1 ? 'booking' : 'itinerary') . ' enquiry.</p>
+                <p>One of our travel executives will review your request and share the complete details of your travel plan within the next 6–8 hours.</p>
+                <p><strong>Tour Name:</strong> ' . $tourName . '</p>
+                <p><strong>Accommodation:</strong> ' . $accommodationName . '</p>
+                <p>For urgent assistance, feel free to call us at <strong>+91 98865 25253</strong>.</p>
+                <br>
+                <p>Warm regards,<br><strong>Team My Holiday Happiness</strong></p>
+            </div>';
+
+            // Prepare admin email
+            $adminMessage = '
+            <div style="font-family: Arial, sans-serif; border:1px solid #eee; padding:20px; max-width:600px; margin:auto;">
+                <div style="text-align:center; margin-bottom:20px;">
+                    <img src="' . $logoUrl . '" alt="MHH Logo" style="max-height:80px;">
+                </div>
+                <h3 style="color:#dc3545;">New ' . ($type == 1 ? 'Booking' : 'Itinerary') . ' Enquiry Received</h3>
+                <p><strong>Name:</strong> ' . $request->first_name . ' ' . $request->last_name . '</p>
+                <p><strong>Email:</strong> ' . $userEmail . '</p>
+                <p><strong>Mobile:</strong> ' . $request->mobile . '</p>
+                <p><strong>Adults:</strong> ' . $request->adult_count . '</p>
+                <p><strong>Children:</strong> ' . $request->child_count . '</p>
+                <p><strong>Travel Date:</strong> ' . $request->travel_date . '</p>
+                <p><strong>Accommodation:</strong> ' . $accommodationName . '</p>
+                <p><strong>Tour Package:</strong> <a href="' . $tourUrl . '" target="_blank" style="color:#0d6efd; text-decoration:none;">' . $tourName . '</a></p>
+                <p><strong>Message:</strong><br>' . nl2br($request->message) . '</p>
+                <br>
+                <p>-- End of Enquiry --</p>
+            </div>';
+
+            // Send emails
+            if ($userEmail && $fromEmail) {
+                Mail::send([], [], function ($message) use ($userEmail, $userMessage, $fromEmail) {
+                    $message->to($userEmail)
+                        ->from($fromEmail, 'My Holiday Happiness')
+                        ->subject('Thank you for your enquiry – My Holiday Happiness')
+                        ->html($userMessage, 'text/html');
+                });
+            }
+
+            Mail::send([], [], function ($message) use ($toEmail, $adminMessage,$type) {
+                $message->to($toEmail)
+                    ->subject('New Tour ' . ($type == 1 ? 'Booking' : 'Itinerary') . ' Enquiry Received')
+                    ->html($adminMessage, 'text/html');
+            });
+
+            DB::commit();
+
+            return response()->json(['success' => true, 'message' => 'Enquiry submitted successfully.']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Enquiry failed: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'An error occurred while submitting the enquiry. Please try again later.'], 500);
+        }
     }
 
 }
