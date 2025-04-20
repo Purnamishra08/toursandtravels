@@ -21,7 +21,7 @@
     <section>
         <div class="container">
             <div class="page-section">
-                {!! $privacyPolicy->page_content !!}
+                {!! isset($privacyPolicy) ? $privacyPolicy->page_content : '' !!}
             </div>
         </div>
 

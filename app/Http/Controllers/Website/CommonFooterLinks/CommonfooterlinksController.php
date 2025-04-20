@@ -12,22 +12,16 @@ use Illuminate\Validation\Rule;
 
 class CommonfooterlinksController extends Controller{
     public function index(Request $request){
-        $parameters =  DB::table('tbl_parameters')
-        ->select('parameter', 'par_value', 'parid')
-        ->where('param_type', 'CS')
-        ->where('status', 1)
-        ->where('bit_Deleted_Flag', 0)
-        ->get();
-
-        $meta_title         =  isset($parameters) ? $parameters[10]->par_value : '';
-        $meta_keywords      =  isset($parameters) ? $parameters[11]->par_value : '';
-        $meta_description   =  isset($parameters) ? $parameters[12]->par_value : '';
-
         $privacyPolicy = DB::table('tbl_contents')
-                        ->select('page_name','page_content')
+                        ->select('page_name','page_content','seo_title','seo_description','seo_keywords')
                         ->where('content_id', 15)
                         ->where('bit_Deleted_Flag', 0)
                         ->first();
+
+        $meta_title         =  isset($privacyPolicy) ? $privacyPolicy->seo_title : '';
+        $meta_keywords      =  isset($privacyPolicy) ? $privacyPolicy->seo_keywords : '';
+        $meta_description   =  isset($privacyPolicy) ? $privacyPolicy->seo_description : '';
+
         return view('website.privacy-policy', ['privacyPolicy' => $privacyPolicy])->with([
             'meta_title' => $meta_title,
             'meta_description' => $meta_description,
@@ -36,22 +30,16 @@ class CommonfooterlinksController extends Controller{
     }
 
     public function bookingpolicy(Request $request){
-        $parameters =  DB::table('tbl_parameters')
-        ->select('parameter', 'par_value', 'parid')
-        ->where('param_type', 'CS')
-        ->where('status', 1)
-        ->where('bit_Deleted_Flag', 0)
-        ->get();
-
-        $meta_title         =  isset($parameters) ? $parameters[10]->par_value : '';
-        $meta_keywords      =  isset($parameters) ? $parameters[11]->par_value : '';
-        $meta_description   =  isset($parameters) ? $parameters[12]->par_value : '';
-
         $bookingPolicy = DB::table('tbl_contents')
-        ->select('page_name','page_content')
+        ->select('page_name','page_content','seo_title','seo_description','seo_keywords')
         ->where('content_id', 17)
         ->where('bit_Deleted_Flag', 0)
         ->first();
+
+        $meta_title         =  isset($bookingPolicy) ? $bookingPolicy->seo_title : '';
+        $meta_keywords      =  isset($bookingPolicy) ? $bookingPolicy->seo_keywords : '';
+        $meta_description   =  isset($bookingPolicy) ? $bookingPolicy->seo_description : '';
+
         return view('website.booking-policy', ['bookingPolicy' => $bookingPolicy])->with([
             'meta_title' => $meta_title,
             'meta_description' => $meta_description,
@@ -60,22 +48,17 @@ class CommonfooterlinksController extends Controller{
     }
 
     public function termsConditions(Request $request){
-        $parameters =  DB::table('tbl_parameters')
-        ->select('parameter', 'par_value', 'parid')
-        ->where('param_type', 'CS')
-        ->where('status', 1)
-        ->where('bit_Deleted_Flag', 0)
-        ->get();
-
-        $meta_title         =  isset($parameters) ? $parameters[10]->par_value : '';
-        $meta_keywords      =  isset($parameters) ? $parameters[11]->par_value : '';
-        $meta_description   =  isset($parameters) ? $parameters[12]->par_value : '';
 
         $termsConditions = DB::table('tbl_contents')
-        ->select('page_name','page_content')
+        ->select('page_name','page_content','seo_title','seo_description','seo_keywords')
         ->where('content_id', 16)
         ->where('bit_Deleted_Flag', 0)
         ->first();
+
+        $meta_title         =  isset($termsConditions) ? $termsConditions->seo_title : '';
+        $meta_keywords      =  isset($termsConditions) ? $termsConditions->seo_keywords : '';
+        $meta_description   =  isset($termsConditions) ? $termsConditions->seo_description : '';
+
         return view('website.term-condition', ['termsConditions' => $termsConditions])->with([
             'meta_title' => $meta_title,
             'meta_description' => $meta_description,

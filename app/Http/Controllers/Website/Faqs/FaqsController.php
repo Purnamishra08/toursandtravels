@@ -42,9 +42,15 @@ class FaqsController extends Controller{
         ->where('bit_Deleted_Flag', 0)
         ->get();
 
-        $meta_title         =  'Frequently asked questions related to bookking with My Holiday Happiness';
-        $meta_keywords      =  '';
-        $meta_description   =  'Frequently asked questions related to bookking are answered. Any questions related to booking contact us.';
+        $faqmeta = DB::table('tbl_contents')
+                        ->select('page_name','page_content','seo_title','seo_description','seo_keywords')
+                        ->where('content_id', 6)
+                        ->where('bit_Deleted_Flag', 0)
+                        ->first();
+
+        $meta_title         =  isset($faqmeta) ? $faqmeta->seo_title : '';
+        $meta_keywords      =  isset($faqmeta) ? $faqmeta->seo_keywords : '';
+        $meta_description   =  isset($faqmeta) ? $faqmeta->seo_description : '';
 
         return view('website.faq', ['faqData' => $faqData, 'parameters' => $parameters, 'placesData' => $placesData])->with([
             'meta_title' => $meta_title,

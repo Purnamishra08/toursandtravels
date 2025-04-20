@@ -59,7 +59,7 @@
                     <div class="about-statistics">
                         <ul class="d-flex justify-content-between align-items-center w-100 mt-3">
                             <li>
-                                <h2 class="mb-1">5k</h2>
+                                <h2 class="mb-1">6k</h2>
                                 <p class="text-secondary">Happy Traveler</p>
                             </li>
                             <li>
@@ -87,7 +87,8 @@
     </section>
     <section class="bg-light">
         <div class="container">
-        <div class=" highlight-para">
+            {!! isset($aboutus) ? $aboutus->page_content: '' !!}
+            <!-- <div class=" highlight-para">
             <h4 class="mb-2">Our Motto</h4>
             <p>"Your Happiness is our Happiness" <br>
                 Customer satisfaction is our topmost priority. We at My Holiday Happiness direct all our efforts, hardwork and resources towards fulfilling our motto of satisfying our loyal customers. We closely work towards satisfying the expectations that our customers have with their vacation. </p>
@@ -104,7 +105,7 @@
             <p>"Your Happiness is our Happiness" <br>
                 Customer satisfaction is our topmost priority. We at My Holiday Happiness direct all our efforts, hardwork and resources towards fulfilling our motto of satisfying our loyal customers. We closely work towards satisfying the expectations that our customers have with their vacation. </p>
 
-            </div>
+            </div> -->
         </div>
     </section>
  
@@ -113,147 +114,48 @@
             <div class="section-title-container wow animate__fadeInUp  "  data-wow-delay="200ms">
                 <div>
                     
-                    <h2 class="section-title">Explore Our Most Popular Tour</h2>
+                    <h2 class="section-title">Explore Our Most Popular {{isset($placesData) ? $placesData->destination_name : ''}} Tour Packages</h2>
                 </div>
-                <a href="#" class=" btn btn-outline-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                <a href="{{route('website.allTourPackages')}}" target="_blank" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
             </div>
-            <div class="card-wrapper">
-                <div class="card tour-card">
-
-                    <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-2.png') }}" alt="img">
-                    <div class="card-body">
-                        <p class="card-lavel">
-                            <i class="bi bi-clock"></i> <span>5 Day &amp; 6 night</span>
-                        </p>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating">
-                            <span class="text-secondary">8.0 Superb</span>
-                        </div>
-                        <h5 class="card-title">Etiam placerat dictum consequat an Pellentesque habitant morbi.</h5>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-
-                            <div class="p-card-info">
-                                <span>From</span>
-                                <h6>$91.00 <span>Per Person</span></h6>
-                            </div>
-                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card tour-card">
-
-                    <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-21.png') }}" alt="img">
-                    <div class="card-body">
-                        <p class="card-lavel">
-                            <i class="bi bi-clock"></i> <span>5 Day &amp; 6 night</span>
-                        </p>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating">
-                            <span class="text-secondary">8.0 Superb</span>
-                        </div>
-                        <h5 class="card-title">Etiam placerat dictum consequat an Pellentesque habitant morbi.</h5>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-
-                            <div class="p-card-info">
-                                <span>From</span>
-                                <h6>$91.00 <span>Per Person</span></h6>
-                            </div>
-                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card tour-card">
-
-                    <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-22.png') }}" alt="img">
-                    <div class="card-body">
-                        <p class="card-lavel">
-                            <i class="bi bi-clock"></i> <span>5 Day &amp; 6 night</span>
-                        </p>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating">
-                            <span class="text-secondary">8.0 Superb</span>
-                        </div>
-                        <h5 class="card-title">Etiam placerat dictum consequat an Pellentesque habitant morbi.</h5>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-
-                            <div class="p-card-info">
-                                <span>From</span>
-                                <h6>$91.00 <span>Per Person</span></h6>
-                            </div>
-                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card tour-card">
-
-                    <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-23.png') }}" alt="img">
-                    <div class="card-body">
-                        <p class="card-lavel">
-                            <i class="bi bi-clock"></i> <span>5 Day &amp; 6 night</span>
-                        </p>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating">
-                            <span class="text-secondary">8.0 Superb</span>
-                        </div>
-                        <h5 class="card-title">Etiam placerat dictum consequat an Pellentesque habitant morbi.</h5>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-
-                            <div class="p-card-info">
-                                <span>From</span>
-                                <h6>$91.00 <span>Per Person</span></h6>
-                            </div>
-                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card tour-card">
-
-                    <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-24.png') }}" alt="img">
-                    <div class="card-body">
-                        <p class="card-lavel">
-                            <i class="bi bi-clock"></i> <span>5 Day &amp; 6 night</span>
-                        </p>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating">
-                            <span class="text-secondary">8.0 Superb</span>
-                        </div>
-                        <h5 class="card-title">Etiam placerat dictum consequat an Pellentesque habitant morbi.</h5>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-
-                            <div class="p-card-info">
-                                <span>From</span>
-                                <h6>$91.00 <span>Per Person</span></h6>
-                            </div>
-                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card tour-card">
-
-                    <img class="card-img-top" src="{{ asset('assets/img/web-img/tour-img-25.png') }}" alt="img">
-                    <div class="card-body">
-                        <p class="card-lavel">
-                            <i class="bi bi-clock"></i> <span>5 Day &amp; 6 night</span>
-                        </p>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <img src="{{ asset('assets/img/web-img/single-star.png') }}" alt="Rating">
-                            <span class="text-secondary">8.0 Superb</span>
-                        </div>
-                        <h5 class="card-title">Etiam placerat dictum consequat an Pellentesque habitant morbi.</h5>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-
-                            <div class="p-card-info">
-                                <span>From</span>
-                                <h6>$91.00 <span>Per Person</span></h6>
-                            </div>
-                            <a href="../tourdetails" class="btn btn-outline-primary">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                        </div>
-                    </div>
-                </div>
-           
+            <div class="card-wrapper" id="allTour">
             </div>
         </div>
     </section>
    
 </div>
 @include('website.include.webfooter')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+    crossorigin="anonymous"></script>
+<script>
+    let page = 1;
+    let isLoading = false;
+    let finished = false;
+    function loadPopularTourData(page) {
+        if (finished) return;
+        $.ajax({
+            url: "{{ route('website.popularTourData') }}?page=" + page,
+            type: "get",
+            beforeSend: function() {
+                $('.ajax-load').show();
+            }
+        }).done(function(data) {
+            if (data.trim().length == 0) {
+                $('.ajax-load').html("<p>No more records found</p>");
+                finished = true;
+                return;
+            }
+            $('.ajax-load').hide();
+            $('#allTour').append(data);
+            isLoading = false;
+        }).fail(function() {
+            console.log("Server error");
+            $('.ajax-load').hide();
+        });
+    }
+    $(document).ready(function() {
+        loadPopularTourData(true);
+    });
+</script>

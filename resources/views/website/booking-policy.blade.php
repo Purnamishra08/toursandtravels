@@ -21,7 +21,7 @@
     <section>
         <div class="container">
             <div class="page-section " >
-                {!! $bookingPolicy->page_content !!}
+                {!! isset($bookingPolicy) ? $bookingPolicy->page_content : '' !!}
             </div>
         </div>
 
