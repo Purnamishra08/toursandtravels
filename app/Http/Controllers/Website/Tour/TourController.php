@@ -16,7 +16,11 @@ class TourController extends Controller
 {
     public function allTourPackages(Request $request){
 
-        $tours = DB::table('tbl_tourpackages as a')
+        $tourPageData = DB::table('tbl_menutags')
+            ->where('bit_Deleted_Flag', 0)
+            ->where('status', 1)
+            ->first();
+            $tours = DB::table('tbl_tourpackages as a')
                     ->join('tbl_destination as b', 'a.starting_city', '=', 'b.destination_id')
                     ->join('tbl_package_duration as c', 'a.package_duration', '=', 'c.durationid')
                     ->select(
@@ -30,53 +34,125 @@ class TourController extends Controller
                         'a.alttag_thumb',
                         'a.ratings',
                         'a.pack_type',
+                        'b.destination_id',
                         'b.destination_name',
                         'c.duration_name',
                     )
                     ->where('a.bit_Deleted_Flag', 0)
                     // ->where('a.pack_type', 15)
-                    ->where('a.status', 1)
-                    ->get();
+                    ->where('a.status', 1);
+
+        // Apply filters
+        if ($request->has('durations') && is_array($request->durations)) {
+            $tours->whereIn('a.package_duration', $request->durations);
+        }
+
+        if ($request->has('startingCities') && is_array($request->startingCities)) {
+            $tours->whereIn('a.starting_city', $request->startingCities);
+        }
+
+        $tours = $tours->get();
+
+        $durations = DB::table('tbl_package_duration')
+            ->select('durationid','duration_name')
+            ->where('bit_Deleted_Flag', 0)
+            ->where('status', 1)
+            ->get();
+
+        $destinations = DB::table('tbl_destination')
+            ->select('destination_id','destination_name')
+            ->where('bit_Deleted_Flag', 0)
+            ->where('status', 1)
+            ->get();
 
         if ($request->ajax()) {
             $html = '';
             foreach ($tours as $values) {
 
-                
+                $hotelType = DB::table('tbl_hotel as a')->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')->select('b.hotel_type_name')->where('a.destination_name', $values->destination_id)->where('a.status',1)->where('a.bit_Deleted_Flag',0)->orderbydesc('hotel_type')->first();
+                $hotelType = !empty($hotelType->hotel_type_name) ? $hotelType->hotel_type_name : "No Hotel";
+
+                $itinerary = DB::table('tbl_itinerary_daywise')
+                    ->where('package_id', $values->tourpackageid)
+                    ->where('bit_Deleted_Flag', 0)
+                    ->get();
+                    $placeIds = $itinerary->pluck('place_id')
+                    ->flatMap(fn ($ids) => explode(',', $ids))
+                    ->unique()
+                    ->filter();
+                    
+                    $places = DB::table('tbl_places')
+                    ->whereIn('placeid', $placeIds)
+                    ->where('status', 1)
+                    ->where('bit_Deleted_Flag', 0)
+                    ->get()
+                    ->keyBy('placeid');
+
                 $html .= '
-                <div class="card tour-card">
-                    <img class="card-img-top" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">';
+                <div class="card tour-listing-card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4 col-lg-4">
+                            <img class="place-img" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">
+                        </div>
+                    <div class="col-md-8 col-lg-8">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-item-center flex-wrap">
+                                <h5 class="card-title">'.$values->tpackage_name.'</h5>
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <img src="' . asset('assets/img/web-img/single-star.png') . '" alt="Rating">
+                                    <span class="text-secondary">'.$values->ratings.' Star</span>
+                                </div>';
                     if($values->pack_type==15){
                         $html.='<span class="badge">Most popular</span>';
                     }
-                    $html.='<div class="card-body">
-                    <p class="card-lavel">
-                        <i class="bi bi-clock"></i> '.str_replace('/', '&', $values->duration_name).'</span>
-                        <small class="d-block">Ex- '.$values->destination_name.'</small>
-                    </p>
                     
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <img src="' . asset('assets/img/web-img/single-star.png') . '" alt="Rating">
-                        <span class="text-secondary">'.$values->ratings.' Star</span>
-                    </div>
-                    <h5 class="card-title">'.$values->tpackage_name.'</h5>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
+                    $html.='</div>
+                        <p class="card-text mb-2">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <ul class="m-0 d-flex gx-3 gy-2 flex-wrap text-secondary mb-3">
+                            <li><i class="bi bi-clock me-1"></i> '.str_replace('/', '&', $values->duration_name).' </li>
+                            <li> <i class="bi bi-geo-alt me-1"></i>Ex- '.$values->destination_name.'</li>
+                            <li><i class="bi bi-house me-1"></i>'.$hotelType.'</li>
+                            <!--<li><i class="bi bi-signpost-split me-1"></i> Adventure</li> -->
+                        </ul>
+                        <div class="d-flex gap-3 mb-3 align-items-center">
+                            <span class="title"> <i class="bi bi-geo-alt me-1"></i>Places:</span>
+                            <ul class="m-0 d-flex gx-3 gy-2 flex-wrap text-secondary">';
+                            if(count($places)>0){
+                            foreach ($places as $value) {
+                               $html.=' <li class="light-badge"> '.$value->place_name.' </li>';
 
-                        <div class="p-card-info">
-                        
-                            
-                            <h6 class="mb-0"><span>₹ </span>'.$values->price.' </h6>
-                            <strike >₹ '.$values->fakeprice.'</strike>
+                            }
+                        }
+                           $html.=' </ul>
                         </div>
-                        <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <!--<div class="d-flex gap-3 mb-3 align-items-center">
+                            <span class="title"><i class="bi bi-activity me-1"></i> Activity</span>
+                            <ul class="m-0 d-flex gx-3 gy-2 flex-wrap text-secondary">
+                                <li class="primary-badge">
+                                    Trekking or Hiking
+                                </li>
+                                <li class="primary-badge">River Rafting</li>
+                                <li class="primary-badge"><i class="bi bi-home"></i> Ziplining</li>
+                                <li class="primary-badge"><i class="bi bi-signpost-split"></i> Scuba Diving / Snorkeling</li>
+                            </ul>
+                        </div>-->
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="p-card-info">
+                                <h6 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h6>
+                                <strike>₹ '.(int)$values->fakeprice.'</strike>
+                            </div>
+                            <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        </div>
                     </div>
                 </div>
-            </div>';
-            }
+            </div>
+        </div>';
+        }
             return $html;
         }
-        return view('website.tourlisting');
+        return view('website.tourlisting',['tourPageData'=>$tourPageData,'meta_title'=>$tourPageData->meta_title,'meta_keywords'=>$tourPageData->meta_keywords,'meta_description'=>$tourPageData->meta_description,'durations'=>$durations,'destinations'=>$destinations]);
     }
+
     public function allTourPlacePackages($slug){
         $placesData = DB::table('tbl_places')
         ->select('placeid','place_name','pckg_meta_title','pckg_meta_keywords','pckg_meta_description')
@@ -496,6 +572,77 @@ class TourController extends Controller
             DB::rollBack();
             Log::error('Enquiry failed: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'An error occurred while submitting the enquiry. Please try again later.'], 500);
+        }
+    }
+
+    public function clientReviews(Request $request)
+    {
+        $reviews = DB::table('tbl_reviews as r')
+            ->leftJoin('tbl_menutags as t', DB::raw('FIND_IN_SET(t.tagid, r.tourtagid)'), '>', DB::raw('0'))
+            ->select(
+                'r.review_id',
+                'r.tourtagid',
+                'r.reviewer_name',
+                'r.reviewer_loc',
+                'r.no_of_star',
+                'r.feedback_msg',
+                'r.status',
+                'r.updated_date',
+                DB::raw("GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name SEPARATOR ', ') AS tag_name")
+            )
+            ->where('r.bit_Deleted_Flag', 0)
+            ->where('r.status', 1)
+            ->orderBy('r.review_id', 'DESC')
+            ->groupBy('r.review_id', 'r.tourtagid', 'r.reviewer_name', 'r.reviewer_loc', 'r.no_of_star', 'r.feedback_msg', 'r.status', 'r.updated_date')
+            // ->limit(6)
+            ->get();
+
+        if ($request->ajax()) {
+            $html = '';
+            foreach ($reviews as $values) {
+
+                // Star rating generation
+                $fullStars = floor($values->no_of_star);
+                $halfStar = (fmod($values->no_of_star, 1) != 0.00) ? 1 : 0;
+                $emptyStars = 5 - ($fullStars + $halfStar);
+
+                $starsHtml = '';
+                for ($i = 0; $i < $fullStars; $i++) {
+                    $starsHtml .= '<i class="fa fa-star text-warning"></i> ';
+                }
+                if ($halfStar) {
+                    $starsHtml .= '<i class="fa fa-star-half-stroke text-warning"></i> ';
+                }
+                for ($i = 0; $i < $emptyStars; $i++) {
+                    $starsHtml .= '<i class="fa fa-star text-secondary"></i> ';
+                }
+
+                // Review card HTML
+                $html .= '
+                    <div class="swiper-slide">
+                        <div class="card client-review-card h-100">
+                            <div class="card-body">
+                                <div class="client-details mb-2">
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="bi bi-person-circle"></i>
+                                            <div>
+                                                <p class="client-name">  ' . $values->reviewer_name . '</p>
+                                                <div class="rate">' . $starsHtml . '</div>
+
+                                            </div>
+
+                                            </div>
+                                            <p class="client-location text-secondary"><i class="fa-solid fa-location-dot"></i> ' . $values->reviewer_loc . '</p>
+                                        
+                                        
+                                    
+                                </div>
+                                <p class="clent-message">' . $values->feedback_msg . '</p>
+                            </div>
+                        </div>
+                    </div>';
+            }
+            return $html;
         }
     }
 
