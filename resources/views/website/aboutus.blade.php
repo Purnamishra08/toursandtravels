@@ -59,15 +59,15 @@
                     <div class="about-statistics">
                         <ul class="d-flex justify-content-between align-items-center w-100 mt-3">
                             <li>
-                                <h2 class="mb-1">6k</h2>
+                                <h2 class="mb-1">7k</h2>
                                 <p class="text-secondary">Happy Traveler</p>
                             </li>
                             <li>
-                                <h2 class="mb-1">90.7%</h2>
+                                <h2 class="mb-1">100%</h2>
                                 <p class="text-secondary">Satisfaction Rate</p>
                             </li>
                             <li>
-                                <h2 class="mb-1">500+</h2>
+                                <h2 class="mb-1">5000+</h2>
                                 <p class="text-secondary">Tour Completed</p>
                             </li>
                         </ul>
