@@ -397,16 +397,16 @@ class TourController extends Controller
 
         
         $accommodation_types = DB::table('tbl_hotel as a')
-            ->select(DB::raw('DISTINCT(a.hotel_type) as hotel_type_id'))
-            ->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')
-            ->where('a.status', 1)
-            ->whereIn('a.destination_name', function ($query) use ($tourpackageid) {
-                $query->select('destination_id')
-                    ->from('tbl_package_accomodation')
-                    ->where('package_id', $tourpackageid);
-            })
-            ->orderByDesc('b.hotel_type_name')
-            ->get();
+                ->select(DB::raw('DISTINCT a.hotel_type as hotel_type_id'), 'b.hotel_type_name')
+                ->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')
+                ->where('a.status', 1)
+                ->whereIn('a.destination_name', function ($query) use ($tourpackageid) {
+                    $query->select('destination_id')
+                        ->from('tbl_package_accomodation')
+                        ->where('package_id', $tourpackageid);
+                })
+                ->orderByDesc('b.hotel_type_name')
+                ->get();
 
         $hotel_typeids = [];
         if (!$accommodation_types->isEmpty()) {
@@ -576,17 +576,30 @@ class TourController extends Controller
                 <p><strong>Tour Package:</strong> <a href="' . $tourUrl . '" target="_blank" style="color:#0d6efd; text-decoration:none;">' . $tourName . '</a></p>
                 <p><strong>Message:</strong><br>' . nl2br($request->message) . '</p>
                 <br>
-                <p>-- End of Enquiry --</p>
-            </div>';
+            </div>
+            ';
 
             // Send emails
-            if ($userEmail && $fromEmail) {
-                Mail::send([], [], function ($message) use ($userEmail, $userMessage, $fromEmail) {
-                    $message->to($userEmail)
-                        ->from($fromEmail, 'My Holiday Happiness')
-                        ->subject('Thank you for your enquiry – My Holiday Happiness')
-                        ->html($userMessage, 'text/html');
-                });
+            if ($userEmail) {
+                // Mail::send([], [], function ($message) use ($userEmail, $userMessage, $fromEmail) {
+                //     $message->to($userEmail)
+                //         ->from($fromEmail, 'My Holiday Happiness')
+                //         ->subject('Thank you for your enquiry – My Holiday Happiness')
+                //         ->html($userMessage, 'text/html');
+                // });
+                Mail::send([], [], function ($message) use ($userEmail,$userMessage, $parameters) {
+                        $fromEmail = $parameters->firstWhere('parid', 9)->par_value ?? null;
+                        $toEmail = $userEmail;
+
+                        if (!$fromEmail || !$toEmail) {
+                            throw
+                                new \Exception("Missing email addresses in parameters table.");
+                        }
+                        $message->from(''.$fromEmail.'', 'Coorg Packages');
+                        $message->to(''.$toEmail.'', 'Coorg Packages' );
+                        $message->subject('Thank you for your enquiry – Coorg Packages');
+                        $message->html($userMessage, 'text/html');
+                    });
             }
 
             Mail::send([], [], function ($message) use ($toEmail, $adminMessage,$type) {
