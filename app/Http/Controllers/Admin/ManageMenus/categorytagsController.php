@@ -282,7 +282,7 @@ class CategoryTagsController extends Controller
                     'menutag_img.image'             => 'The Banner image must be an image file.',
                     'menutag_img.mimes'             => 'The Banner image must be in JPEG, PNG, JPG, GIF, or SVG format.',
                     'menutag_img.max'               => 'The Banner image size must not exceed 2MB.',
-                    'menutag_img.dimensions'        => 'The Banner image must be exactly 1920x488 pixels.',
+                    'menutag_img.dimensions'        => 'The Banner image must be exactly 1920x300 pixels.',
                     'menutagthumb_img.image'        => 'The Getaways/Tour image must be an image file.',
                     'menutagthumb_img.mimes'        => 'The Getaways/Tour image must be in JPEG, PNG, JPG, GIF, or SVG format.',
                     'menutagthumb_img.max'          => 'The Getaways/Tour image size must not exceed 1MB.',
