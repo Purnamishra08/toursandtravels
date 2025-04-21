@@ -127,6 +127,14 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="clearfix"></div>
+                                                                <!-- About Package -->
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label>About Package</label>
+                                                                        <textarea rows="4" name="about_package" id="about_package" class="form-control" placeholder="About Package...">{{ old('about_package', $tourPackage->about_package ?? '') }}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
                                                                 <!-- Tour Availability Checkboxes -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">

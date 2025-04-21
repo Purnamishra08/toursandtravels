@@ -29,6 +29,7 @@ class TourController extends Controller
                         'a.tpackage_url',
                         'a.price',
                         'a.fakeprice',
+                        'a.about_package',
                         'a.tpackage_image',
                         'a.tour_thumb',
                         'a.alttag_thumb',
@@ -85,6 +86,7 @@ class TourController extends Controller
                     ->whereIn('placeid', $placeIds)
                     ->where('status', 1)
                     ->where('bit_Deleted_Flag', 0)
+                    ->limit(3)
                     ->get()
                     ->keyBy('placeid');
 
@@ -106,8 +108,11 @@ class TourController extends Controller
                         $html.='<span class="badge">Most popular</span>';
                     }
                     
-                    $html.='</div>
-                        <p class="card-text mb-2">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    $html.='</div>';
+                    if(!empty($values->about_package)){
+                        $html.='<p class="card-text mb-2">'.$values->about_package.'</p>';   
+                    }
+                    $html.='
                         <ul class="m-0 d-flex gx-3 gy-2 flex-wrap text-secondary mb-3">
                             <li><i class="bi bi-clock me-1"></i> '.str_replace('/', '&', $values->duration_name).' </li>
                             <li> <i class="bi bi-geo-alt me-1"></i>Ex- '.$values->destination_name.'</li>

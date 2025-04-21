@@ -719,4 +719,8 @@ ALTER TABLE `myholhq7_coorgpackages`.`tbl_menutags`
 ADD COLUMN `description_tag` TEXT NULL DEFAULT NULL AFTER `about_tag`,
 CHANGE COLUMN `tag_url` `tag_url` VARCHAR(200) NULL DEFAULT NULL AFTER `tag_name`;
 
+ALTER TABLE `myholhq7_coorgpackages`.`tbl_tourpackages`
+ADD COLUMN `about_package` TEXT NULL DEFAULT NULL AFTER `fakeprice`;
+
+
 
