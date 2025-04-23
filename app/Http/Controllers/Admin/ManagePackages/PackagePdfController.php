@@ -143,9 +143,8 @@ class PackagePdfController extends Controller
 
         // Get hotel_type_ids used in this package
         $accommodationTypes = DB::table('tbl_hotel as a')
+            ->select(DB::raw('DISTINCT a.hotel_type as hotel_type_id'), 'b.hotel_type_name')
             ->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')
-            ->distinct()
-            ->select('a.hotel_type as hotel_type_id')
             ->where('a.status', 1)
             ->whereIn('a.destination_name', function($query) use ($packageId) {
                 $query->select('destination_id')
