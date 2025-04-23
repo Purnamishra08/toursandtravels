@@ -344,12 +344,12 @@ class PackagePdfController extends Controller
                     $html .= '<div class="hotel-wrapper mb-2">No hotels available in this destination.</div>';
                 } else {
                     $selCount = 1;
+                    $html .= '<div class="hotel-wrapper mb-1" id="accomodation_result">';
                     foreach ($hotelList as $hotelIndex => $hotel) {
                         $checked = $selCount == 1 ? 'checked' : '';
                         $radioName = 'hotelradio_' . $selCount;
                         $hotelNameCount = 'hotelradio_' . $hotelcount;
 
-                        $html .= '<div class="hotel-wrapper mb-1" id="accomodation_result">';
                         $html .= '<label class="hotel-details-card">';
                         $html .= '<input name="' . $hotelNameCount . '" id="' . $radioName . '"  class="hotel-radio form-check-input" type="radio" value="' . $hotel->hotel_id . '" ' . $checked . '>';
                         $html .= '<div class="card-body plan-details">';
@@ -376,9 +376,9 @@ class PackagePdfController extends Controller
 
                         $html .= '</div>'; // card-body
                         $html .= '</label>';
-                        $html .= '</div>'; // hotel-wrapper
                         $selCount++;
                     }
+                    $html .= '</div>'; // hotel-wrapper
                 }
 
                 if ($index < count($accommodations) - 1) {
