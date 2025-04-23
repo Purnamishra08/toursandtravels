@@ -3,14 +3,14 @@
 
 <div class="breadcrumb-section" style="background-image: url('{{ asset('storage/destination_images/' . $destinationData->destiimg) }}');">
     <div class="container">
-        <h1 class="page-name">{{$destinationData->destination_name}} </h1>
+        <h1 class="page-name">{{isset($destinationData) ? $destinationData->destination_name : ''}} </h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
                 <a href="{{route('website.home')}}" class="breadcrumb-link"><i class="bi bi-house"></i></a>
             </li>
 
             <li class="breadcrumb-item">
-                <a href="{{route('website.destinationdetails', ['slug' => $destinationData->destination_url])}}" class="breadcrumb-link active">{{$destinationData->destination_name}} </a>
+                <a href="{{route('website.destinationdetails', ['slug' => $destinationData->destination_url])}}" class="breadcrumb-link active">{{isset($destinationData) ? $destinationData->destination_name : ''}} </a>
             </li>
         </ul>
     </div>
@@ -24,9 +24,9 @@
                     <div class="stickey-section">
 
                         <nav class="navigation " id="mainNav">
-                            <a class="navigation__link active" href="#overview">{{$destinationData->destination_name}} Overview </a>
-                            <a class="navigation__link" href="#topPlace">Top Place to Visit in {{$destinationData->destination_name}}</a>
-                            <a class="navigation__link" href="#tourPackages">{{$destinationData->destination_name}} Tour Pakages </a>
+                            <a class="navigation__link active" href="#overview">{{isset($destinationData) ? $destinationData->destination_name : ''}} Overview </a>
+                            <a class="navigation__link" href="#topPlace">Top Place to Visit in {{isset($destinationData) ? $destinationData->destination_name : ''}}</a>
+                            <a class="navigation__link" href="#tourPackages">{{isset($destinationData) ? $destinationData->destination_name : ''}} Tour Pakages </a>
                             <a class="navigation__link" href="#chetSheet">Essentials Cheat Sheet </a>
                             <a class="navigation__link" href="#map">Getting There </a>
 
@@ -56,10 +56,15 @@
                 </div>
                 <div class="col-xxl-9 col-lg-8">
                     <div class="page-section hero" id="overview">
-                        <h1 class="page-section-heading">{{$destinationData->destination_name}} Overview</h1>
+                        <h1 class="page-section-heading">{{isset($destinationData) ? $destinationData->destination_name : ''}} Overview</h1>
                         @php
-                        $aboutFull = trim($destinationData->about_destination);
-                        $aboutLimit = Str::limit($aboutFull, 1000, ''); // Limit to 250 characters
+                            if(isset($destinationData)){
+                                $aboutFull = trim($destinationData->about_destination);
+                                $aboutLimit = Str::limit($aboutFull, 1000, ''); // Limit to 250 characters
+                            }else{
+                                $aboutFull = '';
+                                $aboutLimit = ''; // Limit to 250 characters
+                            }
                         @endphp
                         <div class="short-text">
                             <p>{!! $aboutLimit !!}...</p>
@@ -71,10 +76,18 @@
                         <div class="d-flex gap-2 align-items-center mt-3 blog-share">
                             <strong>Share :</strong>
                             @php
-                            $facebookLink = $parameters->firstWhere('parid', 29)->par_value ?? '';
-                            $TwiterLink = $parameters->firstWhere('parid', 30)->par_value ?? '';
-                            $LinkedInLink = $parameters->firstWhere('parid', 32)->par_value ?? '';
+                            if(isset($parameters)){
+                                    $facebookLink = $parameters->firstWhere('parid', 29)->par_value ?? '';
+                                    $TwiterLink = $parameters->firstWhere('parid', 30)->par_value ?? '';
+                                    $LinkedInLink = $parameters->firstWhere('parid', 32)->par_value ?? '';
+                                    
+                                }else{
+                                    $facebookLink = '';
+                                    $TwiterLink = '';
+                                    $LinkedInLink = '';
+                                }
                             @endphp
+                            
                             <ul class="d-flex align-items-center gap-1">
                                 <li><a href="{{$facebookLink}}" title="facebook" target="_blank" data-toggle="tooltip"> <i class="bi bi-facebook"></i></a></li>
                                 <li><a href="{{$TwiterLink}}" title="Twitter" target="_blank" data-toggle="tooltip"> <i class="bi bi-twitter-x"></i></a></li>
@@ -101,7 +114,7 @@
                         <button id="view-all-btn" class="btn btn-warning w-100 mt-3">View All</button>
                     </div>
                     <div class="page-section" id="tourPackages">
-                        <h1 class="page-section-heading">{{$destinationData->destination_name}} Tour packages</h1>
+                        <h1 class="page-section-heading">{{isset($destinationData) ? $destinationData->destination_name : ''}} Tour packages</h1>
                         <div class="card-wrapper card-wrapper-sm" id="popular-tour"></div>
                         <a href="{{ route('website.allTourPackages') }}" target="_blank" class="btn btn-warning mt-3 w-100">View All</a>
 
@@ -116,7 +129,7 @@
                                     </div>
                                     <div>
                                         <label class="d-block text-secondary">Ideal Trip Duration</label>
-                                        <strong class="">{{$destinationData->trip_duration}}</strong>
+                                        <strong class="">{{isset($destinationData) ? $destinationData->trip_duration : ''}}</strong>
                                     </div>
                                 </div>
                                 <div class="d-flex  gap-2">
@@ -125,7 +138,7 @@
                                     </div>
                                     <div>
                                         <label class="d-block text-secondary">Nearest City</label>
-                                        <strong class="">{{$destinationData->nearest_city}}</strong>
+                                        <strong class="">{{isset($destinationData) ? $destinationData->nearest_city : ''}}</strong>
                                     </div>
                                 </div>
                                 <div class="d-flex  gap-2">
@@ -134,7 +147,7 @@
                                     </div>
                                     <div>
                                         <label class="d-block text-secondary">Best Time to Visit</label>
-                                        <strong class="">{{$destinationData->visit_time}}</strong>
+                                        <strong class="">{{isset($destinationData) ? $destinationData->visit_time : ''}}</strong>
                                     </div>
                                 </div>
                                 <div class="d-flex  gap-2">
@@ -143,7 +156,7 @@
                                     </div>
                                     <div>
                                         <label class="d-block text-secondary">Peak Season</label>
-                                        <strong class="">{{$destinationData->peak_season}}</strong>
+                                        <strong class="">{{isset($destinationData) ? $destinationData->peak_season : ''}}</strong>
                                     </div>
                                 </div>
                                 <div class="d-flex  gap-2">
@@ -152,7 +165,7 @@
                                     </div>
                                     <div>
                                         <label class="d-block text-secondary">Weather Info</label>
-                                        <strong class="">{{$destinationData->weather_info}}</strong>
+                                        <strong class="">{{isset($destinationData) ? $destinationData->weather_info : ''}}</strong>
                                     </div>
                                 </div>
                                 <div class="d-flex  gap-2">
@@ -207,117 +220,9 @@
                             </div> -->
                         </div>
                     </div>
-                    <!-- <div class="page-section" id="neardestination">
-                        <h1 class="page-section-heading">Near by Destinations</h1>
-                        <div class="near-destination-wrapper">
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Puri</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Konark</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Ramchandi</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Lingaraj</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Dhauli</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Nandankanan</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Khandagiri</h2>
-                            
-                            </div>
-                        </a>
-                        </div>
-                    </div>
-                    <div class="page-section" id="similiardestination">
-                        <h1 class="page-section-heading">Similar Destination</h1>
-                        <div class="near-destination-wrapper">
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Puri</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Konark</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Ramchandi</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Lingaraj</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Dhauli</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Nandankanan</h2>
-                            
-                            </div>
-                        </a>
-                        <a href="#" class="card near-Dcard">
-                            <img src="https://c4.wallpaperflare.com/wallpaper/249/678/415/unesco-world-heritage-site-asia-india-agra-wallpaper-preview.jpg" alt="Card Background">
-                            <div class="overlay">
-                            <h2>Khandagiri</h2>
-                            
-                            </div>
-                        </a>
-                        </div>
-                    </div> -->
                     <div class="page-section" id="map">
                         <h1 class="page-section-heading">Getting There </h1>
-                        {!! $destinationData->google_map !!}
+                        {!! isset($destinationData) ? $destinationData->google_map : '' !!}
                     </div>
 
                 </div>
@@ -344,7 +249,7 @@
         <div class="section-title-container wow animate__fadeInUp" data-wow-delay="200ms" style="visibility: visible; animation-delay: 200ms; animation-name: fadeInUp;">
             <div>
                 <p class="section-title-small">Feature tours</p>
-                <h2 class="section-title-sm"> Most Popular {{$destinationData->destination_name}} Tour Packages</h2>
+                <h2 class="section-title-sm"> Most Popular {{isset($destinationData) ? $destinationData->destination_name : ''}} Tour Packages</h2>
 
             </div>
 
@@ -365,21 +270,23 @@
                     <a href="{{route('website.faqs', ['slug' => 'destination-faqs'])}}" target="_blank" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                 </div>
                 <div class="accordion faq-accordion" id="accordionExample">
-                @foreach($faqData as $faqDatas)
-                    @php $collapseId = 'collapse' . $loop->index; @endphp
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading{{ $loop->index }}">
-                            <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
-                                <h6 class="mb-0">{{ $faqDatas->faq_question }}</h6>
-                            </button>
-                        </h2>
-                        <div id="{{ $collapseId }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                {!! $faqDatas->faq_answer !!}
+                @if(isset($faqData) && !empty($faqData))
+                    @foreach($faqData as $faqDatas)
+                        @php $collapseId = 'collapse' . $loop->index; @endphp
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ $loop->index }}">
+                                <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
+                                    <h6 class="mb-0">{{isset($faqDatas) ? $faqDatas->faq_question : '' }}</h6>
+                                </button>
+                            </h2>
+                            <div id="{{ $collapseId }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    {!! $faqDatas->faq_answer !!}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
                 </div>
             </div>
             <div class="col-lg-6">
@@ -391,6 +298,7 @@
                     <a href="#" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                 </div>
                 <div class="review-wrapper">
+                @if(isset($reviewsData) && !empty($reviewsData))
                     @foreach($reviewsData as $reviews)
                     <div class="card client-review-card h-100">
                         <div class="card-body">
@@ -439,6 +347,7 @@
                             </div>
                         </div>
                     @endforeach
+                @endif
                 </div>
             </div>
         </div>
@@ -454,8 +363,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
-                <h1 class="mb-3">Planning a Trip to {{$destinationData->destination_name}} ?</h1>
-                <a href="{{ route('website.allTourPackages') }}" target="_blank" class="btn btn-warning">{{!empty($total_packages) ? $countAndPrice->total_packages : ''}} {{$countAndPrice->total_packages}} Tours from {{!empty($countAndPrice) ? $countAndPrice->min_price : ''}} </a>
+                <h1 class="mb-3">Planning a Trip to {{isset($destinationData) ? $destinationData->destination_name : ''}} ?</h1>
+                <a href="{{ route('website.allTourPackages') }}" target="_blank" class="btn btn-warning">{{!empty($total_packages) ? $countAndPrice->total_packages : ''}} {{$countAndPrice->total_packages}} Tours found from Rs.{{ !empty($countAndPrice) ? rtrim(rtrim(number_format($countAndPrice->min_price, 2, '.', ''), '0'), '.') : '' }}</a>
                 <a href="{{ route('website.allTourPackages') }}" target="_blank" class="d-block mt-3">Explore & Book Online</a>
             </div>
         </div>

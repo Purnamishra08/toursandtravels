@@ -265,7 +265,7 @@
     function loadPopularTour(page) {
         if (finished) return;
         let slug = "{{ $footers->vch_Footer_URL }}";
-        let pageUrl = `/coorg-packages/tours/${slug}?page=${page}`;
+        let pageUrl = `${slug}?page=${page}`;
         $.ajax({
             url: pageUrl,
             type: "get",
@@ -310,7 +310,7 @@
         let slug = "{{ $footers->vch_Footer_URL }}";
         let pageUrl = `/coorg-packages/tours/${slug}`;
         $.ajax({
-            url: pageUrl,
+            url: slug,
             type: "get",
             data: {
                 durations: durations,
