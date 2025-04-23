@@ -152,7 +152,7 @@ class PlacesController extends Controller
                 'short_desc'          => 'required|string',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1140,height=350',
+                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1900,height=300',
                 'placethumbimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=300',
                 'alttag_banner'       => 'required|string|max:60|unique:tbl_places,alttag_banner',
                 'alttag_thumb'        => 'required|string|max:60|unique:tbl_places,alttag_thumb'
@@ -190,7 +190,7 @@ class PlacesController extends Controller
                     $place_imageName = Str::slug($request->input('alttag_banner')) . '.webp';
         
                     // Convert and Store as WebP
-                    $this->convertToWebp($file, storage_path('app/public/place_images/' . $place_imageName), 1140, 350);
+                    $this->convertToWebp($file, storage_path('app/public/place_images/' . $place_imageName), 1900, 300);
                 }
 
                 // Handle Thumbnail Image Upload
@@ -289,7 +289,7 @@ class PlacesController extends Controller
                 'short_desc'          => 'required|string',
                 'latitude'            => 'required|string',
                 'longitude'           => 'required|string',
-                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1140,height=350',
+                'placeimg'            => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1900,height=300',
                 'placethumbimg'       => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1024|dimensions:width=500,height=300',
                 'alttag_banner'       => "required|string|max:60|unique:tbl_places,alttag_banner,$id,placeid",
                 'alttag_thumb'        => "required|string|max:60|unique:tbl_places,alttag_thumb,$id,placeid"
@@ -322,7 +322,7 @@ class PlacesController extends Controller
                     $place_imageName = Str::slug($request->input('alttag_banner')) . '-' . $randomNumber . '.webp';
         
                     // Convert and Store as WebP
-                    $this->convertToWebp($file, storage_path('app/public/place_images/' . $place_imageName), 1140, 350);
+                    $this->convertToWebp($file, storage_path('app/public/place_images/' . $place_imageName), 1900, 300);
                 }else{
                     $place_imageName = $place->placeimg;
                 }
