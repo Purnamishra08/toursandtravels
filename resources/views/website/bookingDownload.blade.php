@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php 
+    $imagePath = public_path('assets/img/web-img/logo.png');
+    $image = public_path('assets/img/logo.png');
+    $favIcon = public_path('assets/img/fav-icon.png'); ?>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/fav-icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ $favIcon }}">
     <title>My Holiday Hapiness</title>
     <style>
         .page-header,
@@ -15,7 +19,6 @@
         .page-footer,
         .page-footer-space {
             height: 20px;
-
         }
 
         .page-footer {
@@ -24,7 +27,6 @@
             width: 100%;
             background-color: #e0edeb;
             padding: 0 .5rem;
-
         }
 
         .page-header {
@@ -33,17 +35,20 @@
             width: 100%;
             background-color: #e0edeb;
         }
-.watermark{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.watermark img{
-    opacity: .1;
-    z-index: -1;
-    height: 180px;
-}
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .watermark img {
+            opacity: .1;
+            z-index: -1;
+            height: 180px;
+        }
+
         @media print {
             thead {
                 display: table-header-group;
@@ -60,20 +65,35 @@
             body {
                 margin: 0;
             }
+
+            tr {
+                page-break-inside: avoid;
+            }
+
             .watermark {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-    opacity: 0.8;
-    pointer-events: none;
-}
-.watermark img{
-    opacity: .1;
-    z-index: -1;
-    height: 180px;
-}
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 0;
+                opacity: 0.8;
+                pointer-events: none;
+            }
+
+            .watermark img {
+                opacity: .1;
+                z-index: -1;
+                height: 180px;
+            }
+
+            .no-page-break {
+                page-break-before: avoid;
+                page-break-after: avoid;
+            }
+
+            .page-header-space, .page-footer-space {
+                height: 115px; /* Adjust this as necessary for header/footer spacing */
+            }
         }
     </style>
 </head>
@@ -84,7 +104,7 @@
         <table style="width: 100%; border-collapse:collapse;color:#3c3c3c">
             <tr>
                 <td style="padding: .25rem; text-align:right">
-                    <img height="50" src="{{ asset('assets/img/logo.png') }}" alt="logo" />
+                    <img height="50" src="{{ $image }}" alt="logo" />
                 </td>
             </tr>
             <tr>
@@ -103,10 +123,10 @@
         </table>
     </div>
     <div class="watermark">
-    <img height="50" src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" />
+        <img height="50" src="{{ $imagePath }}" alt="logo" />
     </div>
     <div style="width:800px; margin:0 auto; font-size:.9rem; font-family: 'Times New Roman', serif; ">
-        <table style="width: 100%; border-collapse:collapse;color:#3c3c3c">
+        <table style="width: 90%; border-collapse:collapse;color:#3c3c3c">
             <thead>
                 <tr>
                     <td>
@@ -155,7 +175,7 @@
                                         ->where('destination_id', $hotels->destination_name)
                                         ->where('bit_Deleted_Flag', 0)
                                         ->value('noof_days');
-                                        
+                                      
                                 $checkInDate = date("dS M", strtotime($currentDate));
                                 $currentDate = date("Y-m-d", strtotime("+{$noof_nights} days", strtotime($currentDate)));
                                 $totalPersons = $adult + $child;
@@ -230,7 +250,9 @@
                         </table>
                     </td>
                 </tr>
-                <tr>
+
+                <!-- Include the page-break-before here to avoid page breaking within the inclusions -->
+                <tr class="no-page-break">
                     <td>
                         <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Inclusions </h5>
                         {!! $parameters[25]->par_value !!}
@@ -240,36 +262,18 @@
                         
                         <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Cancellation Charges  </h5>
                             {!! $parameters[29]->par_value !!}
-                        <div style="page-break-inside: avoid;">
-                            <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Refunds
-                            </h5>
+                        
+                        <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Refunds </h5>
                             {!! $parameters[30]->par_value !!}
-                        </div>
-                        <div style="page-break-inside: avoid;">
-                            <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Bank Account
-                            </h5>
+                        
+                        <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">Bank Account </h5>
                             {!! $parameters[31]->par_value !!}
-                        </div>
-                        <div style="page-break-inside: avoid;">
 
-                            <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">UPI (Google Pay/BHIM/UPI/PhonePe)
-                            </h5>
+                        <h5 style="font-size: 15px; border-bottom:1px solid #3c3c3c;display:inline-block;margin:20px 0 10px 0">UPI (Google Pay/BHIM/UPI/PhonePe)  </h5>
                             {!! $parameters[32]->par_value !!}
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding-top: 20px;">Please read our company reviews by clicking the link - <a style="text-decoration-color: #ff0000;" href="https://www.google.com/search?q=my+holiday+happiness&oq=My+ho&aqs=chrome.0.69i59j69i57j69i60l2j69i59l2.1246j0j7&sourceid=chrome&ie=UTF-8#lrd=0x3bae3f2ed2301e45:0x89e7ba8485a43c37,1,,," target="_blank"><span style="color: #ff0000;">My Holiday Happiness reviews</span></a>
                     </td>
                 </tr>
             </tbody>
-            <tfoot>
-                <tr>
-                    <td>
-                        <div class="page-footer-space"></div>
-                    </td>
-                </tr>
-            </tfoot>
         </table>
     </div>
 </body>

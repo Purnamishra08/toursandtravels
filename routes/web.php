@@ -459,7 +459,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/getPackageAccommodations/{id}', [PackagePdfController::class, 'getPackageAccommodations'])->name('admin.generatePackageDoc.getPackageAccommodations');
     Route::get('/getAccommodation', [PackagePdfController::class, 'getAccommodation'])->name('admin.generatePackageDoc.getAccommodation');
     Route::match(['get', 'post'], '/generatePDF', [PackagePdfController::class, 'generatePDF'])->name('admin.generatePackageDoc.generatePDF');
+    // In web.php (routes file)
+Route::get('/download-pdf/{file}', [PackagePdfController::class, 'downloadPDF'])->name('admin.downloadPDF');
+Route::get('download/{filename}', function($filename) {
+    $filePath = sys_get_temp_dir() . '/' . $filename;
+
+    // Check if the file exists
+    if (file_exists($filePath)) {
+        return response()->download($filePath)->deleteFileAfterSend(true);
+    } else {
+        return abort(404, 'File not found');
+    }
+});
     Route::match(['get', 'post'], '/generateDoc', [PackagePdfController::class, 'generateDoc'])->name('admin.generatePackageDoc.generateDoc');
+    Route::match(['get', 'post'], '/generateDocx', [PackagePdfController::class, 'generateDocx'])->name('admin.generatePackageDoc.generateDocx');
     
     //Generate pdf or word doc
 });
