@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\ManageLocation\DestinationController;
 use App\Http\Controllers\Admin\ManageLocation\PlacesController;
 use App\Http\Controllers\Admin\ManageMenus\MenutagController;
 use App\Http\Controllers\Admin\ManageMenus\CategoryController;
-use App\Http\Controllers\Admin\ManageMenus\CategoryTagsController;
+use App\Http\Controllers\Admin\ManageMenus\categorytagsController;
 use App\Http\Controllers\Admin\ManagePackages\PackageDurationsController;
 use App\Http\Controllers\Admin\ManagePackages\TourPackagesController;
 use App\Http\Controllers\Admin\ManagePackages\PackagesTypeController;
@@ -108,7 +108,7 @@ Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('we
 //Tour Routing
 Route::get('/coorg-tour-packages', [TourController::class, 'allTourPackages'])->name('website.allTourPackages');
 Route::get('/place-package/{slug}', [TourController::class, 'allTourPlacePackages'])->name('website.allTourPlacePackages');
-Route::get('tour/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
+Route::get('tours/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
 Route::post('/submit-inquiry', [TourController::class, 'submitInquiry'])->name('website.packageinquiry');
 
 Route::get('/getVehicles', [PackagePdfController::class, 'getVehicles'])->name('admin.generatePackageDoc.getVehicles');
@@ -267,13 +267,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/deletecategory/{id}', [CategoryController::class, 'deletecategory'])->name('admin.category.deletecategory');
     Route::post('/activecategory/{id}', [CategoryController::class, 'activecategory'])->name('admin.category.activecategory');
     //Manage category tags
-    Route::get('/categorytags', [CategoryTagsController::class, 'index'])->name('admin.categorytags');
-    Route::get('/categorytags/data', [CategoryTagsController::class, 'getData'])->name('admin.categorytags.data');
-    Route::match(['get', 'post'], '/addcategorytags', [CategoryTagsController::class, 'addcategorytags'])->name('admin.categorytags.addcategorytags');
-    Route::match(['get', 'post'], '/editcategorytags/{id}', [CategoryTagsController::class, 'editcategorytags'])->name('admin.categorytags.editcategorytags');
-    Route::post('/deletecategorytags/{id}', [CategoryTagsController::class, 'deletecategorytags'])->name('admin.categorytags.deletecategorytags');
-    Route::post('/activecategorytags/{id}', [CategoryTagsController::class, 'activecategorytags'])->name('admin.categorytags.activecategorytags');
-    Route::post('/categorytags/getCategoryMenuWise', [CategoryTagsController::class, 'getCategoryMenuWise'])->name('admin.categorytags.getCategoryMenuWise');
+    Route::get('/categorytags', [categorytagsController::class, 'index'])->name('admin.categorytags');
+    Route::get('/categorytags/data', [categorytagsController::class, 'getData'])->name('admin.categorytags.data');
+    Route::match(['get', 'post'], '/addcategorytags', [categorytagsController::class, 'addcategorytags'])->name('admin.categorytags.addcategorytags');
+    Route::match(['get', 'post'], '/editcategorytags/{id}', [categorytagsController::class, 'editcategorytags'])->name('admin.categorytags.editcategorytags');
+    Route::post('/deletecategorytags/{id}', [categorytagsController::class, 'deletecategorytags'])->name('admin.categorytags.deletecategorytags');
+    Route::post('/activecategorytags/{id}', [categorytagsController::class, 'activecategorytags'])->name('admin.categorytags.activecategorytags');
+    Route::post('/categorytags/getCategoryMenuWise', [categorytagsController::class, 'getCategoryMenuWise'])->name('admin.categorytags.getCategoryMenuWise');
     //Manage Menus
 
     // Manage Packages 
@@ -456,7 +456,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/getPackageAccommodations/{id}', [PackagePdfController::class, 'getPackageAccommodations'])->name('admin.generatePackageDoc.getPackageAccommodations');
     Route::get('/getAccommodation', [PackagePdfController::class, 'getAccommodation'])->name('admin.generatePackageDoc.getAccommodation');
     Route::match(['get', 'post'], '/generatePDF', [PackagePdfController::class, 'generatePDF'])->name('admin.generatePackageDoc.generatePDF');
+    // In web.php (routes file)
+Route::get('/download-pdf/{file}', [PackagePdfController::class, 'downloadPDF'])->name('admin.downloadPDF');
+Route::get('download/{filename}', function($filename) {
+    $filePath = sys_get_temp_dir() . '/' . $filename;
+
+    // Check if the file exists
+    if (file_exists($filePath)) {
+        return response()->download($filePath)->deleteFileAfterSend(true);
+    } else {
+        return abort(404, 'File not found');
+    }
+});
     Route::match(['get', 'post'], '/generateDoc', [PackagePdfController::class, 'generateDoc'])->name('admin.generatePackageDoc.generateDoc');
+    Route::match(['get', 'post'], '/generateDocx', [PackagePdfController::class, 'generateDocx'])->name('admin.generatePackageDoc.generateDocx');
     
     //Generate pdf or word doc
 });

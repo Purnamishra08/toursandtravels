@@ -29,6 +29,7 @@ class TourController extends Controller
                         'a.tpackage_url',
                         'a.price',
                         'a.fakeprice',
+                        'a.about_package',
                         'a.tpackage_image',
                         'a.tour_thumb',
                         'a.alttag_thumb',
@@ -85,6 +86,7 @@ class TourController extends Controller
                     ->whereIn('placeid', $placeIds)
                     ->where('status', 1)
                     ->where('bit_Deleted_Flag', 0)
+                    ->limit(3)
                     ->get()
                     ->keyBy('placeid');
 
@@ -106,8 +108,11 @@ class TourController extends Controller
                         $html.='<span class="badge">Most popular</span>';
                     }
                     
-                    $html.='</div>
-                        <p class="card-text mb-2">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    $html.='</div>';
+                    if(!empty($values->about_package)){
+                        $html.='<p class="card-text mb-2">'.$values->about_package.'</p>';   
+                    }
+                    $html.='
                         <ul class="m-0 d-flex gx-3 gy-2 flex-wrap text-secondary mb-3">
                             <li><i class="bi bi-clock me-1"></i> '.str_replace('/', '&', $values->duration_name).' </li>
                             <li> <i class="bi bi-geo-alt me-1"></i>Ex- '.$values->destination_name.'</li>
@@ -365,6 +370,8 @@ class TourController extends Controller
 
                 $tag_name = DB::table('tbl_menutags')
                     ->where('tagid', $tagid)
+                    ->where('status',1)
+                    ->where('bit_Deleted_Flag',0)
                     ->value('tag_name');
             }
         }
@@ -397,16 +404,16 @@ class TourController extends Controller
 
         
         $accommodation_types = DB::table('tbl_hotel as a')
-            ->select(DB::raw('DISTINCT(a.hotel_type) as hotel_type_id'))
-            ->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')
-            ->where('a.status', 1)
-            ->whereIn('a.destination_name', function ($query) use ($tourpackageid) {
-                $query->select('destination_id')
-                    ->from('tbl_package_accomodation')
-                    ->where('package_id', $tourpackageid);
-            })
-            ->orderByDesc('b.hotel_type_name')
-            ->get();
+                ->select(DB::raw('DISTINCT a.hotel_type as hotel_type_id'), 'b.hotel_type_name')
+                ->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')
+                ->where('a.status', 1)
+                ->whereIn('a.destination_name', function ($query) use ($tourpackageid) {
+                    $query->select('destination_id')
+                        ->from('tbl_package_accomodation')
+                        ->where('package_id', $tourpackageid);
+                })
+                ->orderByDesc('b.hotel_type_name')
+                ->get();
 
         $hotel_typeids = [];
         if (!$accommodation_types->isEmpty()) {
@@ -576,17 +583,30 @@ class TourController extends Controller
                 <p><strong>Tour Package:</strong> <a href="' . $tourUrl . '" target="_blank" style="color:#0d6efd; text-decoration:none;">' . $tourName . '</a></p>
                 <p><strong>Message:</strong><br>' . nl2br($request->message) . '</p>
                 <br>
-                <p>-- End of Enquiry --</p>
-            </div>';
+            </div>
+            ';
 
             // Send emails
-            if ($userEmail && $fromEmail) {
-                Mail::send([], [], function ($message) use ($userEmail, $userMessage, $fromEmail) {
-                    $message->to($userEmail)
-                        ->from($fromEmail, 'My Holiday Happiness')
-                        ->subject('Thank you for your enquiry – My Holiday Happiness')
-                        ->html($userMessage, 'text/html');
-                });
+            if ($userEmail) {
+                // Mail::send([], [], function ($message) use ($userEmail, $userMessage, $fromEmail) {
+                //     $message->to($userEmail)
+                //         ->from($fromEmail, 'My Holiday Happiness')
+                //         ->subject('Thank you for your enquiry – My Holiday Happiness')
+                //         ->html($userMessage, 'text/html');
+                // });
+                Mail::send([], [], function ($message) use ($userEmail,$userMessage, $parameters) {
+                        $fromEmail = $parameters->firstWhere('parid', 9)->par_value ?? null;
+                        $toEmail = $userEmail;
+
+                        if (!$fromEmail || !$toEmail) {
+                            throw
+                                new \Exception("Missing email addresses in parameters table.");
+                        }
+                        $message->from(''.$fromEmail.'', 'Coorg Packages');
+                        $message->to(''.$toEmail.'', 'Coorg Packages' );
+                        $message->subject('Thank you for your enquiry – Coorg Packages');
+                        $message->html($userMessage, 'text/html');
+                    });
             }
 
             Mail::send([], [], function ($message) use ($toEmail, $adminMessage,$type) {

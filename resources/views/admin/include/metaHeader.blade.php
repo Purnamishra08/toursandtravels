@@ -8,7 +8,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>My Holidays Happiness</title>
+        <title>Coorg Packages Admin</title>
         <link rel="icon" type="image/png" href="{{ asset('assets/img/fav-icon.png') }}">
         <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" />
         <link href="{{asset('assets/css/styles.css')}}" rel="stylesheet" />

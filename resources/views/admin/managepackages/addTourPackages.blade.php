@@ -128,6 +128,14 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="clearfix"></div>
+                                                                <!-- About Package -->
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label>About Package</label>
+                                                                        <textarea rows="4" name="about_package" id="about_package" class="form-control" placeholder="About Package...">{{ old('about_package') }}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
                                                                 <!-- Tour Availability Checkboxes -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
@@ -160,7 +168,7 @@
                                                                     <div class="form-group">
                                                                         <label>Banner Image <span class="manadatory">*</span></label>
                                                                         <input class="form-control" type="file" name="tourimg" id="tourimg">
-                                                                        <span>Image size should be 745px X 450px</span>
+                                                                        <span>Image size should be 1900px X 300px</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">

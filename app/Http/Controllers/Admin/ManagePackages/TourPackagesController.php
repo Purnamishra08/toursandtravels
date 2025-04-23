@@ -298,7 +298,7 @@ class TourPackagesController extends Controller
             'alttag_thumb'     => 'required|string|max:60',
             'starting_city'    => 'required',
             'inclusion'        => 'required',
-            'tourimg'          => 'nullable|image|dimensions:width=745,height=450',
+            'tourimg'          => 'nullable|image|dimensions:width=1900,height=300',
             'tourthumb'        => 'nullable|image|dimensions:width=300,height=225',
         ]);
 
@@ -313,7 +313,7 @@ class TourPackagesController extends Controller
                 $tourimgfilename = Str::slug($validated['alttag_banner']).'-'.$randomNumber.'.webp';
 
                 // Convert and Store as WebP
-                $this->convertToWebp($tourimgFile, storage_path('app/public/tourpackages/' . $tourimgfilename), 745, 450);
+                $this->convertToWebp($tourimgFile, storage_path('app/public/tourpackages/' . $tourimgfilename), 1900, 300);
             }
 
             // ✅ Handle Tour Thumbnail Upload
@@ -363,6 +363,7 @@ class TourPackagesController extends Controller
                 'tour_thumb'           => $tourthumbfilename,
                 'price'                => $validated['price'],
                 'fakeprice'            => $validated['fakeprice'],
+                'about_package'        => $request->input('about_package',""),
                 'ratings'              => $request->input('rating',0),
                 'inclusion_exclusion'  => $validated['inclusion'],
                 'alttag_banner'        => $validated['alttag_banner'],
@@ -517,7 +518,7 @@ class TourPackagesController extends Controller
             'alttag_thumb' => 'required|string|max:60',
             'starting_city' => 'required',
             'inclusion' => 'required',
-            'tourimg' => 'nullable|image|dimensions:width=745,height=450',
+            'tourimg' => 'nullable|image|dimensions:width=1900,height=300',
             'tourthumb' => 'nullable|image|dimensions:width=300,height=225',
         ]);
         
@@ -557,7 +558,7 @@ class TourPackagesController extends Controller
             $tourimgfilename = Str::slug($validated['alttag_banner']).'-'.$randomNumber.'.webp';
 
             // Convert and Store as WebP
-            $this->convertToWebp($tourimgFile, storage_path('app/public/tourpackages/' . $tourimgfilename), 745, 450);
+            $this->convertToWebp($tourimgFile, storage_path('app/public/tourpackages/' . $tourimgfilename), 1900, 300);
         }
 
         // ✅ Handle Tour Thumbnail Upload
@@ -580,6 +581,7 @@ class TourPackagesController extends Controller
             'tour_thumb' => $tourthumbfilename,
             'price' => $validated['price'],
             'fakeprice' => $validated['fakeprice'],
+            'about_package'        => $request->input('about_package',""),
             'ratings' => $request->input('rating',0),
             'inclusion_exclusion' => $validated['inclusion'],
             'alttag_banner' => $validated['alttag_banner'],
@@ -821,6 +823,7 @@ class TourPackagesController extends Controller
                     'a.package_duration',
                     'a.price',
                     'a.fakeprice',
+                    'a.about_package',
                     'a.pmargin_perctage',
                     'a.inclusion_exclusion',
                     'a.tpackage_image',
