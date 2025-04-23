@@ -30,232 +30,232 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ (request()->routeIs('website.allTourPackages') || request()->routeIs('website.tourDetails')) ? 'active' : '' }}" aria-current="page" href="{{ route('website.allTourPackages') }}">Tours</a>
                             </li>
-
-                            <!-- Below Destination is only show in desktop -->
-                            <li class="nav-item submenu desktop-menu">
-                                <a class="nav-link {{ (request()->routeIs('website.destinationdetails')) ? 'active' : '' }}" aria-current="page" href="{{route('website.destinationdetails', ['slug' => $destinatoinURL->destination_url])}}"> Destination </a>
-                                <!-- <div class="mega-box">
-                                    <div class="content">
-                                        <div class="">
-                                            <div class="nav justify-content-center gap-3 nav-pills me-3" id="v-pills-tab" role="tablist"
-                                                aria-orientation="vertical">
-                                                <button class="nav-link active" id="v-pills-home-tab"
-                                                    data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button"
-                                                    role="tab" aria-controls="v-pills-home" aria-selected="true">
-                                                    Trending now
-                                                </button>
-                                                <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#v-pills-profile" type="button" role="tab"
-                                                    aria-controls="v-pills-profile" aria-selected="false">
-                                                    Quick Breaks
-                                                </button>
-                                                <button class="nav-link" id="v-pills-disabled-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#v-pills-disabled" type="button" role="tab"
-                                                    aria-controls="v-pills-disabled" aria-selected="false">
-                                                    Most popular destination
-                                                </button>
-                                                <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#v-pills-messages" type="button" role="tab"
-                                                    aria-controls="v-pills-messages" aria-selected="false">
-                                                    Explore States
-                                                </button>
-                                            </div>
-                                            <div class="tab-content w-100" id="v-pills-tabContent">
-                                                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                                                    aria-labelledby="v-pills-home-tab" tabindex="0">
-                                                    <ul class="submenu-container">
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li>
-                                                            <a href="#">Destination Name Destination Name</a>
-                                                        </li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                    </ul>
+                            @if(isset($destinatoinURL) && !empty($destinatoinURL->destination_url))
+                                <!-- Below Destination is only show in desktop -->
+                                <li class="nav-item submenu desktop-menu">
+                                    <a class="nav-link {{ (request()->routeIs('website.destinationdetails')) ? 'active' : '' }}" aria-current="page" href="{{route('website.destinationdetails', ['slug' => $destinatoinURL->destination_url])}}"> Destination </a>
+                                    <!-- <div class="mega-box">
+                                        <div class="content">
+                                            <div class="">
+                                                <div class="nav justify-content-center gap-3 nav-pills me-3" id="v-pills-tab" role="tablist"
+                                                    aria-orientation="vertical">
+                                                    <button class="nav-link active" id="v-pills-home-tab"
+                                                        data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button"
+                                                        role="tab" aria-controls="v-pills-home" aria-selected="true">
+                                                        Trending now
+                                                    </button>
+                                                    <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
+                                                        data-bs-target="#v-pills-profile" type="button" role="tab"
+                                                        aria-controls="v-pills-profile" aria-selected="false">
+                                                        Quick Breaks
+                                                    </button>
+                                                    <button class="nav-link" id="v-pills-disabled-tab" data-bs-toggle="pill"
+                                                        data-bs-target="#v-pills-disabled" type="button" role="tab"
+                                                        aria-controls="v-pills-disabled" aria-selected="false">
+                                                        Most popular destination
+                                                    </button>
+                                                    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                                                        data-bs-target="#v-pills-messages" type="button" role="tab"
+                                                        aria-controls="v-pills-messages" aria-selected="false">
+                                                        Explore States
+                                                    </button>
                                                 </div>
-                                                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                                                    aria-labelledby="v-pills-profile-tab" tabindex="0">
-                                                    <ul class="submenu-container">
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li>
-                                                            <a href="#">Destination Name Destination Name</a>
-                                                        </li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="tab-pane fade" id="v-pills-disabled" role="tabpanel"
-                                                    aria-labelledby="v-pills-disabled-tab" tabindex="0">
-                                                    <ul class="submenu-container">
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li>
-                                                            <a href="#">Destination Name Destination Name</a>
-                                                        </li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                                                    aria-labelledby="v-pills-messages-tab" tabindex="0">
-                                                    <ul class="submenu-container">
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li>
-                                                            <a href="#">Destination Name Destination Name</a>
-                                                        </li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                        <li><a href="#">Destination Name</a></li>
-                                                    </ul>
+                                                <div class="tab-content w-100" id="v-pills-tabContent">
+                                                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                                                        aria-labelledby="v-pills-home-tab" tabindex="0">
+                                                        <ul class="submenu-container">
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li>
+                                                                <a href="#">Destination Name Destination Name</a>
+                                                            </li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                                        aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                                        <ul class="submenu-container">
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li>
+                                                                <a href="#">Destination Name Destination Name</a>
+                                                            </li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="v-pills-disabled" role="tabpanel"
+                                                        aria-labelledby="v-pills-disabled-tab" tabindex="0">
+                                                        <ul class="submenu-container">
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li>
+                                                                <a href="#">Destination Name Destination Name</a>
+                                                            </li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                                                        aria-labelledby="v-pills-messages-tab" tabindex="0">
+                                                        <ul class="submenu-container">
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li>
+                                                                <a href="#">Destination Name Destination Name</a>
+                                                            </li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                            <li><a href="#">Destination Name</a></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div> -->
+                                </li>
+                                <!-- Below Destination is only show in mobile -->
+                                <li class="nav-item dropdown mob-menu">
+                                    <div class="accordion accordion-flush" id="parent-accordion">
+                                        <div class="accordion-item">
+                                            <a href="{{ route('website.destinationdetails', ['slug' => $destinatoinURL->destination_url]) }}"
+                                                class="nav-link {{ request()->routeIs('website.destinationdetails') ? 'active' : 'collapsed' }}"
+                                                type="button">
+                                                Destination
+                                            </a>
+                                            <!-- <div id="parentOne" class="accordion-collapse collapse px-2"
+                                                data-bs-parent="#parent-accordion">
+                                                <div class="accordion accordion-flush child-accordion" id="child-accordion">
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#child-one"
+                                                                aria-expanded="false" aria-controls="childOne">
+                                                                Trending now
+                                                            </button>
+                                                        </h2>
+                                                        <div id="child-one" class="accordion-collapse collapse"
+                                                            data-bs-parent="#child-accordion">
+                                                            <ul class="mob-sub-menu">
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li>
+                                                                    <a href="#">Destination Name Destination Name</a>
+                                                                </li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#child-two"
+                                                                aria-expanded="false" aria-controls="childOne">
+                                                                Trending now
+                                                            </button>
+                                                        </h2>
+                                                        <div id="child-two" class="accordion-collapse collapse"
+                                                            data-bs-parent="#child-accordion">
+                                                            <ul class="mob-sub-menu">
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li>
+                                                                    <a href="#">Destination Name Destination Name</a>
+                                                                </li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#child-three"
+                                                                aria-expanded="false" aria-controls="childOne">
+                                                                Trending now
+                                                            </button>
+                                                        </h2>
+                                                        <div id="child-three" class="accordion-collapse collapse"
+                                                            data-bs-parent="#child-accordion">
+                                                            <ul class="mob-sub-menu">
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li>
+                                                                    <a href="#">Destination Name Destination Name</a>
+                                                                </li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#child-four"
+                                                                aria-expanded="false" aria-controls="childOne">
+                                                                Trending now
+                                                            </button>
+                                                        </h2>
+                                                        <div id="child-four" class="accordion-collapse collapse"
+                                                            data-bs-parent="#child-accordion">
+                                                            <ul class="mob-sub-menu">
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li>
+                                                                    <a href="#">Destination Name Destination Name</a>
+                                                                </li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                                <li><a href="#">Destination Name</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
                                     </div>
-                                </div> -->
-                            </li>
-                            <!-- Below Destination is only show in mobile -->
-                            <li class="nav-item dropdown mob-menu">
-                                <div class="accordion accordion-flush" id="parent-accordion">
-                                    <div class="accordion-item">
-                                        <a href="{{ route('website.destinationdetails', ['slug' => $destinatoinURL->destination_url]) }}"
-                                               class="nav-link {{ request()->routeIs('website.destinationdetails') ? 'active' : 'collapsed' }}"
-                                               type="button">
-                                               Destination
-                                        </a>
-                                        <!-- <div id="parentOne" class="accordion-collapse collapse px-2"
-                                            data-bs-parent="#parent-accordion">
-                                            <div class="accordion accordion-flush child-accordion" id="child-accordion">
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#child-one"
-                                                            aria-expanded="false" aria-controls="childOne">
-                                                            Trending now
-                                                        </button>
-                                                    </h2>
-                                                    <div id="child-one" class="accordion-collapse collapse"
-                                                        data-bs-parent="#child-accordion">
-                                                        <ul class="mob-sub-menu">
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li>
-                                                                <a href="#">Destination Name Destination Name</a>
-                                                            </li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#child-two"
-                                                            aria-expanded="false" aria-controls="childOne">
-                                                            Trending now
-                                                        </button>
-                                                    </h2>
-                                                    <div id="child-two" class="accordion-collapse collapse"
-                                                        data-bs-parent="#child-accordion">
-                                                        <ul class="mob-sub-menu">
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li>
-                                                                <a href="#">Destination Name Destination Name</a>
-                                                            </li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#child-three"
-                                                            aria-expanded="false" aria-controls="childOne">
-                                                            Trending now
-                                                        </button>
-                                                    </h2>
-                                                    <div id="child-three" class="accordion-collapse collapse"
-                                                        data-bs-parent="#child-accordion">
-                                                        <ul class="mob-sub-menu">
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li>
-                                                                <a href="#">Destination Name Destination Name</a>
-                                                            </li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="accordion-item">
-                                                    <h2 class="accordion-header">
-                                                        <button class="accordion-button collapsed" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#child-four"
-                                                            aria-expanded="false" aria-controls="childOne">
-                                                            Trending now
-                                                        </button>
-                                                    </h2>
-                                                    <div id="child-four" class="accordion-collapse collapse"
-                                                        data-bs-parent="#child-accordion">
-                                                        <ul class="mob-sub-menu">
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li>
-                                                                <a href="#">Destination Name Destination Name</a>
-                                                            </li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                            <li><a href="#">Destination Name</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </li>
-
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('website.bloglisting') ? 'active' : '' }}" href="{{ route('website.bloglisting') }}">Blog</a>
                             </li>

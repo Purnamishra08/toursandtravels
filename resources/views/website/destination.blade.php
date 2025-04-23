@@ -455,7 +455,7 @@
             </div>
             <div class="modal-body text-center">
                 <h1 class="mb-3">Planning a Trip to {{$destinationData->destination_name}} ?</h1>
-                <a href="{{ route('website.allTourPackages') }}" target="_blank" class="btn btn-warning">{{!empty($total_packages) ? $countAndPrice->total_packages : ''}} {{$countAndPrice->total_packages}} Tours from {{!empty($countAndPrice) ? $countAndPrice->min_price : ''}} </a>
+                <a href="{{ route('website.allTourPackages') }}" target="_blank" class="btn btn-warning">{{!empty($total_packages) ? $countAndPrice->total_packages : ''}} {{$countAndPrice->total_packages}} Tours found from Rs.{{ !empty($countAndPrice) ? rtrim(rtrim(number_format($countAndPrice->min_price, 2, '.', ''), '0'), '.') : '' }}</a>
                 <a href="{{ route('website.allTourPackages') }}" target="_blank" class="d-block mt-3">Explore & Book Online</a>
             </div>
         </div>

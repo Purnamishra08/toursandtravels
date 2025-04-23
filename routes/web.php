@@ -152,9 +152,6 @@ Route::get('/about-us', [AboutusController::class, 'index'])->name('website.abou
 Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');
 //Footer
 
-//FooterQuickLinks
-Route::get('/coorg-packages/tours/{slug}', [FooterquicklinksController::class, 'allTourPackages'])->name('website.allTourPackagesFooter');
-//FooterQuickLinks
 /********  WEBSITE ROUTING    ********/
 
 
@@ -465,3 +462,7 @@ Route::middleware('auth')->group(function () {
 });
 
 /********  ADMIN ROUTING    ********/
+
+//FooterQuickLinks
+Route::get('{slug}', [FooterquicklinksController::class, 'allTourPackages'])->name('website.allTourPackagesFooter');
+//FooterQuickLinks

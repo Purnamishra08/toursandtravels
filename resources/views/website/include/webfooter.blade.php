@@ -82,25 +82,25 @@
             <i class="bi bi-chevron-up"></i>
         </a>
         <a href="https://api.whatsapp.com/send?phone=+919886525253&text=Hi%20there%2E" target="_blank" class="whats-app"><i class="bi bi-whatsapp"></i></a>
-        <div class="google-review">
-            <div class="wrapper">
-                <span class="review-close-btn"><i class="bi bi-x"></i></span>
-                <img src="{{ asset('assets/img/web-img/google-logo-png-transparent.png') }}" alt="logo" />
-                <h4>My Holiday Happiness </h4>
-                <span>
+        <a href="https://www.google.com/search?q=myholidayhappiness&oq=myholidayhappiness&aqs=chrome..69i57j35i39j0j69i59j69i60l2j69i61j69i60.4919j0j4&sourceid=chrome&ie=UTF-8#mpd=~11124030801083900310/customers/reviews" target="_blank" style="text-decoration: none; color: inherit;">
+            <div class="google-review">
+                <div class="wrapper">
+                    <span class="review-close-btn"><i class="bi bi-x"></i></span>
+                    <img src="{{ asset('assets/img/web-img/google-logo-png-transparent.png') }}" alt="logo" />
+                    <h4>My Holiday Happiness </h4>
+                    <span>
 
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                </span>
-                <br>
-                <span>1032 reviews</span>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </span>
+                    <br>
+                    <span>1032 reviews</span>
+                </div>
             </div>
-
-
-        </div>
+        </a>
     </div>
     <div class="bottom-footer">
         <div class="container">
