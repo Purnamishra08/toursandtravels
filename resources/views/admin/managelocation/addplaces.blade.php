@@ -103,7 +103,7 @@
                                                             <div class="form-group">
                                                                 <label>Banner Image <span class="manadatory">*</span></label>
                                                                 <input name="placeimg" id="placeimg" class="form-control" type="file" onchange="previewImage(event, 'banner_preview')">
-                                                                <span>Image size should be 1140px X 350px</span>
+                                                                <span>Image size should be 1900px X 300px</span>
                                                                 <div id="banner_preview" style="margin-top: 10px;">
                                                                     @if(isset($placesData->placeimg))
                                                                         <a href="{{ asset('storage/place_images/'.$placesData->placeimg) }}" target="_blank">
