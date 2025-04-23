@@ -77,7 +77,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="pills-others-tab" data-bs-toggle="pill"
                                         data-bs-target="#pills-others" type="button" role="tab"
-                                        aria-controls="pills-others" aria-selected="false">Others Details</button>
+                                        aria-controls="pills-others" aria-selected="false">Detailed itinerary</button>
                                 </li>
                                 @endif
                             </ul>

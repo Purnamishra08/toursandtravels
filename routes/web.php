@@ -108,7 +108,7 @@ Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('we
 //Tour Routing
 Route::get('/coorg-tour-packages', [TourController::class, 'allTourPackages'])->name('website.allTourPackages');
 Route::get('/place-package/{slug}', [TourController::class, 'allTourPlacePackages'])->name('website.allTourPlacePackages');
-Route::get('tour/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
+Route::get('tours/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
 Route::post('/submit-inquiry', [TourController::class, 'submitInquiry'])->name('website.packageinquiry');
 
 Route::get('/getVehicles', [PackagePdfController::class, 'getVehicles'])->name('admin.generatePackageDoc.getVehicles');
