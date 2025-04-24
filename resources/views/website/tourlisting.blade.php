@@ -25,24 +25,24 @@
                 </div>
             </div>
 
-            <div class="about-content mb-3">
+            <div class="about-content mb-3 thin-scroll">
                 <div class="description-preview" style="max-height: 200px; overflow: hidden; position: relative;">
-                    <div class="fade-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 50px; background: linear-gradient(transparent, white);"></div>
+                    <div class="fade-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px;background: linear-gradient(to bottom, rgb(252 252 252 / 64%), #ffffff);"></div>
                     <div class="description-full">
                         {!! $tourPageData->description_tag !!}
                     </div>
                 </div>
 
-                <button class="moreless-button"
-                    style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500; border:0">
-                    Read more <span style="margin-left: 5px;">&#x25BC;</span>
-                </button>
             </div>
+            <button class="moreless-button mb-3"
+                style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500; border:0">
+                Read more <span style="margin-left: 5px;">&#x25BC;</span>
+            </button>
         </div>
         <div class="tour-filter-section">
             <div class="container">
 
-                <span class="filter-btn btn btn-sm btn-outline-secondary"><i class="bi bi-funnel me-2"></i>Filter</span>
+                <span class="filter-btn btn btn-sm btn-dark"><i class="bi bi-funnel me-2"></i>Filter</span>
             </div>
         </div>
         <div class="container">
@@ -123,7 +123,7 @@
                             </div>
                             <a href="#" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
-                        <div class="review-wrapper">
+                        <div class="review-wrapper thin-scroll">
                             @foreach($reviews as $review)
                             <div class="card client-review-card h-100">
                                 <div class="card-body">
@@ -213,21 +213,21 @@
                             <h2 class="section-title-sm mb-0">About Coorg Tour Package</h2>
                         </div>
                     </div>
-                <div class="about-content mb-3">
+                <div class="about-content mb-3 thin-scroll">
                     <!-- Description Preview with Truncated Content -->
                     <div class="description-preview" style="max-height: 200px; overflow: hidden; position: relative;">
-                        <div class="fade-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 50px; background: linear-gradient(transparent, white);"></div>
+                        <div class="fade-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px;background: linear-gradient(to bottom, rgb(252 252 252 / 52%), #f8f8f8)"></div>
                         <div class="description-full">
                             {!! $tourPageData->about_tag !!}
                         </div>
                     </div>
 
                     <!-- Toggle Button -->
-                    <button class="moreless-button-about"
-                        style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500;border:0">
-                        Read more <span style="margin-left: 5px;">&#x25BC;</span>
-                    </button>
                 </div>
+                <button class="moreless-button-about"
+                    style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500;border:0">
+                    Read more <span style="margin-left: 5px;">&#x25BC;</span>
+                </button>
         </div>
     </section>
 
@@ -332,36 +332,37 @@
 </script>
 <script>
     $('.moreless-button-about').click(function () {
-        const preview = $(this).siblings('.description-preview'); // Get the sibling description-preview
+    // Get the .about-content above the button
+    const preview = $(this).prev('.about-content').find('.description-preview');
 
-        // Toggle the expanded class for smooth transition
-        preview.toggleClass('expanded');
-        preview.find('.fade-overlay').toggleClass('d-none');
+    // Toggle expand state
+    preview.toggleClass('expanded');
+    preview.find('.fade-overlay').toggleClass('d-none');
 
-        // If the content is expanded, show full content, else show truncated content
-        if (preview.hasClass('expanded')) {
-            preview.css('max-height', 'none');
-            $(this).html('Read less <span style="margin-left: 5px;">&#9650;</span>');
-        } else {
-            preview.css('max-height', '200px');
-            $(this).html('Read more <span style="margin-left: 5px;">&#9660;</span>');
-        }
-    });
+    // Update styles and button text
+    if (preview.hasClass('expanded')) {
+        preview.css('max-height', 'none');
+        $(this).html('Read less <span style="margin-left: 5px;">&#9650;</span>');
+    } else {
+        preview.css('max-height', '200px');
+        $(this).html('Read more <span style="margin-left: 5px;">&#9660;</span>');
+    }
+});
 
     $('.moreless-button').click(function () {
-        const preview = $(this).siblings('.description-preview');
+    const preview = $('.about-content .description-preview'); // access inside content
 
-        preview.toggleClass('expanded');
-        preview.find('.fade-overlay').toggleClass('d-none');
+    preview.toggleClass('expanded');
+    preview.find('.fade-overlay').toggleClass('d-none');
 
-        if (preview.hasClass('expanded')) {
-            preview.css('max-height', 'none');
-            $(this).html('Read less <span style="margin-left: 5px;">&#9650;</span>');
-        } else {
-            preview.css('max-height', '200px');
-            $(this).html('Read more <span style="margin-left: 5px;">&#9660;</span>');
-        }
-    });
+    if (preview.hasClass('expanded')) {
+        preview.css('max-height', 'none');
+        $(this).html('Read less <span style="margin-left: 5px;">&#9650;</span>');
+    } else {
+        preview.css('max-height', '200px');
+        $(this).html('Read more <span style="margin-left: 5px;">&#9660;</span>');
+    }
+});
 </script>
 <script>
     $(document).ready(function() {

@@ -56,6 +56,28 @@ body{
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #1b1b1b;
 }
+
+.thin-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #d7d6d6 #f8f8f8;
+  }
+
+  /* Chrome, Edge, and Safari */
+ .thin-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .thin-scroll::-webkit-scrollbar-track {
+    background: #f8f8f8;
+  }
+
+  .thin-scroll::-webkit-scrollbar-thumb {
+    background-color: #d7d6d6;
+    border-radius: 10px;
+    border: 1px solid #dd7e7e;
+
+   
+  }
 ul,ol{
   list-style: none;
   padding: 0;
@@ -131,7 +153,27 @@ section{
 .section-title-sm{
     font-size: 1.5rem;
 }
+@media(max-width:1366px){
+    section{
+        padding: 2.5rem 0;
+    }
+    .section-title{
+        font-size: 2.2rem ;
+    }
+    .section-title-large{
+        font-size: 2.7rem;
+    }
+}
 @media(max-width:1024px){
+    section{
+        padding: 2rem 0;
+    }
+    .section-title{
+        font-size: 2.2rem ;
+    }
+    .section-title-large{
+        font-size: 2.5rem;
+    }
     .section-title-container{
        
         margin-bottom: 1rem;
@@ -144,12 +186,23 @@ section{
       
         font-size: 1.5rem ;
     }
+    .section-title-sm{
+      
+        font-size: 1.4rem ;
+    }
     .section-title-small{
        
         font-size: 1.1rem;
     }
 }
 @media(max-width:768px){
+    section{
+        padding: 1.5rem 0;
+    }
+   
+    .section-title-large{
+        font-size: 1.3rem;
+    }
     .section-title-container{
         margin-bottom: 1rem;
        
@@ -163,12 +216,22 @@ section{
       
         font-size: 1.3rem ;
     }
+    .section-title-sm{
+      
+        font-size: 1.2rem ;
+    }
     .section-title-small{
        
         font-size: 1rem;
     }
 }
 @media(max-width:680px){
+    .section-title,.section-title-sm{
+        font-size: 1.2rem ;
+    }
+    .section-title-large{
+        font-size: 1.1rem;
+    }
     .section-title-container{
         margin-bottom: .75rem;
        
@@ -593,6 +656,35 @@ height: 60PX;
 .google-review .wrapper .review-close-btn i{
     color:#fff
 }
+@media(max-width:768px){
+    .google-review .wrapper {
+        padding: 0.75rem 1rem;
+    }
+    .google-review .wrapper img {
+        height: 40PX;
+    }
+    .google-review .wrapper h4 {
+        font-size: 1rem;
+    }
+    .google-review .wrapper i {
+        font-size: 0.8rem;
+    }
+}
+@media(max-width:680px){
+    .google-review .wrapper {
+        padding: 0.5rem .75rem;
+    }
+    .google-review .wrapper img {
+        height: 30PX;
+    }
+    .google-review .wrapper h4 {
+        font-size: .9rem;
+        margin: .25rem 0;
+    }
+    .google-review .wrapper i {
+        font-size: 0.75rem;
+    }
+}
 /* breard-crumb-css start */
 .breadcrumb-section{
     background-image: url(../img/web-img/innerpage-baner.png);
@@ -646,6 +738,27 @@ height: 60PX;
 }
 .breadcrumb-item+.breadcrumb-item::before {
     color: #acacac;
+}
+@media (max-width: 1024px) {
+    .breadcrumb-section .page-name {
+        font-size: 1.5rem;
+    }
+}
+@media(max-width:768px){
+    .breadcrumb-section{
+        height: 200px;
+    }
+    .breadcrumb-section .page-name{
+        font-size: 1.3rem;
+    }
+}
+@media (max-width: 680px) {
+    .breadcrumb-section{
+        height: 180px;
+    }
+    .breadcrumb-section .page-name {
+        font-size: 1.2rem;
+    }
 }
 
 
@@ -855,10 +968,18 @@ height: 60PX;
         grid-template-columns: repeat(3,1fr);
     }
 }
-@media(max-width:1024px){
+@media(max-width:992px){
     .card-wrapper{
         grid-template-columns: repeat(2,1fr);
         gap: 1rem;
+    }
+}
+@media(max-width:768px){
+    .tour-card .card-title{
+        font-size: 1.1rem;
+    }
+    .p-card-info h6 {
+        font-size: 1.1rem;
     }
 }
 @media(max-width:680px){

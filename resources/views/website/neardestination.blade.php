@@ -50,6 +50,7 @@
                                     <p>{{isset($parameters) ? $parameters[0]->par_value : ''}}</p></p>
                                 </li>
                             </ul>
+                            <a class="btn btn-light " href="{{route('website.contactus')}}">Contact Now</a>
                             </div>
                         </div>
                     </div>
@@ -122,7 +123,7 @@
                     </div> -->
                     <div class="page-section" id="tourPackages">
                         <h1 class="page-section-heading">{{$placesData->place_name}} Tour packages</h1>
-                        <div class="card-wrapper" id="popular-tour"> </div>
+                        <div class="card-wrapper card-wrapper-sm" id="popular-tour"> </div>
                         <a href="{{ route('website.allTourPlacePackages', ['slug' => $placesData->place_url]) }}" target="_blank" class="btn btn-warning mt-3 w-100">View All</a>
                     </div>
                     <div class="page-section" id="chetSheet">
@@ -383,7 +384,7 @@
                     </div>
                     <a href="#" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                 </div>
-                <div class="review-wrapper">
+                <div class="review-wrapper thin-scroll">
                     @foreach($reviewsData as $reviews)
                     <div class="card client-review-card h-100">
                         <div class="card-body">

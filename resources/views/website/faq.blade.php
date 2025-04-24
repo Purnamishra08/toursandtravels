@@ -64,6 +64,7 @@
                                 <p>{{isset($parameters) ? $parameters[0]->par_value : ''}}</p></p>
                             </li>
                         </ul>
+                        <a class="btn btn-light " href="{{route('website.contactus')}}">Contact Now</a>
                         </div>
                     </div>
                 </div>

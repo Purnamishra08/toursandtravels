@@ -259,9 +259,23 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('website.bloglisting') ? 'active' : '' }}" href="{{ route('website.bloglisting') }}">Blog</a>
                             </li>
+                            
+                            <li class="mob-menu nav-item">
+                                <a  href="{{route('website.about-us')}}"class="nav-link">About Us</a>
+                            </li>
+                            <li class="mob-menu nav-item">
+                                <a href="{{route('website.privacy-policy')}}" class="nav-link">Privacy Policy</a>
+                            </li>
+                            <li class="mob-menu nav-item">
+                                <a href="{{route('website.term-condition')}}" class="nav-link">Terms & Conditions</a>
+                            </li>
+                            <li class="mob-menu nav-item">
+                                <a href="{{route('website.booking-policy')}}" class="nav-link">Booking Policy</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('website.contactus') ? 'active' : '' }}" aria-current="page" href="{{ route('website.contactus')}}">Contact Us</a>
                             </li>
+                           
                             <!-- <li class="nav-item">
                                 <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" aria-current="page" href="#"><i class="bi bi-search"></i></a>
                             </li> -->

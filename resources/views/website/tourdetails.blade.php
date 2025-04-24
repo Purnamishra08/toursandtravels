@@ -41,7 +41,7 @@ for ($i = 0; $i < $fullStars; $i++)
     <div class="page-area">
         <section class="contact-section">
             <div class="container">
-                <div class="row">
+                <div class="row g-3">
                     <div class="col-lg-8 tour-details-box order-last order-lg-first">
                         <img class="destination-img"
                             src="{{ asset('storage/tourpackages/thumbs/' . $tours->tour_thumb) }}" alt="img" />
@@ -219,7 +219,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                         </div>
                                         <a href="#" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                                     </div>
-                                    <div class="review-wrapper">
+                                    <div class="review-wrapper thin-scroll">
                                         @foreach($reviews as $review)
                                         <div class="card client-review-card h-100">
                                             <div class="card-body">
@@ -388,6 +388,22 @@ for ($i = 0; $i < $fullStars; $i++)
                         <p class="section-title-small">Feature tours</p>
                         <h2 class="section-title-sm"> Most Popular {{$tag_name}}</h2>
                     </div>
+                    <div>
+                    <div class="row g-2">
+                        <div class="col-lg-6"><select class="form-select" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select></div>
+                        <div class="col-lg-6"><select class="form-select" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select></div>
+                    </div>
+                </div>
                 </div>
                 <div class="card-wrapper" id="allTour">
                     @foreach ($tour_packages as $values)
@@ -480,6 +496,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                         <p>{{isset($parameters) ? $parameters[0]->par_value : ''}}</p>
                                     </li>
                                 </ul>
+                                <a class="btn btn-light " href="{{route('website.contactus')}}">Contact Now</a>
                                 </div>
                             </div>  
                         </div>

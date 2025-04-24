@@ -123,7 +123,7 @@
                             </div>
                             <a href="#" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                         </div>
-                        <div class="review-wrapper">
+                        <div class="review-wrapper thin-scroll">
                             @foreach($reviews as $review)
                             <div class="card client-review-card h-100">
                                 <div class="card-body">

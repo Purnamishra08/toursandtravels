@@ -214,3 +214,8 @@ width: 100%;
         rotate: 90deg;
 
     }
+    @media(max-width:768px){
+        #page-load-modal h1 {
+            font-size: 1.1rem;
+        }
+    }

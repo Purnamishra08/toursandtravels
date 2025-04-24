@@ -19,7 +19,7 @@
     <section>
         <div class="container">
 
-            <div class="row">
+            <div class="row  g-3">
                 <div class=" col-xxl-3 col-lg-4">
                     <div class="stickey-section">
 
@@ -49,6 +49,8 @@
                                         </p>
                                     </li>
                                 </ul>
+                                <a class="btn btn-light " href="{{route('website.contactus')}}">Contact Now</a>
+
                             </div>
                         </div>
                     </div>
@@ -390,7 +392,7 @@
                     </div>
                     <a href="#" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                 </div>
-                <div class="review-wrapper">
+                <div class="review-wrapper thin-scroll">
                     @foreach($reviewsData as $reviews)
                     <div class="card client-review-card h-100">
                         <div class="card-body">
