@@ -57,25 +57,30 @@
 
                 </div>
                 <div class="col-xxl-9 col-lg-8">
-                    <div class="page-section hero" id="overview">
-                        <h1 class="page-section-heading">{{isset($destinationData) ? $destinationData->destination_name : ''}} Overview</h1>
-                        @php
-                            if(isset($destinationData)){
-                                $aboutFull = trim($destinationData->about_destination);
-                                $aboutLimit = Str::limit($aboutFull, 1000, ''); // Limit to 250 characters
-                            }else{
-                                $aboutFull = '';
-                                $aboutLimit = ''; // Limit to 250 characters
-                            }
-                        @endphp
-                        <div class="short-text">
-                            <p>{!! $aboutLimit !!}...</p>
+                    <div class="container">
+                        <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
+                            <div>
+                                <!-- <p class="section-title-small">Feature tours</p> -->
+                                <h2 class="section-title">{{isset($destinationData) ? $destinationData->destination_name : ''}} Overview</h2>
+                            </div>
                         </div>
 
-                        <div class="full-text-content d-none">
-                            <p>{!! $aboutFull !!}</p>
+                        <div class="about-content mb-3 thin-scroll">
+                            <div class="description-preview" style="max-height: 200px; overflow: hidden; position: relative;">
+                                <div class="fade-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px;background: linear-gradient(to bottom, rgb(252 252 252 / 64%), #ffffff);"></div>
+                                <div class="description-full">
+                                    {!! $destinationData->about_destination!!}
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="d-flex gap-2 align-items-center mt-3 blog-share">
+                        
+                        <button class="moreless-button mb-3"
+                            style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500; border:0">
+                            Read more <span style="margin-left: 5px;">&#x25BC;</span>
+                        </button>
+
+                        <div class="d-flex gap-2 align-items-center mt-3 mb-3 blog-share">
                             <strong>Share :</strong>
                             @php
                             if(isset($parameters)){
@@ -97,15 +102,9 @@
                                 <li><a href="{{$LinkedInLink}}" title="Linkdin" target="_blank" data-toggle="tooltip"> <i class="bi bi-linkedin"></i></a></li>
                             </ul>
                         </div>
-                        <br>
-                        <button class="moreless-button" 
-                            style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500;border:0">
-                            Read more <span style="margin-left: 5px;">&#x25BC;</span>
-</button>
-
-
                     </div>
-                    <div class="page-section" id="topPlace">
+                    
+                    <div class="page-section  id="topPlace">
                         <h1 class="page-section-heading">Top Places to Visit in {{$destinationData->destination_name}}</h1>
                         <div class="top-place-wrapper " id="post-data">
                             <!-- Loaded places will appear here -->
@@ -510,16 +509,18 @@
         });
     }).scroll();
 
-    $('.moreless-button').click(function() {
-        // Toggle the visibility of the short and full content
-        $('.short-text').toggleClass('d-none'); // Hide/show the short text
-        $('.full-text-content').toggleClass('d-none'); // Show/hide the full text content
+    $('.moreless-button').click(function () {
+        const preview = $('.about-content .description-preview'); // access inside content
 
-        // Change the button text accordingly
-        if ($(this).text().trim().startsWith("Read more")) {
-            $(this).html('Read less <span style="margin-left: 5px;">&#9650;</span>'); // ▲
+        preview.toggleClass('expanded');
+        preview.find('.fade-overlay').toggleClass('d-none');
+
+        if (preview.hasClass('expanded')) {
+            preview.css('max-height', 'none');
+            $(this).html('Read less <span style="margin-left: 5px;">&#9650;</span>');
         } else {
-            $(this).html('Read more <span style="margin-left: 5px;">&#9660;</span>'); // ▼
+            preview.css('max-height', '200px');
+            $(this).html('Read more <span style="margin-left: 5px;">&#9660;</span>');
         }
     });
 </script>

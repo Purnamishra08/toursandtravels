@@ -93,7 +93,7 @@ class DestinationTypeController extends Controller
     public function adddestination_type(Request $request){
         if ($request->isMethod('post')) {
             $validator = Validator::make($request->all(), [
-                'destinationtype'          => 'required|string|max:255|unique:tbl_destination_type,destination_type_name',
+                'destinationtype'          => 'required|string|max:255',
             ]);
 
             // If validation fails
@@ -139,7 +139,7 @@ class DestinationTypeController extends Controller
         if ($request->isMethod('post')) {
             // Validate input
             $validator = Validator::make($request->all(), [
-                'destinationtype' => 'required|string|max:255|unique:tbl_destination_type,destination_type_name,' . $id . ',destination_type_id',
+                'destinationtype' => 'required|string|max:255',
             ]);
 
             if ($validator->fails()) {
