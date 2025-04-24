@@ -159,6 +159,9 @@ Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->na
 /********  ADMIN ROUTING    ********/
 Route::get('/admin', [LoginController::class, 'index'])->name('admin.login');
 Route::post('/admin/login', [LoginController::class, 'login'])->name('admin.processLogin');
+Route::post('/admin/check-email', [LoginController::class, 'checkEmailAndSendOTP'])->name('admin.checkEmailAndSendOTP');
+Route::post('/admin/verify-otp', [LoginController::class, 'verifyOtp'])->name('admin.verifyOtp');
+Route::post('/admin/reset-password', [LoginController::class, 'resetPassword'])->name('admin.resetPassword');
 Route::get('/admin/forgot-password', [LoginController::class, 'forgotPassword'])->name('admin.forgot-password');
 Route::get('/admin/change-password', [LoginController::class, 'changePassword'])->name('admin.change-password');
 Route::match(['get', 'post'], '/logout', [LoginController::class, 'logout'])->name('admin.logout');
