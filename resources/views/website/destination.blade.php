@@ -57,7 +57,7 @@
 
                 </div>
                 <div class="col-xxl-9 col-lg-8">
-                    <div class="container">
+                    <div class="page-section" id="overview">
                         <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
                             <div>
                                 <!-- <p class="section-title-small">Feature tours</p> -->
@@ -104,7 +104,7 @@
                         </div>
                     </div>
                     
-                    <div class="page-section  id="topPlace">
+                    <div class="page-section"  id="topPlace">
                         <h1 class="page-section-heading">Top Places to Visit in {{$destinationData->destination_name}}</h1>
                         <div class="top-place-wrapper " id="post-data">
                             <!-- Loaded places will appear here -->
