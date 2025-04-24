@@ -370,6 +370,8 @@ class TourController extends Controller
 
                 $tag_name = DB::table('tbl_menutags')
                     ->where('tagid', $tagid)
+                    ->where('status',1)
+                    ->where('bit_Deleted_Flag',0)
                     ->value('tag_name');
             }
         }

@@ -194,7 +194,7 @@
                                                                     <div class="form-group">
                                                                         <label>Banner Image <span class="manadatory">*</span></label>
                                                                         <input class="form-control" type="file" name="tourimg" id="tourimg">
-                                                                        <span>Image size should be 745px X 450px</span>
+                                                                        <span>Image size should be 1900px X 300px</span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">

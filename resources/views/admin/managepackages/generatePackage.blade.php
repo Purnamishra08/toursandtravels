@@ -514,7 +514,13 @@
                     // Show loading spinner or something before sending
                 },
                 success: function (result) {
-                    $('#result').html(result);  // Update the result section with the response
+                        // Check if download URL is provided
+                    if (result.status === 'success' && result.download_url) {
+                        // Redirect to the download URL to start the download
+                        window.location.href = result.download_url;
+                    } else {
+                        alert('Failed to generate PDF.');
+                    }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("Status: " + textStatus + "\n" + "Error: " + errorThrown);
@@ -600,7 +606,11 @@
                     // Show loading spinner or something before sending
                 },
                 success: function (result) {
-                    $('#result').html(result);  // Update the result section with the response
+                     if(result.download_url) {
+            window.location.href = result.download_url;  // Redirect to the generated DOCX file URL
+        } else {
+            alert("Error: Download URL not received.");
+        }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     alert("Status: " + textStatus + "\n" + "Error: " + errorThrown);
@@ -617,5 +627,3 @@
 </body>
 
 </html>
-
-composer require barryvdh/laravel-dompdf  --ignore-platform-reqs

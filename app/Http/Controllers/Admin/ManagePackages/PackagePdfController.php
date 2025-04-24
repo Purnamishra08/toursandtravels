@@ -10,10 +10,10 @@ use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\View;
-//word file
-use PhpOffice\PhpWord\PhpWord;
+
+
+use PhpOffice\PhpWord\PhpWord;  // Make sure this import is here
 use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\Shared\Html;
 class PackagePdfController extends Controller
 {
     public function index(Request $request){
@@ -143,9 +143,8 @@ class PackagePdfController extends Controller
 
         // Get hotel_type_ids used in this package
         $accommodationTypes = DB::table('tbl_hotel as a')
+            ->select(DB::raw('DISTINCT a.hotel_type as hotel_type_id'), 'b.hotel_type_name')
             ->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')
-            ->distinct()
-            ->select('a.hotel_type as hotel_type_id')
             ->where('a.status', 1)
             ->whereIn('a.destination_name', function($query) use ($packageId) {
                 $query->select('destination_id')
@@ -304,100 +303,6 @@ class PackagePdfController extends Controller
         return response()->json(['html' => $html]);
     }
 
-    // public function getAccommodationWeb(Request $request)
-    // {   
-    //     $firstHotelType = $request->input('accommodation_type');
-    //     $tourPackageId = $request->input('packageid');
-
-    //     $hotelTypeName = DB::table('tbl_hotel_type')
-    //         ->where('hotel_type_id', $firstHotelType)
-    //         ->where('status',1)
-    //         ->where('bit_Deleted_Flag',0)
-    //         ->value('hotel_type_name');
-    //     $accommodations = DB::table('tbl_package_accomodation')
-    //         ->where('bit_Deleted_Flag',0)
-    //         ->where('package_id', $tourPackageId)
-    //         ->get();
-
-    //     $html = '';
-    //     if (!$accommodations->isEmpty()) {
-    //         $html .= '<div class="col-xl-12 col-lg-12">';
-    //         $html .= '<h4 style="color:#6583bb; padding-bottom:20px;">' . $hotelTypeName . '</h4>';
-    //         $html .= '</div>';
-
-    //         $hotelCount = 1;
-
-    //         foreach ($accommodations as $accommodation) {
-    //             $destinationId = $accommodation->destination_id;
-    //             $stayNights = $accommodation->noof_days;
-
-    //             $destinationName = DB::table('tbl_destination')
-    //                 ->where('destination_id', $destinationId)
-    //                 ->value('destination_name');
-
-    //             $hotelList = DB::table('tbl_hotel')
-    //                 ->where('destination_name', $destinationId)
-    //                 ->where('hotel_type', $firstHotelType)
-    //                 ->where('status', 1)
-    //                 ->orderBy('default_price', 'asc')
-    //                 ->get();
-
-    //             $html .= '<div class="col-xl-3 col-lg-3">';
-    //             $html .= '<h5>' . $destinationName . '</h5>';
-    //             $html .= ($stayNights > 0) ? '<h6>(' . $stayNights . ' Nights)</h6>' : '';
-    //             $html .= '</div>';
-
-    //             $html .= '<div class="col-xl-9 col-lg-9">';
-    //             $html .= '<div class="row">';
-
-    //             if ($hotelList->isEmpty()) {
-    //                 $html .= 'No hotel Available';
-    //             } else {
-    //                 $selCount = 1;
-    //                 foreach ($hotelList as $hotel) {
-    //                     $starRating = $hotel->star_rating;
-    //                     $floorRating = floor($starRating);
-    //                     $hasHalf = $starRating - $floorRating > 0;
-    //                     $emptyStars = 5 - ceil($starRating);
-
-    //                     $html .= '<div class="col-xl-4 col-lg-4">';
-    //                     $html .= '<div class="hoteldetails">';
-    //                     $html .= '<div class="form-check hotelplace">';
-    //                     $html .= '<label class="form-check-label" for="hotelradio_' . $selCount . '">';
-    //                     $html .= '<input type="radio" class="form-check-input" id="hotelradio_' . $selCount . '" name="hotelradio_' . $hotelCount . '" value="' . $hotel->hotel_id . '"' . ($selCount == 1 ? ' checked' : '') . '>' . $hotel->hotel_name;
-    //                     $html .= '</label>';
-    //                     $html .= '</div>';
-
-    //                     if (!empty($hotel->room_type)) {
-    //                         $html .= '<div class="hotelrating">(' . $hotel->room_type . ')</div>';
-    //                     }
-
-    //                     $html .= '<div class="hotelrating">';
-    //                     $html .= str_repeat('<i class="fas fa-star"></i>', $floorRating);
-    //                     if ($hasHalf) {
-    //                         $html .= '<i class="fas fa-star-half-alt"></i>';
-    //                     }
-    //                     $html .= str_repeat('<i class="far fa-star"></i>', $emptyStars);
-    //                     $html .= '</div>'; // hotelrating
-    //                     $html .= '</div>'; // hoteldetails
-    //                     $html .= '</div>'; // col
-    //                     $selCount++;
-    //                 }
-    //             }
-
-    //             $html .= '</div>'; // row
-    //             $html .= '</div>'; // col-9
-
-    //             if ($hotelCount < count($accommodations)) {
-    //                 $html .= '<div class="col-md-12"><hr></div>';
-    //             }
-
-    //             $hotelCount++;
-    //         }
-    //     }
-
-    //     return response()->json(['html' => $html]);
-    // }
     public function getAccommodationWeb(Request $request)
     {
         $firstHotelType = $request->input('accommodation_type');
@@ -439,12 +344,12 @@ class PackagePdfController extends Controller
                     $html .= '<div class="hotel-wrapper mb-2">No hotels available in this destination.</div>';
                 } else {
                     $selCount = 1;
+                    $html .= '<div class="hotel-wrapper mb-1" id="accomodation_result">';
                     foreach ($hotelList as $hotelIndex => $hotel) {
                         $checked = $selCount == 1 ? 'checked' : '';
                         $radioName = 'hotelradio_' . $selCount;
                         $hotelNameCount = 'hotelradio_' . $hotelcount;
 
-                        $html .= '<div class="hotel-wrapper mb-1" id="accomodation_result">';
                         $html .= '<label class="hotel-details-card">';
                         $html .= '<input name="' . $hotelNameCount . '" id="' . $radioName . '"  class="hotel-radio form-check-input" type="radio" value="' . $hotel->hotel_id . '" ' . $checked . '>';
                         $html .= '<div class="card-body plan-details">';
@@ -471,9 +376,9 @@ class PackagePdfController extends Controller
 
                         $html .= '</div>'; // card-body
                         $html .= '</label>';
-                        $html .= '</div>'; // hotel-wrapper
                         $selCount++;
                     }
+                    $html .= '</div>'; // hotel-wrapper
                 }
 
                 if ($index < count($accommodations) - 1) {
@@ -822,24 +727,7 @@ class PackagePdfController extends Controller
             ->where('status', 1)
             ->where('bit_Deleted_Flag', 0)
             ->get();
-
-        // return view('website.bookingDownload',[
-        //     'status'=>200,
-        //     'tpackage_name'=>$tpackage_name,//
-        //     'adult' => $quantity_adult,//
-        //     'child' => $quantity_child,//
-        //     'field_value' => $field_value,//
-        //     'hid_packageid' =>$hid_packageid,
-        //     'parameters'=>$parameters,
-        //     'vehicle' => $vehicle_name,
-        //     'travel_date' => $travel_date,
-        //     'accommodation' => $accommodation_name,
-        //     'airport_pickup' => $airport_pickup,
-        //     'airport_drop' => $airport_drop,
-        //     'total_price' => number_format($total_price, 2)
-        // ]);
-
-       $viewData = [
+        $viewData = [
             'status'=>200,
             'tpackage_name'=>$tpackage_name,//
             'adult' => $quantity_adult,//
@@ -855,12 +743,30 @@ class PackagePdfController extends Controller
             'total_price' => number_format($total_price, 2)
         ];
 
+        // Generate the PDF
+        $pdf = Pdf::loadView('website.bookingDownload', $viewData);
 
-        
-        return view('website.bookingDownload', $viewData);
-        // $pdf = Pdf::loadView('website.bookingDownload', $viewData);
-        // return $pdf->download('TourQuote.pdf');
-       
+        // Store the PDF in a temporary file with the tour package name
+        $tpackage_name_slug = str_replace(' ', '_', $tpackage_name);  // Replace spaces with underscores
+        $pdfPath = sys_get_temp_dir() . '/' . $tpackage_name_slug . '.pdf';  // Use the modified name
+        $pdf->save($pdfPath);
+
+        // Return the download URL in the response
+        return response()->json([
+            'status' => 'success',
+            'download_url' => route('admin.downloadPDF', ['file' => $tpackage_name_slug . '.pdf'])  // Pass correct file name to route
+        ]);
+    }
+
+    public function downloadPDF($file)
+    {
+        // Set the full file path
+        $filePath = sys_get_temp_dir() . '/' . $file;
+        // Check if the file exists
+        if (file_exists($filePath)) {
+            return response()->download($filePath, $file)->deleteFileAfterSend(true);
+        }
+        return response()->json(['error' => 'File not found.'], 404);
     }
 
     public function generateDoc(Request $request)
@@ -1026,23 +932,10 @@ class PackagePdfController extends Controller
             ->where('bit_Deleted_Flag', 0)
             ->get();
 
-        // return view('website.bookingDownload',[
-        //     'status'=>200,
-        //     'tpackage_name'=>$tpackage_name,//
-        //     'adult' => $quantity_adult,//
-        //     'child' => $quantity_child,//
-        //     'field_value' => $field_value,//
-        //     'hid_packageid' =>$hid_packageid,
-        //     'parameters'=>$parameters,
-        //     'vehicle' => $vehicle_name,
-        //     'travel_date' => $travel_date,
-        //     'accommodation' => $accommodation_name,
-        //     'airport_pickup' => $airport_pickup,
-        //     'airport_drop' => $airport_drop,
-        //     'total_price' => number_format($total_price, 2)
-        // ]);
-
-       $viewData = [
+              // Create a new PhpWord object
+        $phpWord = new PhpWord();
+        $section = $phpWord->addSection();
+        $viewData = [
             'status'=>200,
             'tpackage_name'=>$tpackage_name,//
             'adult' => $quantity_adult,//
@@ -1057,30 +950,58 @@ class PackagePdfController extends Controller
             'airport_drop' => $airport_drop,
             'total_price' => number_format($total_price, 2)
         ];
-
-
-        
         // return view('website.bookingDownload', $viewData);
+            // Render the Blade view to HTML
+        $tpackage_name_slug = str_replace(' ', '_', $tpackage_name);  // Replace spaces with underscores
+         // Render the Blade view as HTML content
+            // Render the Blade view to HTML
+        $htmlContent = view('website.bookingDownload', $viewData)->render();
 
-    $html = view('website.bookingDownload', $viewData)->render();
-    // Ensure HTML is properly wrapped to avoid PhpWord DOM issues
-    $dom = new \DOMDocument('1.0', 'UTF-8');
-    libxml_use_internal_errors(true);
-    $wrappedHtml = '<html><body>' . $html . '</body></html>';
-    $dom->loadHTML($wrappedHtml, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    libxml_clear_errors();
-    $cleanHtml = $dom->saveHTML();
+        // Add HTML content to the DOCX file
+        $section->addText(html_entity_decode($htmlContent), ['name' => 'Arial', 'size' => 12]);
 
-    $phpWord = new PhpWord();
-    $section = $phpWord->addSection();
-    \PhpOffice\PhpWord\Shared\Html::addHtml($section, $cleanHtml, false, false);
+        // Define temporary file path
+        $tpackage_name_slug = str_replace(' ', '_', $tpackage_name);
+        $filePath = sys_get_temp_dir() . '/' . $tpackage_name_slug . '.docx';
 
-    $fileName = 'TourQuote_' . time() . '.docx';
-    $filePath = storage_path($fileName);
+        // Save the file to the temporary location
+        $phpWord->save($filePath, 'Word2007');
 
-    $writer = IOFactory::createWriter($phpWord, 'Word2007');
-    $writer->save($filePath);
+        // Check if the file exists before attempting to return it
+        if (file_exists($filePath)) {
+            return response()->json(['download_url' => url('download/' . $tpackage_name_slug . '.docx')]);
+        } else {
+            return response()->json(['error' => 'File generation failed'], 500);
+        }
+    }
 
-    return response()->download($filePath)->deleteFileAfterSend(true);
+
+    public function generateDocx(Request $request)
+    {
+        // Assuming you have a variable like $tpackage_name_slug from your logic
+        $tpackage_name_slug = 'Relax_Coorg_tour';  // Example, set this dynamically as needed
+
+        // Create a new instance of PhpWord
+        $phpWord = new PhpWord();
+        
+        // Add a section and content to the document
+        $section = $phpWord->addSection();
+        $section->addText("Hello, this is a test document created using PHPWord!");
+
+        // Define the temporary file path in the system's temp directory
+        $filePath = sys_get_temp_dir() . '/' . $tpackage_name_slug . '.docx';
+
+        // Save the document to the temporary file
+        $phpWord->save($filePath, 'Word2007');
+
+        // Check if the file exists
+        if (file_exists($filePath)) {
+            // Return a response to download the file
+            // Set the headers to force a file download
+            return response()->download($filePath)
+                ->deleteFileAfterSend(true);  // Delete the file after sending it to the user
+        } else {
+            return response()->json(['error' => 'Failed to generate the DOCX file.'], 500);
+        }
     }
 }

@@ -109,7 +109,7 @@ Route::get('/clientReviews', [HomeController::class, 'clientReviews'])->name('we
 //Tour Routing
 Route::get('/coorg-tour-packages', [TourController::class, 'allTourPackages'])->name('website.allTourPackages');
 Route::get('/place-package/{slug}', [TourController::class, 'allTourPlacePackages'])->name('website.allTourPlacePackages');
-Route::get('tour/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
+Route::get('tours/{slug}', [TourController::class, 'tourDetails'])->name('website.tourDetails');
 Route::post('/submit-inquiry', [TourController::class, 'submitInquiry'])->name('website.packageinquiry');
 
 Route::get('/getVehicles', [PackagePdfController::class, 'getVehicles'])->name('admin.generatePackageDoc.getVehicles');
@@ -153,9 +153,6 @@ Route::get('/about-us', [AboutusController::class, 'index'])->name('website.abou
 Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');
 //Footer
 
-//FooterQuickLinks
-Route::get('/coorg-packages/tours/{slug}', [FooterquicklinksController::class, 'allTourPackages'])->name('website.allTourPackagesFooter');
-//FooterQuickLinks
 /********  WEBSITE ROUTING    ********/
 
 
@@ -460,9 +457,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/getPackageAccommodations/{id}', [PackagePdfController::class, 'getPackageAccommodations'])->name('admin.generatePackageDoc.getPackageAccommodations');
     Route::get('/getAccommodation', [PackagePdfController::class, 'getAccommodation'])->name('admin.generatePackageDoc.getAccommodation');
     Route::match(['get', 'post'], '/generatePDF', [PackagePdfController::class, 'generatePDF'])->name('admin.generatePackageDoc.generatePDF');
+    // In web.php (routes file)
+Route::get('/download-pdf/{file}', [PackagePdfController::class, 'downloadPDF'])->name('admin.downloadPDF');
+Route::get('download/{filename}', function($filename) {
+    $filePath = sys_get_temp_dir() . '/' . $filename;
+
+    // Check if the file exists
+    if (file_exists($filePath)) {
+        return response()->download($filePath)->deleteFileAfterSend(true);
+    } else {
+        return abort(404, 'File not found');
+    }
+});
     Route::match(['get', 'post'], '/generateDoc', [PackagePdfController::class, 'generateDoc'])->name('admin.generatePackageDoc.generateDoc');
+    Route::match(['get', 'post'], '/generateDocx', [PackagePdfController::class, 'generateDocx'])->name('admin.generatePackageDoc.generateDocx');
     
     //Generate pdf or word doc
 });
 
 /********  ADMIN ROUTING    ********/
+
+//FooterQuickLinks
+Route::get('{slug}', [FooterquicklinksController::class, 'allTourPackages'])->name('website.allTourPackagesFooter');
+//FooterQuickLinks
