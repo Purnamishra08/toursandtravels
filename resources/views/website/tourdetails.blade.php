@@ -390,22 +390,27 @@ for ($i = 0; $i < $fullStars; $i++)
                     </div>
                     <div>
                     <div class="row g-2">
-                        <div class="col-lg-6"><select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select></div>
-                        <div class="col-lg-6"><select class="form-select" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select></div>
+                        <div class="col-lg-6">
+                            <select class="form-select filterOption" id="filterDuration">
+                                <option value="0">Duration</option>
+                                @foreach($durations as $duration)
+                                    <option value="{{ $duration->durationid }}">{{ $duration->duration_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-lg-6">
+                            <select class="form-select filterOption" id="filterDestination">
+                                <option value="0">Starting City</option>
+                                @foreach($destinations as $destination)
+                                    <option value="{{ $destination->destination_id }}">{{ $destination->destination_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
                 </div>
                 <div class="card-wrapper" id="allTour">
+                    @if(count($tour_packages)>0)
                     @foreach ($tour_packages as $values)
                     <div class="card tour-card">
                         <img class="card-img-top"
@@ -443,6 +448,9 @@ for ($i = 0; $i < $fullStars; $i++)
                         </div>
                     </div>
                     @endforeach
+                    @else
+                    <h3> No Packages Found</h3>
+                    @endif
                 </div>
             </div>
         </section>
@@ -771,6 +779,32 @@ for ($i = 0; $i < $fullStars; $i++)
     <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 
     <script>
+            $(document).ready(function () {
+                $('.filterOption').on('change', function () {
+                    const duration = $('#filterDuration').val();
+                    const destination = $('#filterDestination').val();
+
+                    $('#tourLoader').show();
+                    $('#allTour').hide();
+
+                    $.ajax({
+                        url: window.location.href, // Same URL
+                        method: "GET",
+                        data: {
+                            duration: duration,
+                            destination: destination
+                        },
+                        success: function (response) {
+                            $('#allTour').html($(response.html).find('#allTour').html()).fadeIn();
+                            $('#tourLoader').hide();
+                        },
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                            $('#tourLoader').hide();
+                        }
+                    });
+                });
+            });
         function reload(){
             location.reload();
         }

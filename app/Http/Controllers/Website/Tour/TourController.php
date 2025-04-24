@@ -345,6 +345,8 @@ class TourController extends Controller
                 ->distinct()
                 ->pluck('type_id');
 
+            $durationId = request('duration');
+            $destinationId = request('destination');
             if ($relatedIds->isNotEmpty()) {
                 $tour_packages = DB::table('tbl_tourpackages as a')
                     ->join('tbl_destination as b', 'a.starting_city', '=', 'b.destination_id')
@@ -365,8 +367,15 @@ class TourController extends Controller
                         'a.pack_type',
                         'b.destination_name',
                         'c.duration_name'
-                    )
-                    ->get();
+                    );
+
+                if ($durationId && $durationId != 0) {
+                    $tour_packages->where('a.package_duration', $durationId);
+                }
+                if ($destinationId && $destinationId != 0) {
+                    $tour_packages->where('a.starting_city', $destinationId);
+                }
+                $tour_packages=$tour_packages->get();
 
                 $tag_name = DB::table('tbl_menutags')
                     ->where('tagid', $tagid)
@@ -447,6 +456,48 @@ class TourController extends Controller
             ->orderby('faq_order','ASC')
             ->get();
 
+
+        $durations = DB::table('tbl_package_duration')
+            ->select('durationid','duration_name')
+            ->where('bit_Deleted_Flag', 0)
+            ->where('status', 1)
+            ->get();
+
+        $destinations = DB::table('tbl_destination')
+            ->select('destination_id','destination_name')
+            ->where('bit_Deleted_Flag', 0)
+            ->where('status', 1)
+            ->get();
+
+        if (request()->ajax()) {
+            $html = view('website.tourdetails', [
+                'tours' => $tour,
+                'meta_title' => $tour->meta_title,
+                'meta_description' => $tour->meta_description,
+                'meta_keywords' => $tour->meta_keywords,
+                'itinerary' => $itinerary,
+                'places' => $places,
+                'packageAccomodations' => $packageAccomodations,
+                'hotelsType' => $hotelsType,
+                'destinations' => $destinations,
+                'hotels' => $hotels,
+                'bookingPolicys' => $bookingPolicys,
+                'tour_packages' => $tour_packages,
+                'tag_name' => $tag_name,
+                'reviews' => $reviews,
+                'noof_vehicle' => $noof_vehicle,
+                'max_vehicle_capacity' => $max_vehicle_capacity,
+                'hotelsTypeDropDown' => $hotelsTypeDropDown,
+                'getVehicleDropDown' => $getVehicleDropDown,
+                'tourpackageid' => $tourpackageid,
+                'parameters' => $parameters,
+                'tourFaqs' => $tourFaqs,
+                'durations' => $durations,
+                'destinations' => $destinations
+            ])->render();
+            return response()->json(['html' => $html]);
+        }
+
         return view('website.tourdetails', [
             'tours' => $tour,
             'meta_title' => $tour->meta_title,
@@ -471,7 +522,10 @@ class TourController extends Controller
             //contactus
             'parameters'=>$parameters,
             //tourFaqs
-            'tourFaqs'=>$tourFaqs
+            'tourFaqs'=>$tourFaqs,
+            //filter
+            'durations'=>$durations,
+            'destinations'=>$destinations
         ]);
     }
     
