@@ -113,42 +113,42 @@ class LoginController extends Controller
             $otp = rand(100000, 999999);
             session(['otp' => $otp, 'otp_created_at' => now()]);
             $htmlContent = "
-            <!doctype html>
-            <html>
-            <head>
-                <meta charset='utf-8'>
-            </head>
-            <body style='font-family:sans-serif;font-size:13px; line-height:22px;'>
-                <div style='width: 100%;background: #F5F5F5;color: #000;'>
-                    <div style='text-align:center'>
-                        <a href='".url('/')."'><img src='".asset('assets/img/logo.png')."' alt='Logo'></a>
-                    </div>
-                    <div style='clear:both'></div>
-                </div>
-
-                <div style='padding:20px 30px;'>
-                    <h2 style='margin-bottom: 20px; color: #333;'>Forgot Password - OTP Verification</h2>
-                    <p>Hello <strong>$user->admin_name</strong>,</p>
-
-                    <p>We have received a request to reset your password. Please use the One Time Password (OTP) below to proceed with resetting your password.</p>
-
-                    <div style='background:#f0f0f0; padding:15px; margin:20px 0; text-align:center; font-size:18px; font-weight:bold; letter-spacing:3px;'>
-                        $otp
+                <!doctype html>
+                <html>
+                <head>
+                    <meta charset='utf-8'>
+                </head>
+                <body style='font-family:sans-serif;font-size:13px; line-height:22px;'>
+                    <div style='width: 100%;background: #F5F5F5;color: #000;'>
+                        <div style='text-align:center'>
+                            <a href='".url('/')."'><img src='".asset('assets/img/logo.png')."' alt='Logo'></a>
+                        </div>
+                        <div style='clear:both'></div>
                     </div>
 
-                    <p>This OTP is valid for <strong>10 minutes</strong> and can only be used once.</p>
-                    <p>If you did not request a password reset, please ignore this email.</p>
+                    <div style='padding:20px 30px;'>
+                        <h2 style='margin-bottom: 20px; color: #333;'>Forgot Password - OTP Verification</h2>
+                        <p>Hello <strong>$user->admin_name</strong>,</p>
 
-                    <p style='margin-top:30px;'>Thank you,<br>Team My Holiday Happiness</p>
-                </div>
+                        <p>We have received a request to reset your password. Please use the One Time Password (OTP) below to proceed with resetting your password.</p>
 
-                <div style='background:#f5f5f5; padding:10px 30px 5px; color:#000;'>
-                    <div style='color:#15c; font-size:13px; text-align:center; margin-bottom:10px;'>
-                        &copy; ".date('Y')." All rights reserved. myholidayhappiness.com
+                        <div style='background:#f0f0f0; padding:15px; margin:20px 0; text-align:center; font-size:18px; font-weight:bold; letter-spacing:3px;'>
+                            $otp
+                        </div>
+
+                        <p>This OTP is valid for <strong>10 minutes</strong> and can only be used once.</p>
+                        <p>If you did not request a password reset, please ignore this email.</p>
+
+                        <p style='margin-top:30px;'>Thank you,<br>Team My Holiday Happiness</p>
                     </div>
-                </div>
-            </body>
-            </html>
+
+                    <div style='background:#f5f5f5; padding:10px 30px 5px; color:#000;'>
+                        <div style='color:#15c; font-size:13px; text-align:center; margin-bottom:10px;'>
+                            &copy; ".date('Y')." All rights reserved. myholidayhappiness.com
+                        </div>
+                    </div>
+                </body>
+                </html>
             ";
             try {
                 Mail::send([], [], function ($message) use ($htmlContent, $user) {
