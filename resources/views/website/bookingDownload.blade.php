@@ -117,8 +117,8 @@
     <div class="page-footer">
         <table style="width: 100%; border-collapse:collapse;color:#3c3c3c;color: #ff0000">
             <tr>
-                <td>Support@myholidayhapiness.com</td>
-                <td style="text-align: right; width:50%;padding-right:2rem">080 - 4120 9702 or +91 9886 52 52 53</td>
+                <td>{{$parameters[27]->par_value}}</td>
+                <td style="text-align: right; width:50%;padding-right:2rem">{{$parameters[28]->par_value}}</td>
             </tr>
         </table>
     </div>
