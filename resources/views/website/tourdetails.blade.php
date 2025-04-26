@@ -73,7 +73,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                         data-bs-target="#pills-Booking" type="button" role="tab"
                                         aria-controls="pills-Booking" aria-selected="false">Booking Policy</button>
                                 </li>
-                                @if($itinerary[0]->itinerary_desc)
+                                @if(isset($itinerary[0]->itinerary_desc))
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="pills-others-tab" data-bs-toggle="pill"
                                         data-bs-target="#pills-others" type="button" role="tab"

@@ -255,7 +255,7 @@
                                                                 <div class="col-md-12">
                                                                     <div class="form-group">
                                                                         <label>Inclusion / Exclusion</label>
-                                                                        <textarea name="inclusion" id="inclusion" class="form-control" placeholder="Inclusion / Exclusion...">{{ old('inclusion', $inclusion ?? '') }}</textarea>
+                                                                        <textarea name="inclusion" id="inclusion" class="form-control" placeholder="Inclusion / Exclusion...">{{ old('inclusion', $inclusion ?? $inclusionExclusion->par_value) }}</textarea>
                                                                     </div>
                                                                 </div>
                                                                 <div class="clearfix"></div>

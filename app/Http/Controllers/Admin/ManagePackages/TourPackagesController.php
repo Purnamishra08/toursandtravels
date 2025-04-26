@@ -263,6 +263,13 @@ class TourPackagesController extends Controller
             $availableDestinations = $destinations;
 
             
+            $inclusionExclusion = DB::table('tbl_parameters')
+            ->select('parameter', 'par_value', 'parid')
+            ->where('param_type', 'CS')
+            ->where('parid', '22')
+            ->where('status', 1)
+            ->where('bit_Deleted_Flag', 0)
+            ->first();
 
             $tags = DB::table('tbl_menutags')
                 ->where('status', 1)
@@ -282,6 +289,7 @@ class TourPackagesController extends Controller
                 'availableDestinations' => $availableDestinations,
                 'tags' => $tags,
                 'max_noof_days' => $max_noof_days,
+                'inclusionExclusion'=>$inclusionExclusion
             ]);
         }
 
