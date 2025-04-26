@@ -42,7 +42,7 @@
         <div class="tour-filter-section">
             <div class="container">
 
-                <span class="filter-btn btn btn-sm btn-outline-secondary"><i class="bi bi-funnel me-2"></i>Filter</span>
+                <span class="filter-btn btn btn-sm btn-dark"><i class="bi bi-funnel me-2"></i>Filter</span>
             </div>
         </div>
         <div class="container">
