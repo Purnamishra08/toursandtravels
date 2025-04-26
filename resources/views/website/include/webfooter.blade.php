@@ -134,7 +134,7 @@
                                 <li><a href="#" title="Google+" target="_blank"  data-toggle="tooltip"> <i class="bi bi-google"></i></a></li>
                                 <li><a href="#" title="LinkedIn" target="_blank" data-toggle="tooltip"> <i class="bi bi-linkedin"></i></a></li>
 
-                        <li>Copyright © 2025 Tourism. All Rights Reserved</li>
+                        <li>Copyright © {{date('Y')}} Tourism. All Rights Reserved</li>
                     </ul>
                 </div>
                 <div class="col-lg-6 order-first order-lg-2">
