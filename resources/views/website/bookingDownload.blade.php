@@ -242,6 +242,29 @@
                                         @endif
                                         @endif
                                     </ul>
+                                    <ul style="padding-left: 1rem ; margin:0">
+                                        @if (!empty($placeIds))
+                                            @php 
+                                                $places = DB::table('tbl_places')
+                                                    ->select('placeid', 'destination_id', 'place_name', 'place_url')
+                                                    ->whereIn('placeid', explode(',', $placeIds))
+                                                    ->get();
+                                                $otherPlaces = explode(',', $itinerary->other_iternary_places);
+                                            @endphp
+                                    
+                                            @foreach($places as $place)
+                                                <li> {{$place->place_name}}</li>
+                                            @endforeach
+                                    
+                                            @if(!empty($itinerary->other_iternary_places))
+                                                @foreach($otherPlaces as $otherPlace)
+                                                    @if(!empty(trim($otherPlace)))
+                                                        <li> {{$otherPlace}}</li>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                    </ul>
                                 </td>
                             </tr>
                             @php $day++; @endphp
