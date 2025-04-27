@@ -224,7 +224,7 @@
         <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
 
             <div>
-                <p class="section-title-small">Feature tours</p>
+                <!-- <p class="section-title-small">Feature tours</p> -->
                 <h2 class="section-title">Most Popular Tour</h2>
             </div>
             <a href="{{route('website.allTourPackages')}}" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
@@ -239,7 +239,7 @@
     <div class="container">
         <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
             <div>
-                <p class="section-title-small">Destination Lists</p>
+                <!-- <p class="section-title-small">Destination Lists</p> -->
                 <h2 class="section-title section-title-large">
                     TOP DESTINATION PLACES
                 </h2>

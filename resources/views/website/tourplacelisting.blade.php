@@ -21,7 +21,7 @@
         <div class="container">
             <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
                 <div>
-                    <p class="section-title-small">Feature tours</p>
+                    <!-- <p class="section-title-small">Feature tours</p> -->
                     <h2 class="section-title"> {{!empty($countAndPrice) ? $countAndPrice->total_packages : 0}} {{!empty($placesData) ? $placesData->place_name : ''}} Tour Packages Found.</h2>
                 </div>
             </div>

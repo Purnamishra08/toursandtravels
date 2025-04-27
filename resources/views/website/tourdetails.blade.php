@@ -385,7 +385,7 @@ for ($i = 0; $i < $fullStars; $i++)
                 <div class="section-title-container wow animate__fadeInUp" data-wow-delay="200ms"
                     style="visibility: visible; animation-delay: 200ms; animation-name: fadeInUp;">
                     <div>
-                        <p class="section-title-small">Feature tours</p>
+                        <!-- <p class="section-title-small">Feature tours</p> -->
                         <h2 class="section-title-sm"> Most Popular {{$tag_name}}</h2>
                     </div>
                     <div>
@@ -435,7 +435,10 @@ for ($i = 0; $i < $fullStars; $i++)
 
                             <h5 class="card-title">{{ $values->tpackage_name }}</h5>
 
-                            <div class="d-flex justify-content-between align-items-center mt-3">
+                            
+                        </div>
+                        <div class="card-footer bg-white pb-3 pt-0 border-0">
+                        <div class="d-flex justify-content-between align-items-center ">
                                 <div class="p-card-info">
                                     <h6 class="mb-0"><span>₹ </span>{{ $values->price }}</h6>
                                     <strike>₹ {{ $values->fakeprice }}</strike>

@@ -354,7 +354,7 @@
         <div class="container">
             <div class="section-title-container wow animate__fadeInUp" data-wow-delay="200ms" style="visibility: visible; animation-delay: 200ms; animation-name: fadeInUp;">
                 <div>
-                    <p class="section-title-small">Feature tours</p>
+                    <!-- <p class="section-title-small">Feature tours</p> -->
                     <h2 class="section-title-sm"> Most Popular {{$placesData->destination_name}} Tour Packages</h2>
                 </div>
             </div>

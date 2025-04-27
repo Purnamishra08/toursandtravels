@@ -20,7 +20,7 @@
         <div class="container">
             <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
                 <div>
-                    <p class="section-title-small">Feature tours</p>
+                    <!-- <p class="section-title-small">Feature tours</p> -->
                     <h2 class="section-title"> Most Popular {{$footers->vch_Footer_Name}}</h2>
                 </div>
             </div>

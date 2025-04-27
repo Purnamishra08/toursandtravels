@@ -547,6 +547,8 @@ border: none;
     padding: 0;
     margin: 0;
     margin-top: 2rem;
+    font-size: .9rem;
+    color: #dddddd;
 
 }
 .contact-wrapper li{
@@ -1008,3 +1010,16 @@ height: 60PX;
     background-image: none;
     color: #fff;
 }
+/* error page */
+.error-img{
+    height: 40vh;
+    border-radius: .375rem;
+    border: 2px solid #dfdfdf;
+  }
+  @media(max-width:680px){
+    .error-img{
+        width: 300px;
+        height: 285px;
+        object-fit: cover;
+      }
+  }

@@ -74,7 +74,7 @@
     <section>
         <div class="container">
             <div>
-                <p class="section-title-small">Feature tours</p>
+                <!-- <p class="section-title-small">Feature tours</p> -->
                 <h2 class="section-title">Most Popular {{isset($placesData) ? $placesData->destination_name : ''}} Tour Packages</h2>
             </div>
             <div class="ajax-load text-center" style="display: none;">

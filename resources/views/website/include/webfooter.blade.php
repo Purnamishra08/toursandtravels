@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-lg-4">
                     <h1 class="mb-3">
-                        <a href="">
+                        <a href="" class="navbar-brand">
                             <img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" />
                         </a>
 

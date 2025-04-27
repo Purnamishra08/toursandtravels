@@ -77,8 +77,9 @@ class DestinationsController extends Controller{
                     <div class="card-body">
                         <h5 class="card-title">' . e($place->place_name) . '</h5>
                         <p class="card-text mb-2">' . implode(' ', array_slice(explode(' ', strip_tags($place->about_place)), 0, 30)) . '...</p>
-                        <a href="' . route('website.neardestination', ['slug' => $place->place_url]) . '" target="_blank" class="stretched-link fw-bold">View Details <i class="ms-2 bi bi-arrow-right"></i></a>
+                        
                     </div>
+                    <div class="card-footer pt-0 pb-3 bg-white border-0"><a href="' . route('website.neardestination', ['slug' => $place->place_url]) . '" target="_blank" class="stretched-link fw-bold">View Details <i class="ms-2 bi bi-arrow-right"></i></a></div>
                 </div>
             ';
         }
@@ -129,7 +130,10 @@ class DestinationsController extends Controller{
                         <span class="text-secondary">'.$values->ratings.' Star</span>
                     </div>
                     <h5 class="card-title">'.$values->tpackage_name.'</h5>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
+                    
+                </div>
+                <div class="card-footer bg-white pt-0 pb-3 border-0">
+                <div class="d-flex justify-content-between align-items-center ">
 
                         <div class="p-card-info">
                         

@@ -112,7 +112,10 @@ class HomeController extends Controller
                         <span class="text-secondary">'.$values->ratings.' Star</span>
                     </div>
                     <h5 class="card-title">'.$values->tpackage_name.'</h5>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
+                   
+                </div>
+                <div class="card-footer bg-white border-0 pb-3 pt-0"> 
+                <div class="d-flex justify-content-between align-items-center ">
 
                         <div class="p-card-info">
                         
@@ -121,8 +124,7 @@ class HomeController extends Controller
                             <strike >₹ '.$values->fakeprice.'</strike>
                         </div>
                         <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
-                    </div>
-                </div>
+                    </div></div>
             </div>';
             }
             return $html;
