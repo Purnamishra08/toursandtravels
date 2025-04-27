@@ -45,7 +45,7 @@ for ($i = 0; $i < $fullStars; $i++)
                     <div class="col-lg-8 tour-details-box order-last order-lg-first">
                         <img class="destination-img"
                             src="{{ asset('storage/tourpackages/thumbs/' . $tours->tour_thumb) }}" alt="img" />
-                        <h1 class="mt-2">{{ $tours->tpackage_name}}</h1>
+                        <h1 class="mt-2 package-name">{{ $tours->tpackage_name}}</h1>
                         <div class="d-flex align-items-center gap-2 mb-2">
                             <span class="text-secondary">{!! $starsHtml !!} Star</span>
                         </div>

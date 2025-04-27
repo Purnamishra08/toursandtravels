@@ -92,7 +92,7 @@
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                             <h2 class="section-title-sm mb-0">Frequently Asked Questions</h2>
                         </div>
-                        <a href="http://localhost:8000/Faqs/destination-faqs" target="_blank" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="{{route('website.faqs', ['slug' => 'package-faqs'])}}" target="_blank" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                     @if($tourFaqs->count())
                         <div class="accordion faq-accordion" id="accordionExample">

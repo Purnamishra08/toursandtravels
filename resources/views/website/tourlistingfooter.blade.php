@@ -24,25 +24,24 @@
                     <h2 class="section-title"> Most Popular {{$footers->vch_Footer_Name}}</h2>
                 </div>
             </div>
-
-            <div class="about-content mb-3">
+            <div class="about-content mb-3 thin-scroll">
                 <div class="description-preview" style="max-height: 200px; overflow: hidden; position: relative;">
-                    <div class="fade-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 50px; background: linear-gradient(transparent, white);"></div>
+                    <div class="fade-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px;background: linear-gradient(to bottom, rgb(252 252 252 / 64%), #ffffff);"></div>
                     <div class="description-full">
                         {!! $footers->vch_Footer_Desc !!}
                     </div>
                 </div>
 
-                <button class="moreless-button"
-                    style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500; border:0">
-                    Read more <span style="margin-left: 5px;">&#x25BC;</span>
-                </button>
             </div>
+            <button class="moreless-button mb-3"
+                style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500; border:0">
+                Read more <span style="margin-left: 5px;">&#x25BC;</span>
+            </button>
         </div>
         <div class="tour-filter-section">
             <div class="container">
 
-                <span class="filter-btn btn btn-sm btn-outline-secondary"><i class="bi bi-funnel me-2"></i>Filter</span>
+                <span class="filter-btn btn btn-sm btn-dark"><i class="bi bi-funnel me-2"></i>Filter</span>
             </div>
         </div>
         <div class="container">
@@ -92,7 +91,7 @@
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                             <h2 class="section-title-sm mb-0">Frequently Asked Questions</h2>
                         </div>
-                        <a href="http://localhost:8000/Faqs/destination-faqs" target="_blank" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <a href="{{route('website.faqs', ['slug' => 'package-faqs'])}}" target="_blank" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
                     @if($tourFaqs->count())
                         <div class="accordion faq-accordion" id="accordionExample">
@@ -208,26 +207,24 @@
     </section>
     <section class="bg-light">
         <div class="container">
-        <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
-                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                            <h2 class="section-title-sm mb-0">About Coorg Tour Package</h2>
-                        </div>
-                    </div>
-                <div class="about-content mb-3">
-                    <!-- Description Preview with Truncated Content -->
-                    <div class="description-preview" style="max-height: 200px; overflow: hidden; position: relative;">
-                        <div class="fade-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 50px; background: linear-gradient(transparent, white);"></div>
-                        <div class="description-full">
-                            {!! $tourPageData->about_tag !!}
-                        </div>
-                    </div>
-
-                    <!-- Toggle Button -->
-                    <button class="moreless-button-about"
-                        style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500;border:0">
-                        Read more <span style="margin-left: 5px;">&#x25BC;</span>
-                    </button>
+            <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                    <h2 class="section-title-sm mb-0">About Coorg Tour Package</h2>
                 </div>
+            </div>
+            <div class="about-content mb-3 thin-scroll">
+                <!-- Description Preview with Truncated Content -->
+                <div class="description-preview" style="max-height: 200px; overflow: hidden; position: relative;">
+                    <div class="fade-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px;background: linear-gradient(to bottom, rgb(252 252 252 / 52%), #f8f8f8)"></div>
+                    <div class="description-full">
+                        {!! $tourPageData->about_tag !!}
+                    </div>
+                </div>
+            </div>
+            <button class="moreless-button-about"
+                style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500;border:0">
+                Read more <span style="margin-left: 5px;">&#x25BC;</span>
+            </button>
         </div>
     </section>
 
@@ -336,13 +333,14 @@
 </script>
 <script>
     $('.moreless-button-about').click(function () {
-        const preview = $(this).siblings('.description-preview'); // Get the sibling description-preview
+        // Get the .about-content above the button
+        const preview = $(this).prev('.about-content').find('.description-preview');
 
-        // Toggle the expanded class for smooth transition
+        // Toggle expand state
         preview.toggleClass('expanded');
         preview.find('.fade-overlay').toggleClass('d-none');
 
-        // If the content is expanded, show full content, else show truncated content
+        // Update styles and button text
         if (preview.hasClass('expanded')) {
             preview.css('max-height', 'none');
             $(this).html('Read less <span style="margin-left: 5px;">&#9650;</span>');
@@ -353,7 +351,7 @@
     });
 
     $('.moreless-button').click(function () {
-        const preview = $(this).siblings('.description-preview');
+        const preview = $('.about-content .description-preview'); // access inside content
 
         preview.toggleClass('expanded');
         preview.find('.fade-overlay').toggleClass('d-none');

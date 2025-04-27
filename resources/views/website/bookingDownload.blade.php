@@ -279,16 +279,84 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                                 <li> {{$otherPlace}}</li>
                                 @endforeach
                                 @endif
-                                @endif
-                            </ul>
-                        </td>
-                    </tr>
-                    @php $day++; @endphp
-                    @endforeach
-                    @endif
-                </table>
-            </td>
-        </tr>
+                            </tr>
+                            @endforeach
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @php
+                            $noOfItineraries = DB::table('tbl_itinerary_daywise')
+                                    ->where('bit_Deleted_Flag', 0)
+                                    ->where('package_id', $hid_packageid)
+                                    ->count();
+                            $daywiseItineraries = DB::table('tbl_itinerary_daywise')
+                                    ->where('package_id', $hid_packageid)
+                                    ->where('bit_Deleted_Flag', 0)
+                                    ->orderBy('itinerary_daywiseid')
+                                    ->get();
+                            $day = 1;
+                        @endphp
+                        <table style="width: 100%; border-collapse:collapse;margin-top:20px">
+                            @if($noOfItineraries>0)
+                            @foreach($daywiseItineraries as $itinerary)
+                            @php $placeIds = $itinerary->place_id; @endphp
+                            <tr>
+                                <th style="border: 1px solid #c5dad6;padding: .25rem;background-color: #e0edeb; text-align:left">Day {{$day}}- {{$itinerary->title}}</th>
+                            </tr>
+                            <tr>
+                                <td style="padding: .25rem; border:1px solid #c5dad6;">
+                                    <ul style="padding-left: 1rem ; margin:0">
+                                        @if (!empty($placeIds))
+                                        @php 
+                                            $places = DB::table('tbl_places')
+                                                ->select('placeid', 'destination_id', 'place_name', 'place_url')
+                                                ->whereIn('placeid', explode(',', $placeIds))
+                                                ->get();
+                                            $otherPlaces = explode(',', $itinerary->other_iternary_places);
+                                        @endphp
+                                        @foreach($places as $place)
+                                            <li> {{$place->place_name}}</li>
+                                        @endforeach
+                                        @if(count($otherPlaces)>0)
+                                        @foreach($otherPlaces as $otherPlace)
+                                            <li> {{$otherPlace}}</li>
+                                        @endforeach
+                                        @endif
+                                        @endif
+                                    </ul>
+                                    <ul style="padding-left: 1rem ; margin:0">
+                                        @if (!empty($placeIds))
+                                            @php 
+                                                $places = DB::table('tbl_places')
+                                                    ->select('placeid', 'destination_id', 'place_name', 'place_url')
+                                                    ->whereIn('placeid', explode(',', $placeIds))
+                                                    ->get();
+                                                $otherPlaces = explode(',', $itinerary->other_iternary_places);
+                                            @endphp
+                                    
+                                            @foreach($places as $place)
+                                                <li> {{$place->place_name}}</li>
+                                            @endforeach
+                                    
+                                            @if(!empty($itinerary->other_iternary_places))
+                                                @foreach($otherPlaces as $otherPlace)
+                                                    @if(!empty(trim($otherPlace)))
+                                                        <li> {{$otherPlace}}</li>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                    </ul>
+                                </td>
+                            </tr>
+                            @php $day++; @endphp
+                            @endforeach
+                            @endif
+                        </table>
+                    </td>
+                </tr>
 
             <!-- Include the page-break-before here to avoid page breaking within the inclusions -->
             <tr>
