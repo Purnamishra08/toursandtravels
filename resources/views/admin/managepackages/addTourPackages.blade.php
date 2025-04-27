@@ -193,6 +193,20 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="clearfix"></div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Tour Details Image <span class="manadatory">*</span></label>
+                                                                        <input class="form-control" type="file" name="tour_details_img" id="tour_details_img">
+                                                                        <span>Image size should be 900px X 300px</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Alt for Tour Details Image <span class="manadatory">*</span></label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Alt for Tour Details Image" name="alttag_details" id="alttag_details" value="{{ old('alttag_details') }}" maxlength="60">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
                                                                 <!-- Package Type and Itinerary -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
@@ -427,9 +441,13 @@
         return false;
         if (!validateFilePresence('tourthumb', 'Tour image is required.')) 
         return false;
+        if (!validateFilePresence('tour_details_img', 'Tour Details image is required.')) 
+        return false;
         if(!blankCheck('alttag_banner','Please Enter Alt Tag For Banner Image'))
         return false;
         if(!blankCheck('alttag_thumb','Please Enter Alt Tag For Tour Image'))
+        return false;
+        if(!blankCheck('alttag_details','Please Enter Alt Tag For Tour Details'))
         return false;
         // if(!selectDropdown('itinerary','Please Select Itinerary'))
         // return false;
