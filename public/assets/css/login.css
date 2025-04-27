@@ -22,7 +22,7 @@ body {
 }
 a{text-decoration:none;}
 main { 
-    height: 100vh;
+    min-height: 100vh;
     background-image: url(../img/beach-loginbg.jpg);
     background-position: center;
     background-repeat: no-repeat;
@@ -32,7 +32,7 @@ main {
     justify-content: flex-end;
     padding-right: 6rem;
     position: relative;
-    overflow: hidden;
+    overflow: auto;
 }   
 main::before {
   content: "";

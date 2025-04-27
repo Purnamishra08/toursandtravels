@@ -11,6 +11,18 @@
     <link href="{{ asset('assets/css/login.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .login-title {
+        margin: 1rem 0 2rem 0;
+  
+}
+.form-control {
+    margin-bottom: .75rem;
+}
+        
+        
+
+    </style>
 </head>
 
 <body>
