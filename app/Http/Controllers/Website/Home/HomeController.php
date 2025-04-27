@@ -21,11 +21,13 @@ class HomeController extends Controller
         ->where('bit_Deleted_Flag', 0)
         ->get();
 
+        $destinationName = DB::table('tbl_destination')->select('destination_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->first();
+
         $meta_title         =  isset($parameters) ? $parameters[10]->par_value : '';
         $meta_keywords      =  isset($parameters) ? $parameters[11]->par_value : '';
         $meta_description   =  isset($parameters) ? $parameters[12]->par_value : '';
 
-        return view('website.index')->with([
+        return view('website.index', ['destinationName' => $destinationName])->with([
             'meta_title' => $meta_title,
             'meta_description' => $meta_description,
             'meta_keywords' => $meta_keywords
@@ -87,11 +89,11 @@ class HomeController extends Controller
                     ->where('a.status', 1);
         if($request->fromDestination != 1){
             $query->where('a.show_in_home', 1);
-            $query->inRandomOrder()->limit(8);
+            $query->inRandomOrder()->limit(9);
         }else{
             $query->inRandomOrder()->limit(6);
         }
-        $popularTours = $query->inRandomOrder()->limit(8)->get();
+        $popularTours = $query->inRandomOrder()->limit(9)->get();
         if ($request->ajax()) {
             $html = '';
             foreach ($popularTours as $values) {
@@ -120,8 +122,8 @@ class HomeController extends Controller
                         <div class="p-card-info">
                         
                             
-                            <h6 class="mb-0"><span>₹ </span>'.$values->price.' </h6>
-                            <strike >₹ '.$values->fakeprice.'</strike>
+                            <h6 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h6>
+                            <strike >₹ '.(int)$values->fakeprice.'</strike>
                         </div>
                         <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div></div>

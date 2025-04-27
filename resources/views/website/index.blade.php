@@ -225,7 +225,7 @@
 
             <div>
                 <!-- <p class="section-title-small">Feature tours</p> -->
-                <h2 class="section-title">Most Popular Tour</h2>
+                <h2 class="section-title">Most Popular {{isset($destinationName) ? $destinationName->destination_name : ''}} Tour Packages</h2>
             </div>
             <a href="{{route('website.allTourPackages')}}" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
         </div>
@@ -241,7 +241,7 @@
             <div>
                 <!-- <p class="section-title-small">Destination Lists</p> -->
                 <h2 class="section-title section-title-large">
-                    TOP DESTINATION PLACES
+                    TOP {{isset($destinationName) ? strtoupper($destinationName->destination_name) : ''}} DESTINATION PLACES
                 </h2>
             </div>
 

@@ -219,6 +219,34 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="clearfix"></div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <div id="banner_preview_dest"">
+                                                                        <a href="{{ asset('storage/tourpackages/details/' . $tourPackage->tour_details_img) }}"    target="_blank">
+                                                                        <img id="bannerPreviewDest" 
+                                                                        src="{{ isset($tourPackage->tour_details_img) ? asset('storage/tourpackages/details/'.$tourPackage->tour_details_img) : '' }}" 
+                                                                        alt="Banner Image Preview" 
+                                                                        class="img-fluid rounded border" 
+                                                                        style="width: 150px; display: {{ isset($tourPackage->tour_details_img) ? 'block' : 'none' }};height:150px">
+                                                                    </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Tour Details Image <span class="manadatory">*</span></label>
+                                                                        <input class="form-control" type="file" name="tour_details_img" id="tour_details_img">
+                                                                        <span>Image size should be 900px X 300px</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Alt for Tour Details Image <span class="manadatory">*</span></label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Alt for Tour Details Image" name="alttag_details" id="alttag_details" value="{{ old('alttag_details',$tourPackage->alttag_details) }}" maxlength="60">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
                                                                 <!-- Package Type and Itinerary -->
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
@@ -526,6 +554,8 @@
         if(!blankCheck('alttag_banner','Please Enter Alt Tag For Banner Image'))
         return false;
         if(!blankCheck('alttag_thumb','Please Enter Alt Tag For Tour Image'))
+        return false;
+        if(!blankCheck('alttag_details','Please Enter Alt for Tour Details Image'))
         return false;
         // if(!selectDropdown('itinerary','Please Select Itinerary'))
         // return false;
