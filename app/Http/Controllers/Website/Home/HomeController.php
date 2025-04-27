@@ -89,11 +89,11 @@ class HomeController extends Controller
                     ->where('a.status', 1);
         if($request->fromDestination != 1){
             $query->where('a.show_in_home', 1);
-            $query->inRandomOrder()->limit(8);
+            $query->inRandomOrder()->limit(9);
         }else{
             $query->inRandomOrder()->limit(6);
         }
-        $popularTours = $query->inRandomOrder()->limit(8)->get();
+        $popularTours = $query->inRandomOrder()->limit(9)->get();
         if ($request->ajax()) {
             $html = '';
             foreach ($popularTours as $values) {
