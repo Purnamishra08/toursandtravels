@@ -21,11 +21,13 @@ class HomeController extends Controller
         ->where('bit_Deleted_Flag', 0)
         ->get();
 
+        $destinationName = DB::table('tbl_destination')->select('destination_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->first();
+
         $meta_title         =  isset($parameters) ? $parameters[10]->par_value : '';
         $meta_keywords      =  isset($parameters) ? $parameters[11]->par_value : '';
         $meta_description   =  isset($parameters) ? $parameters[12]->par_value : '';
 
-        return view('website.index')->with([
+        return view('website.index', ['destinationName' => $destinationName])->with([
             'meta_title' => $meta_title,
             'meta_description' => $meta_description,
             'meta_keywords' => $meta_keywords
