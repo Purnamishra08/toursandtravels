@@ -552,6 +552,7 @@ class TourPackagesController extends Controller
             
             $tourimgfilename = $tourPackage->tpackage_image;
             $tourthumbfilename = $tourPackage->tour_thumb;
+            $tourDetailsFilename = $tourPackage->tour_details_img;
             $randomNumber = mt_rand(10000, 99999);
             // ✅ Handle tour image
         //     if ($request->hasFile('tourimg')) {
