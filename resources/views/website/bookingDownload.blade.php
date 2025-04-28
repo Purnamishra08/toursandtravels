@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-$imagePath = public_path('assets/img/web-img/logo.png');
+$imagePath = public_path('assets/img/logo.png');
 $image = public_path('assets/img/logo.png');
 $favIcon = public_path('assets/img/fav-icon.png'); ?>
 
