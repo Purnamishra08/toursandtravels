@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-$imagePath = public_path('assets/img/web-img/logo.png');
+$imagePath = public_path('assets/img/logo.png');
 $image = public_path('assets/img/logo.png');
 $favIcon = public_path('assets/img/fav-icon.png'); ?>
 
@@ -165,11 +165,11 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                     <td>Dear Sir/Madam,</td>
                 </tr>
                 <tr>
-                    <td>Please find requested “{{$tpackage_name}}”.</td>
+                    <td>Please find requested “{{$tpackage_name}}” trip details.</td>
                 </tr>
                 <tr>
                     <td>
-                        <span style="padding: 3px 5px;display:block; margin-top:.75rem; background-color:yellow">No. of pax – {{$adult}} Adults, {{$child}} Childrens</span>
+                        <span style="padding: 3px 5px;display:block; margin-top:.75rem; background-color:yellow">No. of pax – {{$adult}} Adults, {{$child}} Children</span>
                     </td>
                 </tr>
 
@@ -239,51 +239,6 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                         </table>
                     </td>
                 </tr>
-        <tr>
-            <td>
-                @php
-                $noOfItineraries = DB::table('tbl_itinerary_daywise')
-                ->where('bit_Deleted_Flag', 0)
-                ->where('package_id', $hid_packageid)
-                ->count();
-                $daywiseItineraries = DB::table('tbl_itinerary_daywise')
-                ->where('package_id', $hid_packageid)
-                ->where('bit_Deleted_Flag', 0)
-                ->orderBy('itinerary_daywiseid')
-                ->get();
-                $day = 1;
-                @endphp
-                <table style="width:100%; border-collapse:collapse;margin-top:20px">
-                    @if($noOfItineraries>0)
-                    @foreach($daywiseItineraries as $itinerary)
-                    @php $placeIds = $itinerary->place_id; @endphp
-                    <tr>
-                        <th style="border: 1px solid #c5dad6;padding: .25rem;background-color: #e0edeb; text-align:left">Day {{$day}}- {{$itinerary->title}}</th>
-                    </tr>
-                    <tr>
-                        <td style="padding: .25rem; border:1px solid #c5dad6;">
-                            <ul style="padding-left: 1rem ; margin:0">
-                                @if (!empty($placeIds))
-                                @php
-                                $places = DB::table('tbl_places')
-                                ->select('placeid', 'destination_id', 'place_name', 'place_url')
-                                ->whereIn('placeid', explode(',', $placeIds))
-                                ->get();
-                                $otherPlaces = explode(',', $itinerary->other_iternary_places);
-                                @endphp
-                                @foreach($places as $place)
-                                <li> {{$place->place_name}}</li>
-                                @endforeach
-                                @if(count($otherPlaces)>0)
-                                @foreach($otherPlaces as $otherPlace)
-                                <li> {{$otherPlace}}</li>
-                                @endforeach
-                                @endif
-                            </tr>
-                            @endforeach
-                        </table>
-                    </td>
-                </tr>
                 <tr>
                     <td>
                         @php
@@ -307,25 +262,6 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                             </tr>
                             <tr>
                                 <td style="padding: .25rem; border:1px solid #c5dad6;">
-                                    <ul style="padding-left: 1rem ; margin:0">
-                                        @if (!empty($placeIds))
-                                        @php 
-                                            $places = DB::table('tbl_places')
-                                                ->select('placeid', 'destination_id', 'place_name', 'place_url')
-                                                ->whereIn('placeid', explode(',', $placeIds))
-                                                ->get();
-                                            $otherPlaces = explode(',', $itinerary->other_iternary_places);
-                                        @endphp
-                                        @foreach($places as $place)
-                                            <li> {{$place->place_name}}</li>
-                                        @endforeach
-                                        @if(count($otherPlaces)>0)
-                                        @foreach($otherPlaces as $otherPlace)
-                                            <li> {{$otherPlace}}</li>
-                                        @endforeach
-                                        @endif
-                                        @endif
-                                    </ul>
                                     <ul style="padding-left: 1rem ; margin:0">
                                         @if (!empty($placeIds))
                                             @php 

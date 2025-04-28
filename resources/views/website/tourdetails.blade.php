@@ -44,7 +44,7 @@ for ($i = 0; $i < $fullStars; $i++)
                 <div class="row g-3">
                     <div class="col-lg-8 tour-details-box order-last order-lg-first">
                         <img class="destination-img"
-                            src="{{ asset('storage/tourpackages/thumbs/' . $tours->tour_thumb) }}" alt="img" />
+                            src="{{ asset('storage/tourpackages/details/' . $tours->tour_details_img) }}" alt="{{$tours->alttag_details}}" />
                         <h1 class="mt-2 package-name">{{ $tours->tpackage_name}}</h1>
                         <div class="d-flex align-items-center gap-2 mb-2">
                             <span class="text-secondary">{!! $starsHtml !!} Star</span>
@@ -440,8 +440,8 @@ for ($i = 0; $i < $fullStars; $i++)
                         <div class="card-footer bg-white pb-3 pt-0 border-0">
                         <div class="d-flex justify-content-between align-items-center ">
                                 <div class="p-card-info">
-                                    <h6 class="mb-0"><span>₹ </span>{{ $values->price }}</h6>
-                                    <strike>₹ {{ $values->fakeprice }}</strike>
+                                    <h6 class="mb-0"><span>₹ </span>{{ (int)$values->price }}</h6>
+                                    <strike>₹ {{ (int)$values->fakeprice }}</strike>
                                 </div>
                                 <a href="{{ route('website.tourDetails', ['slug' => $values->tpackage_url]) }}"
                                     class="btn btn-outline-primary stretched-link">
@@ -699,6 +699,14 @@ for ($i = 0; $i < $fullStars; $i++)
                     <div class="mt-3 total-price-box text-center">
                         Total Price <span class="ms-2 c" id="modal-total-price"> </span>
                         
+                    </div>
+                    <div class="marque-wrapper mt-2">
+                        <div class="note"><i class="bi bi-bell me-2"></i>Note</div>
+                        <div class="marquee_container ">
+                            <div class="marquee">
+                                <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur, illum?</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="bookingUser-details mt-3" style="display: none;">
 

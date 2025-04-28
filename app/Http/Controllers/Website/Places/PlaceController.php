@@ -117,8 +117,8 @@ class PlaceController extends Controller{
                         <div class="p-card-info">
                         
                             
-                            <h6 class="mb-0"><span>₹ </span>'.$values->price.' </h6>
-                            <strike >₹ '.$values->fakeprice.'</strike>
+                            <h6 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h6>
+                            <strike >₹ '.(int)$values->fakeprice.'</strike>
                         </div>
                         <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
@@ -210,8 +210,8 @@ class PlaceController extends Controller{
                         <div class="p-card-info">
                         
                             
-                            <h6 class="mb-0"><span>₹ </span>'.$values->price.' </h6>
-                            <strike >₹ '.$values->fakeprice.'</strike>
+                            <h6 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h6>
+                            <strike >₹ '.(int)$values->fakeprice.'</strike>
                         </div>
                         <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link" target="_blank" >Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
                     </div>
