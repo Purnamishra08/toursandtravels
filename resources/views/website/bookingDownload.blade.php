@@ -9,7 +9,7 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="{{ $favIcon }}">
-    <title>My Holiday Hapiness</title>
+    <title>Coorg Packages</title>
     <style>
        
         td, th {
@@ -42,15 +42,18 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
         }
 
         .watermark {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
+            width: 100%;
+            text-align: center;
             transform: translate(-50%, -50%);
+            opacity: 0.08;
+            z-index: -1;
+            pointer-events: none;
         }
 
         .watermark img {
-            opacity: .1;
-            z-index: -1;
             height: 180px;
         }
 
@@ -96,15 +99,15 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                 position: fixed;
                 top: 50%;
                 left: 50%;
+                width: 100%;
+                text-align: center;
                 transform: translate(-50%, -50%);
-                z-index: 0;
-                opacity: 0.8;
+                opacity: 0.08;
+                z-index: -1;
                 pointer-events: none;
             }
 
             .watermark img {
-                opacity: .1;
-                z-index: -1;
                 height: 180px;
             }
 
@@ -123,7 +126,9 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
 </head>
 
 <body>
-    
+        <div class="watermark">
+            <img height="50" src="{{ $imagePath }}" alt="logo" />
+        </div>
         <div class="page-header" style="text-align: center; -webkit-print-color-adjust:exact;
         print-color-adjust: exact; ">
             <table style="width: 100%; border-collapse:collapse;color:#3c3c3c">
@@ -134,7 +139,7 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                 </tr>
                 <tr>
                     <td style="margin: .25rem; ">
-                        <h1 style="font-size:1.2rem; text-align:center;padding:.5rem 0 ; background-color: #e0edeb; margin:.5rem 0 0 0">“{{$tpackage_name}}”</h1>
+                        <h1 style="font-size:1.2rem; text-align:center;padding:.5rem 0 ; background-color: #e0edeb; margin:.5rem 0 0 0">{{$tpackage_name}}</h1>
                     </td>
                 </tr>
             </table>
@@ -147,9 +152,7 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                 </tr>
             </table>
         </div>
-        <div class="watermark">
-            <img height="50" src="{{ $imagePath }}" alt="logo" />
-        </div>
+        
         <div style="margin:0 auto; font-size:.9rem; font-family: 'Times New Roman', serif; ">
         <table style="width: 100%; border-collapse:collapse;color:#3c3c3c">
             <thead>
@@ -165,7 +168,7 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                     <td>Dear Sir/Madam,</td>
                 </tr>
                 <tr>
-                    <td>Please find requested “{{$tpackage_name}}” trip details.</td>
+                    <td>Please find requested <span style="font-weight: bold">“{{$tpackage_name}}”</span> trip details.</td>
                 </tr>
                 <tr>
                     <td>
@@ -232,10 +235,6 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                                     @endif
                                 </tr>
                             @endforeach
-
-
-
-                           
                         </table>
                     </td>
                 </tr>

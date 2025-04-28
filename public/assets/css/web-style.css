@@ -818,8 +818,9 @@ color: #03787a;
     padding: .75rem 2rem;
     background-color: #1e425a;
     color: #fff;
-    font-weight: 500;
+    font-weight: 700;
     border-radius: .375rem;
+    font-size: 1.3rem;
   
 }
 .total-price{
@@ -1136,7 +1137,7 @@ color: #03787a;
     overflow: hidden;
   }
   .marque-wrapper .note{
-    flex: 0 0 76px;
+    flex: 0 0 78px;
     background: #dc3545;
     padding: 0.2rem .5rem;
     color: #fff;
