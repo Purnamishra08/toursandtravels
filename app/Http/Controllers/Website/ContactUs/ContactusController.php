@@ -14,13 +14,28 @@ use Illuminate\Support\Facades\Mail;
 
 class ContactusController extends Controller{
     public function index(Request $request){
+        $contactUsData = DB::table('tbl_contents')
+                        ->select('page_name','page_content','seo_title','seo_description','seo_keywords')
+                        ->where('content_id', 3)
+                        ->where('bit_Deleted_Flag', 0)
+                        ->first();
+
+        $meta_title         =  isset($contactUsData) ? $contactUsData->seo_title : '';
+        $meta_keywords      =  isset($contactUsData) ? $contactUsData->seo_keywords : '';
+        $meta_description   =  isset($contactUsData) ? $contactUsData->seo_description : '';
+
         $parameters = DB::table('tbl_parameters')
                 ->select('parameter', 'par_value', 'parid')
                 ->where('param_type', 'CS')
                 ->where('status', 1)
                 ->where('bit_Deleted_Flag', 0)
                 ->get();
-        return view('website.contactus', ['parameters' => $parameters]);
+                
+        return view('website.contactus', ['parameters' => $parameters])->with([
+            'meta_title' => $meta_title,
+            'meta_description' => $meta_description,
+            'meta_keywords' => $meta_keywords
+        ]);
     }
 
     public function addContacUs(Request $request){

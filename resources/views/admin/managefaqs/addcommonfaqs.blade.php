@@ -56,8 +56,8 @@
                                                                     <label> Faq Type <span class="manadatory">*</span></label>
                                                                     <select data-placeholder="Choose faq_type" class="form-control" tabindex="4" id="faq_type" name="faq_type" style="width: 100%;">
                                                                         <option value=''>--Select Faq Type--</option>
-                                                                        <option value='1' {{ $commonfaq->faq_type == '1' ? 'selected' : '' }}>Common Faqs</option>
-                                                                        <option value='2' {{ $commonfaq->faq_type == '2' ? 'selected' : '' }}>Destination Faqs</option>
+                                                                        <option value='1' {{ isset($commonfaq) && $commonfaq->faq_type == '1' ? 'selected' : '' }}>Common Faqs</option>
+                                                                        <option value='2' {{ isset($commonfaq) && $commonfaq->faq_type == '2' ? 'selected' : '' }}>Destination Faqs</option>
                                                                     </select>
                                                                 </div>
                                                             </div>

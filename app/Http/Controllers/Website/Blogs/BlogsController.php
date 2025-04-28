@@ -18,6 +18,16 @@ class BlogsController extends Controller
     public function index(Request $request)
     {
         try {
+            $blogData = DB::table('tbl_contents')
+                        ->select('page_name','page_content','seo_title','seo_description','seo_keywords')
+                        ->where('content_id', 5)
+                        ->where('bit_Deleted_Flag', 0)
+                        ->first();
+
+            $meta_title         =  isset($blogData) ? $blogData->seo_title : '';
+            $meta_keywords      =  isset($blogData) ? $blogData->seo_keywords : '';
+            $meta_description   =  isset($blogData) ? $blogData->seo_description : '';
+
             $blogData = DB::table('tbl_blog')
                     ->select('blogid', 'title', 'blog_url', 'status', 'image', 'alttag_image', 'content', 'created_date', 'show_comment')
                     ->where('status', 1)
@@ -47,7 +57,11 @@ class BlogsController extends Controller
                 }
                 return $html;
             }
-            return view('website.bloglisting');
+            return view('website.bloglisting')->with([
+                'meta_title' => $meta_title,
+                'meta_description' => $meta_description,
+                'meta_keywords' => $meta_keywords
+            ]);
         } catch (\Exception $e) {
             Log::error("Error in BlogDetails: " . $e->getMessage());
             abort(500, 'Something went wrong. Please try again later.');
