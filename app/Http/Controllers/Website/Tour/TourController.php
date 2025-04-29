@@ -354,7 +354,11 @@ class TourController extends Controller
                     ->join('tbl_package_duration as c', 'a.package_duration', '=', 'c.durationid')
                     ->whereIn('a.tourpackageid', $relatedIds)
                     ->where('a.status', 1)
+                    ->where('b.status', 1)
                     ->where('c.status', 1)
+                    ->where('a.bit_Deleted_Flag',0)
+                    ->where('b.bit_Deleted_Flag',0)
+                    ->where('c.bit_Deleted_Flag',0)
                     ->select(
                         'a.tourpackageid',
                         'a.tpackage_name',

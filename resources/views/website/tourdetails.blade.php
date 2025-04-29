@@ -700,14 +700,16 @@ for ($i = 0; $i < $fullStars; $i++)
                         Total Price <span class="ms-2 c" id="modal-total-price"> </span>
                         
                     </div>
+                    @if(!empty($parameters[21]->par_value) && $parameters[21]->par_value !="")
                     <div class="marque-wrapper mt-2">
                         <div class="note"><i class="bi bi-bell me-2"></i>Note</div>
                         <div class="marquee_container ">
                             <div class="marquee">
-                                <span>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur, illum?</span>
+                                <span>{{isset($parameters) ? $parameters[21]->par_value : ''}}</span>
                             </div>
                         </div>
                     </div>
+                    @endif
                     <div class="bookingUser-details mt-3" style="display: none;">
 
                         <div class="row g-3">

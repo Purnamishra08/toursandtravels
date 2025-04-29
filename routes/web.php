@@ -97,6 +97,7 @@ Route::view('/trip', 'website.trip');
 Route::view('/PageNotFound', 'website.PageNotFound');
 Route::view('/serverError', 'website.serverError');
 Route::view('/loader', 'website.loader');
+Route::view('/allreview', 'website.allreview');
 Route::get('/blog', [BlogsController::class, 'index'])->name('website.bloglisting');
 Route::get('blog/{slug}', [BlogsController::class, 'blogdetails'])->name('website.blogdetails');
 Route::match(['get', 'post'], 'blog-comments', [BlogsController::class, 'blogComments'])->name('website.blogComments');
