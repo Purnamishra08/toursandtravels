@@ -168,7 +168,7 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                     <td>Dear Sir/Madam,</td>
                 </tr>
                 <tr>
-                    <td>Please find requested <span style="font-weight: bold">“{{$tpackage_name}}”</span> trip details.</td>
+                    <span style="padding: 1px;display:block; margin-top:.5rem;">Please find requested <span style="font-weight: bold">“{{$tpackage_name}}”</span> trip details.</span>
                 </tr>
                 <tr>
                     <td>
@@ -181,10 +181,10 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                         <table style="width:100%; border-collapse:collapse;margin-top:20px">
                             <tr>
                                 <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:60px">Date</th>
-                                <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:120px">Hotel</th>
-                                <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:100px">Place</th>
-                                <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:80px">No. of rooms</th>
-                                <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:60px">Notes</th>
+                                <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:130px">Hotel</th>
+                                <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:80px">Place</th>
+                                <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:110px">No. of rooms</th>
+                                <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:55px">Notes</th>
                                 <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:90px">Vehicle</th>
                                 <th style="border: 1px solid #c5dad6;padding: 3px;background-color: #e0edeb;width:90px">Total Cost</th>
 
@@ -194,47 +194,70 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                             list($day, $month, $year) = explode('/', $currentDate);
                             $currentDate = "$year-$month-$day";
                             @endphp
-                            @foreach($field_value as $index =>$hotel_id)
-                            @php
-                            $hotels = DB::table('tbl_hotel')->select('hotel_name','room_type','destination_name')->where('hotel_id', $hotel_id)->first();
-                            $destName = DB::table('tbl_destination')->select('destination_name')->where('destination_id', $hotels->destination_name)->first();
-                            $noof_nights = DB::table('tbl_package_accomodation')
-                            ->where('package_id', $hid_packageid)
-                            ->where('destination_id', $hotels->destination_name)
-                            ->where('bit_Deleted_Flag', 0)
-                            ->value('noof_days');
 
-                            $checkInDate = date("dS M", strtotime($currentDate));
-                            $currentDate = date("Y-m-d", strtotime("+{$noof_nights} days", strtotime($currentDate)));
-                            $totalPersons = $adult + $child;
-                            $roomsNeeded = $totalPersons <= 3 ? 1 : ceil($totalPersons / 2);
+                            @foreach($field_value as $index => $hotel_id)
+                                @php
+                                    $hotels = DB::table('tbl_hotel')->select('hotel_name','room_type','destination_name')->where('hotel_id', $hotel_id)->first();
+                                    $destName = DB::table('tbl_destination')->select('destination_name')->where('destination_id', $hotels->destination_name)->first();
+                                    $noof_nights = DB::table('tbl_package_accomodation')
+                                        ->where('package_id', $hid_packageid)
+                                        ->where('destination_id', $hotels->destination_name)
+                                        ->where('bit_Deleted_Flag', 0)
+                                        ->value('noof_days');
+
+                                    $totalPersons = $adult + $child;
+                                    $roomsNeeded = $totalPersons <= 3 ? 1 : ceil($totalPersons / 2);
                                 @endphp
-                                <tr>
-                                    <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">           
-                                        {{$checkInDate }}
-                                    </td>
-                                    <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
-                                        {{$hotels->hotel_name}}
-                                    </td>
-                                    <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
-                                        {{$destName->destination_name}}  
-                                    </td>
-                                    <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
-                                        {{$roomsNeeded}} {{$hotels->room_type}}
-                                    </td>
-                                    <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
-                                        Breakfast
-                                    </td>
-                                    @if ($index === 0)
-                                    <td rowspan="{{ count($field_value) }}" style="padding: 3px; border:1px solid #c5dad6;text-align:center">
-                                        {{$vehicle}}
-                                    </td>
-                                    <td rowspan="{{ count($field_value) }}" style="padding: 3px; border:1px solid #c5dad6;text-align:center">
-                                        Rs. {{$total_price}}
-                                    </td>
-                                    @endif
-                                </tr>
+
+                                @for($n = 0; $n < $noof_nights; $n++)
+                                    @php
+                                        $checkInDate = date("dS M", strtotime("+{$n} days", strtotime($currentDate)));
+                                    @endphp
+                                    <tr>
+                                        <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
+                                            {{ $checkInDate }}
+                                        </td>
+                                        <td style="padding: 3px; border:1px solid #c5dad6;text-align:left">
+                                            {{ $hotels->hotel_name }}
+                                        </td>
+                                        <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
+                                            {{ $destName->destination_name }}
+                                        </td>
+                                        <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
+                                            {{ $roomsNeeded }} {{ $hotels->room_type }}
+                                        </td>
+                                        <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
+                                            Breakfast
+                                        </td>
+                                        @if ($index === 0 && $n === 0)
+                                            <td rowspan="{{ array_sum(array_map(function($hid) use($hid_packageid) {
+                                                return DB::table('tbl_package_accomodation')
+                                                    ->where('package_id', $hid_packageid)
+                                                    ->where('destination_id', DB::table('tbl_hotel')->where('hotel_id', $hid)->value('destination_name'))
+                                                    ->where('bit_Deleted_Flag', 0)
+                                                    ->value('noof_days');
+                                            }, $field_value)) }}" style="padding: 3px; border:1px solid #c5dad6;text-align:center">
+                                                {{ $vehicle }}
+                                            </td>
+                                            <td rowspan="{{ array_sum(array_map(function($hid) use($hid_packageid) {
+                                                return DB::table('tbl_package_accomodation')
+                                                    ->where('package_id', $hid_packageid)
+                                                    ->where('destination_id', DB::table('tbl_hotel')->where('hotel_id', $hid)->value('destination_name'))
+                                                    ->where('bit_Deleted_Flag', 0)
+                                                    ->value('noof_days');
+                                            }, $field_value)) }}" style="padding: 3px; border:1px solid #c5dad6;text-align:center">
+                                                Rs. {{ $total_price }}
+                                            </td>
+                                        @endif
+                                    </tr>
+                                @endfor
+
+                                @php
+                                    // Move the base date forward after finishing this hotel
+                                    $currentDate = date("Y-m-d", strtotime("+{$noof_nights} days", strtotime($currentDate)));
+                                @endphp
                             @endforeach
+
                         </table>
                     </td>
                 </tr>
@@ -262,7 +285,6 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                             <tr>
                                 <td style="padding: .25rem; border:1px solid #c5dad6;">
                                     <ul style="padding-left: 1rem ; margin:0">
-                                        @if (!empty($placeIds))
                                             @php 
                                                 $places = DB::table('tbl_places')
                                                     ->select('placeid', 'destination_id', 'place_name', 'place_url')
@@ -282,7 +304,6 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                                                     @endif
                                                 @endforeach
                                             @endif
-                                        @endif
                                     </ul>
                                 </td>
                             </tr>
