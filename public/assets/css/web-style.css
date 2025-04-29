@@ -737,6 +737,13 @@ color: #03787a;
     min-height: unset;
     margin-bottom: .5rem;
 }
+.View_all-review-wrapper {
+    max-height: unset;
+    overflow: unset;
+}
+.View_all-review-wrapper .client-review-card{
+    max-width: unset;
+}
 .stickey-section{
     position: sticky;
     top: 90px;
