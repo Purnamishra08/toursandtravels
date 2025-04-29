@@ -724,7 +724,7 @@ ADD COLUMN `about_package` TEXT NULL DEFAULT NULL AFTER `fakeprice`;
 
 
 ALTER TABLE `myholhq7_coorgpackages`.`tbl_package_faqs` 
-ADD COLUMN `faq_type` INT(11) NULL DEFAULT 0 AFTER `faq_id`,;
+ADD COLUMN `faq_type` INT(11) NULL DEFAULT 0 AFTER `faq_id`;
 
 
 
