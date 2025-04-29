@@ -140,8 +140,10 @@ class ManageBlogsController extends Controller
                 if ($request->hasFile('image')) {
                     $file = $request->file('image');
                     $randomNumber = mt_rand(10000, 99999);
-                    $featured_imageName = Str::slug($request->input('alttag_image')) . '-' . $randomNumber . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('blog_images', $featured_imageName, 'public');
+                    $featured_imageName = Str::slug($request->input('alttag_image')) . '-' . $randomNumber . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/blog_images/' . $featured_imageName), 1140, 350);
                 }
 
                  // Prepare data
@@ -213,8 +215,10 @@ class ManageBlogsController extends Controller
                 if ($request->hasFile('image')) {
                     $file = $request->file('image');
                     $randomNumber = mt_rand(10000, 99999);
-                    $featured_imageName = Str::slug($request->input('alttag_image')) . '-' . $randomNumber . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('blog_images', $featured_imageName, 'public');
+                    $featured_imageName = Str::slug($request->input('alttag_image')) . '-' . $randomNumber . '.webp';
+        
+                    // Convert and Store as WebP
+                    $this->convertToWebp($file, storage_path('app/public/blog_images/' . $featured_imageName), 1140, 350);
                 } else {
                     $featured_imageName = $BlogData->image;
                 }
@@ -303,4 +307,38 @@ class ManageBlogsController extends Controller
         }
     }
     
+    private function convertToWebp($file, $destination, $width, $height)
+    {
+        $imageType = exif_imagetype($file->getPathname());
+        $sourceImage = null;
+
+        switch ($imageType) {
+            case IMAGETYPE_JPEG:
+                $sourceImage = imagecreatefromjpeg($file->getPathname());
+                break;
+            case IMAGETYPE_PNG:
+                $sourceImage = imagecreatefrompng($file->getPathname());
+                imagepalettetotruecolor($sourceImage); // Convert PNG to TrueColor
+                imagealphablending($sourceImage, true);
+                imagesavealpha($sourceImage, true);
+                break;
+            default:
+                throw new \Exception("Unsupported image type.");
+        }
+
+        if (!$sourceImage) {
+            throw new \Exception("Failed to create image resource.");
+        }
+
+        // Resize Image
+        $resizedImage = imagecreatetruecolor($width, $height);
+        imagecopyresampled($resizedImage, $sourceImage, 0, 0, 0, 0, $width, $height, imagesx($sourceImage), imagesy($sourceImage));
+
+        // Save as WebP
+        imagewebp($resizedImage, $destination, 100); // Quality: 100
+
+        // Free memory
+        imagedestroy($sourceImage);
+        imagedestroy($resizedImage);
+    }
 }

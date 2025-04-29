@@ -44,6 +44,30 @@
                         </ul>
 
                     </div>
+                    <div class="mt-3 mt-md-4 bg-light p-3 rounded comment-scroll">
+                        <h3>Comments</h3>
+
+                        @if(isset($blogComments))
+                            @foreach($blogComments as $blogComment)
+                            <div class="comment">
+                                <div class="comment-header">
+                                    <strong class="comment-username">{{$blogComment->user_name}}</strong>
+                                    <span class="comment-date">{{date('d-M-Y', strtotime($blogComment->created_date))}}</span>
+                                </div>
+                                <p class="comment-text">
+                                    {!! $blogComment->comments !!}
+                                </p>
+                            </div>
+                            @endforeach
+                        @else
+                        <div class="comment">
+                                <div class="comment-header">
+                                    <p>No comments found.</p>
+                                </div>
+                            </div>
+                        @endif
+
+                    </div>
                     <div class="mt-3 mt-md-4 bg-light p-3 rounded">
                       <h5>Leave a comment</h5>
                       <span>  Your email address will not be published. Required fields are marked *</span>
@@ -96,7 +120,9 @@
                                 <ul class="m-0 p-0" id="recentBlogList">
                                     @foreach($blogDataRecent as $values)
                                         <li class="d-flex gap-3 recent-blog-card">
-                                            <img class="card-img-top" src="{{ asset('storage/blog_images/' . $values->image) }}" alt="{{ $values->alttag_image }}" />
+                                            <a href="{{ route('website.blogdetails', ['slug' => $values->blog_url]) }}" target="_blank">
+                                                <img class="card-img-top" src="{{ asset('storage/blog_images/' . $values->image) }}" alt="{{ $values->alttag_image }}" />
+                                            </a>
                                             <div>
                                                 <a href="{{ route('website.blogdetails', ['slug' => $values->blog_url]) }}">{{ $values->title }}</a>
                                                 <ul>

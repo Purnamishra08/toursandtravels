@@ -48,40 +48,55 @@
                                                 @csrf
                                                 <div class="box-main">
                                                     <fieldset>
-                                                        <legend> Package Faqs Details</legend>
+                                                        <legend>Package FAQs Details</legend>
+
                                                         <div class="row">
-                                                            <div class="col-md-12">
+                                                            <!-- Faq Type -->
+                                                            <div class="col-md-6">
                                                                 <div class="form-group">
-                                                                    <label>Tour Package <span class="manadatory">*</span></label>
-                                                                    <select data-placeholder="Choose getaway tags" class="form-control" tabindex="4" id="tag_id" name="tag_id" style="width: 100%;">
-                                                                        <option value=''>--Select Package</option>
-                                                                        @foreach($tags as $tag)
-                                                                            <option value="{{ $tag->tagid }}"
-                                                                                @if(isset($packagefaq) && $tag->tagid == $packagefaq->tag_id) selected @endif>
-                                                                                {{ $tag->tag_name }}
-                                                                            </option>
-                                                                        @endforeach
+                                                                    <label for="faq_type">FAQ Type <span class="manadatory">*</span></label>
+                                                                    <select class="form-control" id="faq_type" name="faq_type" onchange="callPackage(this.value)" style="width: 100%;">
+                                                                        <option value="">--Select Package--</option>
+                                                                        <option value="1" {{ (old('faq_type', $packagefaq->faq_type ?? '') == 1) ? 'selected' : '' }}>Package FAQ</option>
+                                                                        <option value="2" {{ (old('faq_type', $packagefaq->faq_type ?? '') == 2) ? 'selected' : '' }}>Quick Links FAQ</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
+
+                                                            <!-- Tour Package -->
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="tag_id">Tour Package <span class="manadatory">*</span></label>
+                                                                    <select class="form-control" id="tag_id" name="tag_id" style="width: 100%;">
+                                                                        <option value="">--Select Tour Package--</option>
+                                                                        <!-- Options will be loaded dynamically via AJAX -->
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <!-- FAQ Question -->
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label>Question <span class="manadatory">*</span></label>
-                                                                    <input type="text" class="form-control" placeholder="Enter Faq question" name="faq_question" id="faq_question" value="{{ old('faq_question', $packagefaq->faq_question ?? '') }}">
+                                                                    <label for="faq_question">Question <span class="manadatory">*</span></label>
+                                                                    <input type="text" class="form-control" id="faq_question" name="faq_question" placeholder="Enter FAQ question" value="{{ old('faq_question', $packagefaq->faq_question ?? '') }}">
                                                                 </div>
                                                             </div>
 
+                                                            <!-- FAQ Answer -->
                                                             <div class="col-md-12">
-                                                                <div class=""> 
-                                                                    <label>Answer <span class="manadatory">*</span></label>
-                                                                    <textarea name="faq_answer" id="faq_answer" class="form-control">{{ old('faq_answer', $packagefaq->faq_answer ?? '') }}</textarea>
+                                                                <div class="form-group">
+                                                                    <label for="faq_answer">Answer <span class="manadatory">*</span></label>
+                                                                    <textarea class="form-control" id="faq_answer" name="faq_answer" placeholder="Enter FAQ answer">{{ old('faq_answer', $packagefaq->faq_answer ?? '') }}</textarea>
                                                                 </div>
                                                             </div>
 
+                                                            <!-- Order No -->
                                                             <div class="col-md-12">
                                                                 <div class="form-group">
-                                                                    <label>Order No <span class="manadatory">*</span></label>
-                                                                    <input type="number" class="form-control" placeholder="Order no" name="faq_order" id="faq_order" value="{{ old('faq_order', $packagefaq->faq_order ?? '') }}">
+                                                                    <label for="faq_order">Order No <span class="manadatory">*</span></label>
+                                                                    <input type="number" class="form-control" id="faq_order" name="faq_order" placeholder="Order no" value="{{ old('faq_order', $packagefaq->faq_order ?? '') }}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -118,6 +133,13 @@
     <script src="{{ asset('assets/js/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('assets/js/chosen.jquery.js') }}"></script>
     <script>
+        const selectedTagId = "{{ old('tag_id', $packagefaq->tag_id ?? '') }}";
+        $(document).ready(function () {
+            let faqType = $('#faq_type').val();
+            if (faqType) {
+                callPackage(faqType);
+            }
+        });
         document.addEventListener("DOMContentLoaded", function () {
             CKEDITOR.replace('faq_answer');
             const originalWarn = console.warn;
@@ -129,12 +151,42 @@
         });
         function validator() {
             // Validate text fields
+            if (!selectDropdown('faq_type', 'Please select a Faq type')) return false;
             if (!selectDropdown('tag_id', 'Please select a Tour package')) return false;
             if (!blankCheck('faq_question', 'Question name cannot be blank')) return false;
             if (!blankCheck('faq_answer', 'Answer cannot be blank')) return false;
             if (!onlyNumeric('faq_order', 'Order no must be a number')) return false;
 
             return true;
+        }
+        function callPackage(val) {
+            $.ajax({
+                url: "{{ route('website.faqType') }}",
+                method: 'POST',
+                data: {
+                    valData: val
+                },
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                success: function(response) {
+                    if (response.success && response.data.length > 0) {
+                        let options = `<option value=''>--Select Package</option>`;
+                        response.data.forEach(item => {
+                            let selected = (item.id == selectedTagId) ? 'selected' : '';
+                            options += `<option value="${item.id}" ${selected}>${item.packageName}</option>`;
+                        });
+                        $('#tag_id').html(options);
+                    } else {
+                        $('#tag_id').html(`<option value=''>No packages found</option>`);
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire('Error', 'Something went wrong. Try again.', 'error');
+                    console.error(xhr.responseText);
+                }
+            });
         }
     </script>
 </body>

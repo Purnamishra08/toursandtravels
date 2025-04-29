@@ -159,6 +159,7 @@ class TourController extends Controller
         $tourFaqs = DB::table('tbl_package_faqs')
             ->select('faq_id','faq_question','faq_answer')
             ->where('tag_id', $tourPageData->tagid)
+            ->where('faq_type', 1)
             ->where('status', 1)
             ->where('bit_Deleted_Flag', 0)
             ->orderby('faq_order','ASC')

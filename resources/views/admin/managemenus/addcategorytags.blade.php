@@ -58,7 +58,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group" style="margin-bottom: 20px;">
                                                             <label>Tag URL  <span class="manadatory">*</span></label>
-                                                            <input type="text" class="form-control" placeholder="Enter Tag URL" name="tag_url" id="tag_url" readonly value="{{ old('tag_url', $Categorytags->tag_url ?? '') }}">
+                                                            <input type="text" class="form-control" placeholder="Enter Tag URL" name="tag_url" id="tag_url" value="{{ old('tag_url', $Categorytags->tag_url ?? '') }}">
                                                         </div>
                                                     </div>
 

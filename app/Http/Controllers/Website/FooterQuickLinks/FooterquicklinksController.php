@@ -160,7 +160,8 @@ class FooterquicklinksController extends Controller
 
         $tourFaqs = DB::table('tbl_package_faqs')
             ->select('faq_id','faq_question','faq_answer')
-            ->where('tag_id', $tourPageData->tagid)
+            ->where('tag_id', $footers->int_footer_id)
+            ->where('faq_type', 2)
             ->where('status', 1)
             ->where('bit_Deleted_Flag', 0)
             ->orderby('faq_order','ASC')

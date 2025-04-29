@@ -13,26 +13,47 @@ class PackageFaqController extends Controller
 {
     public function index(Request $request)
     {
-        $tags = DB::table('tbl_menutags')->select('tagid','tag_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->orderBy('tag_name', 'ASC')->get();
-        return view('admin.managefaqs.managepackagefaqs', ['tags' => $tags]);
+        return view('admin.managefaqs.managepackagefaqs');
     }
+    public function getPackageData(Request $request){
+        if ($request->ajax()) {
+            if(isset($request->valData) && $request->valData == 1){
+                $tags = DB::table('tbl_menutags')->select('tagid as id','tag_name as packageName')->where('bit_Deleted_Flag', 0)->where('status', 1)->orderBy('tag_name', 'ASC')->get();
+            }else{
+                $tags = DB::table('tbl_footer')->select('int_footer_id as id','vch_Footer_Name as packageName')->where('bit_Deleted_Flag', 0)->where('status', 1)->orderBy('vch_Footer_Name', 'ASC')->get();
+            }
 
+            return response()->json([
+                'success' => true,
+                'data' => $tags
+            ]);
+        }
+        return response()->json(['success' => false, 'message' => 'Invalid request.']);
+    }
     public function getData(Request $request)
     {
         $tagid = $request->input('tagid', 0);
+        $faq_type = $request->input('faq_type', 0);
         $faq_question = $request->input('faq_question', '');
         $faq_answer = $request->input('faq_answer', '');
         $status = $request->input('status', '');
 
         $query = DB::table('tbl_package_faqs as p')
-            ->leftJoin('tbl_tourpackages as m', 'p.tag_id', '=', 'm.tourpackageid')
-            ->select('p.faq_id', 'p.faq_question', 'p.faq_answer', 'p.faq_order', 'p.status', 'p.created_date', 'm.tpackage_name')
+            ->leftJoin('tbl_menutags as m', 'p.tag_id', '=', 'm.tagid')
+            ->leftJoin('tbl_footer as f', 'p.tag_id', '=', 'f.int_footer_id')
+            ->select('p.faq_id', 'p.faq_question', 'p.faq_answer', 'p.faq_order', 'p.status', 'p.created_date','p.faq_type',DB::raw("CASE
+                WHEN p.faq_type = 1 THEN m.tag_name
+                WHEN p.faq_type = 2 THEN f.vch_Footer_Name
+                ELSE NULL
+            END as tag_nameFaq"))
             ->where('p.bit_Deleted_Flag', 0)
-            ->where('m.bit_Deleted_Flag', 0)
             ->orderBy('p.faq_order', 'ASC');
 
         if (!empty($tagid)) {
             $query->where('p.tag_id', $tagid);
+        }
+        if (!empty($faq_type)) {
+            $query->where('p.faq_type', $faq_type);
         }
         if (!empty($faq_question)) {
             $query->where('p.faq_question', 'like', '%' . $faq_question . '%');
@@ -60,8 +81,11 @@ class PackageFaqController extends Controller
             ->editColumn('faq_answer', function ($row) {
                 return htmlspecialchars_decode($row->faq_answer);
             })
-            ->addColumn('tpackage_name', function ($row) {
-                return $row->tpackage_name;
+            ->addColumn('faq_type', function ($row) {
+                return $row->faq_type == 1 ? 'Package Faq' : ($row->faq_type == 2 ? 'Quick Links Faq' : 'Unknown Type');
+            })
+            ->addColumn('tag_nameFaq', function ($row) {
+                return $row->tag_nameFaq;
             })
             ->addColumn('status', function ($row) {
                 $csrf = csrf_field();
@@ -122,6 +146,7 @@ class PackageFaqController extends Controller
         if ($request->isMethod('post')) {
             // Start validation
             $validator = Validator::make($request->all(), [
+                'faq_type'          => 'required|numeric',
                 'tag_id'            => 'required|numeric',
                 'faq_question'      => 'required|string',
                 'faq_answer'        => 'required|string|',
@@ -137,6 +162,7 @@ class PackageFaqController extends Controller
             DB::beginTransaction(); // Start transaction
             try {
                 $data = [
+                    'faq_type'                  => $request->input('faq_type'),
                     'tag_id'                    => $request->input('tag_id'),
                     'faq_question'              => stripslashes($request->input('faq_question')),
                     'faq_answer'                => stripslashes($request->input('faq_answer')),
@@ -155,13 +181,12 @@ class PackageFaqController extends Controller
                 } else {
                     throw new \Exception('package faqs could not be added.');
                 }
-            } catch (\Exception $e) {dd($e);
+            } catch (\Exception $e) {
                 DB::rollBack(); // Rollback transaction on error
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }
         }else{
-            $tags = DB::table('tbl_menutags')->select('tagid','tag_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->orderBy('tag_name', 'ASC')->get();
-            return view('admin.managefaqs.addpackagefaqs', ['tags' => $tags]);
+            return view('admin.managefaqs.addpackagefaqs');
         }
     }
 
@@ -173,6 +198,7 @@ class PackageFaqController extends Controller
         if ($request->isMethod('post')) {
             // Start validation
             $validator = Validator::make($request->all(), [
+                'faq_type'          => 'required|numeric',
                 'tag_id'            => 'required|numeric',
                 'faq_question'      => 'required|string',
                 'faq_answer'        => 'required|string|',
@@ -188,6 +214,7 @@ class PackageFaqController extends Controller
             DB::beginTransaction(); // Start transaction
             try {
                 $data = [
+                    'faq_type'                  => $request->input('faq_type'),
                     'tag_id'                    => $request->input('tag_id'),
                     'faq_question'              => stripslashes($request->input('faq_question')),
                     'faq_answer'                => stripslashes($request->input('faq_answer')),
@@ -209,8 +236,7 @@ class PackageFaqController extends Controller
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }
         }else{
-            $tags = DB::table('tbl_menutags')->select('tagid','tag_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->orderBy('tag_name', 'ASC')->get();
-            return view('admin.managefaqs.addpackagefaqs', ['packagefaq' => $packagefaqs, 'tags' => $tags]);
+            return view('admin.managefaqs.addpackagefaqs', ['packagefaq' => $packagefaqs]);
         }
     }
 

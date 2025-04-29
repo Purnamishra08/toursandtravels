@@ -60,7 +60,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Footer Url <span class="manadatory">*</span></label>
-                                                                <input type="text" class="form-control" readonly placeholder="Enter footer url" name="vch_Footer_URL" id="vch_Footer_URL" value="{{ old('vch_Footer_URL', $footerData->vch_Footer_URL ?? '') }}">
+                                                                <input type="text" class="form-control" placeholder="Enter footer url" name="vch_Footer_URL" id="vch_Footer_URL" value="{{ old('vch_Footer_URL', $footerData->vch_Footer_URL ?? '') }}">
                                                             </div>
                                                         </div>
 

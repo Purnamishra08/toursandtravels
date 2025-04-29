@@ -11,7 +11,11 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\Rule;
 
 class FaqsController extends Controller{
-    public function index($slug){
+    public function index(Request $request, $slug){
+        
+        $type = $request->has('type') ? $request->input('type') : 0;
+        $tag_id = $request->has('tag_id') ? $request->input('tag_id') : 0;
+
         if(!empty($slug)){
             $faq_type = 0;
             if($slug == "common-faqs"){
@@ -41,6 +45,10 @@ class FaqsController extends Controller{
             $data->where('faq_type', $faq_type);
         }
 
+        if($type > 0 && $tag_id > 0 && $faq_type == 3){
+            $data->where('faq_type', $type);
+            $data->where('tag_id', $tag_id);
+        }
         $faqData = $data->get();
 
         $placesData = DB::table('tbl_destination as a')

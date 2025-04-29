@@ -45,15 +45,24 @@
                                         @csrf
                                         <div class="row">
                                             <div class="col-sm-6 form-group mb-sm-0">
-                                                <label>Tour Package <span class="manadatory">*</span></label>
-                                                <select data-placeholder="Choose Tour Package" class="form-control" tabindex="4" id="tag_id" name="tag_id" style="width: 100%;">
-                                                    <option value=''>--Select Package</option>
-                                                    @foreach($tags as $tag)
-                                                        <option value="{{ $tag->tagid }}">
-                                                            {{ $tag->tag_name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
+                                                <div class="form-group">
+                                                    <label for="faq_type">FAQ Type</label>
+                                                    <select class="form-control" id="faq_type" name="faq_type" onchange="callPackage(this.value)" style="width: 100%;">
+                                                        <option value="">--Select Package--</option>
+                                                        <option value="1" >Package FAQ</option>
+                                                        <option value="2" >Quick Links FAQ</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!-- Tour Package -->
+                                            <div class="col-sm-6 form-group mb-sm-0">
+                                                <div class="form-group">
+                                                    <label for="tag_id">Tour Package</label>
+                                                    <select class="form-control" id="tag_id" name="tag_id" style="width: 100%;">
+                                                        <option value="">--Select Tour Package--</option>
+                                                        <!-- Options will be loaded dynamically via AJAX -->
+                                                    </select>
+                                                </div>
                                             </div>
                                             <!-- Question Name -->
                                             <div class="col-sm-6 form-group mb-sm-0">
@@ -99,7 +108,8 @@
                                                 <thead class="thead-dark">
                                                     <tr class="bg-info text-white">
                                                         <th width="2%">Sl #</th>
-                                                        <th width="15%">Package</th>
+                                                        <th width="15%">Faq Type Tag</th>
+                                                        <th width="15%">Tag Name</th>
                                                         <th width="15%">Questions</th>
                                                         <th width="20%">Answers</th>
                                                         <th width="2%">Order</th>
@@ -137,6 +147,36 @@
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/dataTables.bootstrap5.min.js') }}"></script>
     <script>
+        function callPackage(val) {
+            $.ajax({
+                url: "{{ route('website.faqType') }}",
+                method: 'POST',
+                data: {
+                    valData: val
+                },
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                success: function(response) {
+                    if (response.success && response.data.length > 0) {
+                        let options = "<option value=''>--Select Package</option>";
+                        response.data.forEach(item => {
+                            options += `<option value="${item.id}">${item.packageName}</option>`;
+                        });
+                        $('#tag_id').html(options);
+                    } else {
+                        $('#tag_id').html("<option value=''>No packages found</option>");
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire('Error', 'Something went wrong. Try again.', 'error');
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    </script>
+    <script>
         $(document).ready(function () {
             var table = $('#faqTable').DataTable({
                 processing: true,
@@ -146,6 +186,7 @@
                     type: "GET",
                     data: function (d) {
                         d.search = $('input[type="search"]').val();
+                        d.faq_type = $('#faq_type').val();
                         d.tagid = $('#tag_id').val();
                         d.faq_question = $('#faq_question').val();
                         d.faq_answer = $('#faq_answer').val();
@@ -154,7 +195,8 @@
                 },
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    { data: 'tpackage_name', name: 'tpackage_name'},
+                    { data: 'faq_type', name: 'faq_type'},
+                    { data: 'tag_nameFaq', name: 'tag_nameFaq'},
                     { data: 'faq_question', name: 'faq_question' },
                     { data: 'faq_answer', name: 'faq_answer', render: function(data, type, row) {
                         return $('<div>').html(data).text(); // Decode HTML entities

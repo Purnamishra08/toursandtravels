@@ -91,7 +91,14 @@
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                             <h2 class="section-title-sm mb-0">Frequently Asked Questions</h2>
                         </div>
-                        <a href="{{route('website.faqs', ['slug' => 'package-faqs'])}}" target="_blank" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        <form action="{{ route('website.faqs', ['slug' => 'package-faqs']) }}" method="POST" target="_blank" style="display:inline;">
+                            @csrf
+                            <input type="hidden" name="type" value="2">
+                            <input type="hidden" name="tag_id" value="{{$footers->int_footer_id}}">
+                            <button type="submit" class="btn btn-primary">
+                                View all <i class="ms-2 bi bi-arrow-right-short"></i>
+                            </button>
+                        </form>
                     </div>
                     @if($tourFaqs->count())
                         <div class="accordion faq-accordion" id="accordionExample">

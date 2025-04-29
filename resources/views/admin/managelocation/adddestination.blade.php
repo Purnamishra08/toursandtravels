@@ -68,7 +68,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Destination Url <span class="manadatory">*</span></label>
-                                                                <input type="text" class="form-control" readonly placeholder="Enter destination url" name="destination_url" id="destination_url" value="{{ old('destination_url', $destinationData->destination_url ?? '') }}">
+                                                                <input type="text" class="form-control" placeholder="Enter destination url" name="destination_url" id="destination_url" value="{{ old('destination_url', $destinationData->destination_url ?? '') }}">
                                                             </div>
                                                         </div>
 

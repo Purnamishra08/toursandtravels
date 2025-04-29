@@ -1172,3 +1172,65 @@ color: #03787a;
     display: inline-block;
     margin-right: 50px;
   }
+
+.comment-scroll {
+    max-height: 400px; /* you can adjust the height */
+    overflow-y: auto;
+    padding-right: 10px; /* for better scrollbar appearance */
+}
+
+/* Optional scrollbar styling */
+.comment-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+.comment-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+.comment-scroll::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 4px;
+}
+
+.comment-scroll::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.comment {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.comment-username {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.comment-date {
+    font-size: 0.9em;
+    color: #777;
+}
+
+.comment-text {
+    font-size: 1em;
+    color: #555;
+}
+
+@media (max-width: 600px) {
+    .comment-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .comment-date {
+        margin-top: 5px;
+    }
+}

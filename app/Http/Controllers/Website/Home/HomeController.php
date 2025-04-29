@@ -46,14 +46,18 @@ class HomeController extends Controller
             foreach ($blogDataShow as $values) {
                 $html .= '
                 <div class="card recent-post-card wow animate__fadeInUp" data-wow-delay="200ms">
-                    <img src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" />
+                    <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank">
+                        <img src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" />
+                    </a>
                     <p class="tour-badge">Travel</p>
                     <div class="card-body">
                         <ul>
                             <li><i class="bi bi-calendar"></i> ' . date('d-M-Y', strtotime($values->created_date)) . '</li>
                         </ul>
-                        <h5 class="card-title mt-3">' . $values->title . '</h5>
-                        <p>' . implode(' ', array_slice(explode(' ', $values->content), 0, 30)) . '</p>
+                        <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank" style="color:black">
+                            <h5 class="card-title mt-3">' . $values->title . '</h5>
+                            <p>' . implode(' ', array_slice(explode(' ', $values->content), 0, 30)) . '</p>
+                        </a>
                         <div class="text-end mt-2">
                             <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" class="btn btn-outline-primary">
                                 Read More <i class="ms-2 bi bi-arrow-right-short"></i>

@@ -134,7 +134,7 @@ Route::get('/popular-tour-places', [PlaceController::class, 'popularTourPlaces']
 //Place routing
 
 //Faq
-Route::get('/Faqs/{slug}', [FaqsController::class, 'index'])->name('website.faqs');
+Route::match(['get', 'post'], '/Faqs/{slug}', [FaqsController::class, 'index'])->name('website.faqs');
 //Faq
 
 //Common footer links
@@ -367,6 +367,7 @@ Route::middleware('auth')->group(function () {
     Route::match(['get', 'post'], '/editpackagefaqs/{id}', [PackageFaqController::class, 'editpackagefaqs'])->name('admin.packagefaqs.editpackagefaqs');
     Route::post('/activepackagefaqs/{id}', [PackageFaqController::class, 'activepackagefaqs'])->name('admin.packagefaqs.activepackagefaqs');
     Route::post('/deletepackagefaqs/{id}', [PackageFaqController::class, 'deletepackagefaqs'])->name('admin.packagefaqs.deletepackagefaqs');
+    Route::post('/getPackageData', [PackageFaqController::class, 'getPackageData'])->name('website.faqType');
     //Package faqs
     //Manage Faqs
 

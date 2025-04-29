@@ -60,7 +60,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Blog Url <span class="manadatory">*</span></label>
-                                                                <input type="text" class="form-control" readonly placeholder="Enter blog url" name="blog_url" id="blog_url" value="{{ old('blog_url', $BlogData->blog_url ?? '') }}">
+                                                                <input type="text" class="form-control" placeholder="Enter blog url" name="blog_url" id="blog_url" value="{{ old('blog_url', $BlogData->blog_url ?? '') }}">
                                                             </div>
                                                         </div>
 

@@ -39,14 +39,19 @@ class BlogsController extends Controller
                 foreach ($blogData as $values) {
                     $html .= '
                     <div class="card recent-post-card wow animate__fadeInUp" data-wow-delay="200ms">
-                        <img src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" />
+                        <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank">
+                            <img src="' . asset('storage/blog_images/' . $values->image) . '" alt="{{ $values->alttag_image }}" />
+                        </a>
                         <p class="tour-badge">Travel</p>
                         <div class="card-body">
                             <ul>
                                 <li><i class="bi bi-calendar"></i> ' . date('d-M-Y', strtotime($values->created_date)) . '</li>
                             </ul>
-                            <h5 class="card-title mt-2">' . $values->title . '</h5>
-                            <p>' . implode(' ', array_slice(explode(' ', $values->content), 0, 30)) . '</p>
+                            <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank" style="color:black">
+                                <h5 class="card-title mt-2">' . $values->title . '</h5>
+                                <p>' . implode(' ', array_slice(explode(' ', $values->content), 0, 30)) . '</p>
+                            </a>
+                            
                             <div class="text-end mt-2">
                                 <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" class="btn btn-outline-primary">
                                     Read More <i class="ms-2 bi bi-arrow-right-short"></i>
@@ -82,7 +87,14 @@ class BlogsController extends Controller
             if (!$blog) {
                 abort(404, 'Blog post not found');
             }
-    
+
+            $blogComments = DB::table('tbl_comments')
+                ->selectRaw('commentid, blogid, parentid, user_name, email_id, comments, status, created_date, created_by, updated_date, updated_by, bit_Deleted_Flag')
+                ->where('blogid', $blog->blogid)
+                ->where('status', 1)
+                ->where('bit_Deleted_Flag', 0)
+                ->get();
+
             $blogData = DB::table('tbl_blog')
                 ->select('blogid', 'title', 'blog_url', 'status', 'image', 'alttag_image', 'content', 'created_date', 'show_comment')
                 ->where('status', 1)
@@ -117,7 +129,7 @@ class BlogsController extends Controller
                 ->limit(6)
                 ->get();
     
-            return view('website.blogdetails', compact('blog', 'blogData', 'parameters', 'blogDataFooter', 'footer', 'blogDataRecent'))
+            return view('website.blogdetails', compact('blog', 'blogData', 'parameters', 'blogDataFooter', 'footer', 'blogDataRecent', 'blogComments'))
                 ->with([
                     'meta_title' => $blog->blog_meta_title,
                     'meta_description' => $blog->blog_meta_description,
@@ -282,7 +294,9 @@ class BlogsController extends Controller
         foreach ($blogs as $values) {
             $html .= '
                 <li class="d-flex gap-3 recent-blog-card">
-                    <img class="card-img-top" src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" />
+                    <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank">
+                        <img class="card-img-top" src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" />
+                    </a>
                     <div>
                         <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '">' . $values->title . '</a>
                         <ul>
