@@ -3,9 +3,16 @@
 
 <!-- banner-section start -->
 <div class="banner-section">
+
+    <!-- Video Background -->
+    <video id="heroVideo" autoplay muted loop playsinline class="video-background">
+        <source src="{{ asset('assets/img/web-img/banner-video.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+<div class="overlay"></div>
     <div class="banner-content wow animate__fadeInUp  " data-wow-delay="200ms">
-        <h1>Travel & Adventures</h1>
-        <p>Where Would You Like To Go?</p>
+        <h1>Best Coorg Tour Packages – Explore the Scotland of India</h1>
+        <h3>Discover misty hills, coffee plantations, waterfalls, and unforgettable experiences in Coorg.</h3>
     </div>
 </div>
 <!-- popular tour start -->
@@ -308,6 +315,11 @@
 </section>
 @include('website.include.webfooter')
 <script>
+    const video = document.getElementById('heroVideo');
+    video.addEventListener('ended', function() {
+        video.currentTime = 0;
+        video.play();
+    });
     var page = 1;
     var isLoading = false;
     var finished = false;
