@@ -200,7 +200,7 @@ class PackagePdfController extends Controller
             ->get();
 
         // Generate options
-        $options = "<option value=''>-Select Vehicle-</option>";
+        $options = "<option value='0'>-Select Vehicle-</option>";
         foreach ($vehicles as $vehicle) {
             $options .= "<option value='{$vehicle->vehicleid}'>{$vehicle->vehicle_name}</option>";
         }

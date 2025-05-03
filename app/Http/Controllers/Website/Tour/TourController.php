@@ -37,7 +37,7 @@ class TourController extends Controller
                         'a.pack_type',
                         'b.destination_id',
                         'b.destination_name',
-                        'c.duration_name',
+                        'c.duration_name'
                     )
                     ->where('a.bit_Deleted_Flag', 0)
                     // ->where('a.pack_type', 15)
@@ -54,35 +54,55 @@ class TourController extends Controller
 
         $tours = $tours->get();
 
-        $durations = DB::table('tbl_package_duration')
-            ->select('durationid','duration_name')
-            ->where('bit_Deleted_Flag', 0)
-            ->where('status', 1)
+        $durations = DB::table('tbl_package_duration as d')
+            ->select('d.durationid', 'd.duration_name')
+            ->join('tbl_tourpackages as t', 't.package_duration', '=', 'd.durationid')
+            ->where('d.bit_Deleted_Flag', 0)
+            ->where('d.status', 1)
+            ->where('t.bit_Deleted_Flag', 0)
+            ->where('t.status', 1)
+            ->groupBy('d.durationid', 'd.duration_name')
             ->get();
 
-        $destinations = DB::table('tbl_destination')
-            ->select('destination_id','destination_name')
-            ->where('bit_Deleted_Flag', 0)
-            ->where('status', 1)
+        $destinations = DB::table('tbl_destination as dest')
+            ->select('dest.destination_id', 'dest.destination_name')
+            ->join('tbl_tourpackages as t', 't.starting_city', '=', 'dest.destination_id')
+            ->where('dest.bit_Deleted_Flag', 0)
+            ->where('dest.status', 1)
+            ->where('t.bit_Deleted_Flag', 0)
+            ->where('t.status', 1)
+            ->groupBy('dest.destination_id', 'dest.destination_name')
             ->get();
 
         if ($request->ajax()) {
             $html = '';
             foreach ($tours as $values) {
 
-                $hotelType = DB::table('tbl_hotel as a')->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')->select('b.hotel_type_name')->where('a.destination_name', $values->destination_id)->where('a.status',1)->where('a.bit_Deleted_Flag',0)->orderbydesc('hotel_type')->first();
+                $accommodationDestIds = DB::table('tbl_package_accomodation')
+                            ->where('package_id', $values->tourpackageid)
+                            ->where('bit_Deleted_Flag', 0)
+                            ->pluck('destination_id');
+
+                $hotelType = DB::table('tbl_hotel as a')
+                    ->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')
+                    ->select('b.hotel_type_name')
+                    ->whereIn('a.destination_name', $accommodationDestIds)
+                    ->where('a.status', 1)
+                    ->where('a.bit_Deleted_Flag', 0)
+                    ->orderByDesc('a.hotel_type')
+                    ->first();
                 $hotelType = !empty($hotelType->hotel_type_name) ? $hotelType->hotel_type_name : "No Hotel";
 
                 $itinerary = DB::table('tbl_itinerary_daywise')
                     ->where('package_id', $values->tourpackageid)
                     ->where('bit_Deleted_Flag', 0)
                     ->get();
-                    $placeIds = $itinerary->pluck('place_id')
+                $placeIds = $itinerary->pluck('place_id')
                     ->flatMap(fn ($ids) => explode(',', $ids))
                     ->unique()
                     ->filter();
                     
-                    $places = DB::table('tbl_places')
+                $places = DB::table('tbl_places')
                     ->whereIn('placeid', $placeIds)
                     ->where('status', 1)
                     ->where('bit_Deleted_Flag', 0)
@@ -110,7 +130,7 @@ class TourController extends Controller
                     
                     $html.='</div>';
                     if(!empty($values->about_package)){
-                        $html.='<p class="card-text mb-2">'.$values->about_package.'</p>';   
+                        $html.='<p class="card-text mb-2">'.$values->about_package.'</p>';
                     }
                     $html.='
                         <ul class="m-0 d-flex gx-3 gy-2 flex-wrap text-secondary mb-3">
