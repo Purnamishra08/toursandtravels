@@ -413,6 +413,7 @@ class PackagePdfController extends Controller
         $package_data = DB::table('tbl_tourpackages')
             ->select('tpackage_name', 'package_duration', 'pmargin_perctage', 'starting_city')
             ->where('tourpackageid', $hid_packageid)
+            ->where('bit_Deleted_Flag', 0)
             ->first();
 
         $package_duration = $package_data->package_duration;
@@ -421,8 +422,14 @@ class PackagePdfController extends Controller
         $tpackage_name = $package_data->tpackage_name;
 
 
-        $no_ofdays = DB::table('tbl_package_duration')->where('durationid', $package_data->package_duration)->value('no_ofdays');
-        $pick_drop_price = DB::table('tbl_destination')->where('destination_id', $package_data->starting_city)->value('pick_drop_price');
+        $no_ofdays = DB::table('tbl_package_duration')
+                ->where('durationid', $package_data->package_duration)
+                ->where('bit_Deleted_Flag', 0)
+                ->value('no_ofdays');
+        $pick_drop_price = DB::table('tbl_destination')
+                ->where('destination_id', $package_data->starting_city)
+                ->where('bit_Deleted_Flag', 0)
+                ->value('pick_drop_price');
 
 
         
@@ -433,6 +440,8 @@ class PackagePdfController extends Controller
             ->join('tbl_vehicletypes as b', 'a.vehicle_name', '=', 'b.vehicleid')
             ->where('a.destination', $package_data->starting_city)
             ->where('a.vehicle_name', $vehicle)
+            ->where('a.bit_Deleted_Flag', 0)
+            ->where('b.bit_Deleted_Flag', 0)
             ->select('a.price', 'b.vehicle_name', 'b.vehicleid')
             ->first();
 
@@ -473,8 +482,14 @@ class PackagePdfController extends Controller
 
         $accommodation_type = $request->input('accommodation_type');
 
-        $accommodation_name = DB::table('tbl_hotel_type')->where('hotel_type_id', $accommodation_type)->where('bit_Deleted_Flag', 0)->value('hotel_type_name');
-        $noof_hotels = DB::table('tbl_package_accomodation')->where('package_id', $hid_packageid)->where('bit_Deleted_Flag', 0)->count();
+        $accommodation_name = DB::table('tbl_hotel_type')
+                ->where('hotel_type_id', $accommodation_type)
+                ->where('bit_Deleted_Flag', 0)
+                ->value('hotel_type_name');
+        $noof_hotels = DB::table('tbl_package_accomodation')
+                ->where('package_id', $hid_packageid)
+                ->where('bit_Deleted_Flag', 0)
+                ->count();
 
         // Handle selected hotels
         $field_value = [];
@@ -491,11 +506,15 @@ class PackagePdfController extends Controller
             $hotel_extrabed_price = 0;
             $hotel_kidsroom_price = 0;
 
-            $acc_destination_id = DB::table('tbl_hotel')->where('hotel_id', $hotel_id)->value('destination_name');
+            $acc_destination_id = DB::table('tbl_hotel')
+                        ->where('hotel_id', $hotel_id)
+                        ->where('bit_Deleted_Flag', 0)
+                        ->value('destination_name');
             $noof_nights = DB::table('tbl_package_accomodation')
-                ->where('package_id', $hid_packageid)
-                ->where('destination_id', $acc_destination_id)
-                ->value('noof_days');
+                    ->where('package_id', $hid_packageid)
+                    ->where('destination_id', $acc_destination_id)
+                    ->where('bit_Deleted_Flag', 0)
+                    ->value('noof_days');
 
             for ($n = 0; $n < $noof_nights; $n++) {
                 $hoteldate = date("Y-m-d", strtotime("+$n days", strtotime($travel_date_format)));
@@ -580,6 +599,7 @@ class PackagePdfController extends Controller
         $package_data = DB::table('tbl_tourpackages')
             ->select('tpackage_name', 'package_duration', 'pmargin_perctage', 'starting_city')
             ->where('tourpackageid', $hid_packageid)
+            ->where('bit_Deleted_Flag', 0)
             ->first();
         $package_duration = $package_data->package_duration;
         $pmargin_perctage = $package_data->pmargin_perctage;
@@ -587,8 +607,14 @@ class PackagePdfController extends Controller
         $tpackage_name = $package_data->tpackage_name;
 
 
-        $no_ofdays = DB::table('tbl_package_duration')->where('durationid', $package_data->package_duration)->value('no_ofdays');
-        $pick_drop_price = DB::table('tbl_destination')->where('destination_id', $package_data->starting_city)->value('pick_drop_price');
+        $no_ofdays = DB::table('tbl_package_duration')
+                ->where('durationid', $package_data->package_duration)
+                ->where('bit_Deleted_Flag', 0)
+                ->value('no_ofdays');
+        $pick_drop_price = DB::table('tbl_destination')
+                ->where('destination_id', $package_data->starting_city)
+                ->where('bit_Deleted_Flag', 0)
+                ->value('pick_drop_price');
 
 
         
@@ -599,6 +625,8 @@ class PackagePdfController extends Controller
             ->join('tbl_vehicletypes as b', 'a.vehicle_name', '=', 'b.vehicleid')
             ->where('a.destination', $package_data->starting_city)
             ->where('a.vehicle_name', $vehicle)
+            ->where('a.bit_Deleted_Flag', 0)
+            ->where('b.bit_Deleted_Flag', 0)
             ->select('a.price', 'b.vehicle_name', 'b.vehicleid')
             ->first();
 
@@ -639,8 +667,14 @@ class PackagePdfController extends Controller
 
         $accommodation_type = $request->input('accommodation_type');
 
-        $accommodation_name = DB::table('tbl_hotel_type')->where('hotel_type_id', $accommodation_type)->value('hotel_type_name');
-        $noof_hotels = DB::table('tbl_package_accomodation')->where('package_id', $hid_packageid)->count();
+        $accommodation_name = DB::table('tbl_hotel_type')
+                ->where('hotel_type_id', $accommodation_type)
+                ->where('bit_Deleted_Flag', 0)
+                ->value('hotel_type_name');
+        $noof_hotels = DB::table('tbl_package_accomodation')
+                ->where('package_id', $hid_packageid)
+                ->where('bit_Deleted_Flag', 0)
+                ->count();
 
         // Handle selected hotels
         $field_value = [];
@@ -659,12 +693,15 @@ class PackagePdfController extends Controller
             $hotel_extrabed_price = 0;
             $hotel_kidsroom_price = 0;
 
-            $acc_destination_id = DB::table('tbl_hotel')->where('hotel_id', $hotel_id)->value('destination_name');
+            $acc_destination_id = DB::table('tbl_hotel')
+                        ->where('hotel_id', $hotel_id)
+                        ->where('bit_Deleted_Flag', 0)
+                        ->value('destination_name');
             $noof_nights = DB::table('tbl_package_accomodation')
-                ->where('package_id', $hid_packageid)
-                ->where('destination_id', $acc_destination_id)
-                ->where('bit_Deleted_Flag', 0)
-                ->value('noof_days');
+                    ->where('package_id', $hid_packageid)
+                    ->where('destination_id', $acc_destination_id)
+                    ->where('bit_Deleted_Flag', 0)
+                    ->value('noof_days');
 
             for ($n = 0; $n < $noof_nights; $n++) {
                 $hoteldate = date("Y-m-d", strtotime("+$n days", strtotime($travel_date_format)));
