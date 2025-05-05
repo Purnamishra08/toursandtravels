@@ -22,7 +22,6 @@ class FooterLinksController extends Controller
             $query = DB::table('tbl_footer as f')
                 ->select('f.vch_Footer_Name', 'f.int_footer_id', 'f.status', DB::raw("GROUP_CONCAT(DISTINCT t.tpackage_name ORDER BY t.tpackage_name SEPARATOR ', ') AS tpackage_name"))
                 ->leftJoin('tbl_tourpackages as t', DB::raw('FIND_IN_SET(t.tourpackageid, f.tourpackageid)'), '>', DB::raw('0'))
-                ->where('t.bit_Deleted_Flag', 0)
                 ->where('f.bit_Deleted_Flag', 0)
                 ->groupBy('f.vch_Footer_Name', 'f.int_footer_id', 'f.status');
 

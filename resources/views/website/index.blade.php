@@ -283,7 +283,7 @@
                 <p class="section-title-small">CHECKOUT WHAT OUR CLIENT’S SAY</p>
                 <h2 class="section-title section-title-large">CLIENT REVIEW</h2>
             </div>
-            <a href="#" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+            <a href="{{route('website.allreview')}}" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
         </div>
         <div class="swiper client-review-swiper wow animate__fadeInUp  " data-wow-delay="600ms">
             <div class="swiper-wrapper" id="client-reviews">
