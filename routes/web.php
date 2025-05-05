@@ -49,6 +49,7 @@ use App\Http\Controllers\Website\CommonFooterLinks\CommonfooterlinksController;
 use App\Http\Controllers\Website\ContactUs\ContactusController;
 use App\Http\Controllers\Website\AboutUs\AboutusController;
 use App\Http\Controllers\Website\FooterQuickLinks\FooterquicklinksController;
+use App\Http\Controllers\Website\Reviews\ReviewController;
 /********  WEBSITE ROUTING    ********/
 /*
 |--------------------------------------------------------------------------
@@ -156,6 +157,10 @@ Route::get('/about-us', [AboutusController::class, 'index'])->name('website.abou
 //Footer
 Route::match(['get', 'post'], '/footer', [FooterController::class, 'index'])->name('website.footer');
 //Footer
+
+//Reviews
+Route::get('/all-reviews', [ReviewController::class, 'index'])->name('website.allreview');
+//Reviews
 
 /********  WEBSITE ROUTING    ********/
 

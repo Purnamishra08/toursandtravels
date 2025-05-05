@@ -401,7 +401,7 @@
                     <div>
                         <h2 class="section-title-sm">Verified Google Reviews</h2>
                     </div>
-                    <a href="#" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                    <a href="{{route('website.allreview')}}" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                 </div>
                 <div class="review-wrapper thin-scroll">
                     @if(isset($reviewsData) && !empty($reviewsData))
