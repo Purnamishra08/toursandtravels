@@ -114,7 +114,7 @@ class HomeController extends Controller
                     </p>
                     
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <img src="' . asset('assets/img/web-img/single-star.png') . '" alt="Rating">
+                        <i class="fa fa-star text-warning"></i>
                         <span class="text-secondary">'.$values->ratings.' Star</span>
                     </div>
                     <h5 class="card-title">'.$values->tpackage_name.'</h5>

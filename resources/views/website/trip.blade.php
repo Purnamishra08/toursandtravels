@@ -75,7 +75,7 @@
                         </p>
 
                         <div class="d-flex align-items-center gap-2 mb-2">
-                            <img src="http://localhost:8000/assets/img/web-img/single-star.png" alt="Rating">
+                            <i class="fa fa-star text-warning"></i>
                             <span class="text-secondary">5 Star</span>
                         </div>
                         <h5 class="card-title">3 days trip from Mysore | Mysore &amp; Coorg</h5>
@@ -100,7 +100,7 @@
                         </p>
 
                         <div class="d-flex align-items-center gap-2 mb-2">
-                            <img src="http://localhost:8000/assets/img/web-img/single-star.png" alt="Rating">
+                            <i class="fa fa-star text-warning"></i>
                             <span class="text-secondary">5 Star</span>
                         </div>
                         <h5 class="card-title">Relax Coorg tour</h5>
@@ -125,7 +125,7 @@
                         </p>
 
                         <div class="d-flex align-items-center gap-2 mb-2">
-                            <img src="http://localhost:8000/assets/img/web-img/single-star.png" alt="Rating">
+                            <i class="fa fa-star text-warning"></i>
                             <span class="text-secondary">5 Star</span>
                         </div>
                         <h5 class="card-title">4 days Trip from Mysore | Coorg, Wayanad &amp; Mysore</h5>
