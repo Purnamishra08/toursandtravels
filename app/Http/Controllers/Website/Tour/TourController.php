@@ -121,7 +121,7 @@ class TourController extends Controller
                             <div class="d-flex justify-content-between align-item-center flex-wrap">
                                 <h5 class="card-title">'.$values->tpackage_name.'</h5>
                                 <div class="d-flex align-items-center gap-2 mb-2">
-                                    <img src="' . asset('assets/img/web-img/single-star.png') . '" alt="Rating">
+                                    <i class="fa fa-star text-warning"></i>
                                     <span class="text-secondary">'.$values->ratings.' Star</span>
                                 </div>';
                     if($values->pack_type==15){

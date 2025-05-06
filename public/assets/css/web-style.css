@@ -1,11 +1,14 @@
  /* banner-section start */
- /* .banner-section{
+ .banner-section{
     height: 90vh;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
-    background-image: url(../img/web-img/banner-img.png);
-    background-image: url(../img/web-img/coorg1.gif);
+    /* background-image: url(../img/web-img/banner-img.png); */
+    /* background-image: url(../img/web-img/banner-video.gif); */
+    /* background-image: url(../img/web-img/compressed.gif); */
+    background-image: url(../img/web-img/coorg.gif);
+    /* background-image: url(../img/web-img/banner-coorg.webp); */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,9 +25,18 @@
 .banner-content h1{
     font-size: calc(16px + (60 - 16) * ((100vw - 375px) / (1920 - 375))) !important;
 
-} */
+}
 
-.banner-section {
+.banner-section .overlay {
+    position: relative;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); 
+    z-index: -1;
+}
+/* .banner-section {
     position: relative;
     height: 90vh;
     display: flex;
@@ -52,7 +64,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Adjust as needed */
+    background: rgba(0, 0, 0, 0.4); 
     z-index: -1;
 }
 
@@ -66,7 +78,7 @@
 
 .banner-content h1 {
     font-size: calc(16px + (60 - 16) * ((100vw - 375px) / (1920 - 375))) !important;
-}
+} */
 
 /* popular tour section css start */
 .popular-tour-swiper{
