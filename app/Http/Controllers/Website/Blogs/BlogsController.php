@@ -12,6 +12,8 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class BlogsController extends Controller
 {
@@ -213,7 +215,7 @@ class BlogsController extends Controller
                         <body style='font-family:sans-serif;font-size:13px; line-height:22px;'>
                             <div style='width: 100%;background: #F5F5F5;color: #000;'>
                                 <div style='text-align:center'>
-                                    <a href='".url('/')."'><img src='".asset('assets/imag/logo.png')."'></a>
+                                    <a href='".url('/')."'><img src='".asset('assets/img/logo.png')."'></a>
                                 </div>
                                 <div style='clear:both'></div>
                             </div>
@@ -236,29 +238,42 @@ class BlogsController extends Controller
                         </body>
                         </html>
                         ";
-    
-                       try {
-                            Mail::send([], [], function ($message) use ($htmlContent, $parameters) {
-                                $fromEmail = $parameters->firstWhere('parid', 9)->par_value ?? null;
-                                $toEmail = $parameters->firstWhere('parid', 2)->par_value ?? null;
-
-                                if (!$fromEmail || !$toEmail) {
-                                    throw
-                                     new \Exception("Missing email addresses in parameters table.");
-                                }
-                                $message->from(''.$fromEmail.'', 'Coorg Packages');
-                                $message->to(''.$toEmail.'');
-                                $message->subject('New comments from coorg packages blog.');
-                                $message->html($htmlContent, 'text/html');
-                            });
+                        try {
+                            $fromEmail = $parameters->firstWhere('parid', 9)->par_value ?? null;
+                            $toEmail = $parameters->firstWhere('parid', 2)->par_value ?? null;
+                        
+                            if (!$fromEmail || !$toEmail) {
+                                return response()->json(['status' => 'error', 'message' => 'Failed to send email. Email details missing.']);
+                            }
+                        
+                            $mail = new PHPMailer(true);
+                        
+                            //Server settings
+                            $mail->isSMTP();
+                            $mail->Host       = env('MAIL_HOST');
+                            $mail->SMTPAuth   = true;
+                            $mail->Username   = env('MAIL_USERNAME');
+                            $mail->Password   = env('MAIL_PASSWORD');
+                            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                            $mail->Port       = 587; // or 465 for SMTPS 2525
+                        
+                            //Recipients
+                            $mail->setFrom($fromEmail, 'Coorg Packages');
+                            $mail->addAddress($toEmail);
+                        
+                            // Content
+                            $mail->isHTML(true);
+                            $mail->Subject = 'New comments from coorg packages blog';
+                            $mail->Body    = $htmlContent;
+                        
+                            $mail->send();
                             return response()->json([
                                 'success' => true,
                                 'message' => 'Comment submitted successfully!'
                             ]);
-                        } catch (\Exception $e) {dd($e);
-                            Log::error('Mail Send Failed: '.$e->getMessage());
-
-                            return back()->with('error', 'Failed to send email. Please try again later.');
+                        } catch (Exception $e) {
+                            \Log::error('Mail Send Failed: ' . $e->getMessage());
+                            return response()->json(['status' => 'error', 'message' => 'Failed to send email. Please try again later.']);
                         }
                     }
                 }

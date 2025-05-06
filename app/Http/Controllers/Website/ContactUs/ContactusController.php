@@ -11,6 +11,8 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class ContactusController extends Controller{
     public function index(Request $request){
@@ -107,7 +109,28 @@ class ContactusController extends Controller{
                         ->where('status', 1)
                         ->where('bit_Deleted_Flag', 0)
                         ->get();
+                // Prepare user email
+                $userMessage = "
+                <div style='font-family: Arial, sans-serif; border:1px solid #eee; padding:20px; max-width:600px; margin:auto;'>
+                    <div style='text-align:center; margin-bottom:20px;'>
+                        <a href='" . url('/') . "'>
+                            <img src='" . asset('assets/img/logo.png') . "' alt='My Holiday Happiness Logo' style='max-height:80px;'>
+                        </a>
+                    </div>
+                    <h2 style='color:#0d6efd;'>Thank You for Your Enquiry</h2>
+                    <p>Dear {$userName},</p>
+                    <p>We appreciate your interest in My Holiday Happiness. Your enquiry has been successfully received and is currently being reviewed by our travel team.</p>
+                    <p>Our representative will get in touch with you within the next <strong>6 to 8 hours</strong> to assist you further.</p>
+                    <div style='line-height:25px;font-size:14px; margin-top:20px;'>
+                        <div><strong>Enquiry Reference Number:</strong> {$enquiry_no}</div>
+                    </div>
+                    <p style='margin-top:20px;'>For immediate assistance, please call us at <strong>+91 98865 25253</strong>.</p>
+                    <br>
+                    <p>Warm regards,<br><strong>Team My Holiday Happiness</strong></p>
+                </div>";
 
+
+                //Admin message
                 $htmlContent = "
                 <!doctype html>
                 <html>
@@ -143,29 +166,64 @@ class ContactusController extends Controller{
                 </body>
                 </html>
                 ";
-
                 try {
-                    Mail::send([], [], function ($message) use ($htmlContent, $parameters) {
-                        $fromEmail = $parameters->firstWhere('parid', 9)->par_value ?? null;
-                        $toEmail = $parameters->firstWhere('parid', 2)->par_value ?? null;
-
-                        if (!$fromEmail || !$toEmail) {
-                            throw
-                                new \Exception("Missing email addresses in parameters table.");
-                        }
-                        $message->from(''.$fromEmail.'', 'Coorg Packages');
-                        $message->to(''.$toEmail.'');
-                        $message->subject('New enquiry from coorg packages contact us.');
-                        $message->html($htmlContent, 'text/html');
-                    });
+                    $fromEmail = $parameters->firstWhere('parid', 9)->par_value ?? null;
+                    $toEmail = $parameters->firstWhere('parid', 2)->par_value ?? null;
+                    $toEmailClient = isset($emailId) ? $emailId : null;
+                
+                    if (!$fromEmail || !$toEmail || !$toEmailClient) {
+                        return response()->json(['status' => 'error', 'message' => 'Failed to send email. Email details missing.']);
+                    }
+                
+                    $mail = new PHPMailer(true);
+                
+                    //Server settings
+                    $mail->isSMTP();
+                    $mail->Host       = env('MAIL_HOST');
+                    $mail->SMTPAuth   = true;
+                    $mail->Username   = env('MAIL_USERNAME');
+                    $mail->Password   = env('MAIL_PASSWORD');
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port       = 587; // or 465 for SMTPS 2525
+                
+                    //Recipients
+                    $mail->setFrom($fromEmail, 'Coorg Packages');
+                    $mail->addAddress($toEmail);
+                
+                    // Content
+                    $mail->isHTML(true);
+                    $mail->Subject = 'New enquiry from coorg packages contact us';
+                    $mail->Body    = $htmlContent;
+                
+                    $mail->send();
+                    
+                    $mailClient = new PHPMailer(true);
+                    //Server settings
+                    $mailClient->isSMTP();
+                    $mailClient->Host       = env('MAIL_HOST');
+                    $mailClient->SMTPAuth   = true;
+                    $mailClient->Username   = env('MAIL_USERNAME');
+                    $mailClient->Password   = env('MAIL_PASSWORD');
+                    $mailClient->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                    $mailClient->Port       = 587; // or 465 for SMTPS 2525
+                
+                    //Recipients
+                    $mailClient->setFrom($fromEmail, 'Coorg Packages');
+                    $mailClient->addAddress($toEmailClient);
+                
+                    // Content
+                    $mailClient->isHTML(true);
+                    $mailClient->Subject = 'Your Enquiry with Coorg Packages [Ref: '.$enquiry_no.' ]';
+                    $mailClient->Body    = $userMessage;
+                
+                    $mailClient->send();
                     return response()->json([
                         'success' => true,
-                        'message' => 'Enquiry submitted successfully! We will contact you soon.'
+                        'message' => 'Enquiry submitted successfully!'
                     ]);
-                } catch (\Exception $e) {dd($e);
-                    Log::error('Mail Send Failed: '.$e->getMessage());
-
-                    return back()->with('error', 'Failed to send email. Please try again later.');
+                } catch (Exception $e) {
+                    \Log::error('Mail Send Failed: ' . $e->getMessage());
+                    return response()->json(['status' => 'error', 'message' => 'Failed to send email. Please try again later.']);
                 }
             }else{
                 return response()->json([

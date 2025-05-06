@@ -11,6 +11,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use DB;
 use Illuminate\Support\Facades\Mail;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class LoginController extends Controller
 {
@@ -151,22 +153,44 @@ class LoginController extends Controller
                 </html>
             ";
             try {
-                Mail::send([], [], function ($message) use ($htmlContent, $user) {
-                    $parameters = DB::table('tbl_parameters')->select('par_value')->Where('parid', 9)->where('status',1)->where('bit_Deleted_Flag', 0)->first();
-                    $fromEmail = $parameters->par_value ?? null;
-                    $toEmail = $user->email_id ?? null;
-
-                    if (!$fromEmail || !$toEmail) {
-                        return response()->json(['status' => 'error', 'message' => 'Failed to send email. email details missing.']);
-                    }
-                    $message->from(''.$fromEmail.'', 'Coorg Packages');
-                    $message->to(''.$toEmail.'');
-                    $message->subject('Forgot Password OTP.');
-                    $message->html($htmlContent, 'text/html');
-                });
+                $parameters = DB::table('tbl_parameters')
+                    ->select('par_value')
+                    ->where('parid', 9)
+                    ->where('status', 1)
+                    ->where('bit_Deleted_Flag', 0)
+                    ->first();
+            
+                $fromEmail = $parameters->par_value ?? null;
+                $toEmail = $user->email_id ?? null;
+            
+                if (!$fromEmail || !$toEmail) {
+                    return response()->json(['status' => 'error', 'message' => 'Failed to send email. Email details missing.']);
+                }
+            
+                $mail = new PHPMailer(true);
+            
+                //Server settings
+                $mail->isSMTP();
+                $mail->Host       = env('MAIL_HOST');
+                $mail->SMTPAuth   = true;
+                $mail->Username   = env('MAIL_USERNAME');
+                $mail->Password   = env('MAIL_PASSWORD');
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = 587; // or 465 for SMTPS 2525
+            
+                //Recipients
+                $mail->setFrom($fromEmail, 'Coorg Packages');
+                $mail->addAddress($toEmail);
+            
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = 'Forgot Password OTP.';
+                $mail->Body    = $htmlContent;
+            
+                $mail->send();
                 return response()->json(['status' => 'success']);
-            } catch (\Exception $e) {dd($e);
-                Log::error('Mail Send Failed: '.$e->getMessage());
+            } catch (Exception $e) {
+                \Log::error('Mail Send Failed: ' . $e->getMessage());
                 return response()->json(['status' => 'error', 'message' => 'Failed to send email. Please try again later.']);
             }
 
