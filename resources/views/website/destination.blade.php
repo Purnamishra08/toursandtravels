@@ -24,11 +24,25 @@
                     <div class="stickey-section">
 
                         <nav class="navigation " id="mainNav">
-                            <a class="navigation__link active" href="#overview">{{isset($destinationData) ? $destinationData->destination_name : ''}} Overview </a>
-                            <a class="navigation__link" href="#topPlace">Top Place to Visit in {{isset($destinationData) ? $destinationData->destination_name : ''}}</a>
-                            <a class="navigation__link" href="#tourPackages">{{isset($destinationData) ? $destinationData->destination_name : ''}} Tour Pakages </a>
-                            <a class="navigation__link" href="#chetSheet">Essentials Cheat Sheet </a>
-                            <a class="navigation__link" href="#map">Getting There </a>
+                        <a class="navigation__link active" href="javascript:void(0)" onclick="scrollToSection('overview')">
+                            {{ isset($destinationData) ? $destinationData->destination_name : '' }} Overview
+                        </a>
+
+                        <a class="navigation__link" href="javascript:void(0)" onclick="scrollToSection('topPlace')">
+                            Top Place to Visit in {{ isset($destinationData) ? $destinationData->destination_name : '' }}
+                        </a>
+
+                        <a class="navigation__link" href="javascript:void(0)" onclick="scrollToSection('tourPackages')">
+                            {{ isset($destinationData) ? $destinationData->destination_name : '' }} Tour Packages
+                        </a>
+
+                        <a class="navigation__link" href="javascript:void(0)" onclick="scrollToSection('chetSheet')">
+                            Essentials Cheat Sheet
+                        </a>
+
+                        <a class="navigation__link" href="javascript:void(0)" onclick="scrollToSection('map')">
+                            Getting There
+                        </a>
 
                         </nav>
                         <div class="card contact-card mt-3">
@@ -378,6 +392,12 @@
     integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
     crossorigin="anonymous"></script>
 <script>
+    function scrollToSection(id) {
+        const target = document.getElementById(id);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
     let page = 1;
     let isLoading = false;
     let finished = false;

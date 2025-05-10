@@ -24,13 +24,21 @@
                     <div class="stickey-section">
 
                         <nav class="navigation " id="mainNav">
-                            <a class="navigation__link active" href="#overview">Overview </a>
-                            <!-- <a class="navigation__link" href="#topPlace">Top Place to Visit </a> -->
-                            <a class="navigation__link" href="#tourPackages">{{$placesData->place_name}} Tour Pakages </a>
-                            <a class="navigation__link" href="#chetSheet">Essentials Cheat Sheet </a>
-                            <!-- <a class="navigation__link" href="#neardestination">Nearby Destinations </a>
-                            <a class="navigation__link" href="#similiardestination">Similar Destinations </a> -->
-                            <a class="navigation__link" href="#map">Getting There </a>
+                        <a class="navigation__link active" href="javascript:void(0)" onclick="scrollToSection('overview')">
+                            Overview
+                        </a>
+
+                        <a class="navigation__link" href="javascript:void(0)" onclick="scrollToSection('tourPackages')">
+                            {{ $placesData->place_name }} Tour Packages
+                        </a>
+
+                        <a class="navigation__link" href="javascript:void(0)" onclick="scrollToSection('chetSheet')">
+                            Essentials Cheat Sheet
+                        </a>
+
+                        <a class="navigation__link" href="javascript:void(0)" onclick="scrollToSection('map')">
+                            Getting There
+                        </a>
                             
                         </nav>
                         <div class="card contact-card mt-3">
@@ -485,6 +493,12 @@
     integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
     crossorigin="anonymous"></script>
 <script>
+    function scrollToSection(id) {
+        const target = document.getElementById(id);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
     let isLoading = false;
     let finished = false;
     function loadPopularTour() {
