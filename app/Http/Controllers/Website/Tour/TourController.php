@@ -53,10 +53,11 @@ class TourController extends Controller
         }
 
         $tours = $tours->get();
-
+        $tourPackageIds = $tours->pluck('tourpackageid');
         $durations = DB::table('tbl_package_duration as d')
             ->select('d.durationid', 'd.duration_name')
             ->join('tbl_tourpackages as t', 't.package_duration', '=', 'd.durationid')
+            ->whereIn('t.tourpackageid', $tourPackageIds)
             ->where('d.bit_Deleted_Flag', 0)
             ->where('d.status', 1)
             ->where('t.bit_Deleted_Flag', 0)
@@ -67,6 +68,7 @@ class TourController extends Controller
         $destinations = DB::table('tbl_destination as dest')
             ->select('dest.destination_id', 'dest.destination_name')
             ->join('tbl_tourpackages as t', 't.starting_city', '=', 'dest.destination_id')
+            ->whereIn('t.tourpackageid', $tourPackageIds)
             ->where('dest.bit_Deleted_Flag', 0)
             ->where('dest.status', 1)
             ->where('t.bit_Deleted_Flag', 0)
@@ -222,19 +224,21 @@ class TourController extends Controller
             ->join('tbl_destination as b', 'a.starting_city', '=', 'b.destination_id')
             ->join('tbl_package_duration as c', 'a.package_duration', '=', 'c.durationid')
             ->select(
-                'a.tourpackageid',
-                'a.tpackage_name',
-                'a.tpackage_url',
-                'a.price',
-                'a.fakeprice',
-                'a.tpackage_image',
-                'a.tour_thumb',
-                'a.alttag_thumb',
-                'a.ratings',
-                'a.pack_type',
-                'b.destination_name',
-                'c.duration_name',
-            )
+                        'a.tourpackageid',
+                        'a.tpackage_name',
+                        'a.tpackage_url',
+                        'a.price',
+                        'a.fakeprice',
+                        'a.about_package',
+                        'a.tpackage_image',
+                        'a.tour_thumb',
+                        'a.alttag_thumb',
+                        'a.ratings',
+                        'a.pack_type',
+                        'b.destination_id',
+                        'b.destination_name',
+                        'c.duration_name'
+                    )
             ->whereRaw('FIND_IN_SET(?, d.place_id)', [$placesData->placeid ?? 0])
             ->where('a.bit_Deleted_Flag', 0)
             ->where('d.bit_Deleted_Flag', 0)
@@ -250,6 +254,7 @@ class TourController extends Controller
             }
 
             $tours = $tours->get();
+            $tourPackageIds = $tours->pluck('tourpackageid');
             $countAndPrice = DB::table('tbl_itinerary_daywise as a')
             ->join('tbl_tourpackages as b', 'a.package_id', '=', 'b.tourpackageid')
             ->selectRaw('COUNT(b.tourpackageid) as total_packages, MIN(b.price) as min_price')
@@ -263,6 +268,7 @@ class TourController extends Controller
         $durations = DB::table('tbl_package_duration as d')
             ->select('d.durationid', 'd.duration_name')
             ->join('tbl_tourpackages as t', 't.package_duration', '=', 'd.durationid')
+            ->whereIn('t.tourpackageid', $tourPackageIds)
             ->where('d.bit_Deleted_Flag', 0)
             ->where('d.status', 1)
             ->where('t.bit_Deleted_Flag', 0)
@@ -273,6 +279,7 @@ class TourController extends Controller
         $destinations = DB::table('tbl_destination as dest')
             ->select('dest.destination_id', 'dest.destination_name')
             ->join('tbl_tourpackages as t', 't.starting_city', '=', 'dest.destination_id')
+            ->whereIn('t.tourpackageid', $tourPackageIds)
             ->where('dest.bit_Deleted_Flag', 0)
             ->where('dest.status', 1)
             ->where('t.bit_Deleted_Flag', 0)

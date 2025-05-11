@@ -60,9 +60,11 @@ class FooterquicklinksController extends Controller
 
         $tours = $tours->get();
 
+        $tourPackageIds = $tours->pluck('tourpackageid');
         $durations = DB::table('tbl_package_duration as d')
             ->select('d.durationid', 'd.duration_name')
             ->join('tbl_tourpackages as t', 't.package_duration', '=', 'd.durationid')
+            ->whereIn('t.tourpackageid', $tourPackageIds)
             ->where('d.bit_Deleted_Flag', 0)
             ->where('d.status', 1)
             ->where('t.bit_Deleted_Flag', 0)
@@ -73,6 +75,7 @@ class FooterquicklinksController extends Controller
         $destinations = DB::table('tbl_destination as dest')
             ->select('dest.destination_id', 'dest.destination_name')
             ->join('tbl_tourpackages as t', 't.starting_city', '=', 'dest.destination_id')
+            ->whereIn('t.tourpackageid', $tourPackageIds)
             ->where('dest.bit_Deleted_Flag', 0)
             ->where('dest.status', 1)
             ->where('t.bit_Deleted_Flag', 0)

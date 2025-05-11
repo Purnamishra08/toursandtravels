@@ -4,7 +4,7 @@
     <header id="header">
         <nav class="navbar navbar-expand-xl fixed-top">
             <div class="container">
-                <a href="{{route('website.home')}}" class="navbar-brand"><img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" /></a>
+                <a href="{{route('website.home')}}" class="navbar-brand"><img src="{{ asset('assets/img/mhh-logo.png') }}" alt="logo" /></a>
                 <a class="nav-link ms-auto me-3 mob-menu mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" aria-current="page" href="#"><i class="bi bi-search  fs-5"></i></a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"

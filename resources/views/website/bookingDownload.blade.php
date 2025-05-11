@@ -220,10 +220,10 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
                                         <td style="padding: 3px; border:1px solid #c5dad6;text-align:left">
                                             {{ $hotels->hotel_name }}
                                         </td>
-                                        <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
+                                        <td style="padding: 3px; border:1px solid #c5dad6;text-align:left">
                                             {{ $destName->destination_name }}
                                         </td>
-                                        <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
+                                        <td style="padding: 3px; border:1px solid #c5dad6;text-align:left">
                                             {{ $roomsNeeded }} {{ $hotels->room_type }}
                                         </td>
                                         <td style="padding: 3px; border:1px solid #c5dad6;text-align:center">
