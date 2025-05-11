@@ -128,9 +128,7 @@
                 $('#allTour').html('<div class="text-center p-4">Loading...</div>');
             },
             success: function(data) {
-                setTimeout(() => {
                     $('#allTour').html(data);
-                }, 2000);
             }
         });
     }
