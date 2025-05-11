@@ -703,7 +703,7 @@ height: 60PX;
 .breadcrumb-section:before{
     content: "";
     background-color: #151515;
-    opacity: 0.65;
+    opacity: 0.40;
     position: absolute;
     top: 0;
     left: 0;

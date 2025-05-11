@@ -212,7 +212,7 @@
             </div>
         </div>
     </section>
-    <section class="bg-light">
+    <!-- <section class="bg-light">
         <div class="container">
             <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
@@ -220,7 +220,6 @@
                 </div>
             </div>
             <div class="about-content mb-3 thin-scroll">
-                <!-- Description Preview with Truncated Content -->
                 <div class="description-preview" style="max-height: 200px; overflow: hidden; position: relative;">
                     <div class="fade-overlay" style="position: absolute; bottom: 0; left: 0; right: 0; height: 40px;background: linear-gradient(to bottom, rgb(252 252 252 / 52%), #f8f8f8)"></div>
                     <div class="description-full">
@@ -233,7 +232,7 @@
                 Read more <span style="margin-left: 5px;">&#x25BC;</span>
             </button>
         </div>
-    </section>
+    </section> -->
 
 </div>
 @include('website.include.webfooter')

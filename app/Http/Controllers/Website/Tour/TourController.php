@@ -209,7 +209,7 @@ class TourController extends Controller
         return view('website.tourlisting',['tourPageData'=>$tourPageData,'meta_title'=>$tourPageData->meta_title,'meta_keywords'=>$tourPageData->meta_keywords,'meta_description'=>$tourPageData->meta_description,'durations'=>$durations,'destinations'=>$destinations,'tourFaqs'=>$tourFaqs,'reviews'=>$reviews]);
     }
 
-    public function allTourPlacePackages($slug){
+    public function allTourPlacePackages(Request $request,$slug){
         $placesData = DB::table('tbl_places')
         ->select('placeid','place_name','pckg_meta_title','pckg_meta_keywords','pckg_meta_description')
         ->where('place_url', $slug)
@@ -238,8 +238,18 @@ class TourController extends Controller
             ->whereRaw('FIND_IN_SET(?, d.place_id)', [$placesData->placeid ?? 0])
             ->where('a.bit_Deleted_Flag', 0)
             ->where('d.bit_Deleted_Flag', 0)
-            ->where('a.status', 1)
-            ->get();
+            ->where('a.status', 1);
+
+            // Apply filters
+            if ($request->has('durations') && is_array($request->durations)) {
+                $tours->whereIn('a.package_duration', $request->durations);
+            }
+
+            if ($request->has('startingCities') && is_array($request->startingCities)) {
+                $tours->whereIn('a.starting_city', $request->startingCities);
+            }
+
+            $tours = $tours->get();
             $countAndPrice = DB::table('tbl_itinerary_daywise as a')
             ->join('tbl_tourpackages as b', 'a.package_id', '=', 'b.tourpackageid')
             ->selectRaw('COUNT(b.tourpackageid) as total_packages, MIN(b.price) as min_price')
@@ -249,7 +259,132 @@ class TourController extends Controller
             ->where('b.bit_Deleted_Flag', 0)
             ->first();
         }
-        return view('website.tourplacelisting', ['tours' => $tours, 'placesData' => $placesData, 'countAndPrice' => $countAndPrice])->with([
+
+        $durations = DB::table('tbl_package_duration as d')
+            ->select('d.durationid', 'd.duration_name')
+            ->join('tbl_tourpackages as t', 't.package_duration', '=', 'd.durationid')
+            ->where('d.bit_Deleted_Flag', 0)
+            ->where('d.status', 1)
+            ->where('t.bit_Deleted_Flag', 0)
+            ->where('t.status', 1)
+            ->groupBy('d.durationid', 'd.duration_name')
+            ->get();
+
+        $destinations = DB::table('tbl_destination as dest')
+            ->select('dest.destination_id', 'dest.destination_name')
+            ->join('tbl_tourpackages as t', 't.starting_city', '=', 'dest.destination_id')
+            ->where('dest.bit_Deleted_Flag', 0)
+            ->where('dest.status', 1)
+            ->where('t.bit_Deleted_Flag', 0)
+            ->where('t.status', 1)
+            ->groupBy('dest.destination_id', 'dest.destination_name')
+            ->get();
+        if ($request->ajax()) {
+            $html = '';
+            foreach ($tours as $values) {
+
+                $accommodationDestIds = DB::table('tbl_package_accomodation')
+                            ->where('package_id', $values->tourpackageid)
+                            ->where('bit_Deleted_Flag', 0)
+                            ->pluck('destination_id');
+
+                $hotelType = DB::table('tbl_hotel as a')
+                    ->join('tbl_hotel_type as b', 'a.hotel_type', '=', 'b.hotel_type_id')
+                    ->select('b.hotel_type_name')
+                    ->whereIn('a.destination_name', $accommodationDestIds)
+                    ->where('a.status', 1)
+                    ->where('a.bit_Deleted_Flag', 0)
+                    ->orderByDesc('a.hotel_type')
+                    ->first();
+                $hotelType = !empty($hotelType->hotel_type_name) ? $hotelType->hotel_type_name : "No Hotel";
+
+                $itinerary = DB::table('tbl_itinerary_daywise')
+                    ->where('package_id', $values->tourpackageid)
+                    ->where('bit_Deleted_Flag', 0)
+                    ->get();
+                $placeIds = $itinerary->pluck('place_id')
+                    ->flatMap(fn ($ids) => explode(',', $ids))
+                    ->unique()
+                    ->filter();
+                    
+                $places = DB::table('tbl_places')
+                    ->whereIn('placeid', $placeIds)
+                    ->where('status', 1)
+                    ->where('bit_Deleted_Flag', 0)
+                    ->limit(3)
+                    ->get()
+                    ->keyBy('placeid');
+
+                $html .= '
+                <div class="card tour-listing-card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4 col-lg-4">
+                            <img class="place-img" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">
+                        </div>
+                    <div class="col-md-8 col-lg-8">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-item-center flex-wrap">
+                                <h5 class="card-title">'.$values->tpackage_name.'</h5>
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <i class="fa fa-star text-warning"></i>
+                                    <span class="text-secondary">'.$values->ratings.' Star</span>
+                                </div>';
+                    if($values->pack_type==15){
+                        $html.='<span class="badge">Most popular</span>';
+                    }
+                    
+                    $html.='</div>';
+                    if(!empty($values->about_package)){
+                        $html.='<p class="card-text mb-2">'.$values->about_package.'</p>';
+                    }
+                    $html.='
+                        <ul class="m-0 d-flex gx-3 gy-2 flex-wrap text-secondary mb-3">
+                            <li><i class="bi bi-clock me-1"></i> '.str_replace('/', '&', $values->duration_name).' </li>
+                            <li> <i class="bi bi-geo-alt me-1"></i>Ex- '.$values->destination_name.'</li>
+                            <li><i class="bi bi-house me-1"></i>'.$hotelType.'</li>
+                            <!--<li><i class="bi bi-signpost-split me-1"></i> Adventure</li> -->
+                        </ul>
+                        <div class="d-flex gap-3 mb-3 align-items-center">
+                            <span class="title"> <i class="bi bi-geo-alt me-1"></i>Places:</span>
+                            <ul class="m-0 d-flex gx-3 gy-2 flex-wrap text-secondary">';
+                            if(count($places)>0){
+                            foreach ($places as $value) {
+                                $html.=' <li class="light-badge"> '.$value->place_name.' </li>';
+
+                            }
+                        }
+                            $html.=' </ul>
+                        </div>
+                        <!--<div class="d-flex gap-3 mb-3 align-items-center">
+                            <span class="title"><i class="bi bi-activity me-1"></i> Activity</span>
+                            <ul class="m-0 d-flex gx-3 gy-2 flex-wrap text-secondary">
+                                <li class="primary-badge">
+                                    Trekking or Hiking
+                                </li>
+                                <li class="primary-badge">River Rafting</li>
+                                <li class="primary-badge"><i class="bi bi-home"></i> Ziplining</li>
+                                <li class="primary-badge"><i class="bi bi-signpost-split"></i> Scuba Diving / Snorkeling</li>
+                            </ul>
+                        </div>-->
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="p-card-info">
+                                <h6 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h6>
+                                <strike>₹ '.(int)$values->fakeprice.'</strike>
+                            </div>
+                            <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>';
+        }
+            if($html==''){
+                $html .= '<div class="text-center fw-bold py-4"><h1>No Package Found.</h1></div>';
+            }
+            return $html;
+        }
+
+        return view('website.tourplacelisting', ['slug'=>$slug,'tours' => $tours, 'placesData' => $placesData, 'countAndPrice' => $countAndPrice,'durations'=>$durations,'destinations'=>$destinations])->with([
             'meta_title' => $placesData->pckg_meta_title,
             'meta_description' => $placesData->pckg_meta_description,
             'meta_keywords' => $placesData->pckg_meta_keywords
