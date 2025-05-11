@@ -142,3 +142,17 @@
         applyFilters(); // re-fetch all
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('.filter-btn').on('click', function() {
+            $('.filter-wrapper').toggleClass('active');
+            $('.filter-overlay').toggleClass('active');
+        });
+
+        // Optional: hide filter when clicking outside
+        $('.filter-overlay').on('click', function() {
+            $(this).removeClass('active');
+            $('.filter-wrapper').removeClass('active');
+        });
+    });
+</script>
