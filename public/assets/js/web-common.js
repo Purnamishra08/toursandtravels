@@ -121,7 +121,7 @@ const popularTourSwiper = new Swiper('.popular-tour-swiper', {
   $(document).ready(function () {
     // Show/hide the back-to-top button based on scroll position
     $(window).scroll(function () {
-        if ($(this).scrollTop() > 100) {
+        if ($(this).scrollTop() > 10) {
           $("#header").addClass("bg-header");
             $("#up").fadeIn();  // Show the button
         } else {

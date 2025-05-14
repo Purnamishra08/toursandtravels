@@ -2,7 +2,7 @@
  .banner-section{
     height: 90vh;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center;
     /* background-image: url(../img/web-img/banner-img.png); */
     /* background-image: url(../img/web-img/banner-video.gif); */
@@ -14,6 +14,16 @@
     align-items: center;
     gap: .5rem;
     position: relative;
+}
+.banner-section:before{
+    content: "";
+    background-color: #151515;
+    opacity: 0.40;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .banner-content{
@@ -79,7 +89,22 @@
 .banner-content h1 {
     font-size: calc(16px + (60 - 16) * ((100vw - 375px) / (1920 - 375))) !important;
 } */
+@media(max-width:680px){
+    .banner-content{
+        width: 85%;
+    }
+    .banner-content h1{
+        font-size: 1.5rem !important;
+        line-height: 32px;
+        
+    }
+    .banner-content  p{
+        font-size: 1.1rem;
+        margin-bottom: 0;
+        
+    }
 
+}
 /* popular tour section css start */
 .popular-tour-swiper{
     padding-bottom: 2.5rem;
@@ -1048,6 +1073,9 @@ color: #03787a;
     .page-section-heading{
         font-size: 1.2rem ;
        
+      }
+      .only-desktop{
+        display: none;
       }
      
   }
