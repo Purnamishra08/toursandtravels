@@ -222,7 +222,7 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
                                                                         <div id="banner_preview_dest"">
-                                                                        <a href="{{ asset('storage/tourpackages/details/' . $tourPackage->tour_details_img) }}"    target="_blank">
+                                                                        <a href="{{ isset($tourPackage->tour_details_img) ? asset('storage/tourpackages/details/' . $tourPackage->tour_details_img) : '' }}"    target="_blank">
                                                                         <img id="bannerPreviewDest" 
                                                                         src="{{ isset($tourPackage->tour_details_img) ? asset('storage/tourpackages/details/'.$tourPackage->tour_details_img) : '' }}" 
                                                                         alt="Banner Image Preview" 
@@ -243,7 +243,7 @@
                                                                 <div class="col-md-6">
                                                                     <div class="form-group">
                                                                         <label>Alt for Tour Details Image <span class="manadatory">*</span></label>
-                                                                        <input type="text" class="form-control" placeholder="Enter Alt for Tour Details Image" name="alttag_details" id="alttag_details" value="{{ old('alttag_details',$tourPackage->alttag_details) }}" maxlength="60">
+                                                                        <input type="text" class="form-control" placeholder="Enter Alt for Tour Details Image" name="alttag_details" id="alttag_details" value="{{ old('alttag_details', isset($tourPackage->alttag_details) ? $tourPackage->alttag_details : '') }}" maxlength="60">
                                                                     </div>
                                                                 </div>
                                                                 <div class="clearfix"></div>
