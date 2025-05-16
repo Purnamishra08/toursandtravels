@@ -60,8 +60,8 @@
                             <div class="mb-3">
                                 @foreach($durations as $duration)
                                 <div class="form-check">
-                                    <input class="form-check-input filter-option" type="checkbox" name="duration[]" value="{{$duration->durationid}}">
-                                    <label class="form-check-label">{{$duration->duration_name}}</label>
+                                    <input class="form-check-input filter-option" type="checkbox" name="duration[]" id="duration_{{$duration->durationid}}" value="{{$duration->durationid}}">
+                                    <label class="form-check-label" for="duration_{{$duration->durationid}}">{{$duration->duration_name}}</label>
                                 </div>
                                 @endforeach
                             </div>
@@ -69,8 +69,8 @@
                             <div class="mb-3">
                                 @foreach($destinations as $destination)
                                 <div class="form-check">
-                                    <input class="form-check-input filter-option" type="checkbox" name="starting_city[]" value="{{$destination->destination_id}}">
-                                    <label class="form-check-label">{{$destination->destination_name}}</label>
+                                    <input class="form-check-input filter-option" type="checkbox" name="starting_city[]" id="starting_city_{{$destination->destination_id}}" value="{{$destination->destination_id}}">
+                                    <label class="form-check-label" for="starting_city_{{$destination->destination_id}}">{{$destination->destination_name}}</label>
                                 </div>
                                 @endforeach
                             </div>
