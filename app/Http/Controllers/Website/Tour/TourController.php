@@ -10,7 +10,8 @@ use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class TourController extends Controller
 {
@@ -778,8 +779,8 @@ class TourController extends Controller
                 </div>
                 <h2 style="color:#0d6efd;">Greetings from My Holiday Happiness (MHH)</h2>
                 <p>Dear ' . $request->first_name . ',</p>
-                <p>Thank you for reaching out to us. We’re pleased to inform you that we have received your ' . ($type == 1 ? 'booking' : 'itinerary') . ' enquiry.</p>
-                <p>One of our travel executives will review your request and share the complete details of your travel plan within the next 6–8 hours.</p>
+                <p>Thank you for reaching out to us. We are pleased to inform you that we have received your ' . ($type == 1 ? 'booking' : 'itinerary') . ' enquiry.</p>
+                <p>One of our travel executives will review your request and share the complete details of your travel plan within the next 6-8 hours.</p>
                 <p><strong>Tour Name:</strong> ' . $tourName . '</p>
                 <p><strong>Accommodation:</strong> ' . $accommodationName . '</p>
                 <p>For urgent assistance, feel free to call us at <strong>+91 98865 25253</strong>.</p>
@@ -809,37 +810,59 @@ class TourController extends Controller
 
             // Send emails
             if ($userEmail) {
-                // Mail::send([], [], function ($message) use ($userEmail, $userMessage, $fromEmail) {
-                //     $message->to($userEmail)
-                //         ->from($fromEmail, 'My Holiday Happiness')
-                //         ->subject('Thank you for your enquiry – My Holiday Happiness')
-                //         ->html($userMessage, 'text/html');
-                // });
-                Mail::send([], [], function ($message) use ($userEmail,$userMessage, $parameters) {
-                        $fromEmail = $parameters->firstWhere('parid', 9)->par_value ?? null;
-                        $toEmail = $userEmail;
+                $fromEmail = $parameters->firstWhere('parid', 9)->par_value ?? null;
+                $toEmail = $userEmail;
 
-                        if (!$fromEmail || !$toEmail) {
-                            throw
-                                new \Exception("Missing email addresses in parameters table.");
-                        }
-                        $message->from(''.$fromEmail.'', 'Coorg Packages');
-                        $message->to(''.$toEmail.'', 'Coorg Packages' );
-                        $message->subject('Thank you for your enquiry – Coorg Packages');
-                        $message->html($userMessage, 'text/html');
-                    });
+                if (!$fromEmail || !$toEmail) {
+                    throw
+                        new \Exception("Missing email addresses in parameters table.");
+                }
+                $mail = new PHPMailer(true);
+                //Server settings
+                $mail->isSMTP();
+                $mail->Host       = env('MAIL_HOST');
+                $mail->SMTPAuth   = true;
+                $mail->Username   = env('MAIL_USERNAME');
+                $mail->Password   = env('MAIL_PASSWORD');
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port       = 587; // or 465 for SMTPS 2525
+            
+                //Recipients
+                $mail->setFrom($fromEmail, 'Coorg Packages');
+                $mail->addAddress($toEmail);
+            
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = 'Thank you for your enquiry - Coorg Packages';
+                $mail->Body    = $userMessage;
+            
+                $mail->send();
             }
-
-            Mail::send([], [], function ($message) use ($toEmail, $adminMessage,$type) {
-                $message->to($toEmail)
-                    ->subject('New Tour ' . ($type == 1 ? 'Booking' : 'Itinerary') . ' Enquiry Received')
-                    ->html($adminMessage, 'text/html');
-            });
+            $mailAdmin = new PHPMailer(true);
+            //Server settings
+            $mailAdmin->isSMTP();
+            $mailAdmin->Host       = env('MAIL_HOST');
+            $mailAdmin->SMTPAuth   = true;
+            $mailAdmin->Username   = env('MAIL_USERNAME');
+            $mailAdmin->Password   = env('MAIL_PASSWORD');
+            $mailAdmin->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mailAdmin->Port       = 587; // or 465 for SMTPS 2525
+        
+            //Recipients
+            $mailAdmin->setFrom($fromEmail, 'Coorg Packages');
+            $mailAdmin->addAddress($fromEmail);
+        
+            // Content
+            $mailAdmin->isHTML(true);
+            $mailAdmin->Subject = 'New Tour ' . ($type == 1 ? 'Booking' : 'Itinerary') . ' Enquiry Received';
+            $mailAdmin->Body    = $adminMessage;
+        
+            $mailAdmin->send();
 
             DB::commit();
 
             return response()->json(['success' => true, 'message' => 'Enquiry submitted successfully.']);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) {dd($e);
             DB::rollBack();
             Log::error('Enquiry failed: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'An error occurred while submitting the enquiry. Please try again later.'], 500);
