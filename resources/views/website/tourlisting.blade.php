@@ -324,6 +324,7 @@
             },
             success: function(data) {
                 $('#allTour').html(data);
+                document.getElementsByClassName('tour-list-wrapper')[0].scrollIntoView({ behavior: 'smooth' });
             }
         });
     }

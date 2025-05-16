@@ -388,9 +388,9 @@ class PackagePdfController extends Controller
                 $hotelcount++;
             }
 
-            $html .= '<div class="text-center mt-3">';
-            $html .= '<input type="button" class="btn btn-info" value="OK" data-bs-dismiss="modal">';
-            $html .= '</div>';
+            // $html .= '<div class="text-center mt-3">';
+            // $html .= '<input type="button" class="btn btn-info" value="OK" data-bs-dismiss="modal">';
+            // $html .= '</div>';
         } else {
             $html .= '<div class="text-danger">No accommodation data found for this package.</div>';
         }

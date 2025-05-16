@@ -351,11 +351,11 @@ for ($i = 0; $i < $fullStars; $i++)
                                             <label class="d-block">Airport pickup & drop</label>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="checkbox" name="airport_pickup" id="airport_pickup" value="1">
-                                                <label class="form-check-label" for="inlineCheckbox1">Pickup</label>
+                                                <label class="form-check-label" for="airport_pickup">Pickup</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" type="checkbox" name="airport_drop" id="airport_drop" value="2">
-                                                <label class="form-check-label" for="inlineCheckbox2">Drop</label>
+                                                <label class="form-check-label" for="airport_drop">Drop</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -758,7 +758,7 @@ for ($i = 0; $i < $fullStars; $i++)
     </div>
     <!-- hotel modal -->
     <div class="modal fade" tabindex="-1" id="hotel-modal">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{$tours->tpackage_name}}</h5>
@@ -768,7 +768,10 @@ for ($i = 0; $i < $fullStars; $i++)
                     <div class="col-xl-12 col-lg-12">
                         <h4 style="color:#6583bb; padding-bottom:20px;">Select accommodation first to check hotels.</h4>
                     </div>
-                    <div class="text-center mt-3">
+                    
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <div class="text-center ">
                         <input type="button" class="btn btn-info" value="OK" data-bs-dismiss="modal">
                     </div>
                 </div>
