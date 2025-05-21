@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
                     ->where('a.bit_Deleted_Flag', 0)
                     ->where('a.pack_type', 15)
                     ->where('a.status', 1);
-        $bestTourPackages = $bestTourPackages->inRandomOrder()->limit(8)->get();
+        $bestTourPackages = $bestTourPackages->inRandomOrder()->get();
 
         View::share('parameters', $parameters);
         View::share('footer', $footer);
