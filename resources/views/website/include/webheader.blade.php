@@ -1,5 +1,7 @@
 <link href="{{asset('assets/css/all.min.css')}}" rel="stylesheet" />
-<script src="{{asset('assets/js/all.min.js')}}"></script>
+@if (!Route::is('website.home'))
+    <script src="{{ asset('assets/js/all.min.js') }}"></script>
+@endif
 <body>
     <header id="header">
         <nav class="navbar navbar-expand-xl fixed-top">
@@ -16,7 +18,7 @@
                     aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title text-light" id="offcanvasNavbarLabel">
-                            <a href="" class="navbar-brand"><img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" /></a>
+                            <a href="" class="navbar-brand"><img src="{{ asset('assets/img/mhh-logo.png') }}" alt="logo" /></a>
                         </h5>
                         <button type="button" class="btn-close btn-close-dark text-reset me-3"
                             data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -288,7 +290,7 @@
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="offcanvasTopLabel">
                 <a href="../index.blade.php" class="navbar-brand">
-                <img src="{{ asset('assets/img/web-img/logo.png') }}" alt="logo" />
+                <img src="{{ asset('assets/img/mhh-logo.png') }}" alt="logo" />
                    </a>
               </h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

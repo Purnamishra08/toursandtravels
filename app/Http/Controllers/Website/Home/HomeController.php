@@ -114,7 +114,7 @@ class HomeController extends Controller
                     </p>
                     
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <i class="fa fa-star text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
                         <span class="text-secondary">'.$values->ratings.' Star</span>
                     </div>
                     <h5 class="card-title">'.$values->tpackage_name.'</h5>
@@ -194,13 +194,13 @@ class HomeController extends Controller
 
                 $starsHtml = '';
                 for ($i = 0; $i < $fullStars; $i++) {
-                    $starsHtml .= '<i class="fa fa-star text-warning"></i> ';
+                    $starsHtml .= '<i class="bi bi-star-fill text-warning"></i> ';
                 }
                 if ($halfStar) {
-                    $starsHtml .= '<i class="fa fa-star-half-stroke text-warning"></i> ';
+                    $starsHtml .= '<i class="bi bi-star-half text-warning"></i> ';
                 }
                 for ($i = 0; $i < $emptyStars; $i++) {
-                    $starsHtml .= '<i class="fa fa-star text-secondary"></i> ';
+                    $starsHtml .= '<i class="bi bi-star-fill text-secondary"></i> ';
                 }
 
                 // Review card HTML
@@ -218,7 +218,7 @@ class HomeController extends Controller
                                             </div>
 
                                             </div>
-                                            <p class="client-location text-secondary"><i class="fa-solid fa-location-dot"></i> ' . $values->reviewer_loc . '</p>
+                                            <p class="client-location text-secondary"><i class="bi bi-geo-alt-fill"></i> ' . $values->reviewer_loc . '</p>
                                         
                                         
                                     
