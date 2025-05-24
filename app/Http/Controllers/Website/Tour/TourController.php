@@ -54,6 +54,7 @@ class TourController extends Controller
         }
 
         $tours = $tours->get();
+        $tourCount = DB::table('tbl_tourpackages')->where('bit_Deleted_Flag', 0)->where('status', 1)->count();
         $tourPackageIds = $tours->pluck('tourpackageid');
         $durations = DB::table('tbl_package_duration as d')
             ->select('d.durationid', 'd.duration_name')
@@ -209,7 +210,7 @@ class TourController extends Controller
             ->groupBy('r.review_id', 'r.tourtagid', 'r.reviewer_name', 'r.reviewer_loc', 'r.no_of_star', 'r.feedback_msg', 'r.status', 'r.updated_date')
             ->get();
 
-        return view('website.tourlisting',['tourPageData'=>$tourPageData,'meta_title'=>$tourPageData->meta_title,'meta_keywords'=>$tourPageData->meta_keywords,'meta_description'=>$tourPageData->meta_description,'durations'=>$durations,'destinations'=>$destinations,'tourFaqs'=>$tourFaqs,'reviews'=>$reviews]);
+        return view('website.tourlisting',['tourPageData'=>$tourPageData,'meta_title'=>$tourPageData->meta_title,'meta_keywords'=>$tourPageData->meta_keywords,'meta_description'=>$tourPageData->meta_description,'durations'=>$durations,'destinations'=>$destinations,'tourFaqs'=>$tourFaqs,'reviews'=>$reviews,'tourCount'=>$tourCount]);
     }
 
     public function allTourPlacePackages(Request $request,$slug){

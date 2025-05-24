@@ -2,7 +2,7 @@
 @include('website.include.webheader')
 <div class="breadcrumb-section" style="background-image: url('{{ asset('storage/category_tags_images/BannerImages/' . $tourPageData->menutag_img) }}');">
     <div class="container">
-        <h1 class="page-name">{{$tourPageData->tag_name}}</h1>
+        <h1 class="page-name">{{$tourCount}} {{$tourPageData->tag_name}}</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
                 <a href="{{route('website.home')}}" class="breadcrumb-link"><i class="bi bi-house"></i></a>
@@ -21,7 +21,7 @@
             <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
                 <div>
                     <!-- <p class="section-title-small">Feature tours</p> -->
-                    <h2 class="section-title"> Most Popular {{$tourPageData->tag_name}}</h2>
+                    <h2 class="section-title"> Most Popular {{$tourCount}} {{$tourPageData->tag_name}}</h2>
                 </div>
             </div>
 
