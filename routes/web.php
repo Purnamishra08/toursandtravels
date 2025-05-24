@@ -146,7 +146,7 @@ Route::get('/term-condition', [CommonfooterlinksController::class, 'termsConditi
 //Common footer links
 
 //contact us
-Route::get('/contact-us', [ContactusController::class, 'index'])->name('website.contactus');
+Route::get('/contactus', [ContactusController::class, 'index'])->name('website.contactus');
 Route::match(['get', 'post'], 'addContacUs', [ContactusController::class, 'addContacUs'])->name('website.addContacUs');
 //contact us
 

@@ -56,6 +56,12 @@
                                                                 <input type="text" class="form-control" placeholder="Enter destination name" name="destination_name" id="destination_name">
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label>Pick / Drop Price () <span class="manadatory">*</span></label>
+                                                                <input type="text" class="form-control" placeholder="Enter Pick or Drop Price" name="pick_drop_price" id="pick_drop_price">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="reset-button">
@@ -77,6 +83,7 @@
                                                             <tr class="info">
                                                                 <th>Sl #</th>
                                                                 <th>Sources</th>
+                                                                <th>Pick / Drop Price ()</th>
                                                                 <th>Status</th>
                                                                 <th>Action</th>
                                                             </tr>
@@ -133,6 +140,7 @@
                     render: (data, type, row, meta) => meta.row + 1
                 },
                 { data: 'destination_name', name: 'destination_name' },
+                { data: 'pick_drop_price', name: 'pick_drop_price' },
                 { data: 'status', name: 'status', orderable: false, searchable: true },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ],

@@ -334,8 +334,7 @@ class DestinationController extends Controller
         }
     }
 
-    public function editDestination(Request $request, $id)
-    {
+    public function editDestination(Request $request, $id){
         $destination = DB::table('tbl_destination')->where('destination_id', $id)->first();
         if (!$destination) {
             return redirect()->back()->with('error', 'Destination not found.');
@@ -590,7 +589,7 @@ class DestinationController extends Controller
         if ($request->ajax()) {
             // Fetch destinations for DataTables
             $query = DB::table('tbl_destination')
-                ->select('destination_id', 'destination_name','status','destinationType')
+                ->select('destination_id', 'destination_name','status','destinationType', 'pick_drop_price')
                 ->where('destinationType', 2)
                 ->where('bit_Deleted_Flag', 0);
 
@@ -616,6 +615,9 @@ class DestinationController extends Controller
                 ->addIndexColumn()
                 ->addColumn('destination_name', function ($row) {
                     return $row->destination_name;
+                })
+                ->addColumn('pick_drop_price', function ($row) {
+                    return $row->pick_drop_price;
                 })
                 ->addColumn('status', function ($row) {
                     $csrf = csrf_field();
@@ -673,11 +675,6 @@ class DestinationController extends Controller
     
     public function addpickupdestination(Request $request){
         if ($request->isMethod('post')) {
-            // Start validation
-            // $validator = Validator::make($request->all(), [
-            //     'destination_name'    => 'required|string|max:255|unique:tbl_destination,destination_name',
-            // ]);
-
             $validator = Validator::make($request->all(), [
                 'destination_name' => [
                     'required',
@@ -687,6 +684,7 @@ class DestinationController extends Controller
                         return $query->where('bit_Deleted_Flag', 0);
                     }),
                 ],
+                'pick_drop_price'     => 'required|numeric'
             ]);
             if ($validator->fails()) {
                 return redirect()->back()
@@ -700,6 +698,7 @@ class DestinationController extends Controller
                 // Prepare data
                 $data = [
                     'destination_name'          => $request->input('destination_name'),
+                    'pick_drop_price'           => $request->input('pick_drop_price'),
                     'destinationType'           => 2
                 ];
                 $inserted = DB::table('tbl_destination')->insert($data);
@@ -710,7 +709,6 @@ class DestinationController extends Controller
                     throw new \Exception('Pickup destination could not be added.');
                 }
             } catch (\Exception $e) {
-                dd($e);
                 DB::rollBack(); // Rollback transaction on error
                 return redirect()->back()->with('error', 'Error: ' . $e->getMessage());
             }
@@ -722,8 +720,9 @@ class DestinationController extends Controller
     public function updatepickupdestination(Request $request)
     {
         $request->validate([
-            'destination_id' => 'required|integer',
-            'destination_name' => 'required|string|max:255'
+            'destination_id'    => 'required|integer',
+            'destination_name'  => 'required|string|max:255',
+            'pick_drop_price'   => 'required|numeric'
         ]);
 
         try {
@@ -732,6 +731,7 @@ class DestinationController extends Controller
                 ->where('destinationType', 2)
                 ->update([
                     'destination_name' => $request->input('destination_name'),
+                    'pick_drop_price'  => $request->input('pick_drop_price'),
                     'updated_date' => now(),
                     'updated_by' => isset(session('user')->adminid) ? session('user')->adminid : 0
                 ]);
@@ -768,6 +768,10 @@ class DestinationController extends Controller
                 <div class="form-group">
                     <label>Pickup Destination Name</label>
                     <input type="text" class="form-control" name="destination_name" id="destination_name" value="' . $destination->destination_name . '" required>
+                </div>
+                <div class="form-group">
+                    <label>Pick / Drop Price () <span class="manadatory">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter Pick or Drop Price" name="pick_drop_price" id="pick_drop_price" value="' . $destination->pick_drop_price . '" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>
