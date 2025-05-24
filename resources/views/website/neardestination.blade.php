@@ -19,7 +19,7 @@
     <section>
         <div class="container">
 
-            <div class="row">
+            <div class="row g-3">
                 <div class=" col-xxl-3 col-lg-4">
                     <div class="stickey-section">
 
@@ -41,7 +41,7 @@
                         </a>
                             
                         </nav>
-                        <div class="card contact-card mt-3">
+                        <div class="card contact-card only-desktop mt-3">
                             <div class="card-body">
                                 <h4 class="text-white">Contact Us</h4>
                             <ul class="contact-wrapper mt-1">
