@@ -730,7 +730,7 @@ height: 60PX;
 }
 
 .breadcrumb-link{
-    color: #acacac;
+    color: #dddddd;
     padding: .5rem;
     text-decoration: none;
     font-family: .9rem;
@@ -755,11 +755,27 @@ height: 60PX;
     }
 }
 @media (max-width: 680px) {
-    .breadcrumb-section{
-        height: 180px;
+   .breadcrumb-section {
+        height: 250px; /* Keep the increased height */
+        text-align: center;
     }
+ 
+    .breadcrumb-section .container {
+        padding: 0 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+ 
     .breadcrumb-section .page-name {
         font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+    .breadcrumb-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0rem;
     }
 }
 
