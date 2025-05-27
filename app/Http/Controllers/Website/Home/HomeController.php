@@ -27,7 +27,7 @@ class HomeController extends Controller
         $meta_keywords      =  isset($parameters) ? $parameters[11]->par_value : '';
         $meta_description   =  isset($parameters) ? $parameters[12]->par_value : '';
 
-        return view('website.index', ['destinationName' => $destinationName])->with([
+        return view('website.index', ['destinationName' => $destinationName,'parameters'=>$parameters])->with([
             'meta_title' => $meta_title,
             'meta_description' => $meta_description,
             'meta_keywords' => $meta_keywords
