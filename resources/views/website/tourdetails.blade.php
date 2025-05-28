@@ -1,4 +1,112 @@
 @include('website.include.webmeta')
+<!-- INDIVIDUAL TOUR PACKAGES DETAILS SCHEMAS -->
+@if (!request()->ajax())
+<script type="application/ld+json">
+{!! json_encode([
+    "@context" => "https://schema.org",
+    "@type" => "BreadcrumbList",
+    "itemListElement" => [
+        [
+            "@type" => "ListItem",
+            "position" => 1,
+            "name" => "Home",
+            "item" => url('/')
+        ],
+        [
+            "@type" => "ListItem",
+            "position" => 2,
+            "name" => "Tours",
+            "item" => route('website.allTourPackages')
+        ],
+        [
+            "@type" => "ListItem",
+            "position" => 3,
+            "name" => $tours->tpackage_name,
+            "item" => route('website.tourDetails', ['slug' => $tours->tpackage_url])
+        ]
+    ]
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
+{{-- TouristTrip schema (main service description) --}}
+<script type="application/ld+json">
+{!! json_encode([
+    "@context" => "https://schema.org",
+    "@type" => "TouristTrip",
+    "name" => $tours->tpackage_name,
+    "description" => Str::limit(strip_tags(html_entity_decode($tours->about_package)), 200),
+    "touristType" => "Adventure",
+    "itinerary" => collect($itinerary)->flatMap(function($day) use ($places) {
+        $placeIds = array_filter(explode(',', $day->place_id));
+        $namedPlaces = collect($placeIds)->map(function ($id) use ($places) {
+            return isset($places[$id]) ? [
+                "@type" => "TouristAttraction",
+                "name" => $places[$id]->place_name
+            ] : null;
+        })->filter()->values();
+
+        $otherPlaces = $day->other_iternary_places
+            ? collect(explode(',', $day->other_iternary_places))->map(fn($p) => [
+                "@type" => "TouristAttraction",
+                "name" => trim($p)
+            ])
+            : collect();
+
+        return $namedPlaces->merge($otherPlaces);
+    })->values(),
+    "offers" => [
+        "@type" => "Offer",
+        "price" => (string)(int)$tours->price,
+        "priceCurrency" => "INR",
+        "priceValidUntil" => now()->addMonths(3)->toDateString(),
+        "url" => route('website.tourDetails', ['slug' => $tours->tpackage_url]),
+        "availability" => "https://schema.org/InStock",
+        "itemCondition" => "https://schema.org/NewCondition",
+        "priceValidUntil" => now()->addDays(3)->toDateString(),
+        "hasMerchantReturnPolicy" => [
+            "@type" => "MerchantReturnPolicy",
+            "returnPolicyCategory" => "https://schema.org/MerchantReturnNotPermitted",
+            "merchantReturnDays" => 0,
+            "applicableCountry" => "IN"
+        ]
+    ],
+    "provider" => [
+        "@type" => "Organization",
+        "name" => "Coorg Packages",
+        "url" => url('/')
+    ]
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
+{{-- Separate Product schema for reviews and aggregateRating --}}
+<script type="application/ld+json">
+{!! json_encode([
+    "@context" => "https://schema.org",
+    "@type" => "Product",
+    "name" => $tours->tpackage_name,
+    "image" => [asset('storage/tourpackages/details/' . $tours->tour_details_img)],
+    "description" => Str::limit(strip_tags(html_entity_decode($tours->about_package)), 160),
+    "brand" => [
+        "@type" => "Organization",
+        "name" => "Coorg Packages"
+    ],
+    "aggregateRating" => [
+        "@type" => "AggregateRating",
+        "ratingValue" => number_format($tours->ratings ?? 4.5, 1),
+        "reviewCount" => (int)($tours->review_count ?? 10)
+    ],
+    "offers" => [
+        "@type" => "Offer",
+        "price" => (string)(int)$tours->price,
+        "priceCurrency" => "INR",
+        "priceValidUntil" => now()->addMonths(3)->toDateString(),
+        "url" => route('website.tourDetails', ['slug' => $tours->tpackage_url]),
+        "availability" => "https://schema.org/InStock",
+        "itemCondition" => "https://schema.org/NewCondition"
+    ]
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endif
 @include('website.include.webheader')
 @php
 // Star rating generation
