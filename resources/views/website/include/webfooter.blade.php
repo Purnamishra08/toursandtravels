@@ -3,12 +3,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4">
-                    <h1 class="mb-3">
+                    <span class="mb-3">
                         <a href="" class="navbar-brand">
                             <img src="{{ asset('assets/img/mhh-logo.png') }}" alt="logo" />
                         </a>
 
-                    </h1>
+                    </span>
                     <!-- <p class="about-company">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit.
                             Repellat delectus nobis quibusdam sed optio porro. Lorem ipsum,
