@@ -12,8 +12,8 @@ use Illuminate\Validation\Rule;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
-    {
+    public function index(Request $request){
+        // 1. Load parameters
         $parameters =  DB::table('tbl_parameters')
         ->select('parameter', 'par_value', 'parid')
         ->where('param_type', 'CS')
@@ -21,18 +21,218 @@ class HomeController extends Controller
         ->where('bit_Deleted_Flag', 0)
         ->get();
 
-        $destinationName = DB::table('tbl_destination')->select('destination_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->first();
-
+        // 2. Meta tags
         $meta_title         =  isset($parameters) ? $parameters[10]->par_value : '';
         $meta_keywords      =  isset($parameters) ? $parameters[11]->par_value : '';
         $meta_description   =  isset($parameters) ? $parameters[12]->par_value : '';
 
-        return view('website.index', ['destinationName' => $destinationName,'parameters'=>$parameters])->with([
+        // 3. Destination name
+        $destinationName = DB::table('tbl_destination')->select('destination_name')->where('bit_Deleted_Flag', 0)->where('status', 1)->first();
+        
+        // 4. Organization Schema
+        $organisationSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "Organization",
+            "name" => "Coorg Packages",
+            "url" => url('/'),
+            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.png",
+            "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
+            "contactPoint" => [
+                "@type" => "ContactPoint",
+                "telephone" => $parameters[2]->par_value ?? "+91 9886 52 52 53",
+                "contactType" => "Customer Service",
+                "areaServed" => "IN",
+                "availableLanguage" => ["English", "Hindi", "Kannada"]
+            ],
+            "address" => [
+                "@type" => "PostalAddress",
+                "streetAddress" => "#69 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar",
+                "addressLocality" => "Bengaluru",
+                "addressRegion" => "Karnataka",
+                "postalCode" => "560010",
+                "addressCountry" => "IN"
+            ],
+            "sameAs" => array_filter([
+                $parameters[14]->par_value ?? null,
+                $parameters[15]->par_value ?? null,
+                $parameters[16]->par_value ?? null
+            ])
+        ];
+
+        // 5. WebPage Schema
+        $webPageSchema=[
+            "@context" => "https://schema.org",
+            "@type" => "WebPage",
+            "name" => $meta_title ?? 'Coorg Packages',
+            "url" => url('/'),
+            "description" => $meta_description ?? 'Plan your trip to Coorg with affordable tour packages.',
+            "keywords" => $meta_keywords ?? "",
+            "inLanguage" => "en"
+        ]; 
+        
+        // 6. Popular tours query builder
+        $popularToursQuery = DB::table('tbl_tourpackages as a')
+                    ->join('tbl_destination as b', 'a.starting_city', '=', 'b.destination_id')
+                    ->join('tbl_package_duration as c', 'a.package_duration', '=', 'c.durationid')
+                    ->select(
+                        'a.tourpackageid',
+                        'a.tpackage_name',
+                        'a.tpackage_url',
+                        'a.price',
+                        'a.fakeprice',
+                        'a.tpackage_image',
+                        'a.tour_details_img',
+                        'a.about_package',
+                        'a.tour_thumb',
+                        'a.alttag_thumb',
+                        'a.ratings',
+                        'a.pack_type',
+                        'b.destination_name',
+                        'c.duration_name'
+                    )
+                    ->where('a.bit_Deleted_Flag', 0)
+                    // ->where('a.pack_type', 15)
+                    ->where('a.status', 1);
+                    if ($request->fromDestination != 1) {
+                        $popularToursQuery->where('a.show_in_home', 1)
+                            ->inRandomOrder()
+                            ->limit(9);
+                    } else {
+                        $popularToursQuery->inRandomOrder()
+                            ->limit(6);
+                    }
+                    $popularTours = $popularToursQuery->get();
+
+        // 7. Product schemas
+        $productSchemas = [];
+        foreach ($popularTours as $tour) {
+            $productSchemas[] = [
+                "@context" => "https://schema.org",
+                "@type" => "Product",
+                "name" => $tour->tpackage_name,
+                "image" => [asset('storage/tourpackages/details/' . $tour->tour_details_img)],
+                "description" => Str::limit(strip_tags(html_entity_decode($tour->about_package)), 160),
+                "brand" => [
+                    "@type" => "Organization",
+                    "name" => "coorgpackages.com"
+                ],
+                "aggregateRating" => [
+                    "@type" => "AggregateRating",
+                    "ratingValue" => number_format($tour->ratings ?? 4.5, 1),
+                    "reviewCount" => (int)($tour->review_count ?? 10)
+                ],
+                "offers" => [
+                    "@type" => "Offer",
+                    "url" => url('/' . $tour->tpackage_url),
+                    "priceCurrency" => "INR",
+                    "price" => (string)(int)$tour->price,
+                    "availability" => "https://schema.org/InStock",
+                    "validFrom" => date('Y-m-d')
+                ]
+            ];
+        }
+
+        // 8. Reviews query
+        $reviews = DB::table('tbl_reviews as r')
+            ->leftJoin('tbl_menutags as t', DB::raw('FIND_IN_SET(t.tagid, r.tourtagid)'), '>', DB::raw('0'))
+            ->select(
+                'r.review_id',
+                'r.tourtagid',
+                'r.reviewer_name',
+                'r.reviewer_loc',
+                'r.no_of_star',
+                'r.feedback_msg',
+                'r.status',
+                'r.updated_date',
+                DB::raw("GROUP_CONCAT(DISTINCT t.tag_name ORDER BY t.tag_name SEPARATOR ', ') AS tag_name")
+            )
+            ->where('r.bit_Deleted_Flag', 0)
+            ->where('r.status', 1)
+            ->orderBy('r.review_id', 'DESC')
+            ->groupBy(
+                'r.review_id', 'r.tourtagid', 'r.reviewer_name', 'r.reviewer_loc',
+                'r.no_of_star', 'r.feedback_msg', 'r.status', 'r.updated_date'
+            )
+            ->get();
+
+        // 9. Review schema
+        $reviewSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "Organization",
+            "name" => "coorgpackages.com",
+            "aggregateRating" => [
+                "@type" => "AggregateRating",
+                "ratingValue" => number_format($reviews->avg('no_of_star'), 1),
+                "reviewCount" => $reviews->count()
+            ],
+            "review" => $reviews->map(function ($review) {
+                return [
+                    "@type" => "Review",
+                    "author" => $review->reviewer_name,
+                    "datePublished" => date('Y-m-d', strtotime($review->updated_date)),
+                    "reviewBody" => $review->feedback_msg,
+                    "name" => $review->reviewer_loc ? $review->reviewer_loc . ' Review' : 'Review',
+                    "reviewRating" => [
+                        "@type" => "Rating",
+                        "ratingValue" => $review->no_of_star,
+                        "bestRating" => "5"
+                    ]
+                ];
+            })->toArray()
+        ];
+
+        // 10. Blogs for home page
+        $blogDataShow = DB::table('tbl_blog')
+            ->select('blogid', 'title', 'blog_url', 'status', 'image', 'alttag_image', 'content', 'created_date', 'show_comment')
+            ->where('status', 1)
+            ->where('show_in_home', 1)
+            ->where('bit_Deleted_Flag', 0)
+            ->limit(6)
+            ->get();
+        
+        $blogSchemas = [];
+        foreach ($blogDataShow as $blog) {
+            $blogSchemas[] = [
+                "@context" => "https://schema.org",
+                "@type" => "BlogPosting",
+                "mainEntityOfPage" => [
+                    "@type" => "WebPage",
+                    "@id" => url('/blog/' . $blog->blog_url)
+                ],
+                "headline" => $blog->title,
+                "image" => [asset('storage/blog/' . $blog->image)],
+                "datePublished" => date('Y-m-d', strtotime($blog->created_date)),
+                "dateModified" => date('Y-m-d', strtotime($blog->created_date)),
+                "author" => [
+                    "@type" => "Organization",
+                    "name" => "coorgpackages.com"
+                ],
+                "publisher" => [
+                    "@type" => "Organization",
+                    "name" => "coorgpackages.com",
+                    "logo" => [
+                        "@type" => "ImageObject",
+                        "url" => "https://coorgpackages.com/assets/img/mhh-logo.png"
+                    ]
+                ],
+                "description" => Str::limit(strip_tags(html_entity_decode($blog->content)), 160),
+            ];
+        }
+
+            // 11. Return view with all data
+        return view('website.index', [
+            'destinationName' => $destinationName,
+            'organisationSchema' => $organisationSchema,
+            'webPageSchema' => $webPageSchema,
+            'productSchemas' => $productSchemas,
+            'reviewSchema' => $reviewSchema,
+            'blogSchemas' => $blogSchemas,
             'meta_title' => $meta_title,
             'meta_description' => $meta_description,
-            'meta_keywords' => $meta_keywords
+            'meta_keywords' => $meta_keywords,
         ]);
     }
+
     public function blogsHome(Request $request){
         $blogDataShow = DB::table('tbl_blog')
                     ->select('blogid', 'title', 'blog_url', 'status', 'image', 'alttag_image', 'content', 'created_date', 'show_comment')
@@ -69,6 +269,7 @@ class HomeController extends Controller
             return $html;
         }
     }
+
     public function popularTour(Request $request){
 
         $query = DB::table('tbl_tourpackages as a')
@@ -136,6 +337,7 @@ class HomeController extends Controller
             return $html;
         }
     }
+
     public function destinationPlaces(Request $request) {
 
         $destinationPlaces=DB::table('tbl_places as p')
@@ -161,6 +363,7 @@ class HomeController extends Controller
             return $html;
         }
     }
+    
     public function clientReviews(Request $request)
     {
         $reviews = DB::table('tbl_reviews as r')

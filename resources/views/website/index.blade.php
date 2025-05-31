@@ -1,48 +1,32 @@
 @include('website.include.webmeta')
-<!-- Organization Schema -->
+{{-- Organization Schema --}}
 <script type="application/ld+json">
-{!! json_encode([
-    "@context" => "https://schema.org",
-    "@type" => "Organization",
-    "name" => "Coorg Packages",
-    "url" => url('/'),
-    "logo" => "https://coorgpackages.com/assets/img/mhh-logo.png",
-    "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
-    "contactPoint" => [
-        "@type" => "ContactPoint",
-        "telephone" => $parameters[2]->par_value ?? "+91 9886 52 52 53",
-        "contactType" => "Customer Service",
-        "areaServed" => "IN",
-        "availableLanguage" => ["English", "Hindi", "Kannada"]
-    ],
-    "address" => [
-        "@type" => "PostalAddress",
-        "streetAddress" => "#69 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar",
-        "addressLocality" => "Bengaluru",
-        "addressRegion" => "Karnataka",
-        "postalCode" => "560010",
-        "addressCountry" => "IN"
-    ],
-    "sameAs" => array_filter([
-        $parameters[14]->par_value ?? null,
-        $parameters[15]->par_value ?? null,
-        $parameters[16]->par_value ?? null
-    ])
-], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) !!}
+{!! json_encode($organisationSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
 
-<!-- WebPage Schema -->
+{{-- WebPage Schema --}}
 <script type="application/ld+json">
-{!! json_encode([
-    "@context" => "https://schema.org",
-    "@type" => "WebPage",
-    "name" => $meta_title ?? 'Coorg Packages',
-    "url" => url('/'),
-    "description" => $meta_description ?? 'Plan your trip to Coorg with affordable tour packages.',
-    "keywords" => $meta_keywords ?? "",
-    "inLanguage" => "en"
-], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) !!}
+{!! json_encode($webPageSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
+
+{{-- Product Schemas (multiple) --}}
+@foreach ($productSchemas as $productSchema)
+<script type="application/ld+json">
+{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endforeach
+
+{{-- Review Schema --}}
+<script type="application/ld+json">
+{!! json_encode($reviewSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
+{{-- Blog Schemas (multiple) --}}
+@foreach ($blogSchemas as $blogSchema)
+<script type="application/ld+json">
+{!! json_encode($blogSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endforeach
 @include('website.include.webheader')
 
 <!-- banner-section start -->
