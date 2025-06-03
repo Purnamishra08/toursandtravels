@@ -45,14 +45,280 @@ class DestinationsController extends Controller{
                     ->limit(5)
                     ->get();
         $reviewsData = DB::table('tbl_reviews')
-                ->selectRaw('review_id, reviewer_name, reviewer_loc, no_of_star, feedback_msg')
+                ->selectRaw('review_id, reviewer_name, reviewer_loc, no_of_star, feedback_msg , updated_date')
                 ->where('bit_Deleted_Flag', 0)
                 ->where('status', 1)
                 ->get();
-        return view('website.destination', ['destinationData' => $destinationData, 'placesData' => $placesData, 'parameters' => $parameters, 'countAndPrice' => $countAndPrice, 'faqData' => $faqData, 'reviewsData' => $reviewsData])->with([
-            'meta_title' => $destinationData->meta_title,
-            'meta_description' => $destinationData->meta_description,
-            'meta_keywords' => $destinationData->meta_keywords
+
+        $placesSchemaData = DB::table('tbl_places as p')
+            ->selectRaw('p.placeid, p.destination_id, p.place_name, p.place_url, p.latitude, p.longitude, p.trip_duration, p.distance_from_nearest_city, p.placeimg, p.placethumbimg, p.alttag_banner, p.alttag_thumb, p.google_map, p.travel_tips , p.about_place, p.entry_fee, p.timing, p.rating, p.status, p.meta_title, p.meta_keywords, p.meta_description, p.pckg_meta_title, p.pckg_meta_keywords, p.pckg_meta_description, p.show_in_home')
+            ->where('p.destination_id', '=', $destinationData->destination_id)
+            ->where('p.bit_Deleted_Flag', 0)
+            ->get();
+        
+        $popularToursQuery = DB::table('tbl_tourpackages as a')
+                    ->join('tbl_destination as b', 'a.starting_city', '=', 'b.destination_id')
+                    ->join('tbl_package_duration as c', 'a.package_duration', '=', 'c.durationid')
+                    ->select(
+                        'a.tourpackageid',
+                        'a.tpackage_name',
+                        'a.tpackage_url',
+                        'a.price',
+                        'a.fakeprice',
+                        'a.tpackage_image',
+                        'a.tour_details_img',
+                        'a.about_package',
+                        'a.tour_thumb',
+                        'a.alttag_thumb',
+                        'a.ratings',
+                        'a.pack_type',
+                        'b.destination_name',
+                        'c.duration_name'
+                    )
+                    ->where('a.bit_Deleted_Flag', 0)
+                    ->where('a.status', 1);
+                    
+        $popularTours = $popularToursQuery->get();
+        
+        // 1. Organization Schema
+        $organisationSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "Organization",
+            "name" => "Coorg Packages",
+            "url" => url('/'),
+            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.png",
+            "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
+            "contactPoint" => [
+                "@type" => "ContactPoint",
+                "telephone" => $parameters[2]->par_value ?? "+91 9886 52 52 53",
+                "contactType" => "Customer Service",
+                "areaServed" => "IN",
+                "availableLanguage" => ["English", "Hindi", "Kannada"]
+            ],
+            "address" => [
+                "@type" => "PostalAddress",
+                "streetAddress" => "#69 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar",
+                "addressLocality" => "Bengaluru",
+                "addressRegion" => "Karnataka",
+                "postalCode" => "560010",
+                "addressCountry" => "IN"
+            ],
+            "sameAs" => array_filter([
+                $parameters[14]->par_value ?? null,
+                $parameters[15]->par_value ?? null,
+                $parameters[16]->par_value ?? null
+            ])
+        ];
+        // 2.Webpage schema
+        $webPageSchema=[
+            "@context"      => "https://schema.org",
+            "@type"         => "WebPage",
+            "name"          => $destinationData->meta_title ?? 'Coorg Packages',
+            "url"           => url('/'),
+            "description"   => $destinationData->meta_description ?? 'Plan your trip to Coorg with affordable tour packages.',
+            "keywords"      => $destinationData->meta_keywords ?? "",
+            "inLanguage"    => "en"
+        ];
+        // 3.Destination Schema
+        $destinationSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "TouristDestination", // You can change this to "TouristDestination" if desired
+            "name" => $destinationData->destination_name,
+            "url" => url("destinations/".$destinationData->destination_url),
+            "description" => strip_tags($destinationData->about_destination),
+            "address" => [
+                "@type" => "PostalAddress",
+                "addressLocality" => $destinationData->state,
+                "addressCountry" => "India"
+            ],
+            "geo" => [
+                "@type" => "GeoCoordinates",
+                "latitude" => $destinationData->latitude,
+                "longitude" => $destinationData->longitude
+            ],
+            "image" => !empty($destinationData->destiimg_thumb) ? url('storage/destination_images/' . $destinationData->destiimg_thumb) : null,
+            "amenityFeature" => [
+                [
+                    "@type" => "LocationFeatureSpecification",
+                    "name" => "Internet Availability",
+                    "value" => $destinationData->internet_availability ? "Yes" : "No"
+                ],
+                [
+                    "@type" => "LocationFeatureSpecification",
+                    "name" => "STD Code",
+                    "value" => $destinationData->std_code
+                ],
+                [
+                    "@type" => "LocationFeatureSpecification",
+                    "name" => "Language Spoken",
+                    "value" => $destinationData->language_spoken
+                ]
+            ],
+            "additionalProperty" => [
+                [
+                    "@type" => "PropertyValue",
+                    "name" => "Nearest City",
+                    "value" => $destinationData->nearest_city
+                ],
+                [
+                    "@type" => "PropertyValue",
+                    "name" => "Trip Duration",
+                    "value" => $destinationData->trip_duration
+                ],
+                [
+                    "@type" => "PropertyValue",
+                    "name" => "Best Time to Visit",
+                    "value" => $destinationData->visit_time
+                ],
+                [
+                    "@type" => "PropertyValue",
+                    "name" => "Peak Season",
+                    "value" => $destinationData->peak_season
+                ],
+                [
+                    "@type" => "PropertyValue",
+                    "name" => "Weather Info",
+                    "value" => $destinationData->weather_info
+                ],
+                [
+                    "@type" => "PropertyValue",
+                    "name" => "Major Festivals",
+                    "value" => $destinationData->major_festivals
+                ]
+            ],
+            "aggregateRating" => [
+                "@type" => "AggregateRating",
+                "ratingValue" => number_format($reviewsData->avg('no_of_star'), 1),
+                "reviewCount" => $reviewsData->count()
+            ],
+            "review" => $reviewsData->map(function ($review) {
+                return [
+                    "@type" => "Review",
+                    "author" => [
+                        "@type" => "Person",
+                        "name" => $review->reviewer_name
+                    ],
+                    "datePublished" => date('Y-m-d', strtotime($review->updated_date)),
+                    "reviewBody" => $review->feedback_msg,
+                    "name" => $review->reviewer_loc ? $review->reviewer_loc . ' Review' : 'Review',
+                    "reviewRating" => [
+                        "@type" => "Rating",
+                        "ratingValue" => $review->no_of_star,
+                        "bestRating" => "5"
+                    ]
+                ];
+            })->toArray()
+        ];
+        // 4. Place schema
+        $placeSchemas = [
+            "@context" => "https://schema.org",
+            "@graph" => $placesSchemaData->map(function ($place) use ($destinationData) {
+                $placeSchema = [
+                    "@type" => "Place",
+                    "name" => $place->place_name,
+                    "url" => url("coorg/" . $place->place_url),
+                    "description" => strip_tags($place->about_place),
+                    "address" => [
+                        "@type" => "PostalAddress",
+                        "addressLocality" => $destinationData->destination_name ?? '',
+                        "addressCountry" => 'India'
+                    ],
+                    "geo" => [
+                        "@type" => "GeoCoordinates",
+                        "latitude" => $place->latitude,
+                        "longitude" => $place->longitude
+                    ],
+                    "image" => !empty($place->placethumbimg)
+                        ? url('storage/place_images/thumbs/' . $place->placethumbimg)
+                        : null,
+                    "containedInPlace" => [
+                        "@type" => "Place",
+                        "name" => $destinationData->destination_name ?? '',
+                        "address" => [
+                            "@type" => "PostalAddress",
+                            "addressCountry" => 'India'
+                        ]
+                    ],
+                ];
+        
+                // Add aggregateRating only if it exists
+                if (!empty($place->rating)) {
+                    $placeSchema["aggregateRating"] = [
+                        "@type" => "AggregateRating",
+                        "ratingValue" => $place->rating,
+                        "bestRating" => "5",
+                        "reviewCount" => 1
+                    ];
+                }
+        
+                // Remove null values from the schema
+                return array_filter($placeSchema, function ($value) {
+                    return !is_null($value);
+                });
+            })->values()->toArray()
+        ];
+        // 5. Faq Schema
+        $faqSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "FAQPage",
+            "mainEntity" => $faqData->map(function ($faq) {
+                return [
+                    "@type" => "Question",
+                    "name" => strip_tags($faq->faq_question),
+                    "acceptedAnswer" => [
+                        "@type" => "Answer",
+                        "text" => strip_tags($faq->faq_answer)
+                    ]
+                ];
+            })->toArray()
+        ];
+    
+        // 6. Product schemas
+        $productSchemas = [];
+        foreach ($popularTours as $tour) {
+            $productSchemas[] = [
+                "@context" => "https://schema.org",
+                "@type" => "Product",
+                "name" => $tour->tpackage_name,
+                "image" => [asset('storage/tourpackages/details/' . $tour->tour_details_img)],
+                "description" => Str::limit(strip_tags(html_entity_decode($tour->about_package)), 160),
+                "brand" => [
+                    "@type" => "Organization",
+                    "name" => "coorgpackages.com"
+                ],
+                "aggregateRating" => [
+                    "@type" => "AggregateRating",
+                    "ratingValue" => number_format($tour->ratings ?? 4.5, 1),
+                    "reviewCount" => (int)($tour->review_count ?? 10)
+                ],
+                "offers" => [
+                    "@type" => "Offer",
+                    "url" => url('tours/' . $tour->tpackage_url),
+                    "priceCurrency" => "INR",
+                    "price" => (string)(int)$tour->price,
+                    "availability" => "https://schema.org/InStock",
+                    "validFrom" => date('Y-m-d')
+                ]
+            ];
+        }
+        return view('website.destination',
+         ['destinationData'     => $destinationData,
+          'placesData'          => $placesData,
+          'parameters'          => $parameters,
+          'countAndPrice'       => $countAndPrice,
+          'faqData'             => $faqData,
+          'reviewsData'         => $reviewsData,
+          'placeSchemas'        => $placeSchemas,
+          'faqSchemas'          => $faqSchema,
+          'webPageSchema'       => $webPageSchema,
+          'organisationSchema'  => $organisationSchema,
+          'destinationSchema'   => $destinationSchema,
+          'productSchemas'      => $productSchemas
+          ])
+          ->with([
+            'meta_title'        => $destinationData->meta_title,
+            'meta_description'  => $destinationData->meta_description,
+            'meta_keywords'     => $destinationData->meta_keywords
         ]);
     }
     public function getPlaces(Request $request)
@@ -104,7 +370,7 @@ class DestinationsController extends Controller{
                         'a.ratings',
                         'a.pack_type',
                         'b.destination_name',
-                        'c.duration_name',
+                        'c.duration_name'
                     )
                     ->where('a.bit_Deleted_Flag', 0)
                     ->where('a.pack_type', 15)
