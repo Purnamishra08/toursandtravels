@@ -10,7 +10,7 @@
             </li>
 
             <li class="breadcrumb-item">
-                <a href="#" class="breadcrumb-link active">Terms & Conditions</a>
+                <a href="{{route('website.term-condition')}}" class="breadcrumb-link active">Terms & Conditions</a>
             </li>
         </ul>
     </div>
