@@ -112,10 +112,10 @@ class HomeController extends Controller
                 "name" => $tour->tpackage_name,
                 "image" => [asset('storage/tourpackages/details/' . $tour->tour_details_img)],
                 "description" => Str::limit(strip_tags(html_entity_decode($tour->about_package)), 160),
-                "brand" => [
-                    "@type" => "Organization",
-                    "name" => "coorgpackages.com"
-                ],
+                // "brand" => [
+                //     "@type" => "Organization",
+                //     "name" => "coorgpackages.com"
+                // ],
                 "aggregateRating" => [
                     "@type" => "AggregateRating",
                     "ratingValue" => number_format($tour->ratings ?? 4.5, 1),
@@ -127,7 +127,8 @@ class HomeController extends Controller
                     "priceCurrency" => "INR",
                     "price" => (string)(int)$tour->price,
                     "availability" => "https://schema.org/InStock",
-                    "validFrom" => date('Y-m-d')
+                    "validFrom" => date('Y-m-d'),
+                    "priceValidUntil" => now()->addYears(10)->toString()
                 ]
             ];
         }
@@ -201,11 +202,12 @@ class HomeController extends Controller
                 ],
                 "headline" => $blog->title,
                 "image" => [asset('storage/blog/' . $blog->image)],
-                "datePublished" => date('Y-m-d', strtotime($blog->created_date)),
-                "dateModified" => date('Y-m-d', strtotime($blog->created_date)),
+                "datePublished" => date('c', strtotime($blog->created_date)),
+                "dateModified" => date('c', strtotime($blog->created_date)),
                 "author" => [
                     "@type" => "Organization",
-                    "name" => "coorgpackages.com"
+                    "name" => "coorgpackages.com",
+                    "url" => url('/')
                 ],
                 "publisher" => [
                     "@type" => "Organization",
