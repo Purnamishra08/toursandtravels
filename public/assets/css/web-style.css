@@ -90,6 +90,9 @@
     font-size: calc(16px + (60 - 16) * ((100vw - 375px) / (1920 - 375))) !important;
 } */
 @media(max-width:680px){
+    .banner-section{
+        height: 60vh
+    }
     .banner-content{
         width: 85%;
     }
