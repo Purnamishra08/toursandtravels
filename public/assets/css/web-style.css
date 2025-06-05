@@ -7,8 +7,10 @@
     /* background-image: url(../img/web-img/banner-img.png); */
     /* background-image: url(../img/web-img/banner-video.gif); */
     /* background-image: url(../img/web-img/compressed.gif); */
-    /* background-image: url(../img/web-img/coorg.gif); */
-    background-image: url(../img/web-img/banner-coorg.webp);
+    /*background-image: url(../img/web-img/coorg.gif);*/
+     /*background-image: url(../img/web-img/banner-coorg.webp); */
+     background-image: url(../img/web-img/banner-coorg_300kb.webp); 
+     /*background-image: url(../img/web-img/coorg.webp); */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,7 +93,7 @@
 } */
 @media(max-width:680px){
     .banner-section{
-        height: 60vh
+        height: 60vh;
     }
     .banner-content{
         width: 85%;
@@ -223,7 +225,7 @@ margin-bottom: 1rem;
     }
 }
 
-/* 🔹 Mobile View: 2 images per row */
+/* Mobile View: 2 images per row */
 @media (max-width: 767px) {
     .gallery-item {
         flex: 1 1 calc(50% - 10px) !important; /* 2 per row */
