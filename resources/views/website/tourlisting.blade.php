@@ -22,20 +22,25 @@
 ], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) !!}
 </script>
 
+{{-- Product Schemas (multiple) --}}
+@foreach ($productSchemas as $productSchema)
+<script type="application/ld+json">
+{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endforeach
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "{{$tourCount}} {{$tourPageData->tag_name}}",
-  "url": "{{ route('website.allTourPackages') }}",
-  "numberOfItems": {{ count($tours) }},
-  "itemListElement": [
-    @foreach($tours as $index => $values)
-    {
-      "@type": "ListItem",
-      "position": {{ $index + 1 }},
-      "url": "{{ route('website.tourDetails', ['slug' => $values->tpackage_url]) }}"
-    }@if (!$loop->last),@endif
+  "@type": "WebPage",
+  "hasPart": [
+    @foreach($footer as $index => $values)
+      {
+        "name": "{{ $values->vch_Footer_Name ?? 'Coorg Packages' }}",
+        "url": "{{ route('website.allTourPackagesFooter', ['slug' => $values->vch_Footer_URL]) }}",
+        "description": "{{ $values->footer_meta_description ?? 'Plan your trip to Coorg with affordable tour packages.' }}",
+        "keywords": "{{ $values->footer_meta_keywords ?? 'coorg packages,coorg tour packages' }}",
+        "inLanguage": "en"
+      }@if (!$loop->last),@endif
     @endforeach
   ]
 }

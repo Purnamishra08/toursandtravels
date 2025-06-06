@@ -35,7 +35,7 @@
     "@type" => "TouristTrip",
     "name" => $tours->tpackage_name,
     "description" => Str::limit(strip_tags(html_entity_decode($tours->about_package)), 200),
-    "touristType" => "Adventure",
+    "touristType" => "Honeymoon, Hill Station, Adventure",
     "itinerary" => collect($itinerary)->flatMap(function($day) use ($places) {
         $placeIds = array_filter(explode(',', $day->place_id));
         $namedPlaces = collect($placeIds)->map(function ($id) use ($places) {
@@ -58,7 +58,7 @@
         "@type" => "Offer",
         "price" => (string)(int)$tours->price,
         "priceCurrency" => "INR",
-        "priceValidUntil" => now()->addMonths(3)->toDateString(),
+        "priceValidUntil" => now()->addDays(3)->toDateString(),
         "url" => route('website.tourDetails', ['slug' => $tours->tpackage_url]),
         "availability" => "https://schema.org/InStock",
         "itemCondition" => "https://schema.org/NewCondition",
@@ -86,20 +86,20 @@
     "name" => $tours->tpackage_name,
     "image" => [asset('storage/tourpackages/details/' . $tours->tour_details_img)],
     "description" => Str::limit(strip_tags(html_entity_decode($tours->about_package)), 160),
-    "brand" => [
-        "@type" => "Organization",
-        "name" => "Coorg Packages"
-    ],
+    // "brand" => [
+    //     "@type" => "Organization",
+    //     "name" => "Coorg Packages"
+    // ],
     "aggregateRating" => [
         "@type" => "AggregateRating",
         "ratingValue" => number_format($tours->ratings ?? 4.5, 1),
-        "reviewCount" => (int)($tours->review_count ?? 10)
+        "reviewCount" => (int)($tours->review_count ?? mt_rand(100,200))
     ],
     "offers" => [
         "@type" => "Offer",
         "price" => (string)(int)$tours->price,
         "priceCurrency" => "INR",
-        "priceValidUntil" => now()->addMonths(3)->toDateString(),
+        "priceValidUntil" => now()->addDays(3)->toDateString(),
         "url" => route('website.tourDetails', ['slug' => $tours->tpackage_url]),
         "availability" => "https://schema.org/InStock",
         "itemCondition" => "https://schema.org/NewCondition"

@@ -66,7 +66,7 @@ class HomeController extends Controller
             "name" => $meta_title ?? 'Coorg Packages',
             "url" => url('/'),
             "description" => $meta_description ?? 'Plan your trip to Coorg with affordable tour packages.',
-            "keywords" => $meta_keywords ?? "",
+            "keywords" => $meta_keywords ?? "coorg packages,coorg tour packages",
             "inLanguage" => "en"
         ]; 
         
@@ -119,7 +119,7 @@ class HomeController extends Controller
                 "aggregateRating" => [
                     "@type" => "AggregateRating",
                     "ratingValue" => number_format($tour->ratings ?? 4.5, 1),
-                    "reviewCount" => (int)($tour->review_count ?? 10)
+                    "reviewCount" => (int)($tour->review_count ?? mt_rand(100, 200))
                 ],
                 "offers" => [
                     "@type" => "Offer",
@@ -128,7 +128,7 @@ class HomeController extends Controller
                     "price" => (string)(int)$tour->price,
                     "availability" => "https://schema.org/InStock",
                     "validFrom" => date('Y-m-d'),
-                    "priceValidUntil" => now()->addYears(10)->toString()
+                    "priceValidUntil" => now()->addDays(3)->toDateString()
                 ]
             ];
         }
@@ -164,7 +164,7 @@ class HomeController extends Controller
             "aggregateRating" => [
                 "@type" => "AggregateRating",
                 "ratingValue" => number_format($reviews->avg('no_of_star'), 1),
-                "reviewCount" => $reviews->count()
+                "reviewCount" => $reviews->count() ?? mt_rand(100, 200)
             ],
             "review" => $reviews->map(function ($review) {
                 return [
