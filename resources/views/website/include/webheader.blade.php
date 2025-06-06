@@ -1,4 +1,14 @@
 <link href="{{asset('assets/css/all.min.css')}}" rel="stylesheet" />
+@if (app()->environment('production'))
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R740PW1SX8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-R740PW1SX8');
+    </script>
+@endif
 @if (!Route::is('website.home'))
     <script src="{{ asset('assets/js/all.min.js') }}"></script>
 @endif

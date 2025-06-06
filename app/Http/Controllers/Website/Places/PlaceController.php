@@ -61,11 +61,179 @@ class PlaceController extends Controller{
                 ->where('a.bit_Deleted_Flag', 0)
                 ->where('b.bit_Deleted_Flag', 0)
                 ->first();
+        $popularTours = DB::table('tbl_itinerary_daywise as a')
+                ->join('tbl_tourpackages as b', 'a.package_id', '=', 'b.tourpackageid')
+                ->join('tbl_destination as c', 'b.starting_city', '=', 'c.destination_id')
+                ->join('tbl_package_duration as d', 'b.package_duration', '=', 'd.durationid')
+                ->select(
+                    'b.tourpackageid',
+                    'b.tpackage_name',
+                    'b.tpackage_url',
+                    'b.price',
+                    'b.fakeprice',
+                    'b.tpackage_image',
+                    'b.tour_thumb',
+                    'b.alttag_thumb',
+                    'b.ratings',
+                    'b.pack_type',
+                    'b.tour_details_img',
+                    'b.about_package',
+                    'c.destination_name',
+                    'd.duration_name'
+                )
+                ->whereRaw('FIND_IN_SET(?, a.place_id)', [$placesData->placeid])
+                ->where('b.status', 1)
+                ->where('b.bit_Deleted_Flag', 0)
+                ->where('a.bit_Deleted_Flag', 0)
+                ->get();
+        // 1. Organization Schema
+        $organisationSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "Organization",
+            "name" => "Coorg Packages",
+            "url" => url('/'),
+            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.png",
+            "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
+            "contactPoint" => [
+                "@type" => "ContactPoint",
+                "telephone" => $parameters[2]->par_value ?? "+91 9886 52 52 53",
+                "contactType" => "Customer Service",
+                "areaServed" => "IN",
+                "availableLanguage" => ["English", "Hindi", "Kannada"]
+            ],
+            "address" => [
+                "@type" => "PostalAddress",
+                "streetAddress" => "#69 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar",
+                "addressLocality" => "Bengaluru",
+                "addressRegion" => "Karnataka",
+                "postalCode" => "560010",
+                "addressCountry" => "IN"
+            ],
+            "sameAs" => array_filter([
+                $parameters[14]->par_value ?? null,
+                $parameters[15]->par_value ?? null,
+                $parameters[16]->par_value ?? null
+            ])
+        ];
+        // 2.Webpage schema
+        $webPageSchema=[
+            "@context"      => "https://schema.org",
+            "@type"         => "WebPage",
+            "name"          => $placesData->meta_title ?? 'Coorg Packages',
+            "url"           => url()->current(),
+            "description"   => $placesData->meta_description ?? 'Plan your trip to Coorg with affordable tour packages.',
+            "keywords"      => $placesData->meta_keywords ?? "",
+            "inLanguage"    => "en",
+            "isPartOf"      => [
+                "@type" => "Website",
+                "name"  => "Coorg Packages",
+                "url"   => url('/')
+            ]
+        ];
+        // 3. Place schema for a single place
+        $placeSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "Place",
+            "name" => $placesData->place_name,
+            "url" => url("coorg/" . $placesData->place_url),
+            "description" => strip_tags($placesData->about_place),
+            "address" => [
+                "@type" => "PostalAddress",
+                "addressLocality" => $placesData->destination_name ?? '',
+                "addressCountry" => 'India'
+            ],
+            "geo" => [
+                "@type" => "GeoCoordinates",
+                "latitude" => $placesData->latitude,
+                "longitude" => $placesData->longitude
+            ],
+            "image" => !empty($placesData->placethumbimg)
+                ? url('storage/place_images/thumbs/' . $placesData->placethumbimg)
+                : null,
+            "containedInPlace" => [
+                "@type" => "Place",
+                "name" => $placesData->destination_name ?? '',
+                "address" => [
+                    "@type" => "PostalAddress",
+                    "addressCountry" => 'India'
+                ]
+            ],
+        ];
 
-        return view('website.neardestination', ['placesData' => $placesData, 'parameters' => $parameters, 'destinationTypes' => $destinationTypes, 'countAndPrice' => $countAndPrice, 'faqData' => $faqData, 'reviewsData' => $reviewsData])->with([
-            'meta_title' => $placesData->meta_title,
-            'meta_description' => $placesData->meta_description,
-            'meta_keywords' => $placesData->meta_keywords
+        // Add aggregateRating if it exists
+        if (!empty($placesData->rating)) {
+            $placeSchema["aggregateRating"] = [
+                "@type" => "AggregateRating",
+                "ratingValue" => $placesData->rating,
+                "bestRating" => "5",
+                "reviewCount" => 1
+            ];
+        }
+
+        // Remove null values
+        $placeSchema = array_filter($placeSchema, function ($value) {
+            return !is_null($value);
+        });
+        // 4. Faq Schema
+        $faqSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "FAQPage",
+            "mainEntity" => $faqData->map(function ($faq) {
+                return [
+                    "@type" => "Question",
+                    "name" => strip_tags($faq->faq_question),
+                    "acceptedAnswer" => [
+                        "@type" => "Answer",
+                        "text" => strip_tags($faq->faq_answer)
+                    ]
+                ];
+            })->toArray()
+        ];
+        // 5. Product schemas
+        $productSchemas = [];
+        foreach ($popularTours as $tour) {
+            $productSchemas[] = [
+                "@context" => "https://schema.org",
+                "@type" => "Product",
+                "name" => $tour->tpackage_name,
+                "image" => [asset('storage/tourpackages/details/' . $tour->tour_details_img)],
+                "description" => Str::limit(strip_tags(html_entity_decode($tour->about_package)), 160),
+                "brand" => [
+                    "@type" => "Organization",
+                    "name" => "coorgpackages.com"
+                ],
+                "aggregateRating" => [
+                    "@type" => "AggregateRating",
+                    "ratingValue" => number_format($tour->ratings ?? 4.5, 1),
+                    "reviewCount" => (int)($tour->review_count ?? 1000)
+                ],
+                "offers" => [
+                    "@type" => "Offer",
+                    "url" => url('tours/' . $tour->tpackage_url),
+                    "priceCurrency" => "INR",
+                    "price" => (string)(int)$tour->price,
+                    "availability" => "https://schema.org/InStock",
+                    "validFrom" => date('Y-m-d'),
+                    "priceValidUntil"=> date('Y-m-d', strtotime('+1 week'))
+                ]
+            ];
+        }
+        return view('website.neardestination', [
+            'placesData'            => $placesData,
+            'parameters'            => $parameters,
+            'destinationTypes'      => $destinationTypes,
+            'countAndPrice'         => $countAndPrice,
+            'faqData'               => $faqData,
+            'reviewsData'           => $reviewsData,
+            'webPageSchema'         => $webPageSchema,
+            'organisationSchema'    => $organisationSchema,
+            'placeSchemas'          => $placeSchema,
+            'faqSchemas'             => $faqSchema,
+            'productSchemas'        => $productSchemas])
+        ->with([
+            'meta_title'            => $placesData->meta_title,
+            'meta_description'      => $placesData->meta_description,
+            'meta_keywords'         => $placesData->meta_keywords
         ]);
     }
 

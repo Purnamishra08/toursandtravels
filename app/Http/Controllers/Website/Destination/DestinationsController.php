@@ -114,10 +114,15 @@ class DestinationsController extends Controller{
             "@context"      => "https://schema.org",
             "@type"         => "WebPage",
             "name"          => $destinationData->meta_title ?? 'Coorg Packages',
-            "url"           => url('/'),
+            "url"           => url()->current(),
             "description"   => $destinationData->meta_description ?? 'Plan your trip to Coorg with affordable tour packages.',
             "keywords"      => $destinationData->meta_keywords ?? "",
-            "inLanguage"    => "en"
+            "inLanguage"    => "en",
+            "isPartOf"      => [
+                "@type" => "Website",
+                "name"  => "Coorg Packages",
+                "url"   => url('/')
+            ]
         ];
         // 3.Destination Schema
         $destinationSchema = [
@@ -185,29 +190,7 @@ class DestinationsController extends Controller{
                     "name" => "Major Festivals",
                     "value" => $destinationData->major_festivals
                 ]
-            ],
-            "aggregateRating" => [
-                "@type" => "AggregateRating",
-                "ratingValue" => number_format($reviewsData->avg('no_of_star'), 1),
-                "reviewCount" => $reviewsData->count()
-            ],
-            "review" => $reviewsData->map(function ($review) {
-                return [
-                    "@type" => "Review",
-                    "author" => [
-                        "@type" => "Person",
-                        "name" => $review->reviewer_name
-                    ],
-                    "datePublished" => date('Y-m-d', strtotime($review->updated_date)),
-                    "reviewBody" => $review->feedback_msg,
-                    "name" => $review->reviewer_loc ? $review->reviewer_loc . ' Review' : 'Review',
-                    "reviewRating" => [
-                        "@type" => "Rating",
-                        "ratingValue" => $review->no_of_star,
-                        "bestRating" => "5"
-                    ]
-                ];
-            })->toArray()
+            ]
         ];
         // 4. Place schema
         $placeSchemas = [
@@ -297,7 +280,8 @@ class DestinationsController extends Controller{
                     "priceCurrency" => "INR",
                     "price" => (string)(int)$tour->price,
                     "availability" => "https://schema.org/InStock",
-                    "validFrom" => date('Y-m-d')
+                    "validFrom" => date('Y-m-d'),
+                    "priceValidUntil"=> date('Y-m-d', strtotime('+10 years'))
                 ]
             ];
         }
@@ -370,7 +354,7 @@ class DestinationsController extends Controller{
                         'a.ratings',
                         'a.pack_type',
                         'b.destination_name',
-                        'c.duration_name'
+                        'c.duration_name',
                     )
                     ->where('a.bit_Deleted_Flag', 0)
                     ->where('a.pack_type', 15)
