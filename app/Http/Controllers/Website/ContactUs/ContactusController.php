@@ -32,8 +32,95 @@ class ContactusController extends Controller{
                 ->where('status', 1)
                 ->where('bit_Deleted_Flag', 0)
                 ->get();
-                
-        return view('website.contactus', ['parameters' => $parameters])->with([
+
+        // 1. Organization Schema
+        $organisationSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "Organization",
+            "name" => "Coorg Packages",
+            "url" => url('/'),
+            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.png",
+            "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
+            "contactPoint" => [
+                "@type" => "ContactPoint",
+                "telephone" => $parameters[2]->par_value ?? "+91 9886525253",
+                "contactType" => "Customer Service",
+                "areaServed" => "IN",
+                "availableLanguage" => ["English", "Hindi", "Kannada"]
+            ],
+            "address" => [
+                "@type" => "PostalAddress",
+                "streetAddress" => "#69 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar",
+                "addressLocality" => "Bengaluru",
+                "addressRegion" => "Karnataka",
+                "postalCode" => "560010",
+                "addressCountry" => "IN"
+            ],
+            "sameAs" => array_filter([
+                $parameters[14]->par_value ?? null,
+                $parameters[15]->par_value ?? null,
+                $parameters[16]->par_value ?? null
+            ])
+        ];
+        // 2.Webpage schema
+        $webPageSchema=[
+            "@context"      => "https://schema.org",
+            "@type"         => "WebPage",
+            "name"          => $meta_title ?? 'Coorg Packages',
+            "url"           => url()->current(),
+            "description"   => $meta_description ?? 'Plan your trip to Coorg with affordable tour packages.',
+            "keywords"      => $meta_keywords ?? "",
+            "inLanguage"    => "en",
+            "isPartOf"      => [
+                "@type" => "Website",
+                "name"  => "Coorg Packages",
+                "url"   => url('/')
+            ]
+        ];
+        // 3.Contact us schema
+        $contactUsSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "ContactPage",
+            "name" => "Contact Us",
+            "url" => url()->current(),
+            "mainEntity" => [
+                "@type" => "Organization",
+                "name" => "Coorg Packages",
+                "url" => url('/'),
+                "logo" => "https://www.coorgpackages.com/mhh-logo.png",
+                "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
+                "contactPoint" => [
+                    [
+                        "@type" => "ContactPoint",
+                        "telephone" => $parameters[2]->par_value ?? "+91 9886 52 52 53",
+                        "contactType" => "Customer Support",
+                        "areaServed" => "IN",
+                        "availableLanguage" => ["English", "Hindi"]
+                    ]
+                ],
+                "address" => [
+                    "@type" => "PostalAddress",
+                    "streetAddress" => "#66 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar, Bengaluru, Karnataka 560010",
+                    "addressLocality" => "Bengaluru",
+                    "addressRegion" => "Karnataka",
+                    "postalCode" => "560010",
+                    "addressCountry" => "IN"
+                ],
+                "sameAs" => [
+                    "https://en-gb.facebook.com/myholhap/",
+                    "https://twitter.com/MyHolidayHappi1",
+                    "https://www.linkedin.com/company/28728838"
+                ]
+            ]
+        ];
+        return view('website.contactus',
+         [
+           'parameters'          => $parameters,
+           'organisationSchema'  => $organisationSchema,
+           'webPageSchema'       => $webPageSchema,
+           'contactUsSchema'     => $contactUsSchema
+         ])
+        ->with([
             'meta_title' => $meta_title,
             'meta_description' => $meta_description,
             'meta_keywords' => $meta_keywords
