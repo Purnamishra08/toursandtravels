@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
                         ->where('bit_Deleted_Flag', 0)
                         ->get();
         $footer =  DB::table('tbl_footer')
-                    ->select('vch_Footer_Name', 'vch_Footer_URL', 'int_footer_id')
+                    ->select('vch_Footer_Name', 'vch_Footer_URL', 'int_footer_id','footer_meta_title','footer_meta_keywords','footer_meta_description')
                     ->where('status', 1)
                     ->where('bit_Deleted_Flag', 0)
                     ->get();
@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
                     ->select(
                         'a.tourpackageid',
                         'a.tpackage_name',
-                        'a.tpackage_url',
+                        'a.tpackage_url'
                         )
                     ->where('a.bit_Deleted_Flag', 0)
                     ->where('a.pack_type', 15)

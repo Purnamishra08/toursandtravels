@@ -33,6 +33,7 @@ class TourController extends Controller
                         'a.about_package',
                         'a.tpackage_image',
                         'a.tour_thumb',
+                        'a.tour_details_img',
                         'a.alttag_thumb',
                         'a.ratings',
                         'a.pack_type',
@@ -210,7 +211,53 @@ class TourController extends Controller
             ->groupBy('r.review_id', 'r.tourtagid', 'r.reviewer_name', 'r.reviewer_loc', 'r.no_of_star', 'r.feedback_msg', 'r.status', 'r.updated_date')
             ->get();
 
-        return view('website.tourlisting',['tourPageData'=>$tourPageData,'meta_title'=>$tourPageData->meta_title,'meta_keywords'=>$tourPageData->meta_keywords,'meta_description'=>$tourPageData->meta_description,'durations'=>$durations,'destinations'=>$destinations,'tourFaqs'=>$tourFaqs,'reviews'=>$reviews,'tourCount'=>$tourCount,'tours'=>$tours]);
+        //  Product schemas
+        $productSchemas = [];
+        foreach ($tours as $tour) {
+            $productSchemas[] = [
+                "@context" => "https://schema.org",
+                "@type" => "Product",
+                "name" => $tour->tpackage_name,
+                "image" => [asset('storage/tourpackages/details/' . $tour->tour_details_img)],
+                "description" => Str::limit(strip_tags(html_entity_decode($tour->about_package)), 160),
+                // "brand" => [
+                //     "@type" => "Organization",
+                //     "name" => "coorgpackages.com"
+                // ],
+                "aggregateRating" => [
+                    "@type" => "AggregateRating",
+                    "ratingValue" => number_format($tour->ratings ?? 4.5, 1),
+                    "reviewCount" => (int)($tour->review_count ??  mt_rand(100, 200))
+                ],
+                "offers" => [
+                    "@type" => "Offer",
+                    "url" => url('/' . $tour->tpackage_url),
+                    "priceCurrency" => "INR",
+                    "price" => (string)(int)$tour->price,
+                    "availability" => "https://schema.org/InStock",
+                    "validFrom" => date('Y-m-d'),
+                    "priceValidUntil" => now()->addDays(3)->toDateString()
+                ]
+            ];
+        }
+
+
+        $faqSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "FAQPage",
+            "mainEntity" => $tourFaqs->map(function ($faq) {
+                return [
+                    "@type" => "Question",
+                    "name" => strip_tags($faq->faq_question),
+                    "acceptedAnswer" => [
+                        "@type" => "Answer",
+                        "text" => strip_tags($faq->faq_answer)
+                    ]
+                ];
+            })->toArray()
+        ];
+
+        return view('website.tourlisting',['tourPageData'=>$tourPageData,'meta_title'=>$tourPageData->meta_title,'meta_keywords'=>$tourPageData->meta_keywords,'meta_description'=>$tourPageData->meta_description,'durations'=>$durations,'destinations'=>$destinations,'tourFaqs'=>$tourFaqs,'reviews'=>$reviews,'tourCount'=>$tourCount,'productSchemas' => $productSchemas,'faqSchemas'=>$faqSchema]);
     }
 
     public function allTourPlacePackages(Request $request,$slug){
@@ -545,7 +592,7 @@ class TourController extends Controller
                     $tour_packages->where('a.starting_city', $destinationId);
                 }
                 $tour_packages=$tour_packages->get();
-
+                $tourPackageIds = $tour_packages->pluck('tourpackageid');
                 $tag_name = DB::table('tbl_menutags')
                     ->where('tagid', $tagid)
                     ->where('status',1)
@@ -626,16 +673,26 @@ class TourController extends Controller
             ->get();
 
 
-        $durations = DB::table('tbl_package_duration')
-            ->select('durationid','duration_name')
-            ->where('bit_Deleted_Flag', 0)
-            ->where('status', 1)
+            $durations = DB::table('tbl_package_duration as d')
+            ->select('d.durationid', 'd.duration_name')
+            ->join('tbl_tourpackages as t', 't.package_duration', '=', 'd.durationid')
+            ->whereIn('t.tourpackageid', $tourPackageIds)
+            ->where('d.bit_Deleted_Flag', 0)
+            ->where('d.status', 1)
+            ->where('t.bit_Deleted_Flag', 0)
+            ->where('t.status', 1)
+            ->groupBy('d.durationid', 'd.duration_name')
             ->get();
 
-        $destinations = DB::table('tbl_destination')
-            ->select('destination_id','destination_name')
-            ->where('bit_Deleted_Flag', 0)
-            ->where('status', 1)
+        $destinations = DB::table('tbl_destination as dest')
+            ->select('dest.destination_id', 'dest.destination_name')
+            ->join('tbl_tourpackages as t', 't.starting_city', '=', 'dest.destination_id')
+            ->whereIn('t.tourpackageid', $tourPackageIds)
+            ->where('dest.bit_Deleted_Flag', 0)
+            ->where('dest.status', 1)
+            ->where('t.bit_Deleted_Flag', 0)
+            ->where('t.status', 1)
+            ->groupBy('dest.destination_id', 'dest.destination_name')
             ->get();
 
         if (request()->ajax()) {

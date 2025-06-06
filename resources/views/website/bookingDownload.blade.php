@@ -154,7 +154,7 @@ $favIcon = public_path('assets/img/fav-icon.png'); ?>
             </table>
         </div>
         
-        <div style="margin:0 auto; font-size:.9rem; font-family: 'Times New Roman', serif; ">
+        <div style="margin:0 auto; font-size:.9rem; font-family: 'Times New Roman', serif; padding-bottom:30px;">
         <table style="width: 100%; border-collapse:collapse;color:#3c3c3c">
             <thead>
                 <tr>

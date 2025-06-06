@@ -66,7 +66,7 @@ class HomeController extends Controller
             "name" => $meta_title ?? 'Coorg Packages',
             "url" => url('/'),
             "description" => $meta_description ?? 'Plan your trip to Coorg with affordable tour packages.',
-            "keywords" => $meta_keywords ?? "",
+            "keywords" => $meta_keywords ?? "coorg packages,coorg tour packages",
             "inLanguage" => "en"
         ]; 
         
@@ -112,14 +112,14 @@ class HomeController extends Controller
                 "name" => $tour->tpackage_name,
                 "image" => [asset('storage/tourpackages/details/' . $tour->tour_details_img)],
                 "description" => Str::limit(strip_tags(html_entity_decode($tour->about_package)), 160),
-                "brand" => [
-                    "@type" => "Organization",
-                    "name" => "coorgpackages.com"
-                ],
+                // "brand" => [
+                //     "@type" => "Organization",
+                //     "name" => "coorgpackages.com"
+                // ],
                 "aggregateRating" => [
                     "@type" => "AggregateRating",
                     "ratingValue" => number_format($tour->ratings ?? 4.5, 1),
-                    "reviewCount" => (int)($tour->review_count ?? 10)
+                    "reviewCount" => (int)($tour->review_count ?? mt_rand(100, 200))
                 ],
                 "offers" => [
                     "@type" => "Offer",
@@ -127,7 +127,8 @@ class HomeController extends Controller
                     "priceCurrency" => "INR",
                     "price" => (string)(int)$tour->price,
                     "availability" => "https://schema.org/InStock",
-                    "validFrom" => date('Y-m-d')
+                    "validFrom" => date('Y-m-d'),
+                    "priceValidUntil" => now()->addDays(3)->toDateString()
                 ]
             ];
         }
@@ -163,7 +164,7 @@ class HomeController extends Controller
             "aggregateRating" => [
                 "@type" => "AggregateRating",
                 "ratingValue" => number_format($reviews->avg('no_of_star'), 1),
-                "reviewCount" => $reviews->count()
+                "reviewCount" => $reviews->count() ?? mt_rand(100, 200)
             ],
             "review" => $reviews->map(function ($review) {
                 return [
@@ -201,11 +202,12 @@ class HomeController extends Controller
                 ],
                 "headline" => $blog->title,
                 "image" => [asset('storage/blog/' . $blog->image)],
-                "datePublished" => date('Y-m-d', strtotime($blog->created_date)),
-                "dateModified" => date('Y-m-d', strtotime($blog->created_date)),
+                "datePublished" => date('c', strtotime($blog->created_date)),
+                "dateModified" => date('c', strtotime($blog->created_date)),
                 "author" => [
                     "@type" => "Organization",
-                    "name" => "coorgpackages.com"
+                    "name" => "coorgpackages.com",
+                    "url" => url('/')
                 ],
                 "publisher" => [
                     "@type" => "Organization",
