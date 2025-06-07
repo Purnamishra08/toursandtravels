@@ -1,4 +1,42 @@
 @include('website.include.webmeta')
+
+{{-- Breadcrumb --}}
+<script type="application/ld+json">
+{!! json_encode([
+    "@context" => "https://schema.org",
+    "@type" => "BreadcrumbList",
+    "itemListElement" => [
+        [
+            "@type" => "ListItem",
+            "position" => 1,
+            "name" => "Home",
+            "item" => url('/')
+        ],
+        [
+            "@type" => "ListItem",
+            "position" => 2,
+            "name" => "Contact us",
+            "item" => route('website.contactus')
+        ]
+    ]
+], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) !!}
+</script>
+
+{{-- Organization Schema --}}
+<script type="application/ld+json">
+{!! json_encode($organisationSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
+{{-- WebPage Schema --}}
+<script type="application/ld+json">
+{!! json_encode($webPageSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
+{{-- Contact Us Schema --}}
+<script type="application/ld+json">
+{!! json_encode($contactUsSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
 @include('website.include.webheader')
 
 <div class="breadcrumb-section">
