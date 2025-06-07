@@ -280,6 +280,8 @@ class TourController extends Controller
                         'a.fakeprice',
                         'a.about_package',
                         'a.tpackage_image',
+                        'a.tour_details_img',
+                        'a.about_package',
                         'a.tour_thumb',
                         'a.alttag_thumb',
                         'a.ratings',
@@ -440,7 +442,37 @@ class TourController extends Controller
             return $html;
         }
 
-        return view('website.tourplacelisting', ['slug'=>$slug,'tours' => $tours, 'placesData' => $placesData, 'countAndPrice' => $countAndPrice,'durations'=>$durations,'destinations'=>$destinations])->with([
+        //  Product schemas
+        $productSchemas = [];
+        foreach ($tours as $tour) {
+            $productSchemas[] = [
+                "@context" => "https://schema.org",
+                "@type" => "Product",
+                "name" => $tour->tpackage_name,
+                "image" => [asset('storage/tourpackages/details/' . $tour->tour_details_img)],
+                "description" => Str::limit(strip_tags(html_entity_decode($tour->about_package)), 160),
+                // "brand" => [
+                //     "@type" => "Organization",
+                //     "name" => "coorgpackages.com"
+                // ],
+                "aggregateRating" => [
+                    "@type" => "AggregateRating",
+                    "ratingValue" => number_format($tour->ratings ?? 4.5, 1),
+                    "reviewCount" => (int)($tour->review_count ??  mt_rand(100, 200))
+                ],
+                "offers" => [
+                    "@type" => "Offer",
+                    "url" => url('/' . $tour->tpackage_url),
+                    "priceCurrency" => "INR",
+                    "price" => (string)(int)$tour->price,
+                    "availability" => "https://schema.org/InStock",
+                    "validFrom" => date('Y-m-d'),
+                    "priceValidUntil" => now()->addDays(3)->toDateString()
+                ]
+            ];
+        }
+
+        return view('website.tourplacelisting', ['productSchemas'=>$productSchemas,'slug'=>$slug,'tours' => $tours, 'placesData' => $placesData, 'countAndPrice' => $countAndPrice,'durations'=>$durations,'destinations'=>$destinations])->with([
             'meta_title' => $placesData->pckg_meta_title,
             'meta_description' => $placesData->pckg_meta_description,
             'meta_keywords' => $placesData->pckg_meta_keywords

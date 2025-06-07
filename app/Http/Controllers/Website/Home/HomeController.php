@@ -201,7 +201,7 @@ class HomeController extends Controller
                     "@id" => url('/blog/' . $blog->blog_url)
                 ],
                 "headline" => $blog->title,
-                "image" => [asset('storage/blog/' . $blog->image)],
+                "image" => [asset('storage/blog_images/' . $blog->image)],
                 "datePublished" => date('c', strtotime($blog->created_date)),
                 "dateModified" => date('c', strtotime($blog->created_date)),
                 "author" => [

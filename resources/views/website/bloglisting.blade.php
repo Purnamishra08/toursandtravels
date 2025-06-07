@@ -1,4 +1,10 @@
 @include('website.include.webmeta')
+{{-- Blog Schemas (multiple) --}}
+@foreach ($blogSchemas as $blogSchema)
+<script type="application/ld+json">
+{!! json_encode($blogSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endforeach
 @include('website.include.webheader')
 
 <div class="breadcrumb-section">

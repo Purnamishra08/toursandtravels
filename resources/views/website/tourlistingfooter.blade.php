@@ -1,4 +1,45 @@
 @include('website.include.webmeta')
+<!-- TOURLISTING SCHEMAS -->
+@if (!request()->ajax())
+<script type="application/ld+json">
+{!! json_encode([
+    "@context" => "https://schema.org",
+    "@type" => "BreadcrumbList",
+    "itemListElement" => [
+        [
+            "@type" => "ListItem",
+            "position" => 1,
+            "name" => "Home",
+            "item" => url('/')
+        ],
+        [
+            "@type" => "ListItem",
+            "position" => 2,
+            "name" => "Tours",
+            "item" => route('website.allTourPackages')
+        ],
+        [
+            "@type" => "ListItem",
+            "position" => 3,
+            "name" => $footers->vch_Footer_Name,
+            "item" => route('website.allTourPackagesFooter', ['slug' => $slug])
+        ]
+    ]
+], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) !!}
+</script>
+
+{{-- Product Schemas (multiple) --}}
+@foreach ($productSchemas as $productSchema)
+<script type="application/ld+json">
+{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endforeach
+{{-- faq Schema --}}
+<script type="application/ld+json">
+{!! json_encode($faqSchemas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
+@endif
 @include('website.include.webheader')
 <div class="breadcrumb-section" style="background-image: url('{{ asset('storage/category_tags_images/BannerImages/' . $tourPageData->menutag_img) }}');">
     <div class="container">
@@ -8,7 +49,10 @@
                 <a href="{{route('website.home')}}" class="breadcrumb-link"><i class="bi bi-house"></i></a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{route('website.allTourPackages')}}" class="breadcrumb-link active">Tours</a>
+                <a href="{{route('website.allTourPackages')}}" class="breadcrumb-link">Tours</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ route('website.allTourPackagesFooter', ['slug' => $slug]) }}" class="breadcrumb-link active">{{ $footers->vch_Footer_Name }}</a>
             </li>
         </ul>
     </div>
