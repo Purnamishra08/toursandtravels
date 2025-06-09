@@ -31,31 +31,34 @@
                     </ul>
                 </div>
                 <div class="col-lg-3">
-                    <h5 class="footer-title">Quick Links</h5>
+                    <h4 class="footer-title">Quick Links</h4>
                     <ul class="quick-link-wrapper">
                         @if(isset($footer) && count($footer) > 0)
                         @foreach($footer as $footers)
-                        <li>
-                        <a href="{{ route('website.allTourPackagesFooter', ['slug' => $footers->vch_Footer_URL]) }}"    class="quick-link">{{ $footers->vch_Footer_Name }}</a>
-                        </li>
+                        <h5>
+                            <li><a href="{{ route('website.allTourPackagesFooter', ['slug' => $footers->vch_Footer_URL]) }}"    class="quick-link">{{ $footers->vch_Footer_Name }}</a></li>
+                        </h5>
+                        
                         @endforeach
                         @endif
                     </ul>
                 </div>
                 <div class="col-lg-3">
-                    <h5 class="footer-title">Best Tours Packages</h5>
+                    <h4 class="footer-title">Best Tours Packages</h4>
                     <ul class="quick-link-wrapper">
                         @if(isset($bestTourPackages) && count($bestTourPackages) > 0)
                         @foreach($bestTourPackages as $bestTourPackage)
-                        <li>
-                            <a href="{{route('website.tourDetails', ['slug' => $bestTourPackage->tpackage_url])}}" class="quick-link">{{$bestTourPackage->tpackage_name}}</a>
-                        </li>
+                        <h5>
+                            <li>
+                                <a href="{{route('website.tourDetails', ['slug' => $bestTourPackage->tpackage_url])}}" class="quick-link">{{$bestTourPackage->tpackage_name}}</a>
+                            </li>
+                        </h5>
                         @endforeach
                         @endif
                     </ul>
                 </div>
                 <div class="col-lg-2">
-                <h5 class="footer-title">Featured In</h5>
+                <h4 class="footer-title">Featured In</h4>
                     <ul class="featured_in_wrapper p-0 mb-0 mt-2 ">
                         <li>
                             <a href="https://raindrops-insider.beehiiv.com/p/how-yellosa-khoday-is-providing-one-click-holiday-solutions-with-his-startup-my-holiday-happiness">

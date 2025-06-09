@@ -194,7 +194,7 @@
                         <button class="btn btn-warning w-100 mt-3">View All</button>
                     </div> -->
                     <div class="page-section" id="tourPackages">
-                        <h1 class="page-section-heading">{{isset($placesData) ? $placesData->place_name : ''}} Tour packages</h1>
+                        <h2 class="page-section-heading">{{isset($placesData) ? $placesData->place_name : ''}} Tour packages</h2>
                         <div class="card-wrapper card-wrapper-sm" id="popular-tour"> </div>
                         @if(isset($placesData))
                         <a href="{{ route('website.allTourPlacePackages', ['slug' => $placesData->place_url]) }}" target="_blank" class="btn btn-warning mt-3 w-100">View All</a>
@@ -428,7 +428,7 @@
             <div class="col-lg-6">
                 <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                        <h2 class="section-title-sm mb-0">Frequently Asked Questions</h2>
+                        <h4 class="section-title-sm mb-0">Frequently Asked Questions</h4>
                     </div>
                     <a href="{{route('website.faqs', ['slug' => 'common-faqs'])}}" target="_blank" class=" btn btn-primary">View all <i class="ms-2 bi bi-arrow-right-short"></i></a>
                 </div>
@@ -437,11 +437,11 @@
                     @foreach($faqData as $faqDatas)
                         @php $collapseId = 'collapse' . $loop->index; @endphp
                         <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading{{ $loop->index }}">
+                            <h5 class="accordion-header" id="heading{{ $loop->index }}">
                                 <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
                                     <h6 class="mb-0">{{ $faqDatas->faq_question }}</h6>
                                 </button>
-                            </h2>
+                            </h5>
                             <div id="{{ $collapseId }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     {!! $faqDatas->faq_answer !!}

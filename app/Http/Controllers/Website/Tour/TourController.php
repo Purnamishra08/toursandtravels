@@ -124,7 +124,7 @@ class TourController extends Controller
                     <div class="col-md-8 col-lg-8">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-item-center flex-wrap">
-                                <h5 class="card-title">'.$values->tpackage_name.'</h5>
+                                <h3 class="card-title">'.$values->tpackage_name.'</h3>
                                 <div class="d-flex align-items-center gap-2 mb-2">
                                     <i class="fa fa-star text-warning"></i>
                                     <span class="text-secondary">'.$values->ratings.' Star</span>
@@ -168,7 +168,7 @@ class TourController extends Controller
                         </div>-->
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <div class="p-card-info">
-                                <h6 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h6>
+                                <h4 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h4>
                                 <strike>₹ '.(int)$values->fakeprice.'</strike>
                             </div>
                             <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
@@ -382,7 +382,7 @@ class TourController extends Controller
                     <div class="col-md-8 col-lg-8">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-item-center flex-wrap">
-                                <h5 class="card-title">'.$values->tpackage_name.'</h5>
+                                <h3 class="card-title">'.$values->tpackage_name.'</h3>
                                 <div class="d-flex align-items-center gap-2 mb-2">
                                     <i class="fa fa-star text-warning"></i>
                                     <span class="text-secondary">'.$values->ratings.' Star</span>
@@ -426,7 +426,7 @@ class TourController extends Controller
                         </div>-->
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <div class="p-card-info">
-                                <h6 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h6>
+                                <h4 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h4>
                                 <strike>₹ '.(int)$values->fakeprice.'</strike>
                             </div>
                             <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>

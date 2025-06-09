@@ -541,14 +541,14 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <span class="text-secondary">{{ $values->ratings }} Star</span>
                             </div>
 
-                            <h5 class="card-title">{{ $values->tpackage_name }}</h5>
+                            <h3 class="card-title">{{ $values->tpackage_name }}</h3>
 
                             
                         </div>
                         <div class="card-footer bg-white pb-3 pt-0 border-0">
                         <div class="d-flex justify-content-between align-items-center ">
                                 <div class="p-card-info">
-                                    <h6 class="mb-0"><span>₹ </span>{{ (int)$values->price }}</h6>
+                                    <h4 class="mb-0"><span>₹ </span>{{ (int)$values->price }}</h4>
                                     <strike>₹ {{ (int)$values->fakeprice }}</strike>
                                 </div>
                                 <a href="{{ route('website.tourDetails', ['slug' => $values->tpackage_url]) }}"
@@ -573,18 +573,18 @@ for ($i = 0; $i < $fullStars; $i++)
                     <div class="col-lg-8">
                         <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;animation-delay: 200ms; animation-name: fadeInUp;">
                             <div>
-                                <h2 class="section-title-sm">Frequently Asked Questions</h2>
+                                <h4 class="section-title-sm">Frequently Asked Questions</h4>
                             </div>
                         </div>
                         @if($tourFaqs->count())
                         <div class="accordion faq-accordion" id="accordionExample">
                             @foreach($tourFaqs as $index => $faq)
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading{{ $index }}">
+                                <h5 class="accordion-header" id="heading{{ $index }}">
                                     <button class="accordion-button {{ $index != 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="{{ $index == 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
                                         <h6>{{ $faq->faq_question }}</h6>
                                     </button>
-                                </h2>
+                                </h5>
                                 <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         {!! $faq->faq_answer !!}

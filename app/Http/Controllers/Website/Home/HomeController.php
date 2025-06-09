@@ -257,7 +257,7 @@ class HomeController extends Controller
                             <li><i class="bi bi-calendar"></i> ' . date('d-M-Y', strtotime($values->created_date)) . '</li>
                         </ul>
                         <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank" style="color:black">
-                            <h5 class="card-title mt-3">' . $values->title . '</h5>
+                            <h3 class="card-title mt-3">' . $values->title . '</h3>
                             <p>' . implode(' ', array_slice(explode(' ', $values->content), 0, 30)) . '</p>
                         </a>
                         <div class="text-end mt-2">
@@ -320,7 +320,7 @@ class HomeController extends Controller
                         <i class="bi bi-star-fill text-warning"></i>
                         <span class="text-secondary">'.$values->ratings.' Star</span>
                     </div>
-                    <h5 class="card-title">'.$values->tpackage_name.'</h5>
+                    <h3 class="card-title">'.$values->tpackage_name.'</h3>
                    
                 </div>
                 <div class="card-footer bg-white border-0 pb-3 pt-0"> 
@@ -329,7 +329,7 @@ class HomeController extends Controller
                         <div class="p-card-info">
                         
                             
-                            <h6 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h6>
+                            <h4 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h4>
                             <strike >₹ '.(int)$values->fakeprice.'</strike>
                         </div>
                         <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
