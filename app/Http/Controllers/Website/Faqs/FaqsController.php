@@ -74,7 +74,75 @@ class FaqsController extends Controller{
         $meta_keywords      =  isset($faqmeta) ? $faqmeta->seo_keywords : '';
         $meta_description   =  isset($faqmeta) ? $faqmeta->seo_description : '';
 
-        return view('website.faq', ['faqData' => $faqData, 'parameters' => $parameters, 'placesData' => $placesData])->with([
+        // 1. Organization Schema
+        $organisationSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "Organization",
+            "name" => "Coorg Packages",
+            "url" => url('/'),
+            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.png",
+            "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
+            "contactPoint" => [
+                "@type" => "ContactPoint",
+                "telephone" => $parameters[2]->par_value ?? "+91 9886 52 52 53",
+                "contactType" => "Customer Service",
+                "areaServed" => "IN",
+                "availableLanguage" => ["English", "Hindi", "Kannada"]
+            ],
+            "address" => [
+                "@type" => "PostalAddress",
+                "streetAddress" => "#69 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar",
+                "addressLocality" => "Bengaluru",
+                "addressRegion" => "Karnataka",
+                "postalCode" => "560010",
+                "addressCountry" => "IN"
+            ],
+            "sameAs" => array_filter([
+                $parameters[14]->par_value ?? null,
+                $parameters[15]->par_value ?? null,
+                $parameters[16]->par_value ?? null
+            ])
+        ];
+        // 2.Webpage schema
+        $webPageSchema=[
+            "@context"      => "https://schema.org",
+            "@type"         => "WebPage",
+            "name"          => $meta_title ?? 'Coorg Packages',
+            "url"           => url()->current(),
+            "description"   => $meta_description ?? 'Plan your trip to Coorg with affordable tour packages.',
+            "keywords"      => $meta_keywords ?? "",
+            "inLanguage"    => "en",
+            "isPartOf"      => [
+                "@type" => "Website",
+                "name"  => "Coorg Packages",
+                "url"   => url('/')
+            ]
+        ];
+        // 3. Faq Schema
+        $faqSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "FAQPage",
+            "mainEntity" => $faqData->map(function ($faq) {
+                return [
+                    "@type" => "Question",
+                    "name" => strip_tags($faq->faq_question),
+                    "acceptedAnswer" => [
+                        "@type" => "Answer",
+                        "text" => strip_tags($faq->faq_answer)
+                    ]
+                ];
+            })->toArray()
+        ];
+        return view('website.faq', [
+            'faqData'               => $faqData,
+            'parameters'            => $parameters,
+            'placesData'            => $placesData,
+            'slug'                  => $slug,
+            'webPageSchema'         => $webPageSchema,
+            'organisationSchema'    => $organisationSchema,
+            'faqSchemas'            => $faqSchema,
+            ])
+            ->with([
             'meta_title' => $meta_title,
             'meta_description' => $meta_description,
             'meta_keywords' => $meta_keywords
