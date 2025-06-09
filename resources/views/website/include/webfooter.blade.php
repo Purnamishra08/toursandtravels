@@ -35,10 +35,7 @@
                     <ul class="quick-link-wrapper">
                         @if(isset($footer) && count($footer) > 0)
                         @foreach($footer as $footers)
-                        <h5>
                             <li><a href="{{ route('website.allTourPackagesFooter', ['slug' => $footers->vch_Footer_URL]) }}"    class="quick-link">{{ $footers->vch_Footer_Name }}</a></li>
-                        </h5>
-                        
                         @endforeach
                         @endif
                     </ul>
@@ -48,11 +45,9 @@
                     <ul class="quick-link-wrapper">
                         @if(isset($bestTourPackages) && count($bestTourPackages) > 0)
                         @foreach($bestTourPackages as $bestTourPackage)
-                        <h5>
                             <li>
                                 <a href="{{route('website.tourDetails', ['slug' => $bestTourPackage->tpackage_url])}}" class="quick-link">{{$bestTourPackage->tpackage_name}}</a>
                             </li>
-                        </h5>
                         @endforeach
                         @endif
                     </ul>
@@ -81,9 +76,10 @@
                 </div>
             </div>
         </div>
-        <a href="javascript:void(0)" class="back-to-top" id="up">
+        <button type="button" class="back-to-top" id="up" aria-label="Back to top">
             <i class="bi bi-chevron-up"></i>
-        </a>
+        </button>
+
         <a href="https://api.whatsapp.com/send?phone=+919886525253&text=Hi%20there%2E" target="_blank" class="whats-app"><i class="bi bi-whatsapp"></i></a>
 
             <div class="google-review">
