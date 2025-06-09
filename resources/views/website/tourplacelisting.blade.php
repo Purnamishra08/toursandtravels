@@ -1,4 +1,33 @@
 @include('website.include.webmeta')
+@if (!request()->ajax())
+<script type="application/ld+json">
+{!! json_encode([
+    "@context" => "https://schema.org",
+    "@type" => "BreadcrumbList",
+    "itemListElement" => [
+        [
+            "@type" => "ListItem",
+            "position" => 1,
+            "name" => "Home",
+            "item" => url('/')
+        ],
+        [
+            "@type" => "ListItem",
+            "position" => 2,
+            "name" => "Tours",
+            "item" => route('website.allTourPackages')
+        ]
+    ]
+], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) !!}
+</script>
+
+{{-- Product Schemas (multiple) --}}
+@foreach ($productSchemas as $productSchema)
+<script type="application/ld+json">
+{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endforeach
+@endif
 @include('website.include.webheader')
 <div class="breadcrumb-section">
     <div class="container">

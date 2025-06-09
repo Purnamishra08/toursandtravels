@@ -42,7 +42,7 @@ class BlogsController extends Controller
                     $html .= '
                     <div class="card recent-post-card wow animate__fadeInUp" data-wow-delay="200ms">
                         <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank">
-                            <img src="' . asset('storage/blog_images/' . $values->image) . '" alt="{{ $values->alttag_image }}" />
+                            <img src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" />
                         </a>
                         <p class="tour-badge">Travel</p>
                         <div class="card-body">
@@ -64,7 +64,37 @@ class BlogsController extends Controller
                 }
                 return $html;
             }
-            return view('website.bloglisting')->with([
+
+            $blogSchemas = [];
+            foreach ($blogData as $blog) {
+                $blogSchemas[] = [
+                    "@context" => "https://schema.org",
+                    "@type" => "BlogPosting",
+                    "mainEntityOfPage" => [
+                        "@type" => "WebPage",
+                        "@id" => url('/blog/' . $blog->blog_url)
+                    ],
+                    "headline" => $blog->title,
+                    "image" => [asset('storage/blog_images/' . $blog->image)],
+                    "datePublished" => date('c', strtotime($blog->created_date)),
+                    "dateModified" => date('c', strtotime($blog->created_date)),
+                    "author" => [
+                        "@type" => "Organization",
+                        "name" => "coorgpackages.com",
+                        "url" => url('/')
+                    ],
+                    "publisher" => [
+                        "@type" => "Organization",
+                        "name" => "coorgpackages.com",
+                        "logo" => [
+                            "@type" => "ImageObject",
+                            "url" => "https://coorgpackages.com/assets/img/mhh-logo.png"
+                        ]
+                    ],
+                    "description" => Str::limit(strip_tags(html_entity_decode($blog->content)), 160),
+                ];
+            }
+            return view('website.bloglisting',['blogSchemas'=>$blogSchemas])->with([
                 'meta_title' => $meta_title,
                 'meta_description' => $meta_description,
                 'meta_keywords' => $meta_keywords

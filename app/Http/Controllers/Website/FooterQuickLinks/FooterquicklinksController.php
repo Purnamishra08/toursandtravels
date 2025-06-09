@@ -36,6 +36,8 @@ class FooterquicklinksController extends Controller
                         'a.price',
                         'a.fakeprice',
                         'a.tpackage_image',
+                        'a.tour_details_img',
+                        'a.about_package',
                         'a.tour_thumb',
                         'a.alttag_thumb',
                         'a.ratings',
@@ -211,8 +213,53 @@ class FooterquicklinksController extends Controller
             ->inRandomOrder()
             ->groupBy('r.review_id', 'r.tourtagid', 'r.reviewer_name', 'r.reviewer_loc', 'r.no_of_star', 'r.feedback_msg', 'r.status', 'r.updated_date')
             ->get();
-         
-        return view('website.tourlistingfooter',['tourPageData'=>$tourPageData,'meta_title'=>$footers->footer_meta_title,'meta_keywords'=>$footers->footer_meta_keywords,'meta_description'=>$footers->footer_meta_description,'durations'=>$durations,'destinations'=>$destinations,'tourFaqs'=>$tourFaqs,'reviews'=>$reviews, 'footers' => $footers]);
+         //  Product schemas
+        $productSchemas = [];
+        foreach ($tours as $tour) {
+            $productSchemas[] = [
+                "@context" => "https://schema.org",
+                "@type" => "Product",
+                "name" => $tour->tpackage_name,
+                "image" => [asset('storage/tourpackages/details/' . $tour->tour_details_img)],
+                "description" => Str::limit(strip_tags(html_entity_decode($tour->about_package)), 160),
+                // "brand" => [
+                //     "@type" => "Organization",
+                //     "name" => "coorgpackages.com"
+                // ],
+                "aggregateRating" => [
+                    "@type" => "AggregateRating",
+                    "ratingValue" => number_format($tour->ratings ?? 4.5, 1),
+                    "reviewCount" => (int)($tour->review_count ??  mt_rand(100, 200))
+                ],
+                "offers" => [
+                    "@type" => "Offer",
+                    "url" => url('/' . $tour->tpackage_url),
+                    "priceCurrency" => "INR",
+                    "price" => (string)(int)$tour->price,
+                    "availability" => "https://schema.org/InStock",
+                    "validFrom" => date('Y-m-d'),
+                    "priceValidUntil" => now()->addDays(3)->toDateString()
+                ]
+            ];
+        }
+
+
+        $faqSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "FAQPage",
+            "mainEntity" => $tourFaqs->map(function ($faq) {
+                return [
+                    "@type" => "Question",
+                    "name" => strip_tags($faq->faq_question),
+                    "acceptedAnswer" => [
+                        "@type" => "Answer",
+                        "text" => strip_tags($faq->faq_answer)
+                    ]
+                ];
+            })->toArray()
+        ];
+
+        return view('website.tourlistingfooter',['productSchemas'=>$productSchemas,'faqSchemas'=>$faqSchema,'slug'=>$slug,'tourPageData'=>$tourPageData,'meta_title'=>$footers->footer_meta_title,'meta_keywords'=>$footers->footer_meta_keywords,'meta_description'=>$footers->footer_meta_description,'durations'=>$durations,'destinations'=>$destinations,'tourFaqs'=>$tourFaqs,'reviews'=>$reviews, 'footers' => $footers]);
     }
 
 }

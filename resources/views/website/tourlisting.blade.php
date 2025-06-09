@@ -28,6 +28,10 @@
 {!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
 @endforeach
+{{-- faq Schema --}}
+<script type="application/ld+json">
+{!! json_encode($faqSchemas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
