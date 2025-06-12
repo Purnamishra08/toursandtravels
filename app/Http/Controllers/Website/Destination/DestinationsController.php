@@ -86,7 +86,7 @@ class DestinationsController extends Controller{
             "@type" => "Organization",
             "name" => "Coorg Packages",
             "url" => url('/'),
-            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.png",
+            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.webp",
             "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
             "contactPoint" => [
                 "@type" => "ContactPoint",

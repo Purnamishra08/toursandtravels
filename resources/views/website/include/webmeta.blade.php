@@ -9,7 +9,7 @@
     <meta name="keywords" content="{{ $meta_keywords ?? 'default, keywords' }}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url()->current() }}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/fav-icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/fav-icon.webp') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="{{asset('assets/css/web-animate.css')}}"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -21,4 +21,5 @@
     <link rel="stylesheet" href="{{asset('assets/css/web-style.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/web-content.css')}}"/>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+    
 </head>

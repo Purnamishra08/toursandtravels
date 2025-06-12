@@ -88,7 +88,7 @@ class BlogsController extends Controller
                         "name" => "coorgpackages.com",
                         "logo" => [
                             "@type" => "ImageObject",
-                            "url" => "https://coorgpackages.com/assets/img/mhh-logo.png"
+                            "url" => "https://coorgpackages.com/assets/img/mhh-logo.webp"
                         ]
                     ],
                     "description" => Str::limit(strip_tags(html_entity_decode($blog->content)), 160),

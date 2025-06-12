@@ -35,7 +35,7 @@ class HomeController extends Controller
             "@type" => "Organization",
             "name" => "Coorg Packages",
             "url" => url('/'),
-            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.png",
+            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.webp",
             "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
             "contactPoint" => [
                 "@type" => "ContactPoint",
@@ -214,7 +214,7 @@ class HomeController extends Controller
                     "name" => "coorgpackages.com",
                     "logo" => [
                         "@type" => "ImageObject",
-                        "url" => "https://coorgpackages.com/assets/img/mhh-logo.png"
+                        "url" => "https://coorgpackages.com/assets/img/mhh-logo.webp"
                     ]
                 ],
                 "description" => Str::limit(strip_tags(html_entity_decode($blog->content)), 160),
