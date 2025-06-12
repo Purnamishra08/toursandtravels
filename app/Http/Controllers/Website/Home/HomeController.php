@@ -249,7 +249,7 @@ class HomeController extends Controller
                 $html .= '
                 <div class="card recent-post-card wow animate__fadeInUp" data-wow-delay="200ms">
                     <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank">
-                        <img src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" />
+                        <img loading="lazy" src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" />
                     </a>
                     <p class="tour-badge">Travel</p>
                     <div class="card-body">
@@ -306,7 +306,7 @@ class HomeController extends Controller
             foreach ($popularTours as $values) {
                 $html .= '
                 <div class="card tour-card  wow animate__fadeInUp  " data-wow-delay="200ms">
-                    <img class="card-img-top" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">';
+                    <img loading="lazy" class="card-img-top" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">';
                     if($values->pack_type==15){
                         $html.='<span class="badge">Most popular</span>';
                     }
@@ -357,7 +357,7 @@ class HomeController extends Controller
                 $html .= '
                 <div class="gallery-item">
                     <a href="' . route('website.neardestination', ['slug' => $values->place_url]) . '" target="_blank">
-                        <img src="' . asset('storage/place_images/thumbs/' . $values->placethumbimg) . '" alt="' . $values->alttag_thumb . '">
+                        <img loading="lazy" src="' . asset('storage/place_images/thumbs/' . $values->placethumbimg) . '" alt="' . $values->alttag_thumb . '">
                     </a>
                     <div class="gallery-text">' . $values->place_name . '</div>
                 </div>';

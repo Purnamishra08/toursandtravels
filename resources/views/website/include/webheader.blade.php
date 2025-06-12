@@ -1,4 +1,4 @@
-<link href="{{asset('assets/css/all.min.css')}}" rel="stylesheet" />
+<link href="{{asset('assets/css/all.min.css')}}" rel="preload" />
 @if (app()->environment('production'))
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-R740PW1SX8"></script>
