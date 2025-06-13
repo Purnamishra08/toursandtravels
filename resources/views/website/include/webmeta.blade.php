@@ -45,4 +45,5 @@
     <!-- Preload banner images -->
     <link rel="preload" as="image" fetchpriority="high" href="{{ asset('assets/img/web-img/banner-coorg_300kb_imresizer.webp') }}">
     <link rel="preload" as="image" fetchpriority="high" href="{{ asset('assets/img/web-img/banner-coorg_300kb_imresizermob.webp') }}">
+    <link rel="preload" as="image" fetchpriority="high" href="{{ asset('assets/img/web-img/footer-bg.webp') }}">
 </head>

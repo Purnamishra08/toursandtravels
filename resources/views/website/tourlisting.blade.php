@@ -1,5 +1,4 @@
 @include('website.include.webmeta')
-<!-- TOURLISTING SCHEMAS -->
 @if (!request()->ajax())
 <script type="application/ld+json">
 {!! json_encode([
@@ -21,14 +20,11 @@
     ]
 ], JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) !!}
 </script>
-
-{{-- Product Schemas (multiple) --}}
 @foreach ($productSchemas as $productSchema)
 <script type="application/ld+json">
 {!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
 @endforeach
-{{-- faq Schema --}}
 <script type="application/ld+json">
 {!! json_encode($faqSchemas, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
@@ -52,15 +48,19 @@
 
 @endif
 @include('website.include.webheader')
+@if($tourPageData->menutag_img)
+<link rel="preload" as="image" href="{{ asset('storage/category_tags_images/BannerImages/' . $tourPageData->menutag_img) }}" type="image/webp">
+@endif
+
 <div class="breadcrumb-section" style="background-image: url('{{ asset('storage/category_tags_images/BannerImages/' . $tourPageData->menutag_img) }}');">
     <div class="container">
         <h1 class="page-name">{{$tourCount}} {{$tourPageData->tag_name}}</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
-                <a href="{{route('website.home')}}" class="breadcrumb-link"><i class="bi bi-house"></i></a>
+                <a href="{{route('website.home')}}" class="breadcrumb-link" aria-label="Home"><i class="bi bi-house"></i></a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{route('website.allTourPackages')}}" class="breadcrumb-link active">Tours</a>
+                <a href="{{route('website.allTourPackages')}}" class="breadcrumb-link active" aria-label="Tours">Tours</a>
             </li>
         </ul>
     </div>
@@ -72,7 +72,6 @@
         <div class="container">
             <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
                 <div>
-                    <!-- <p class="section-title-small">Feature tours</p> -->
                     <h2 class="section-title"> Most Popular {{$tourPageData->tag_name}}</h2>
                 </div>
             </div>
@@ -90,22 +89,25 @@
                 style="display: inline-block; background-color: #007bff; color: #fff; font-size: 0.95rem; text-decoration: none; padding: 6px 12px; border-radius: 20px; transition: all 0.3s ease; font-weight: 500; border:0">
                 Read more <span style="margin-left: 5px;">&#x25BC;</span>
             </button>
-        </div>
-        <div class="tour-filter-section">
-            <div class="container">
 
-                <span class="filter-btn btn btn-sm btn-dark"><i class="bi bi-funnel me-2"></i>Filter</span>
+            <!-- Mobile Filter Button -->
+            <div class="tour-filter-section d-block d-lg-none mb-4">
+                <button class="filter-btn btn btn-sm btn-dark">
+                    <i class="bi bi-funnel me-2"></i>Filter
+                </button>
             </div>
         </div>
+        
         <div class="container">
-
-            <div class="tour-list-wrapper">
-                <div class="filter-overlay"></div>
+            <div class="row">
+                <!-- Filter Column -->
+                <div class="col-lg-3 mb-4 mb-lg-0 tour-list-wrapper">
                 <div class="filter-wrapper">
-                    <div class="filter-card stickey-section">
+                        <div class="filter-card stickey-section">
                         <div class="filter-card-header ">
                             <strong>Filter</strong>
                             <span class="badge text-bg-warning clear-filter" style="cursor:pointer;">Clear All</span>
+                                <span class="close-filter d-lg-none"><i class="bi bi-x-lg"></i></span>
                         </div>
                         <div class="filter-card-body">
                             <strong class="mb-2 d-block">Duration</strong>
@@ -117,6 +119,7 @@
                                 </div>
                                 @endforeach
                             </div>
+                                
                             <strong class="mb-2 d-block">Starting City</strong>
                             <div class="mb-3">
                                 @foreach($destinations as $destination)
@@ -129,18 +132,28 @@
                         </div>
                     </div>
                 </div>
-                <div id="allTour">
+                </div>
+                
+                <!-- Tour Listing Column -->
+                <div class="col-lg-9">
+                    <div id="allTour" class="row"></div>
+                    <div class="ajax-load text-center my-4" style="display:none;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading more tours...</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-
+    <!-- FAQ Section -->
     <section class="bg-light">
         <div class="container">
             <div class="row g-3">
                 <div class="col-lg-6">
-                    <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
+                    <div class="section-title-container wow animate__fadeInUp" data-wow-delay="200ms">
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                             <h4 class="section-title-sm mb-0">Frequently Asked Questions</h4>
                         </div>
@@ -175,8 +188,7 @@
                         @endif
                 </div>
                 <div class="col-lg-6">
-                    <div class=" ">
-                        <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
+                        <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms">
                             <div>
                                 <h2 class="section-title-sm">Verified Google Reviews</h2>
                             </div>
@@ -201,13 +213,13 @@
                                                     $starsreviewHtml = '';
                                                     for ($i = 0; $i < $full; $i++)
                                                         {
-                                                        $starsreviewHtml .='<i class="fa fa-star text-warning"></i> ' ;
+                                                        $starsreviewHtml .='<span class="text-warning">★</span>' ;
                                                         }
                                                         if ($half) {
-                                                        $starsreviewHtml .='<i class="fa fa-star-half-stroke text-warning"></i> ' ;
+                                                        $starsreviewHtml .='<span class="text-warning">⯨</span> ' ;
                                                         }
                                                         for ($i=0; $i < $emptyStars; $i++) {
-                                                        $starsreviewHtml.='<i class="fa fa-star text-secondary"></i> ' ;
+                                                        $starsreviewHtml.='<span class="text-warning">☆</span> ' ;
                                                         }
                                                         @endphp
 
@@ -217,9 +229,7 @@
                                                 </div>
 
                                             </div>
-                                            <p class="client-location text-secondary"><svg class="svg-inline--fa fa-location-dot" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="location-dot" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg="">
-                                                    <path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
-                                                </svg><!-- <i class="fa-solid fa-location-dot"></i> Font Awesome fontawesome.com --> {{$review->reviewer_loc}}</p>
+                                            <p class="client-location text-secondary"><i class="fa-solid fa-location-dot"></i>  {{$review->reviewer_loc}}</p>
 
 
 
@@ -232,7 +242,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            
             <div class="p-3 rounded border mt-3 text-center bg-success-subtle text-success-emphasis">
                         <srtong class="d-block mb-2">Still have Questions</strong>
                         <span class="d-block mb-2">Can't find the answar you are looking for?</span>
@@ -267,7 +277,7 @@
     </section>
     <section class="bg-light">
         <div class="container">
-        <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
+            <div class="section-title-container wow animate__fadeInUp" data-wow-delay="200ms">
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                             <h2 class="section-title-sm mb-0">About Coorg Tour Package</h2>
                         </div>
@@ -292,149 +302,110 @@
 
 </div>
 @include('website.include.webfooter')
-
 <script>
-    var page = 1;
-    var isLoading = false;
-    var finished = false;
+    $(document).ready(function () {
+        let page = 1;
 
-    function loadClientReviews(page) {
-        if (finished) return;
-        $.ajax({
-            url: "{{ route('website.clientReviews') }}?page=" + page,
-            type: "get",
-            beforeSend: function () {
-                $('.ajax-load').show();
-            }
-        }).done(function (data) {
-            if (data.trim().length == 0) {
-                $('.ajax-load').html("<p>No more records found</p>");
-                finished = true;
-                return;
-            }
-            $('.ajax-load').hide();
-            $('#client-reviews').append(data);
-            isLoading = false;
-        }).fail(function () {
-            console.log("Server error");
-            $('.ajax-load').hide();
-        });
-    }
+        // Lazy load client reviews
+        function loadContent(url, targetSelector, page, finishedFlag) {
+            if (finishedFlag.value) return;
 
-    function loadPopularTour(page) {
-        if (finished) return;
-        $.ajax({
-            url: "{{ route('website.allTourPackages') }}?page=" + page,
-            type: "get",
-            beforeSend: function() {
-                $('.ajax-load').show();
-            }
-        }).done(function(data) {
-            if (data.trim().length == 0) {
-                $('.ajax-load').html("<p>No more records found</p>");
-                finished = true;
-                return;
-            }
-            $('.ajax-load').hide();
-            $('#allTour').append(data);
-            isLoading = false;
-        }).fail(function() {
-            console.log("Server error");
-            $('.ajax-load').hide();
-        });
-    }
+            $.ajax({
+                url: url + "?page=" + page,
+                type: "GET",
+                beforeSend: function () {
+                    $('.ajax-load').show();
+                }
+            }).done(function (data) {
+                if (data.trim().length === 0) {
+                    $('.ajax-load').html("<p>No more records found</p>");
+                    finishedFlag.value = true;
+                    return;
+                }
+                $(targetSelector).append(data);
+                $('.ajax-load').hide();
+            }).fail(function () {
+                console.error("Server error");
+                $('.ajax-load').hide();
+            });
+        }
 
-    // Initial load
-    $(document).ready(function() {
-        loadPopularTour(page);
-        loadClientReviews(page);
-    });
+        const finishedTours = { value: false };
+        const finishedReviews = { value: false };
 
-    function applyFilters() {
-        let durations = [];
-        let startingCities = [];
+        loadContent("{{ route('website.allTourPackages') }}", "#allTour", page, finishedTours);
+        loadContent("{{ route('website.clientReviews') }}", "#client-reviews", page, finishedReviews);
 
-        // Collect selected durations
-        $('input[name="duration[]"]:checked').each(function() {
-            durations.push($(this).val());
-        });
+        // Filter application with debounce
+        let filterTimeout;
+        function applyFilters() {
+            clearTimeout(filterTimeout);
+            filterTimeout = setTimeout(function () {
+                const durations = $('input[name="duration[]"]:checked').map(function () {
+                    return this.value;
+                }).get();
 
-        // Collect selected starting cities
-        $('input[name="starting_city[]"]:checked').each(function() {
-            startingCities.push($(this).val());
-        });
+                const startingCities = $('input[name="starting_city[]"]:checked').map(function () {
+                    return this.value;
+                }).get();
 
-        $.ajax({
-            url: "{{ route('website.allTourPackages') }}",
-            type: "get",
-            data: {
-                durations: durations,
-                startingCities: startingCities,
-            },
-            beforeSend: function() {
-                $('#allTour').html('<div class="text-center p-4">Loading...</div>');
-            },
-            success: function(data) {
-                $('#allTour').html(data);
-                document.getElementsByClassName('tour-list-wrapper')[0].scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    }
+                $.ajax({
+                    url: "{{ route('website.allTourPackages') }}",
+                    type: "GET",
+                    data: {
+                        durations: durations,
+                        startingCities: startingCities
+                    },
+                    beforeSend: function () {
+                        $('#allTour').html('<div class="text-center p-4">Loading...</div>');
+                    },
+                    success: function (data) {
+                        $('#allTour').html(data);
+                        document.querySelector('.tour-list-wrapper').scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            }, 300); // 300ms debounce
+        }
 
-    // Re-trigger filtering on change
-    $(document).on('change', '.filter-option', function() {
-        applyFilters();
-    });
-    $(document).on('click', '.clear-filter', function() {
-        $('.filter-option').prop('checked', false);
-        applyFilters(); // re-fetch all
-    });
-</script>
-<script>
-    $('.moreless-button-about').click(function () {
-    // Get the .about-content above the button
-    const preview = $(this).prev('.about-content').find('.description-preview');
+        $(document).on('change', '.filter-option', applyFilters);
 
-    // Toggle expand state
-    preview.toggleClass('expanded');
-    preview.find('.fade-overlay').toggleClass('d-none');
-
-    // Update styles and button text
-    if (preview.hasClass('expanded')) {
-        preview.css('max-height', 'none');
-        $(this).html('Read less <span style="margin-left: 5px;">&#9650;</span>');
-    } else {
-        preview.css('max-height', '200px');
-        $(this).html('Read more <span style="margin-left: 5px;">&#9660;</span>');
-    }
-});
-
-    $('.moreless-button').click(function () {
-    const preview = $('.about-content .description-preview'); // access inside content
-
-    preview.toggleClass('expanded');
-    preview.find('.fade-overlay').toggleClass('d-none');
-
-    if (preview.hasClass('expanded')) {
-        preview.css('max-height', 'none');
-        $(this).html('Read less <span style="margin-left: 5px;">&#9650;</span>');
-    } else {
-        preview.css('max-height', '200px');
-        $(this).html('Read more <span style="margin-left: 5px;">&#9660;</span>');
-    }
-});
-</script>
-<script>
-    $(document).ready(function() {
-        $('.filter-btn').on('click', function() {
-            $('.filter-wrapper').toggleClass('active');
-            $('.filter-overlay').toggleClass('active');
+        $(document).on('click', '.clear-filter', function () {
+            $('.filter-option').prop('checked', false);
+            applyFilters();
         });
 
-        // Optional: hide filter when clicking outside
-        $('.filter-overlay').on('click', function() {
+        // Expandable about section
+        function toggleMoreLess(buttonSelector, containerSelector) {
+            $(buttonSelector).on('click', function () {
+                const $preview = $(this).prev(containerSelector).find('.description-preview');
+                const isExpanded = $preview.hasClass('expanded');
+
+                $preview.toggleClass('expanded').css('max-height', isExpanded ? '200px' : 'none');
+                $preview.find('.fade-overlay').toggleClass('d-none', isExpanded);
+
+                $(this).html(isExpanded
+                    ? 'Read more <span style="margin-left: 5px;">&#9660;</span>'
+                    : 'Read less <span style="margin-left: 5px;">&#9650;</span>');
+            });
+        }
+
+        toggleMoreLess('.moreless-button', '.about-content');
+        toggleMoreLess('.moreless-button-about', '.about-content');
+
+        // Mobile filter sidebar toggle
+        $('.filter-btn').on('click', function () {
+            $('.filter-wrapper, .filter-overlay').toggleClass('active');
+        });
+
+        $('.filter-overlay').on('click', function () {
             $(this).removeClass('active');
             $('.filter-wrapper').removeClass('active');
         });
     });
+    $(document).on('click', '.filter-overlay, .close-filter', function() {
+        $('.filter-wrapper').removeClass('active');
+        $('.filter-overlay').remove();
+        $('body').css('overflow', '');
+    });
+    
 </script>

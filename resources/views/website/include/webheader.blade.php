@@ -10,7 +10,7 @@
     </script>
 @endif
 @if (!Route::is('website.home'))
-    <script src="{{ asset('assets/js/all.min.js') }}"></script>
+    <script src="{{ asset('assets/js/all.min.js') }}" defer></script>
 @endif
 <body>
     <header id="header">
