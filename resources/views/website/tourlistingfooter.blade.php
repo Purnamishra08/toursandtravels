@@ -95,7 +95,7 @@
                 <div class="filter-wrapper">
                     <div class="filter-card stickey-section">
                         <div class="filter-card-header ">
-                            <strong>Filter</strong>
+                            <h3>Filter</h3>
                             <span class="badge text-bg-warning clear-filter" style="cursor:pointer;">Clear All</span>
                         </div>
                         <div class="filter-card-body">
@@ -148,11 +148,11 @@
                         <div class="accordion faq-accordion" id="accordionExample">
                             @foreach($tourFaqs as $index => $faq)
                             <div class="accordion-item">
-                                <h5 class="accordion-header" id="heading{{ $index }}">
+                                <h4 class="accordion-header" id="heading{{ $index }}">
                                     <button class="accordion-button {{ $index != 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="{{ $index == 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
-                                        <h6>{{ $faq->faq_question }}</h6>
+                                       {{ $faq->faq_question }}
                                     </button>
-                                </h5>
+                                </h4>
                                 <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         {!! $faq->faq_answer !!}
