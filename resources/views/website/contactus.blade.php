@@ -74,7 +74,7 @@
                                     <i class="bi bi-briefcase"></i>
                                     </span>
                                     <div>
-                                        <h5>10 years of experiance</h5>
+                                        <h3>10 years of experiance</h3>
                                         <p>empowering enterprises to deliver value</p>
                                     </div>
 
@@ -84,7 +84,7 @@
                                     <i class="bi bi-award"></i>
                                     </span>
                                     <div>
-                                        <h5> Multiple Awards</h5>
+                                        <h3> Multiple Awards</h3>
                                         <p>Implemented across industries</p>
                                     </div>
 
@@ -94,7 +94,7 @@
                                     <i class="bi bi-people"></i>
                                     </span>
                                     <div>
-                                        <h5>Over 6000+ Clients</h5>
+                                        <h3>Over 6000+ Clients</h3>
                                         <p>Implemented across industries</p>
                                     </div>
 
@@ -115,7 +115,7 @@
                 <div class="col-lg-6">
                     <div class="card border-0 shadow-lg rounded-3">
                         <div class="card-body p-md-4">
-                            <h5 class="mb-2">Please fill this form</h5>
+                            <h3 class="mb-2 form-heading">Please fill this form</h3>
                             <form method="POST" id="contact_enquiry" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row mt-3">
@@ -155,7 +155,7 @@
               <div class="col-lg-4 md-6">
                 <div class="card office-address">
                     <div class="card-body">
-                        <h5>Corporate Office</h5>
+                        <h3>Corporate Office</h3>
                     <ul class="contact-wrapper">
                             <!-- <li>
                             <i class="bi bi-telephone"></i>
@@ -176,7 +176,7 @@
               <div class="col-lg-4 md-6">
                 <div class="card office-address">
                     <div class="card-body">
-                        <h5>Ooty Office </h5>
+                        <h3>Ooty Office </h3>
                     <ul class="contact-wrapper">
                             <!-- <li>
                                 <i class="bi bi-telephone"></i>
@@ -197,7 +197,7 @@
               <div class="col-lg-4 md-6">
                 <div class="card office-address">
                     <div class="card-body">
-                        <h5>Bhubaneswar Office</h5>
+                        <h3>Bhubaneswar Office</h3>
                     <ul class="contact-wrapper">
                             <!-- <li>
                                 <i class="bi bi-telephone"></i>
@@ -218,7 +218,7 @@
               <div class="col-lg-4 md-6">
                 <div class="card office-address">
                     <div class="card-body">
-                        <h5>Andaman Office</h5>
+                        <h3>Andaman Office</h3>
                     <ul class="contact-wrapper">
                             <!-- <li>
                                 <i class="bi bi-telephone"></i>
@@ -239,7 +239,7 @@
               <div class="col-lg-4 md-6">
                 <div class="card office-address">
                     <div class="card-body">
-                        <h5>Shimla Office</h5>
+                        <h3>Shimla Office</h3>
                         <ul class="contact-wrapper">
                             <!-- <li>
                                 <i class="bi bi-telephone"></i>
@@ -265,7 +265,7 @@
                             $LandlineNo = $parameters->firstWhere('parid', 14)->par_value ?? '';
                             $mailId     = $parameters->firstWhere('parid', 2)->par_value ?? '';
                         @endphp
-                        <h5>Contact Us</h5>
+                        <h3>Contact Us</h3>
                         <ul class="contact-wrapper">
                             <li>
                                 <i class="bi bi-telephone-fill"></i>

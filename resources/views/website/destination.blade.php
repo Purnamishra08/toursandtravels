@@ -130,7 +130,7 @@
                         <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
                             <div>
                                 <!-- <p class="section-title-small">Feature tours</p> -->
-                                <h2 class="section-title">{{isset($destinationData) ? $destinationData->destination_name : ''}} Overview</h2>
+                                <h1 class="section-title">{{isset($destinationData) ? $destinationData->destination_name : ''}} Overview</h1>
                             </div>
                         </div>
 
@@ -174,7 +174,7 @@
                     </div>
                     
                     <div class="page-section"  id="topPlace">
-                        <h3 class="page-section-heading">Top Places to Visit in {{$destinationData->destination_name}}</h3>
+                        <h2 class="page-section-heading">Top Places to Visit in {{$destinationData->destination_name}}</h2>
                         <div class="top-place-wrapper " id="post-data">
                             <!-- Loaded places will appear here -->
                         </div>
@@ -190,7 +190,7 @@
 
                     </div>
                     <div class="page-section" id="chetSheet">
-                        <h1 class="page-section-heading">Essentials Cheat Sheet</h1>
+                        <h4 class="page-section-heading">Essentials Cheat Sheet</h4>
                         <div class="card chet-sheet-card">
                             <div class="card-body">
                                 <div class="d-flex  gap-2">
@@ -291,7 +291,7 @@
                         </div>
                     </div>
                     <div class="page-section" id="map">
-                        <h1 class="page-section-heading">Getting There </h1>
+                        <h4 class="page-section-heading">Getting There </h4>
                         {!! isset($destinationData) ? $destinationData->google_map : '' !!}
                     </div>
 
@@ -344,11 +344,11 @@
                     @foreach($faqData as $faqDatas)
                         @php $collapseId = 'collapse' . $loop->index; @endphp
                         <div class="accordion-item">
-                            <h5 class="accordion-header" id="heading{{ $loop->index }}">
+                            <h4 class="accordion-header" id="heading{{ $loop->index }}">
                                 <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
-                                    <h6 class="mb-0">{{isset($faqDatas) ? $faqDatas->faq_question : '' }}</h6>
+                                    {{isset($faqDatas) ? $faqDatas->faq_question : '' }}
                                 </button>
-                            </h5>
+                            </h4>
                             <div id="{{ $collapseId }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     {!! $faqDatas->faq_answer !!}

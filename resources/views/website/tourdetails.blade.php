@@ -470,7 +470,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                             <div id="calculate-container"></div>
                                             <div class="d-flex gap-2 flex-wrap-wrap">
                                                 <input type="hidden" id="hid_packageid" name="hid_packageid" value="{{$tourpackageid}}">
-                                                <button id="calculate-btn" class="btn btn-success" onclick="getPackagePrice(1)">Calculate</button>
+                                                <button id="calculate-btn" class="btn btn-success" onclick="getPackagePrice(1)">Calculate Price</button>
                                                 <button class="btn btn-outline-warning" onclick="getPackagePrice(2)">Inquiry/Customize</button>
                                             </div>
                                         </div>
@@ -580,11 +580,11 @@ for ($i = 0; $i < $fullStars; $i++)
                         <div class="accordion faq-accordion" id="accordionExample">
                             @foreach($tourFaqs as $index => $faq)
                             <div class="accordion-item">
-                                <h5 class="accordion-header" id="heading{{ $index }}">
+                                <h4 class="accordion-header" id="heading{{ $index }}">
                                     <button class="accordion-button {{ $index != 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="{{ $index == 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
-                                        <h6>{{ $faq->faq_question }}</h6>
+                                        {{ $faq->faq_question }}
                                     </button>
-                                </h5>
+                                </h4>
                                 <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         {!! $faq->faq_answer !!}

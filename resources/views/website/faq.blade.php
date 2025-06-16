@@ -61,7 +61,7 @@
             <div class="section-title-container wow animate__fadeInUp  " data-wow-delay="200ms">
                 <div>
                     <p class="section-title-small">Faqs</p>
-                    <h3 class="section-title"> Everything You Need to Know</h3>
+                    <h2 class="section-title"> Everything You Need to Know</h2>
                 </div>
             </div>
             <div class="row">
@@ -72,7 +72,7 @@
                             <div class="accordion-item">
                                 <h4 class="accordion-header" id="heading{{ $loop->index }}">
                                     <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
-                                        <h5 class="mb-0">{{ $faqDatas->faq_question }}</h5>
+                                        {{ $faqDatas->faq_question }}
                                     </button>
                                 </h4>
                                 <div id="{{ $collapseId }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
