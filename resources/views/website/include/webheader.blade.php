@@ -1,12 +1,23 @@
-<link href="{{asset('assets/css/all.min.css')}}" rel="preload" />
+<link href="{{ asset('assets/css/all.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+    <link rel="stylesheet" href="{{ asset('assets/css/all.min.css') }}">
+</noscript>
 @if (app()->environment('production'))
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R740PW1SX8"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-R740PW1SX8');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                var gtagScript = document.createElement('script');
+                gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-R740PW1SX8";
+                gtagScript.async = true;
+                document.head.appendChild(gtagScript);
+
+                gtag('js', new Date());
+                gtag('config', 'G-R740PW1SX8');
+            }, 3000); // Load 3 seconds after page load
+        });
     </script>
 @endif
 @if (!Route::is('website.home'))
@@ -16,7 +27,7 @@
     <header id="header">
         <nav class="navbar navbar-expand-xl fixed-top">
             <div class="container">
-                <a href="{{route('website.home')}}" class="navbar-brand"><img src="{{ asset('assets/img/mhh-logo.webp') }}" alt="logo" /></a>
+                <a href="{{route('website.home')}}" class="navbar-brand"><img src="{{ asset('assets/img/mhh-logo.webp') }}" alt="logo"  width="152" height="60"/></a>
                 <!-- <a class="nav-link ms-auto me-3 mob-menu mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" aria-current="page" href="#"><i class="bi bi-search  fs-5"></i></a> -->
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"

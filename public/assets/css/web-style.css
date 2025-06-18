@@ -9,7 +9,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-image: url(../img/web-img/banner-coorg_300kb_imresizer.png);
+    background-image: url(../img/web-img/banner-coorg_300kb_imresizer.webp);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1118,7 +1118,7 @@
 @media(max-width:680px) {
     .banner-section {
         height: 60vh;
-        background-image: url(../img/web-img/banner-coorg_300kb_imresizermob.png);
+        background-image: url(../img/web-img/banner-coorg_300kb_imresizermob.webp);
     }
     .banner-content {
         width: 85%
