@@ -724,7 +724,8 @@ section {
 @media (max-width:680px) {
     .breadcrumb-section {
         height: 250px;
-        text-align: center
+        text-align: center;
+        background-size: cover;
     }
     .breadcrumb-section .container {
         padding: 0 1rem;

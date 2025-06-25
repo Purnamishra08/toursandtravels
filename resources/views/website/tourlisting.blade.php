@@ -129,8 +129,12 @@
                         </div>
                     </div>
                 </div>
-                <div id="allTour">
-                </div>
+                <div id="allTour"></div>
+                
+            </div>
+            <div class="text-center mt-3">
+                <div class="ajax-load mt-2" style="display:none;">Loading...</div>
+                <button id="loadMoreBtn" class="btn btn-primary" data-page="1">Load More</button>
             </div>
         </div>
     </section>
@@ -191,28 +195,16 @@
                                             <i class="bi bi-person-circle"></i>
                                             <div>
                                                 <p class="client-name">{{$review->reviewer_name}}</p>
-                                                <div class="rate">
+                                                <div class="rate text-warning">
                                                     @php
-                                                    // Star rating generation
-                                                    $full = floor($review->no_of_star);
-                                                    $half = (fmod($review->no_of_star, 1) != 0.00) ? 1 : 0;
-                                                    $emptyStars = 5 - ($full + $half);
+                                                        $full = floor($review->no_of_star);
+                                                        $half = (fmod($review->no_of_star, 1) != 0.00) ? 1 : 0;
+                                                        $empty = 5 - ($full + $half);
+                                                        $stars = str_repeat('★', $full) . ($half ? '⯪' : '') . str_repeat('☆', $empty);
+                                                    @endphp
 
-                                                    $starsreviewHtml = '';
-                                                    for ($i = 0; $i < $full; $i++)
-                                                        {
-                                                        $starsreviewHtml .='<i class="fa fa-star text-warning"></i> ' ;
-                                                        }
-                                                        if ($half) {
-                                                        $starsreviewHtml .='<i class="fa fa-star-half-stroke text-warning"></i> ' ;
-                                                        }
-                                                        for ($i=0; $i < $emptyStars; $i++) {
-                                                        $starsreviewHtml.='<i class="fa fa-star text-secondary"></i> ' ;
-                                                        }
-                                                        @endphp
-
-                                                        {!! $starsreviewHtml !!}
-                                                        </div>
+                                                    {!! $stars !!}
+                                                </div>
 
                                                 </div>
 
@@ -292,13 +284,18 @@
 
 </div>
 @include('website.include.webfooter')
-
 <script>
-    var page = 1;
-    var isLoading = false;
-    var finished = false;
+let loading = false;
+var page = 1;
+var isLoading = false;
+var finished = false;
+function getFilters(name) {
+    return $('input[name="' + name + '"]:checked').map(function() {
+        return this.value;
+    }).get();
+}
 
-    function loadClientReviews(page) {
+function loadClientReviews(page) {
         if (finished) return;
         $.ajax({
             url: "{{ route('website.clientReviews') }}?page=" + page,
@@ -320,76 +317,57 @@
             $('.ajax-load').hide();
         });
     }
+function loadPopularTour(page) {
+    if (loading) return;
+    loading = true;
+    $('.ajax-load').show();
 
-    function loadPopularTour(page) {
-        if (finished) return;
-        $.ajax({
-            url: "{{ route('website.allTourPackages') }}?page=" + page,
-            type: "get",
-            beforeSend: function() {
-                $('.ajax-load').show();
-            }
-        }).done(function(data) {
-            if (data.trim().length == 0) {
-                $('.ajax-load').html("<p>No more records found</p>");
-                finished = true;
-                return;
-            }
+    $.ajax({
+        url: "{{ route('website.allTourPackages') }}",
+        method: "GET",
+        data: {
+            page: page,
+            durations: getFilters('duration[]'),
+            startingCities: getFilters('starting_city[]')
+        },
+        success: function(response) {
+            $('#allTour').append(response.html);
             $('.ajax-load').hide();
-            $('#allTour').append(data);
-            isLoading = false;
-        }).fail(function() {
-            console.log("Server error");
-            $('.ajax-load').hide();
-        });
-    }
 
-    // Initial load
-    $(document).ready(function() {
-        loadPopularTour(page);
-        loadClientReviews(page);
-    });
-
-    function applyFilters() {
-        let durations = [];
-        let startingCities = [];
-
-        // Collect selected durations
-        $('input[name="duration[]"]:checked').each(function() {
-            durations.push($(this).val());
-        });
-
-        // Collect selected starting cities
-        $('input[name="starting_city[]"]:checked').each(function() {
-            startingCities.push($(this).val());
-        });
-
-        $.ajax({
-            url: "{{ route('website.allTourPackages') }}",
-            type: "get",
-            data: {
-                durations: durations,
-                startingCities: startingCities,
-            },
-            beforeSend: function() {
-                $('#allTour').html('<div class="text-center p-4">Loading...</div>');
-            },
-            success: function(data) {
-                $('#allTour').html(data);
-                document.getElementsByClassName('tour-list-wrapper')[0].scrollIntoView({ behavior: 'smooth' });
+            if (response.next_page) {
+                $('#loadMoreBtn').data('page', response.next_page).show();
+            } else {
+                $('#loadMoreBtn').hide();
             }
-        });
-    }
 
-    // Re-trigger filtering on change
-    $(document).on('change', '.filter-option', function() {
-        applyFilters();
+            loading = false;
+        }
     });
-    $(document).on('click', '.clear-filter', function() {
-        $('.filter-option').prop('checked', false);
-        applyFilters(); // re-fetch all
-    });
+}
+
+$('#loadMoreBtn').on('click', function() {
+    let nextPage = $(this).data('page');
+    loadPopularTour(nextPage);
+});
+
+function applyFilters() {
+    $('#allTour').empty();
+    $('#loadMoreBtn').data('page', 1).show();
+    loadPopularTour(1);
+}
+
+$(document).on('change', '.filter-option', applyFilters);
+$(document).on('click', '.clear-filter', function() {
+    $('.filter-option').prop('checked', false);
+    applyFilters();
+});
+
+$(document).ready(function() {
+    loadPopularTour(1);
+    loadClientReviews(page);
+});
 </script>
+
 <script>
     $('.moreless-button-about').click(function () {
     // Get the .about-content above the button

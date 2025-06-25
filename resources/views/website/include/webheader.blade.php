@@ -3,22 +3,27 @@
     <link rel="stylesheet" href="{{ asset('assets/css/all.min.css') }}">
 </noscript>
 @if (app()->environment('production'))
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        
-        window.addEventListener('load', function () {
-            setTimeout(function () {
-                var gtagScript = document.createElement('script');
-                gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-R740PW1SX8";
-                gtagScript.async = true;
-                document.head.appendChild(gtagScript);
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
 
-                gtag('js', new Date());
-                gtag('config', 'G-R740PW1SX8');
-            }, 3000); // Load 3 seconds after page load
-        });
-    </script>
+  const loadGtag = () => {
+    if (window.gtagScriptLoaded) return; // avoid multiple loads
+    window.gtagScriptLoaded = true;
+
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-R740PW1SX8';
+    script.async = true;
+    document.head.appendChild(script);
+
+    gtag('js', new Date());
+    gtag('config', 'G-R740PW1SX8');
+  };
+
+  ['scroll', 'mousemove', 'touchstart'].forEach(event => {
+    window.addEventListener(event, loadGtag, { once: true });
+  });
+</script>
 @endif
 @if (!Route::is('website.home'))
     <script src="{{ asset('assets/js/all.min.js') }}" defer></script>
@@ -39,7 +44,7 @@
                     aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title text-light" id="offcanvasNavbarLabel">
-                            <a href="" class="navbar-brand"><img src="{{ asset('assets/img/mhh-logo.webp') }}" alt="logo" /></a>
+                            <a href="" class="navbar-brand"><img src="{{ asset('assets/img/mhh-logo.webp') }}" alt="logo" width="152" height="60" /></a>
                         </h5>
                         <button type="button" class="btn-close btn-close-dark text-reset me-3"
                             data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -311,7 +316,7 @@
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="offcanvasTopLabel">
                 <a href="../index.blade.php" class="navbar-brand">
-                <img src="{{ asset('assets/img/mhh-logo.webp') }}" alt="logo" />
+                <img src="{{ asset('assets/img/mhh-logo.webp') }}" alt="logo" width="152" height="60"/>
                    </a>
               </h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

@@ -249,7 +249,7 @@ class HomeController extends Controller
                 $html .= '
                 <div class="card recent-post-card wow animate__fadeInUp" data-wow-delay="200ms">
                     <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank">
-                        <img loading="lazy" src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" />
+                        <img loading="lazy" src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" width="814" height="250"/>
                     </a>
                     <p class="tour-badge">Travel</p>
                     <div class="card-body">
@@ -405,7 +405,7 @@ class HomeController extends Controller
                     $starsHtml .= '<i class="bi bi-star-half text-warning"></i> ';
                 }
                 for ($i = 0; $i < $emptyStars; $i++) {
-                    $starsHtml .= '<i class="bi bi-star-fill text-secondary"></i> ';
+                    $starsHtml .= '<i class="bi bi-star text-secondary"></i> ';
                 }
 
                 // Review card HTML
