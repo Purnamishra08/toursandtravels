@@ -74,7 +74,7 @@
                                     <i class="bi bi-briefcase"></i>
                                     </span>
                                     <div>
-                                        <h3>10 years of experiance</h3>
+                                        <h3>10 years of experience</h3>
                                         <p>empowering enterprises to deliver value</p>
                                     </div>
 
@@ -167,7 +167,7 @@
                             </li>
                             <li>
                                 <i class="bi bi-geo-alt"></i>
-                                <p># 66 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar, Bengaluru, Karnataka 560010</p>
+                                <p class="text-dark"># 66 (old no 681), IInd Floor, 10th C Main Rd, 6th Block, Rajajinagar, Bengaluru, Karnataka 560010</p>
                             </li>
                         </ul>
                     </div>
@@ -188,7 +188,7 @@
                             </li>
                             <li>
                                 <i class="bi bi-geo-alt"></i>
-                                <p>My Holiday Happiness, No. 5, Kil Thalayathimund, Ooty, Tamil Nadu India - 643001</p>
+                                <p class="text-dark">My Holiday Happiness, No. 5, Kil Thalayathimund, Ooty, Tamil Nadu India - 643001</p>
                             </li>
                         </ul>
                     </div>
@@ -209,7 +209,7 @@
                             </li>
                             <li>
                                 <i class="bi bi-geo-alt"></i>
-                                <p>6402, Panchamukhi Enclave, RaghunathPur, Bhubaneswar, Dist Khurdha,Pin- 751002, Odisha</p>
+                                <p class="text-dark">6402, Panchamukhi Enclave, RaghunathPur, Bhubaneswar, Dist Khurdha,Pin- 751002, Odisha</p>
                             </li>
                         </ul>
                     </div>
@@ -230,7 +230,7 @@
                             </li>
                             <li>
                                 <i class="bi bi-geo-alt"></i>
-                                <p>Near N.K International sea shore road anarkali, Port Blair, Andaman and Nicobar Islands 744102</p>
+                                <p class="text-dark">Near N.K International sea shore road anarkali, Port Blair, Andaman and Nicobar Islands 744102</p>
                             </li>
                         </ul>
                     </div>
@@ -251,7 +251,7 @@
                             </li>
                             <li>
                                 <i class="bi bi-geo-alt"></i>
-                                <p>Near Court Complex, Chakkar, Shimla, Himachal Pradesh 171005</p>
+                                <p class="text-dark">Near Court Complex, Chakkar, Shimla, Himachal Pradesh 171005</p>
                             </li>
                         </ul>
                     </div>
