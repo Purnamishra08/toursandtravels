@@ -184,7 +184,25 @@
       autoplay: {
         delay: 4000
       },
-      slidesPerView: slidesPerView
+      breakpoints: {
+      640: {
+        slidesPerView: 1,
+
+      },
+      768: {
+        slidesPerView: 2,
+
+      },
+      1025: {
+        slidesPerView: 3,
+
+      },
+      1366: {
+        slidesPerView: 4,
+
+      },
+    },
+    //   slidesPerView: slidesPerView
     });
   };
 
