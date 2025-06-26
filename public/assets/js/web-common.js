@@ -36,77 +36,77 @@
 //     },
 //   });
 
-const clientreviewSwiper = new Swiper(".client-review-swiper", {
-    // Optional parameters
-    slidesPerView: 1,
-    spaceBetween: 20,
-    loop: true,
-    // autoplay: {
-    //   delay: 3000,
-    //   disableOnInteraction: false,
-    // },
-    // If we need pagination
-    pagination: {
-        el: ".swiper-pagination",
-    },
+// const clientreviewSwiper = new Swiper(".client-review-swiper", {
+//     // Optional parameters
+//     slidesPerView: 1,
+//     spaceBetween: 20,
+//     loop: true,
+//     // autoplay: {
+//     //   delay: 3000,
+//     //   disableOnInteraction: false,
+//     // },
+//     // If we need pagination
+//     pagination: {
+//         el: ".swiper-pagination",
+//     },
 
-    // Navigation arrows
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
+//     // Navigation arrows
+//     navigation: {
+//         nextEl: ".swiper-button-next",
+//         prevEl: ".swiper-button-prev",
+//     },
 
-    // And if we need scrollbar
-    scrollbar: {
-        el: ".swiper-scrollbar",
-    },
-    breakpoints: {
-        640: {
-            slidesPerView: 1,
-        },
-        768: {
-            slidesPerView: 2,
-        },
-    },
-});
+//     // And if we need scrollbar
+//     scrollbar: {
+//         el: ".swiper-scrollbar",
+//     },
+//     breakpoints: {
+//         640: {
+//             slidesPerView: 1,
+//         },
+//         768: {
+//             slidesPerView: 2,
+//         },
+//     },
+// });
 
 // client review tour listing page
-const clientreviewSwiper2 = new Swiper("#tour-client-review-swiper", {
-    // Optional parameters
-    slidesPerView: 1,
-    spaceBetween: 20,
-    loop: true,
-    // autoplay: {
-    //   delay: 3000,
-    //   disableOnInteraction: false,
-    // },
-    // If we need pagination
-    pagination: {
-        el: ".swiper-pagination",
-    },
+// const clientreviewSwiper2 = new Swiper("#tour-client-review-swiper", {
+//     // Optional parameters
+//     slidesPerView: 1,
+//     spaceBetween: 20,
+//     loop: true,
+//     // autoplay: {
+//     //   delay: 3000,
+//     //   disableOnInteraction: false,
+//     // },
+//     // If we need pagination
+//     pagination: {
+//         el: ".swiper-pagination",
+//     },
 
-    // Navigation arrows
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
+//     // Navigation arrows
+//     navigation: {
+//         nextEl: ".swiper-button-next",
+//         prevEl: ".swiper-button-prev",
+//     },
 
-    // And if we need scrollbar
-    scrollbar: {
-        el: ".swiper-scrollbar",
-    },
-    breakpoints: {
-        640: {
-            slidesPerView: 1,
-        },
-        768: {
-            slidesPerView: 2,
-        },
-        1366: {
-            slidesPerView: 3,
-        },
-    },
-});
+//     // And if we need scrollbar
+//     scrollbar: {
+//         el: ".swiper-scrollbar",
+//     },
+//     breakpoints: {
+//         640: {
+//             slidesPerView: 1,
+//         },
+//         768: {
+//             slidesPerView: 2,
+//         },
+//         1366: {
+//             slidesPerView: 3,
+//         },
+//     },
+// });
 // --------scrill top start-------
 $(document).ready(function () {
     // Show/hide the back-to-top button based on scroll position
