@@ -220,10 +220,6 @@ class TourController extends Controller
                 "name" => $tour->tpackage_name,
                 "image" => [asset('storage/tourpackages/details/' . $tour->tour_details_img)],
                 "description" => Str::limit(strip_tags(html_entity_decode($tour->about_package)), 160),
-                // "brand" => [
-                //     "@type" => "Organization",
-                //     "name" => "coorgpackages.com"
-                // ],
                 "aggregateRating" => [
                     "@type" => "AggregateRating",
                     "ratingValue" => number_format($tour->ratings ?? 4.5, 1),
