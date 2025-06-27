@@ -41,8 +41,17 @@
 
 @endif
 @include('website.include.webheader')
-<div class="breadcrumb-section" style="background-image: url('{{ asset('storage/category_tags_images/BannerImages/' . $tourPageData->menutag_img) }}');">
-    <div class="container">
+
+<div class="breadcrumb-section">
+    <img
+        src="{{ asset('storage/category_tags_images/BannerImages/' . $tourPageData->menutag_img) }}"
+        width="1920"
+        height="250"
+        fetchpriority="high"
+        decoding="async"
+       style="object-fit: cover; width: 100%; height: 100%; position: absolute; z-index: -1;"
+    >
+    <div class="container" style="padding-bottom: 2rem">
         <h1 class="page-name">{{$footers->vch_Footer_Name}}</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">

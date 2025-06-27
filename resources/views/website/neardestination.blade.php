@@ -51,8 +51,16 @@
 
 @include('website.include.webheader')
 
-<div class="breadcrumb-section" style="background-image: url('{{ asset('storage/place_images/' . $placesData->placeimg) }}');">
-    <div class="container">
+    <div class="breadcrumb-section">
+        <img
+            src="{{ asset('storage/place_images/' . $placesData->placeimg) }}"
+            width="1920"
+            height="250"
+            fetchpriority="high"
+            decoding="async"
+            style="object-fit: cover; width: 100%; height: 100%; position: absolute; z-index: -1;"
+        >
+        <div class="container" c>
         <h1 class="page-name">{{$placesData->place_name}}</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">

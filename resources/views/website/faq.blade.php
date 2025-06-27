@@ -40,7 +40,15 @@
 @include('website.include.webheader')
 
 <div class="breadcrumb-section">
-    <div class="container">
+    <img
+        src="{{ asset('assets/img/web-img/innerpage-baner.png') }}"
+        width="1920"
+        height="250"
+        fetchpriority="high"
+        decoding="async"
+        style="width: 100%; height: 100%; position: absolute; z-index: -1;"
+    >
+    <div class="container" style="padding-bottom: 2rem">
         <h1 class="page-name">Faqs</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
