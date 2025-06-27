@@ -122,7 +122,7 @@ class TourController extends Controller
                             <div class="card tour-listing-card mb-3">
                                 <div class="row g-0">
                                     <div class="col-md-4 col-lg-4">
-                                        <img loading="lazy" class="place-img" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">
+                                        <img loading="lazy" class="place-img" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '" width="300" height="255">
                                     </div>
                                 <div class="col-md-8 col-lg-8">
                                     <div class="card-body">
