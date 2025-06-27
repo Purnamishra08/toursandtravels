@@ -35,7 +35,7 @@ class HomeController extends Controller
             "@type" => "Organization",
             "name" => "Coorg Packages",
             "url" => url('/'),
-            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.png",
+            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.webp",
             "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
             "contactPoint" => [
                 "@type" => "ContactPoint",
@@ -214,7 +214,7 @@ class HomeController extends Controller
                     "name" => "coorgpackages.com",
                     "logo" => [
                         "@type" => "ImageObject",
-                        "url" => "https://coorgpackages.com/assets/img/mhh-logo.png"
+                        "url" => "https://coorgpackages.com/assets/img/mhh-logo.webp"
                     ]
                 ],
                 "description" => Str::limit(strip_tags(html_entity_decode($blog->content)), 160),
@@ -249,7 +249,7 @@ class HomeController extends Controller
                 $html .= '
                 <div class="card recent-post-card wow animate__fadeInUp" data-wow-delay="200ms">
                     <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank">
-                        <img src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" />
+                        <img loading="lazy" src="' . asset('storage/blog_images/' . $values->image) . '" alt="' . $values->alttag_image . '" width="814" height="250"/>
                     </a>
                     <p class="tour-badge">Travel</p>
                     <div class="card-body">
@@ -257,7 +257,7 @@ class HomeController extends Controller
                             <li><i class="bi bi-calendar"></i> ' . date('d-M-Y', strtotime($values->created_date)) . '</li>
                         </ul>
                         <a href="' . route('website.blogdetails', ['slug' => $values->blog_url]) . '" target="_blank" style="color:black">
-                            <h5 class="card-title mt-3">' . $values->title . '</h5>
+                            <h3 class="card-title mt-3">' . $values->title . '</h3>
                             <p>' . implode(' ', array_slice(explode(' ', $values->content), 0, 30)) . '</p>
                         </a>
                         <div class="text-end mt-2">
@@ -306,7 +306,7 @@ class HomeController extends Controller
             foreach ($popularTours as $values) {
                 $html .= '
                 <div class="card tour-card  wow animate__fadeInUp  " data-wow-delay="200ms">
-                    <img class="card-img-top" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">';
+                    <img loading="lazy" class="card-img-top" src="' . asset('storage/tourpackages/thumbs/' . $values->tour_thumb) . '" alt="' . $values->alttag_thumb . '">';
                     if($values->pack_type==15){
                         $html.='<span class="badge">Most popular</span>';
                     }
@@ -320,7 +320,7 @@ class HomeController extends Controller
                         <i class="bi bi-star-fill text-warning"></i>
                         <span class="text-secondary">'.$values->ratings.' Star</span>
                     </div>
-                    <h5 class="card-title">'.$values->tpackage_name.'</h5>
+                    <h3 class="card-title">'.$values->tpackage_name.'</h3>
                    
                 </div>
                 <div class="card-footer bg-white border-0 pb-3 pt-0"> 
@@ -329,7 +329,7 @@ class HomeController extends Controller
                         <div class="p-card-info">
                         
                             
-                            <h6 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h6>
+                            <h4 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h4>
                             <strike >₹ '.(int)$values->fakeprice.'</strike>
                         </div>
                         <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>
@@ -357,7 +357,7 @@ class HomeController extends Controller
                 $html .= '
                 <div class="gallery-item">
                     <a href="' . route('website.neardestination', ['slug' => $values->place_url]) . '" target="_blank">
-                        <img src="' . asset('storage/place_images/thumbs/' . $values->placethumbimg) . '" alt="' . $values->alttag_thumb . '">
+                        <img loading="lazy" src="' . asset('storage/place_images/thumbs/' . $values->placethumbimg) . '" alt="' . $values->alttag_thumb . '">
                     </a>
                     <div class="gallery-text">' . $values->place_name . '</div>
                 </div>';
@@ -405,7 +405,7 @@ class HomeController extends Controller
                     $starsHtml .= '<i class="bi bi-star-half text-warning"></i> ';
                 }
                 for ($i = 0; $i < $emptyStars; $i++) {
-                    $starsHtml .= '<i class="bi bi-star-fill text-secondary"></i> ';
+                    $starsHtml .= '<i class="bi bi-star text-secondary"></i> ';
                 }
 
                 // Review card HTML

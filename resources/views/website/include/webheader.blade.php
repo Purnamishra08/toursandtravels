@@ -1,22 +1,38 @@
-<link href="{{asset('assets/css/all.min.css')}}" rel="stylesheet" />
+<link href="{{ asset('assets/css/all.min.css') }}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+    <link rel="stylesheet" href="{{ asset('assets/css/all.min.css') }}">
+</noscript>
 @if (app()->environment('production'))
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R740PW1SX8"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-R740PW1SX8');
-    </script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+
+  const loadGtag = () => {
+    if (window.gtagScriptLoaded) return; // avoid multiple loads
+    window.gtagScriptLoaded = true;
+
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-R740PW1SX8';
+    script.async = true;
+    document.head.appendChild(script);
+
+    gtag('js', new Date());
+    gtag('config', 'G-R740PW1SX8');
+  };
+
+  ['scroll', 'mousemove', 'touchstart'].forEach(event => {
+    window.addEventListener(event, loadGtag, { once: true });
+  });
+</script>
 @endif
 @if (!Route::is('website.home'))
-    <script src="{{ asset('assets/js/all.min.js') }}"></script>
+    <script src="{{ asset('assets/js/all.min.js') }}" defer></script>
 @endif
 <body>
     <header id="header">
         <nav class="navbar navbar-expand-xl fixed-top">
             <div class="container">
-                <a href="{{route('website.home')}}" class="navbar-brand"><img src="{{ asset('assets/img/mhh-logo.png') }}" alt="logo" /></a>
+                <a href="{{route('website.home')}}" class="navbar-brand"><img src="{{ asset('assets/img/mhh-logo.webp') }}" alt="logo"  width="152" height="60"/></a>
                 <!-- <a class="nav-link ms-auto me-3 mob-menu mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" aria-current="page" href="#"><i class="bi bi-search  fs-5"></i></a> -->
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -28,7 +44,7 @@
                     aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title text-light" id="offcanvasNavbarLabel">
-                            <a href="" class="navbar-brand"><img src="{{ asset('assets/img/mhh-logo.png') }}" alt="logo" /></a>
+                            <a href="" class="navbar-brand"><img src="{{ asset('assets/img/mhh-logo.webp') }}" alt="logo" width="152" height="60" /></a>
                         </h5>
                         <button type="button" class="btn-close btn-close-dark text-reset me-3"
                             data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -300,7 +316,7 @@
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="offcanvasTopLabel">
                 <a href="../index.blade.php" class="navbar-brand">
-                <img src="{{ asset('assets/img/mhh-logo.png') }}" alt="logo" />
+                <img src="{{ asset('assets/img/mhh-logo.webp') }}" alt="logo" width="152" height="60"/>
                    </a>
               </h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

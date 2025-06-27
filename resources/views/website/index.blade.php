@@ -39,7 +39,7 @@
     </video>
 <div class="overlay"></div> -->
 <div class="overlay"></div>
-    <div class="banner-content wow animate__fadeInUp  " data-wow-delay="200ms">
+    <div class="banner-content">
         <h1>Best Coorg Tour Packages – Explore the Scotland of India</h1>
         <p>Discover misty hills, coffee plantations, waterfalls, and unforgettable experiences in Coorg.</p>
     </div>

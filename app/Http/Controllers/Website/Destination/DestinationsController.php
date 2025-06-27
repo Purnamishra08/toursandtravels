@@ -86,7 +86,7 @@ class DestinationsController extends Controller{
             "@type" => "Organization",
             "name" => "Coorg Packages",
             "url" => url('/'),
-            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.png",
+            "logo" => "https://coorgpackages.com/assets/img/mhh-logo.webp",
             "email" => $parameters[3]->par_value ?? "support@coorgpackages.com",
             "contactPoint" => [
                 "@type" => "ContactPoint",
@@ -325,7 +325,7 @@ class DestinationsController extends Controller{
                 <div class="card top-place-card mb-3">
                     <img src="' . asset('storage/place_images/thumbs/' . $place->placethumbimg) . '" alt="' . e($place->alttag_thumb) . '" class="card-img-top" />
                     <div class="card-body">
-                        <h5 class="card-title">' . e($place->place_name) . '</h5>
+                        <h4 class="card-title">' . e($place->place_name) . '</h4>
                         <p class="card-text mb-2">' . implode(' ', array_slice(explode(' ', strip_tags($place->about_place)), 0, 30)) . '...</p>
                         
                     </div>
@@ -379,7 +379,7 @@ class DestinationsController extends Controller{
                         <img src="' . asset('assets/img/web-img/single-star.png') . '" alt="Rating">
                         <span class="text-secondary">'.$values->ratings.' Star</span>
                     </div>
-                    <h5 class="card-title">'.$values->tpackage_name.'</h5>
+                    <h3 class="card-title">'.$values->tpackage_name.'</h3>
                     
                 </div>
                 <div class="card-footer bg-white pt-0 pb-3 border-0">
@@ -388,7 +388,7 @@ class DestinationsController extends Controller{
                         <div class="p-card-info">
                         
                             
-                            <h6 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h6>
+                            <h4 class="mb-0"><span>₹ </span>'.(int)$values->price.' </h4>
                             <strike >₹ '.(int)$values->fakeprice.'</strike>
                         </div>
                         <a href="' . route('website.tourDetails', ['slug' => $values->tpackage_url]) . '" class="btn btn-outline-primary stretched-link">Explore <i class="ms-2 bi bi-arrow-right-short"></i></a>

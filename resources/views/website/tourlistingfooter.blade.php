@@ -41,8 +41,17 @@
 
 @endif
 @include('website.include.webheader')
-<div class="breadcrumb-section" style="background-image: url('{{ asset('storage/category_tags_images/BannerImages/' . $tourPageData->menutag_img) }}');">
-    <div class="container">
+
+<div class="breadcrumb-section">
+    <img
+        src="{{ asset('storage/category_tags_images/BannerImages/' . $tourPageData->menutag_img) }}"
+        width="1920"
+        height="250"
+        fetchpriority="high"
+        decoding="async"
+       style="object-fit: cover; width: 100%; height: 100%; position: absolute; z-index: -1;"
+    >
+    <div class="container" style="padding-bottom: 2rem">
         <h1 class="page-name">{{$footers->vch_Footer_Name}}</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
@@ -95,7 +104,7 @@
                 <div class="filter-wrapper">
                     <div class="filter-card stickey-section">
                         <div class="filter-card-header ">
-                            <strong>Filter</strong>
+                            <h3>Filter</h3>
                             <span class="badge text-bg-warning clear-filter" style="cursor:pointer;">Clear All</span>
                         </div>
                         <div class="filter-card-body">
@@ -133,7 +142,7 @@
                 <div class="col-lg-6">
                     <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;      animation-delay: 200ms; animation-name: fadeInUp;">
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                            <h2 class="section-title-sm mb-0">Frequently Asked Questions</h2>
+                            <h4 class="section-title-sm mb-0">Frequently Asked Questions</h4>
                         </div>
                         <form action="{{ route('website.faqs', ['slug' => 'package-faqs']) }}" method="POST" target="_blank" style="display:inline;">
                             @csrf
@@ -148,11 +157,11 @@
                         <div class="accordion faq-accordion" id="accordionExample">
                             @foreach($tourFaqs as $index => $faq)
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading{{ $index }}">
+                                <h4 class="accordion-header" id="heading{{ $index }}">
                                     <button class="accordion-button {{ $index != 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="{{ $index == 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
-                                        <h6>{{ $faq->faq_question }}</h6>
+                                       {{ $faq->faq_question }}
                                     </button>
-                                </h2>
+                                </h4>
                                 <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         {!! $faq->faq_answer !!}

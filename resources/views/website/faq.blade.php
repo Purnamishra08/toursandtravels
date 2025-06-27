@@ -40,7 +40,15 @@
 @include('website.include.webheader')
 
 <div class="breadcrumb-section">
-    <div class="container">
+    <img
+        src="{{ asset('assets/img/web-img/innerpage-baner.png') }}"
+        width="1920"
+        height="250"
+        fetchpriority="high"
+        decoding="async"
+        style="width: 100%; height: 100%; position: absolute; z-index: -1;"
+    >
+    <div class="container" style="padding-bottom: 2rem">
         <h1 class="page-name">Faqs</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
@@ -70,11 +78,11 @@
                         @foreach($faqData as $faqDatas)
                         @php $collapseId = 'collapse' . $loop->index; @endphp
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading{{ $loop->index }}">
+                                <h4 class="accordion-header" id="heading{{ $loop->index }}">
                                     <button class="accordion-button {{ $loop->first ? '' : 'collapsed' }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $collapseId }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="{{ $collapseId }}">
-                                        <h6 class="mb-0">{{ $faqDatas->faq_question }}</h6>
+                                        {{ $faqDatas->faq_question }}
                                     </button>
-                                </h2>
+                                </h4>
                                 <div id="{{ $collapseId }}" class="accordion-collapse collapse {{ $loop->first ? 'show' : '' }}" aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         {!! $faqDatas->faq_answer !!}

@@ -126,9 +126,17 @@ for ($i = 0; $i < $fullStars; $i++)
     $starsHtml.='<i class="fa fa-star text-secondary"></i> ' ;
     }
     @endphp
-    <div class="breadcrumb-section"
-    style="background-image: url('{{ asset('storage/tourpackages/' . $tours->tpackage_image) }}')">
-    <div class="container">
+    <div class="breadcrumb-section">
+    <img
+        src="{{ asset('storage/tourpackages/' . $tours->tpackage_image) }}"
+        alt="{{$tours->alttag_banner}}"
+        width="1920"
+        height="250"
+        fetchpriority="high"
+        decoding="async"
+        style="object-fit: cover; width: 100%; height: 100%; position: absolute; z-index: -1;"
+      >
+        <div class="container" style="padding-bottom: 2rem">
         <h1 class="page-name">{{$tours->tpackage_name}}</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">
@@ -470,7 +478,7 @@ for ($i = 0; $i < $fullStars; $i++)
                                             <div id="calculate-container"></div>
                                             <div class="d-flex gap-2 flex-wrap-wrap">
                                                 <input type="hidden" id="hid_packageid" name="hid_packageid" value="{{$tourpackageid}}">
-                                                <button id="calculate-btn" class="btn btn-success" onclick="getPackagePrice(1)">Calculate</button>
+                                                <button id="calculate-btn" class="btn btn-success" onclick="getPackagePrice(1)">Calculate Price</button>
                                                 <button class="btn btn-outline-warning" onclick="getPackagePrice(2)">Inquiry/Customize</button>
                                             </div>
                                         </div>
@@ -541,14 +549,14 @@ for ($i = 0; $i < $fullStars; $i++)
                                 <span class="text-secondary">{{ $values->ratings }} Star</span>
                             </div>
 
-                            <h5 class="card-title">{{ $values->tpackage_name }}</h5>
+                            <h3 class="card-title">{{ $values->tpackage_name }}</h3>
 
                             
                         </div>
                         <div class="card-footer bg-white pb-3 pt-0 border-0">
                         <div class="d-flex justify-content-between align-items-center ">
                                 <div class="p-card-info">
-                                    <h6 class="mb-0"><span>₹ </span>{{ (int)$values->price }}</h6>
+                                    <h4 class="mb-0"><span>₹ </span>{{ (int)$values->price }}</h4>
                                     <strike>₹ {{ (int)$values->fakeprice }}</strike>
                                 </div>
                                 <a href="{{ route('website.tourDetails', ['slug' => $values->tpackage_url]) }}"
@@ -573,18 +581,18 @@ for ($i = 0; $i < $fullStars; $i++)
                     <div class="col-lg-8">
                         <div class="section-title-container wowanimate__fadeInUp" data-wow-delay="200ms" style="visibility:visible;animation-delay: 200ms; animation-name: fadeInUp;">
                             <div>
-                                <h2 class="section-title-sm">Frequently Asked Questions</h2>
+                                <h4 class="section-title-sm">Frequently Asked Questions</h4>
                             </div>
                         </div>
                         @if($tourFaqs->count())
                         <div class="accordion faq-accordion" id="accordionExample">
                             @foreach($tourFaqs as $index => $faq)
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading{{ $index }}">
+                                <h4 class="accordion-header" id="heading{{ $index }}">
                                     <button class="accordion-button {{ $index != 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="{{ $index == 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
-                                        <h6>{{ $faq->faq_question }}</h6>
+                                        {{ $faq->faq_question }}
                                     </button>
-                                </h2>
+                                </h4>
                                 <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index == 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
                                         {!! $faq->faq_answer !!}

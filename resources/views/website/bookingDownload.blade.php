@@ -3,7 +3,7 @@
 <?php
 $imagePath = public_path('assets/img/logo.png');
 $image = public_path('assets/img/logo.png');
-$favIcon = public_path('assets/img/fav-icon.png'); ?>
+$favIcon = public_path('assets/img/fav-icon.webp'); ?>
 
 <head>
     <meta charset="UTF-8">

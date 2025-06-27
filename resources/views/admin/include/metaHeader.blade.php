@@ -16,7 +16,8 @@
         <link href="{{asset('assets/css/frame.css')}}" rel="stylesheet" />
         <link href="{{asset('assets/css/font-awesome.min.css')}}" rel="stylesheet" />
         <link href="{{asset('assets/css/colors.min.css')}}" rel="stylesheet" />
-        <link href="{{asset('assets/css/all.min.css')}}" rel="stylesheet" />
+        <!-- With CDN version -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link href="{{asset('assets/css/chosen.css')}}" rel="stylesheet" />
         <link href="{{asset('assets/css/bootstrap-icons.css')}}" rel="stylesheet" />
         <link href="{{asset('assets/css/jquery-ui.css')}}" rel="stylesheet" />
