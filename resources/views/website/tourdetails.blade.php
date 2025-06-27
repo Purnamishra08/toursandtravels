@@ -126,9 +126,17 @@ for ($i = 0; $i < $fullStars; $i++)
     $starsHtml.='<i class="fa fa-star text-secondary"></i> ' ;
     }
     @endphp
-    <div class="breadcrumb-section"
-    style="background-image: url('{{ asset('storage/tourpackages/' . $tours->tpackage_image) }}')">
-    <div class="container">
+    <div class="breadcrumb-section">
+    <img
+        src="{{ asset('storage/tourpackages/' . $tours->tpackage_image) }}"
+        alt="{{$tours->alttag_banner}}"
+        width="1920"
+        height="250"
+        fetchpriority="high"
+        decoding="async"
+        style="object-fit: cover; width: 100%; height: 100%; position: absolute; z-index: -1;"
+      >
+        <div class="container" style="padding-bottom: 2rem">
         <h1 class="page-name">{{$tours->tpackage_name}}</h1>
         <ul class="breadcrumb-list">
             <li class="breadcrumb-item">

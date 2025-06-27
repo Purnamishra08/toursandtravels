@@ -152,7 +152,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"
     integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -161,7 +161,7 @@
 <script>
     new WOW().init();
 </script>
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', function () {
   const swiperEl = document.querySelector('.swiper');
   if (!swiperEl || typeof Swiper === 'undefined') return;
@@ -218,8 +218,78 @@
   });
 
   observer.observe(swiperEl);
+    });
+</script> -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const swiperEl = document.querySelector('.swiper');
+  if (!swiperEl) return;
+
+  const loadScript = (src) => {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.body.appendChild(script);
+    });
+  };
+
+  const loadStyle = (href) => {
+    return new Promise((resolve, reject) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.onload = resolve;
+      link.onerror = reject;
+      document.head.appendChild(link);
+    });
+  };
+
+  const initSwiper = () => {
+    const slideCount = swiperEl.querySelectorAll('.swiper-slide').length;
+    const slidesPerView = 2;
+    const shouldLoop = slideCount > slidesPerView;
+
+    new Swiper('.swiper', {
+      loop: shouldLoop,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+      autoplay: {
+        delay: 4000
+      },
+      breakpoints: {
+        640: { slidesPerView: 1 },
+        768: { slidesPerView: 2 },
+        1025: { slidesPerView: 2 },
+        1366: { slidesPerView: 2 },
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(async (entries, observer) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        await Promise.all([
+          loadStyle('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css'),
+          loadScript('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js')
+        ]);
+        initSwiper();
+        observer.disconnect();
+      }
+    }
+  }, { rootMargin: '200px' });
+
+  observer.observe(swiperEl);
 });
 </script>
+
 <script>
     $(document).ready(function() {
         $('.date').datepicker({

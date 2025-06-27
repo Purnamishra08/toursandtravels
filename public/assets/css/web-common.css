@@ -624,7 +624,7 @@ section {
 }
 
 .breadcrumb-section {
-    background-image: url(../img/web-img/innerpage-baner.png);
+    /*background-image: url(../img/web-img/innerpage-baner.png);*/
     height: 250px;
     background-position: bottom;
     background-size: 100% 100%;
@@ -633,7 +633,7 @@ section {
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
-    padding-bottom: 2rem
+    /*padding-bottom: 2rem*/
 }
 
 .breadcrumb-section:before {
