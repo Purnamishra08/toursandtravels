@@ -92,10 +92,14 @@ class ReviewController extends Controller{
             ]
         ];
         // 3.Review schema
-        $reviewSchema = [];
+        $reviews = [];
+        $totalStars = 0;
+        $reviewCount = count($reviewData);
+        
         foreach ($reviewData as $review) {
-            $reviewSchema[] = [
-                "@context" => "https://schema.org",
+            $totalStars += (int) $review->no_of_star;
+        
+            $reviews[] = [
                 "@type" => "Review",
                 "author" => [
                     "@type" => "Person",
@@ -103,18 +107,28 @@ class ReviewController extends Controller{
                 ],
                 "reviewRating" => [
                     "@type" => "Rating",
-                    "ratingValue" => $review->no_of_star,
+                    "ratingValue" => (int) $review->no_of_star,
                     "bestRating" => "5"
                 ],
                 "reviewBody" => strip_tags($review->feedback_msg),
-                "datePublished" => date('Y-m-d', strtotime($review->updated_date)),
-                "itemReviewed" => [
-                    "@type" => "Product",
-                    "name" => $review->tag_name
-                ]
+                "datePublished" => date('Y-m-d', strtotime($review->updated_date))
             ];
         }
-
+        
+        $averageRating = $reviewCount > 0 ? round($totalStars / $reviewCount, 1) : 0;
+        
+        $reviewSchema = [
+            "@context" => "https://schema.org",
+            "@type" => "Product",
+            "name" => "Coorg Tour Packages",
+            "review" => $reviews,
+            "aggregateRating" => [
+                "@type" => "AggregateRating",
+                "ratingValue" => $averageRating,
+                "reviewCount" => $reviewCount
+            ]
+        ];
+        
         return view('website.allreview', [
             'reviewData'            => $reviewData,
             'webPageSchema'         => $webPageSchema,

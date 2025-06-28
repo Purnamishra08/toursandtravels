@@ -32,11 +32,11 @@
 {!! json_encode($webPageSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
 
-@foreach ($reviewSchema as $schema)
+@if (!empty($reviewSchema))
 <script type="application/ld+json">
-{!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+{!! json_encode($reviewSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
 </script>
-@endforeach
+@endif
 
 @include('website.include.webheader')
 
